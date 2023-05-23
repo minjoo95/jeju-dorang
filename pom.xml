@@ -161,7 +161,14 @@
 		    <artifactId>lombok</artifactId>
 		    <version>RELEASE</version>
 		    <scope>compile</scope>
-		</dependency>    
+		</dependency> 
+		
+		<!-- JSON 타입 데이터 처리 -->
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
 	</dependencies>
     <build>
         <plugins>
