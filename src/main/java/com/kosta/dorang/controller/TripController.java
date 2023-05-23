@@ -15,6 +15,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -145,6 +146,12 @@ public class TripController {
 	}
 
 	
+	/**
+	 * 여행 페이지 메인
+	 * 전체 목록 조회(category 정렬)
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/list", method=RequestMethod.GET)
 	public String travelMain(Model model) {
 		try {
@@ -159,5 +166,15 @@ public class TripController {
 		return "tripMain";
 	}
 	
+	@RequestMapping(value = "/list/{trip_id}", method=RequestMethod.GET)
+	public String travelDetail(Model model, @PathVariable Integer trip_id) {
+		try {
+			Trip place = tripService.getPlace(trip_id);
+			model.addAttribute("place", place);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "tripDetail";
+	}
 	
 }

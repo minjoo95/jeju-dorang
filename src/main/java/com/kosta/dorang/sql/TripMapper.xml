@@ -24,7 +24,6 @@
 		<result property="like_count" column="like_count"/>
 	</resultMap>
 
-
     <insert id="insertPlace" parameterType="com.kosta.dorang.dto.Trip">
         <![CDATA[
          insert into trip(place_id, category, theme, title, region_code, city_code, address, postcode, tel, hashtag, introduction, thumbnail, image, latitude, longitude, info)
@@ -34,8 +33,14 @@
 
     <select id="selectPlaceList" resultType="com.kosta.dorang.dto.Trip">
         <![CDATA[
-         select * from trip order by category;
+         select * from trip order by category
         ]]>
+    </select>
+    
+    <select id="selectPlace" parameterType="Integer" resultType="com.kosta.dorang.dto.Trip">
+       <![CDATA[
+        select * from trip where trip_id=#{trip_id}
+       ]]>
     </select>
     
 </mapper>

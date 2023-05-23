@@ -20,9 +20,8 @@ public class TripService implements TripServiceI {
 	}
 
 	@Override
-	public Trip getPlace(String trip_id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Trip getPlace(Integer trip_id) throws Exception {
+		return dao.getPlace(trip_id);
 	}
 
 	@Override

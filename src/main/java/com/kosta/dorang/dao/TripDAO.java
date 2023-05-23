@@ -26,9 +26,8 @@ public class TripDAO implements TripDAOI {
 	 * 해당 여행지 가져오기
 	 */
 	@Override
-	public Trip getPlace(String trip_id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Trip getPlace(Integer trip_id) throws Exception {
+		return sqlSession.selectOne("TripMapper.selectPlace", trip_id);
 	}
 
 	@Override

@@ -24,8 +24,8 @@
 			<div class="travel-card-info">	
 				<div class="travel-card-location"> 
 					아이콘
-					<div class="city-code"> ${item.getCity_code() }</div>
-					<div class="region-code"> ${item.getRegion_code() }</div>
+					<div class="card-city-code"> ${item.getCity_code() }</div>
+					<div class="card-region-code"> ${item.getRegion_code() }</div>
 				</div>
 				<div class="travel-card-tag"> 해시태그 박스 </div>
 			</div>
