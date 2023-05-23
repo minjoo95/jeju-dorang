@@ -19,12 +19,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kosta.dorang.dto.Trip;
+import com.kosta.dorang.service.TripServiceI;
 
-@Controller
+@Controller @RequestMapping("/travel")
 public class TripController {
 	
 	@Autowired
 	SqlSessionTemplate sqlSession;
+	
+	@Autowired
+	TripServiceI tripService;
 	
 	/**
 	 * 여행지 정보 DB 저장 (1회 호출)
@@ -140,5 +144,20 @@ public class TripController {
 		return null;
 	}
 
+	
+	@RequestMapping(value = "/list", method=RequestMethod.GET)
+	public String travelMain(Model model) {
+		try {
+			List<Trip> list = tripService.getPlaceList();
+			model.addAttribute("list", list);
+//			for(Trip trip : list) {
+//				System.out.println(trip.toString());
+//			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "tripMain";
+	}
+	
 	
 }

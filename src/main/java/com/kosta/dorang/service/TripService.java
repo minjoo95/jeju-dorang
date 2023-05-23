@@ -1,8 +1,34 @@
 package com.kosta.dorang.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.kosta.dorang.dao.TripDAO;
+import com.kosta.dorang.dto.Trip;
 
 @Service
 public class TripService implements TripServiceI {
+	
+	@Autowired
+	TripDAO dao;
+
+	@Override
+	public List<Trip> getPlaceList() throws Exception {
+		return dao.getPlaceList();
+	}
+
+	@Override
+	public Trip getPlace(String trip_id) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Trip> getPlaceListByTheme(String category) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
