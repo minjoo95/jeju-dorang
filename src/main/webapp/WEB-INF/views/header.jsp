@@ -12,18 +12,18 @@
 <body>
 	<div class="wrap">
 		<nav id="header-nav" class="navbar navbar-expand-lg bg-body-tertiary">
-	  		<div class="container-fluid">
+	  		<div id="container-fluid" class="container-fluid">
 	  		<div class="header-logo">
 	    		<a class="navbar-brand" href="./">
 			    	<img class="navbar-brand" src="resources/img/logo2.png" alt="로고"/>
 			    </a>
-			    </div>
+			  </div>
 	    	<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 	      		<span class="navbar-toggler-icon"></span>
 	    	</button>
 	    	<div class="collapse navbar-collapse" id="navbarNavDropdown">
-	          <ul class="navbar-nav">
-				<li class="nav-item">
+	          <ul id="navbar-nav" class="navbar-nav">
+				<li  class="nav-item">
 				   <a class="nav-link" href="./travel/list">여행</a>
 				</li>
 				<li class="nav-item">

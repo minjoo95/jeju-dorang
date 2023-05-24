@@ -8,5 +8,14 @@
     	select * from trip order by like_count desc limit 3;
     	]]>
     </select>
-
+    <select id="selectHotMateList" resultType="com.kosta.dorang.dto.Mate">
+    	<![CDATA[
+    	select * from mate order by count desc limit 3;
+    	]]>
+    </select>
+    <select id="selectMyMateList" resultType="com.kosta.dorang.dto.Mate">
+    	<![CDATA[
+    	select * from mate where kakao_id={kakao_id};
+    	]]>
+    </select>
 </mapper>

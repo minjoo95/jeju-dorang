@@ -1,8 +1,22 @@
 @charset "UTF-8";
-.{
+*{
 	margin 0;
 	padding 0;
 }
+#navbarNavDropdown ul{
+	display:flex;
+	justify-content:space-between;
+	text-align:center;
+}
+#navbarNavDropdown li{
+	list-style: none;
+	padding-right: 50px;
+	text-align: center;
+}
+
+
+
+
 .header-nav ul{
 	display:flex;
 	justify-content:space-between;
