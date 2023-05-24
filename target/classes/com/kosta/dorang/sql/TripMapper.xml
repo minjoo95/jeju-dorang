@@ -3,6 +3,44 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="TripMapper">
+	<resultMap id="TripDTO" type="com.kosta.dorang.dto.Trip">
+		<result property="trip_id" column="trip_id"/>
+		<result property="place_id" column="place_id"/>
+		<result property="category" column="category"/>
+		<result property="theme" column="theme"/>
+		<result property="title" column="title"/>
+		<result property="region_code" column="region_code"/>
+		<result property="city_code" column="city_code"/>
+		<result property="address" column="address"/>
+		<result property="postcode" column="postcode"/>
+		<result property="tel" column="tel"/>
+		<result property="hashtag" column="hashtag"/>
+		<result property="introduction" column="introduction"/>
+		<result property="thumbnail" column="thumbnail"/>
+		<result property="image" column="image"/>
+		<result property="latitude" column="latitude"/>
+		<result property="longitude" column="longitude"/>
+		<result property="info" column="info"/>
+		<result property="like_count" column="like_count"/>
+	</resultMap>
 
+    <insert id="insertPlace" parameterType="com.kosta.dorang.dto.Trip">
+        <![CDATA[
+         insert into trip(place_id, category, theme, title, region_code, city_code, address, postcode, tel, hashtag, introduction, thumbnail, image, latitude, longitude, info)
+         values (#{place_id}, #{category}, #{theme}, #{title}, #{region_code}, #{city_code}, #{address}, #{postcode}, #{tel}, #{hashtag}, #{introduction}, #{thumbnail}, #{image}, #{latitude}, #{longitude}, #{info})
+        ]]>
+    </insert>
 
+    <select id="selectPlaceList" resultType="com.kosta.dorang.dto.Trip">
+        <![CDATA[
+         select * from trip order by category
+        ]]>
+    </select>
+    
+    <select id="selectPlace" parameterType="Integer" resultType="com.kosta.dorang.dto.Trip">
+       <![CDATA[
+        select * from trip where trip_id=#{trip_id}
+       ]]>
+    </select>
+    
 </mapper>
