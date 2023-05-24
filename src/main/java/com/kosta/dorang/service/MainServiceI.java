@@ -1,5 +1,11 @@
 package com.kosta.dorang.service;
 
-public interface MainServiceI {
+import java.util.List;
+
+import com.kosta.dorang.dto.Trip;
+
+public interface MainServiceI{
+
+	List<Trip> selectBestTripList() throws Exception;
 
 }
