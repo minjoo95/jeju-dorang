@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+ :root {
+	--color-accent : #FB7A51;
+	--color-sub : #3CB728;
+	--color-main : #3F3D3A;
+	--color-sub2 : #D9D9D9;
+	--color-submain : #696969;
+	--color-warning : #E74747;
+	--color-white : #FFFFFF;	
+	
+}
