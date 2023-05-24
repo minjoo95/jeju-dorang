@@ -43,4 +43,33 @@
        ]]>
     </select>
     
+    
+    <!-- 북마크 처리 -->
+    <select id="selectIsBookmark" parameterType="com.kosta.dorang.dto.Bookmark" resultType="Integer">
+       <![CDATA[
+        select count(*) from bookmark where user_code=#{user_code} and trip_id=#{trip_id}
+       ]]>
+    </select>
+    
+    <insert id="insertBookmark" parameterType="com.kosta.dorang.dto.Bookmark">
+        <![CDATA[
+         insert into bookmark (user_code, trip_id)
+         values (#{user_code}, #{trip_id})
+        ]]>
+    </insert>
+    
+    <delete id="deleteBookmark" parameterType="com.kosta.dorang.dto.Bookmark">
+     	<![CDATA[
+         delete from bookmark where user_code=#{user_code} and trip_id=#{trip_id}
+        ]]>
+    </delete>
+    
+    <update id="updateBookmark" parameterType="Integer">
+     	<![CDATA[
+         update trip set like_count=(select count(*) from bookmark where trip_id=#{trip_id}) where trip_id=#{trip_id}
+        ]]>
+    </update>
+    
+    
+    
 </mapper>
