@@ -6,6 +6,9 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import java.net.HttpURLConnection;
 
 import org.json.simple.JSONArray;
@@ -19,7 +22,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.kosta.dorang.dto.Bookmark;
 import com.kosta.dorang.dto.Trip;
+import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.TripServiceI;
 
 @Controller @RequestMapping("/travel")
@@ -166,15 +171,55 @@ public class TripController {
 		return "tripMain";
 	}
 	
+	/**
+	 * 여행 페이지 상세
+	 * @param model
+	 * @param trip_id
+	 * @return
+	 */
 	@RequestMapping(value = "/list/{trip_id}", method=RequestMethod.GET)
 	public String travelDetail(Model model, @PathVariable Integer trip_id) {
+		//세션 유저 정보 필요
+		//String user = (String) session.getAttribute("user");
+		
 		try {
 			Trip place = tripService.getPlace(trip_id);
 			model.addAttribute("place", place);
+			
+			Bookmark bookmark = new Bookmark(1, trip_id); //user_code, trip_id
+			Boolean isLike;
+			Integer check = tripService.isMyBookmark(bookmark);
+			if(check == 0) {
+				isLike = false;
+			} else {
+				isLike = true;
+			}
+			System.out.println(">>> controller isLike : " + isLike);
+			model.addAttribute("isLike", isLike);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "tripDetail";
 	}
+	
+	
+	@RequestMapping(value = "/bookmark", method=RequestMethod.POST)
+	public void travelLike(Model model, Integer user_id, Integer trip_id) {
+		//return data 필요
+		try {
+			Bookmark bookmark = new Bookmark(1, 999);
+			Boolean isLike;
+			Integer check = tripService.isMyBookmark(bookmark);
+			if(check == 0) {
+				isLike = tripService.setBookmark(bookmark);	
+			} else {
+				isLike = tripService.cancelBookmark(bookmark);
+			}
+			System.out.println(">>> controller isLike : " + isLike);
+			model.addAttribute("isLike", isLike);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	} 
 	
 }

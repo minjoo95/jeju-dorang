@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kosta.dorang.dao.TripDAO;
+import com.kosta.dorang.dto.Bookmark;
 import com.kosta.dorang.dto.Trip;
 
 @Service
@@ -29,5 +30,24 @@ public class TripService implements TripServiceI {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Integer isMyBookmark(Bookmark bookmark) throws Exception {
+		return dao.isMyBookmark(bookmark); //0 or 1
+	}
+
+	@Override
+	public Boolean setBookmark(Bookmark bookmark) throws Exception {
+		return dao.setBookmark(bookmark); 
+	}
+
+	@Override
+	public Boolean cancelBookmark(Bookmark bookmark) throws Exception {
+		return dao.cancelBookmark(bookmark);
+	}
+
+
+	
+	
 
 }
