@@ -143,10 +143,12 @@
 					<c:when test="${isLike eq false }">
 						<img src="<c:url value="/resources/img/icon-unlike.png"/>" alt="bookmark"/>
 					</c:when>
-					
 					<c:when test="${isLike eq true }">
 						<img src="<c:url value="/resources/img/icon-like.png"/>" alt="bookmark"/>
 					</c:when>
+					<c:otherwise>
+						<img src="<c:url value="/resources/img/icon-unlike.png"/>" alt="bookmark"/>
+					</c:otherwise>
 				</c:choose> 
 				LIKE
 			</a>
