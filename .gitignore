@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,eclipse,java
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,eclipse,java
 
+src/main/webapp/WEB-INF/spring/root-context.xml
+
+
 ### Eclipse ###
 .metadata
 bin/
@@ -37,7 +40,6 @@ local.properties
 
 # sbteclipse plugin
 .target
-target/
 
 # Tern plugin
 .tern-project
