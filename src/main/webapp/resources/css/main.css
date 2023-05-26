@@ -10,3 +10,8 @@
 	--color-white : #FFFFFF;	
 	
 }
+
+.card-img-top{
+	width: 100px;
+	height: 100px;
+}
