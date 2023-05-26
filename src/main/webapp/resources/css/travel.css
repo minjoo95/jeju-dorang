@@ -1,0 +1,66 @@
+	:root {
+   		--color-main : #FB7A51;	/* orange */ 
+   		--color-sub : #3CB728;  /* green */
+    }
+	
+	body{
+		/*color:white;*/
+/* 		font-family: 'Noto Serif KR', serif; */
+		font-family: 'IBM Plex Sans KR';
+	}
+	
+	@media (max-width: 768px) {
+		.travel-detail-left {
+			width: 300px;
+		}
+	}
+	
+	.travel-detail-container{
+		background-position:center;
+		background-size:cover;
+		height:856px;
+	}
+	
+	.travel-detail-left{
+		float :left;
+		height : 100%;
+		width :30%;
+		background :rgba(0,0,0,0.5);
+		position:relative;
+		
+	}
+	
+	.travel-detail-left > div {
+		/* margin-left : 160px;
+		margin-right : 10%; 
+		padding: 50px 0 20px 0;*/
+		margin : 30px 10% 30px 160px; /*상 ? 하 좌*/
+	}
+	
+	.travel-detail-right {
+		float :right;
+		margin-right :160px;	
+		
+	}
+	
+	/* bookmark button */
+	.travel-detail-like {
+		margin-top : 50px;
+		
+		width : 68px;
+		height: 32px;
+		border-radius:10px;
+		background :rgba(0,0,0,0.8);
+		text-align : center;
+		line-height: 32px;
+	}
+	
+	a{
+		text-decoration : none;
+		color:white;
+	}
+	
+	.travel-detail-like a:hover {
+		color:var(--color-main);
+		font-weight : bold;
+	}

@@ -203,7 +203,7 @@ public class TripController {
 	}
 	
 	
-	@RequestMapping(value = "/bookmark", method=RequestMethod.POST)
+	@RequestMapping(value = "/bookmark", method=RequestMethod.GET)
 	public void travelLike(Model model, Integer user_id, Integer trip_id) {
 		//return data 필요
 		try {

@@ -10,6 +10,7 @@
 <script src="<c:url value="/resources/js/jquery-3.3.1.js"/>"></script>
 <script src="<c:url value="/resources/js/index.js"/>"></script> --%>
 </head>
+<%@ include file="/WEB-INF/views/header.jsp"%>
 <body>
 
 

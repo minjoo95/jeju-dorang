@@ -43,6 +43,12 @@
        ]]>
     </select>
     
+   <select id="selectSearchPlace" parameterType="Integer" resultType="com.kosta.dorang.dto.Trip">
+       <![CDATA[
+        select * from trip where trip_id=#{trip_id}
+       ]]>
+    </select>
+    
     
     <!-- 북마크 처리 -->
     <select id="selectIsBookmark" parameterType="com.kosta.dorang.dto.Bookmark" resultType="Integer">
