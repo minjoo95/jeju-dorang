@@ -88,7 +88,7 @@
 
 </head>
 <body>
-<%@ include file="/WEB-INF/views/header.jsp"%>
+
 <div class="travel-detail-container" style="background-image:url(${place.getImage() });">
 	<div class="travel-detail-left">
 		<div class="travel-detail-location">
