@@ -5,10 +5,9 @@
 <mapper namespace="MateMapper">
 <insert id="insertMate" parameterType="com.kosta.dorang.dto.Mate">
      <![CDATA[
-         INSERT INTO mate(title,content,type,direction,number,age,gender,daterange,tags,status,image,frist_ask,second_ask,third_ask)
-         VALUES (#{title},#{content},#{type},#{direction},#{number},#{age},#{gender},#{daterange},#{tags},#{status},#{image},#{frist_ask},#{second_ask},#{third_ask})
+         INSERT INTO mate(user_code,title,content,type,direction,number,age,gender,daterange,tags,status,image,first_ask,second_ask,third_ask,createdAt)
+         VALUES (#{user_code},#{title},#{content},#{type},#{direction},#{number},#{age},#{gender},#{daterange},#{tags},#{status},#{image},#{first_ask},#{second_ask},#{third_ask},NOW())
      ]]>
-
  </insert>
   
 

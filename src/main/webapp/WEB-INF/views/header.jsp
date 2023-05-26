@@ -39,7 +39,7 @@
 				  		<div class="wrap_my_layer">
 				    	<button type="button" class="top_btn btn_alarm on" id="myAlarmBlt">
 				    		<span class="blind">내 알림 레이어 버튼</span>
-				    		<img src="resources/img/notifications.png">
+				    		<!--<img src="resources/img/notifications.png">  -->
 				    	</button>
 				    	<div class="top_layer_assist alarm_layer_content">
 				    		<strong class="title">알림</strong>

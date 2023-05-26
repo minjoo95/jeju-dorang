@@ -5,7 +5,8 @@
 }
 .header-wrap{
 	display: flex;
-	    justify-content: space-around;
+	 justify-content: space-around;
+	    
 }
 .header-category{
 	display: flex;
@@ -59,6 +60,8 @@
 .wrap_top_btns .wrap_my_layer button.top_btn.on+.top_layer_assist{
 	display: inline-block;
 	z-index: 2;
+	display: none;
+	
 }
 
 .top_layer_assist{
@@ -75,4 +78,5 @@
 	letter-spacing: -1px;
 	background-color: #fff;
 	box-shadow: 2px 6px 16px 0 rgba(17,42,128,0.08);
+ 
 }

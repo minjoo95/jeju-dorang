@@ -16,6 +16,8 @@
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 	<script>
+	
+	
 	  /*모집 이미지 기본 사진*/
 	  var defultImage = "../resources/img/no_thumbnail_ex.jpg";
 	  
@@ -53,8 +55,7 @@
 			
 	    });//document끝
 	  
-	  
-		function goInsert() {
+function goInsert() {
 			
 
 	    	var tagSelectorAll = document.querySelectorAll('.tagSelector');
@@ -77,16 +78,16 @@
 	    	var number = $("select[name=number]").val();
 	    	var age =  $("select[name=age]").val();
 	    	var gender =  $("select[name=gender]").val();
-	    	var daterange = $('input:radio[name=daterange]:checked').val();
+	    	var daterange = $('input[name="daterange"]').val();
 	    	var tags = 	$("#tags").val();
 	    	var status =  $('input:radio[name=status]:checked').val();
 	    	var imageViewSrc = $("#imageView").attr("src");
-	    	var frist_ask = $('#frist_ask').val();
+	    	var first_ask = $('#first_ask').val();
 	    	var second_ask = $('#second_ask').val();
 	    	var third_ask = $('#third_ask').val();
 	    	
 	    	console.log(
-	    			user_code+","+title+","+content+","+type+","+direction+","+number+","+age+","+gender+","+daterange+","+tags+","+status+","+imageViewSrc+","+frist_ask+","+second_ask+","+third_ask
+	    			user_code+","+title+","+content+","+type+","+direction+","+number+","+age+","+gender+","+daterange+","+tags+","+status+","+imageViewSrc+","+first_ask+","+second_ask+","+third_ask
 	    	
 	    	
 	    	)
@@ -95,21 +96,17 @@
 	    	if(user_code==null || title ==null || content==null || type==null ||
 	    	   direction==null || number ==null || age ==null|| gender==null ||
 	    	   daterange == null || tags == null || status == null || imageViewSrc == defultImage ||
-	    	   frist_ask == null || second_ask == null || third_ask == null
+	    	   first_ask == null || second_ask == null || third_ask == null
 	    	){
-	    		console.log("뭐가 안됨");
-	    		$("#exampleModal").show();
+	    	
+	    
 	    		$("#messageType").text("실패");
 	    		$("#myMessage").text("모든 내용을 입력해주세요!");
 	    	}else{
-	    		console.log("다 넣었ㅇㅁ");
+	    		document.mateForm.submit(); // 전송
 	    	}
-	    	
 
-	    	
-	    	
 		}
-
 	
 
 </script>
@@ -127,8 +124,8 @@
 	 			 <div class="mb-5" >
 				    <label for="title" class="form-label" style="color: var(--color-accent);">제목</label>
 				    <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력해주세요">
-	  			 </div>
-			  	 <div class="mb-3">
+	  			 </div> 
+			  	 <div class="mb-3 ">
 			  	    <label for="content" class="form-label" style="color: var(--color-accent);">내용</label>
 				    <textarea class="form-control" placeholder="내용을 입력해주세요" id="content" name="content" style="height:440px; resize: none;"></textarea>
 	  			 </div>
@@ -209,7 +206,7 @@
 						    <input type="text" id="daterange" name="daterange" style="font-size: 13px; padding: 5px 8px; border:1px solid #ced4da; display: block; width: 300px">
 			  			 </div>
 			  			 <div class="mb-4" >        
-			  			    <input type="hidden" id="tags" name="tag" value=""/>
+			  			    <input type="hidden" id="tags" name="tags" value=""/>
 					  	    <label class="form-label" style="padding-bottom: 10px;">
 						  	    <span style="color: var(--color-accent);">태그를 선택해주세요</span>
 						  	    <span style="font-size: 12px;display: block;">둘 중 하나만 선택해주세요</span>
@@ -282,8 +279,8 @@
   	    	    <span  style="font-size: 13px">최대 3개</span>
   	    	  </h3>
   	    	 <div class="mb-3" >
-  	    		<label for="frist_ask" class="w-100">
-   			 	    <input type="text" class="form-control" id="frist_ask" name="frist_ask" placeholder="질문1.">
+  	    		<label for="first_ask" class="w-100">
+   			 	    <input type="text" class="form-control" id="first_ask" name="first_ask" placeholder="질문1.">
     	    	</label>
              </div>
               <div class="mb-3">

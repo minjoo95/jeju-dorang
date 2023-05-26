@@ -10,11 +10,10 @@ public class MateDAO implements MateDAOI {
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-	
-	
+
 	@Override
 	public void insertMate(Mate m) throws Exception {
-		 sqlSession.insert("MateMapper.insertMate",m);
+		sqlSession.insert("MateMapper.insertMate", m);
 	}
 
 	@Override
@@ -26,13 +25,13 @@ public class MateDAO implements MateDAOI {
 	@Override
 	public void upateMate(Mate m) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteMate(Mate m) {
 		// TODO Auto-generated method stub
-		
+
 	}
-  
+
 }
