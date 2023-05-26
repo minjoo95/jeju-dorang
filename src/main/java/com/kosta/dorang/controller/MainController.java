@@ -3,6 +3,8 @@ package com.kosta.dorang.controller;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +21,9 @@ import com.kosta.dorang.service.MainServiceI;
 public class MainController {
 
 	@Autowired
-	SqlSessionTemplate sqlSession;
+	HttpSession session;
+	
+	/* SqlSessionTemplate sqlSession; */
 	
 	//@RequestMapping(value = "/", method = RequestMethod.GET)
 //	public String home(Locale locale, Model model) throws Exception {
@@ -40,9 +44,11 @@ public class MainController {
 	@Autowired
 	private MainServiceI mainServiceI;
 	
+	
 	@RequestMapping(value = "/", method=RequestMethod.GET)
 	public String main(Model model) throws Exception{
-//		String kakao_id="dongdong123";
+		
+//		session.setAttribute("id", "dongdong123");
 		
 		List<Trip> tripList=null;
 		List<Mate> mateList=null;
@@ -70,5 +76,10 @@ public class MainController {
 	}
 	
 	
+	/*
+	 * @RequestMapping(value = "logout", method=RequestMethod.GET) public String
+	 * mainLogout() throws Exception{ session.removeAttribute("id");
+	 * System.out.println("로그아웃"); return "redirect:/"; }
+	 */
 	
 }
