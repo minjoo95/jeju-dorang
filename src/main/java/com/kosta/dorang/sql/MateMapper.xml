@@ -3,6 +3,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="MateMapper">
+<insert id="insertMate" parameterType="com.kosta.dorang.dto.Mate">
+     <![CDATA[
+         INSERT INTO mate(title,content,type,direction,number,age,gender,daterange,tags,status,image,frist_ask,second_ask,third_ask)
+         VALUES (#{title},#{content},#{type},#{direction},#{number},#{age},#{gender},#{daterange},#{tags},#{status},#{image},#{frist_ask},#{second_ask},#{third_ask})
+     ]]>
 
+ </insert>
+  
 
 </mapper>
