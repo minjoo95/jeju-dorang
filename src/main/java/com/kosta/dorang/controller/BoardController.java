@@ -7,5 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/board")
 public class BoardController {
 		
+	private int test_ing;
 	
 }
