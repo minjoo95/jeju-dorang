@@ -5,7 +5,6 @@ import java.sql.Date;
 public class Mate {
      private int mate_code;
      private int user_code;
-     private String kakao_id;
      private String title;
      private String content;
      private String type;
@@ -38,12 +37,6 @@ public class Mate {
 	}
 	public void setUser_code(int user_code) {
 		this.user_code = user_code;
-	}
-	public String getKakao_id() {
-		return kakao_id;
-	}
-	public void setKakao_id(String kakao_id) {
-		this.kakao_id = kakao_id;
 	}
 	public String getTitle() {
 		return title;
