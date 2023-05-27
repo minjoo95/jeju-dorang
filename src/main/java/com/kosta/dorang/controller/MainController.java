@@ -1,18 +1,15 @@
 package com.kosta.dorang.controller;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.kosta.dorang.dto.Article;
 import com.kosta.dorang.dto.Mate;
 import com.kosta.dorang.dto.Trip;
 import com.kosta.dorang.service.MainServiceI;
@@ -47,9 +44,7 @@ public class MainController {
 	
 	@RequestMapping(value = "/", method=RequestMethod.GET)
 	public String main(Model model) throws Exception{
-		
-//		session.setAttribute("id", "dongdong123");
-		
+
 		List<Trip> tripList=null;
 		List<Mate> mateList=null;
 		try {
@@ -75,11 +70,10 @@ public class MainController {
 		return "main";
 	}
 	
-	
 	/*
 	 * @RequestMapping(value = "logout", method=RequestMethod.GET) public String
 	 * mainLogout() throws Exception{ session.removeAttribute("id");
 	 * System.out.println("로그아웃"); return "redirect:/"; }
 	 */
-	
+
 }
