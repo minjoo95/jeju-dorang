@@ -3,6 +3,69 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="UserMapper">
-
-
+	<resultMap id="UserDTO" type="com.kosta.dorang.dto.User">
+		<result property="user_code" column="user_code" />
+		<result property="user_id" column="user_id" />
+		<result property="user_nickname" column="user_nickname" />
+		<result property="user_pic" column="user_pic" />
+		<result property="user_age_range" column="user_age_range" />
+		<result property="user_gender" column="user_gender" />
+		<result property="user_tag" column="user_tag" />
+	</resultMap>
+	
+ 	<select id="selectUser" parameterType="Long" resultType="com.kosta.dorang.dto.User">
+		<![CDATA[
+		select * from user where user_code=#{"user_code"}
+		]]>
+	</select>
+ 	
+	<insert id="insertUserAll" parameterType="hashMap">
+		<![CDATA[
+		insert into user (user_code, user_id, user_nickname, user_pic, user_age_range, user_gender)
+		values (#{user_code}, #{user_id}, #{user_nickname}, #{user_pic}, #{user_age_range}, #{user_gender})
+		]]>
+	</insert>
+	<insert id="insertUserNothing" parameterType="hashMap">
+		<![CDATA[
+		insert into user (user_code, user_id, user_nickname)
+		values (#{user_code}, #{user_id}, #{user_nickname})
+		]]>
+	</insert>	
+		<insert id="insertUserGender" parameterType="hashMap">
+		<![CDATA[
+		insert into user (user_code, user_id, user_nickname, user_gender)
+		values (#{user_code}, #{user_id}, #{user_nickname}, #{user_gender})
+		]]>
+	</insert>
+	<insert id="insertUserAge" parameterType="hashMap">
+		<![CDATA[
+		insert into user (user_code, user_id, user_nickname, user_age_range)
+		values (#{user_code}, #{user_id}, #{user_nickname}, #{user_age_range})
+		]]>
+	</insert>
+	<insert id="insertUserPic" parameterType="hashMap">
+		<![CDATA[
+		insert into user (user_code, user_id, user_nickname, user_pic)
+		values (#{user_code}, #{user_id}, #{user_nickname}, #{user_pic})
+		]]>
+	</insert>
+	<insert id="insertUserAgeAndGender" parameterType="hashMap">
+		<![CDATA[
+		insert into user (user_code, user_id, user_nickname, user_age_range, user_gender)
+		values (#{user_code}, #{user_id}, #{user_nickname}, #{user_age_range}, #{user_gender})
+		]]>
+	</insert>
+	<insert id="insertUserPicAndAge" parameterType="hashMap">
+		<![CDATA[
+		insert into user (user_code, user_id, user_nickname, user_pic, user_age_range)
+		values (#{user_code}, #{user_id}, #{user_nickname}, #{user_pic}, #{user_age_range})
+		]]>
+	</insert>
+	<insert id="insertUserPicAndGender" parameterType="hashMap">
+		<![CDATA[
+		insert into user (user_code, user_id, user_nickname, user_pic, user_gender)
+		values (#{user_code}, #{user_id}, #{user_nickname}, #{user_pic}, #{user_gender})
+		]]>
+	</insert>
+	
 </mapper>

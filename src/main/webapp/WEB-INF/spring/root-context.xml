@@ -11,7 +11,6 @@
         <property name="username" value="root"/>
         <!-- <property name="password" value="root"/> -->
        <property name="password" value="1234"/> 
-        <!--  <property name="password" value="0000"/>--> 
     </bean>
 
     <!-- mapper-->
