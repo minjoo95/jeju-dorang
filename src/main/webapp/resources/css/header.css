@@ -82,6 +82,8 @@
 .wrap_top_btns .wrap_my_layer button.top_btn.on+.top_layer_assist{
 	display: inline-block;
 	z-index: 2;
+	display: none;
+	
 }
 
 .top_layer_assist{
