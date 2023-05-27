@@ -26,7 +26,7 @@ public class UserController {
 	User user;
 	
 	String access_tok;
-	
+	// min
 	@RequestMapping(value="/kakaoCallback", method = RequestMethod.GET)
 	public String kakaoCallBack(@RequestParam(value = "code", required = false) String code) throws Throwable {
 		access_tok = userSerivce.getAccess_Token(code);
