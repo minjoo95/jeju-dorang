@@ -28,14 +28,14 @@
 				    <li>
 				  	<c:choose>
 				  		<c:when test="${sessionScope.id eq null }">
-					  		<a class="" href="https://kauth.kakao.com/oauth/authorize?client_id=a62a2c16a4182ec20a1185a3f707c2b1&redirect_uri=http://localhost:8080/dorang/user/kakaoCallback&response_type=code">로그인</a>
+					  		<a class="" href="https://kauth.kakao.com/oauth/authorize?client_id=a62a2c16a4182ec20a1185a3f707c2b1&redirect_uri=http://localhost:8080/dorang/user/kakaoCallback&response_type=code&prompt=login">로그인</a>
 				  		</c:when>
 				  		<c:otherwise>
-				  			<a href="${contextPath }/logout">로그아웃</a>
+				  			<a href="${contextPath }/user/logout">로그아웃</a>
 				  		</c:otherwise>
 				  	</c:choose>
 				  	</li>
-				  	<div class="wrap_top_btns">
+ 				  	<div class="wrap_top_btns">
 				  		<div class="wrap_my_layer">
 				    	<button type="button" class="top_btn btn_alarm on" id="myAlarmBlt">
 				    		<span class="blind">내 알림 레이어 버튼</span>
@@ -77,7 +77,7 @@
 					      </div>
 					    </div>
 					   </div>
-					   </div>
+					   </div> 
 				 </ul>
 			 </div>
 		</div>
