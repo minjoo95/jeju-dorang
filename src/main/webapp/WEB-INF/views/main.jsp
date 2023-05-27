@@ -7,8 +7,10 @@
 <head>
 <title>main</title>
 </head>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
+	<button class="test">알림</button>
 	<P>여행 베스트</p>
 	<c:forEach items="${place}" var="trip">
 		<div class="card">
@@ -17,7 +19,7 @@
 			</a>
 		</div>
 	</c:forEach>
-	<p>나의 동행</p>
+	<%-- <p>나의 동행</p>
 	<c:forEach items="${mateB }" var="mate">
 		<div class="card">
 			<a href="./mate/detail">
@@ -28,7 +30,7 @@
 					card title and make up the bulk of the card's content.</p>
 			</div>
 		</div>
-	</c:forEach>
+	</c:forEach> --%>
 	<%-- <p>HOT 동행</p>
 	<c:forEach items="mateA" var="mate">
 		<!-- <a href="./mate/detail">
