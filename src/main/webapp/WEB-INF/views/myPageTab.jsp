@@ -62,5 +62,6 @@
 		clickedImage.classList.add('visible');
 		
 		// include jsp 이동하면서 메뉴 선택 효과 사라지는 중.. ㄱ- 해결해야 함
+		// ajax ?
 	}
 </script>
