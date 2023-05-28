@@ -1,5 +1,7 @@
 package com.kosta.dorang.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -33,5 +35,19 @@ public class MateDAO implements MateDAOI {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public List<Mate> getMateListViewSort() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("MateMapper.getMateListViewSort");
+	}
+
+/*	@Override
+	public Mate selectMate(int mate_code) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("MateMapper.selectMate",mate_code);
+	}*/
+
+	
 
 }

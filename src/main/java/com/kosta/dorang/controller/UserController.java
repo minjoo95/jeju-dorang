@@ -26,7 +26,7 @@ public class UserController {
 	User user;
 	
 	String access_tok;
-	// min
+	
 	@RequestMapping(value="/kakaoCallback", method = RequestMethod.GET)
 	public String kakaoCallBack(@RequestParam(value = "code", required = false) String code) throws Throwable {
 		access_tok = userSerivce.getAccess_Token(code);
@@ -41,6 +41,7 @@ public class UserController {
 	public String logout(HttpSession session) throws Exception {
 		userSerivce.getLogout(access_tok);
 		session.setAttribute("user", null);
+		session.setAttribute("userInfo", null);
 		return "redirect:/";
 	}
 	

@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Mate {
 	private int mate_code;
-	private int user_code;
+	private long user_code;
 	private String title;
 	private String content;
 	private String type;
@@ -27,7 +27,7 @@ public class Mate {
 
 	}
 
-	public Mate(int user_code, String title, String content, String type, String direction, String number, String age,
+	public Mate(long user_code, String title, String content, String type, String direction, String number, String age,
 			String gender, String daterange, String tags, String status, String image, String first_ask,
 			String second_ask, String third_ask, Date createdAt) {
 		this.user_code = user_code;
@@ -56,11 +56,11 @@ public class Mate {
 		this.mate_code = mate_code;
 	}
 
-	public int getUser_code() {
+	public long getUser_code() {
 		return user_code;
 	}
 
-	public void setUser_code(int user_code) {
+	public void setUser_code(long user_code) {
 		this.user_code = user_code;
 	}
 
