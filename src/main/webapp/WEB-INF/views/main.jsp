@@ -10,15 +10,16 @@
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
-	<button class="test">알림</button>
 	<P>여행 베스트</p>
-	<c:forEach items="${place}" var="trip">
 		<div class="card">
-			<a href="./travel/detail/${trip.trip_id}"> 
-				<img src="${trip.image}" class="card-img-top" alt="여행">
-			</a>
+			<c:forEach items="${place}" var="trip">
+					<div class="card-item">
+						<a href="./travel/detail/${trip.trip_id}"> 
+							<img src="${trip.image}" class="card-img-top" alt="여행">
+						</a>
+					</div>
+			</c:forEach>
 		</div>
-	</c:forEach>
 	<%-- <p>나의 동행</p>
 	<c:forEach items="${mateB }" var="mate">
 		<div class="card">
@@ -46,5 +47,6 @@
 			</div>
 		</div>
 	</c:forEach> --%>
+
 </body>
 </html>
