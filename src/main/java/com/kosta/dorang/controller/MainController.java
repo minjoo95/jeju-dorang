@@ -44,8 +44,7 @@ public class MainController{
 	
 	@RequestMapping(value = "/", method=RequestMethod.GET)
 	public String main(Model model) throws Exception{
-		
-		session.setAttribute("user", "sora6015");
+		//왜 안됑ㅇ.ㅣㅐㅣ잉...
 
 		List<Trip> tripList=null;
 		List<Mate> mateList=null;
