@@ -8,13 +8,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>모집글등록하기</title>
-    <link rel="stylesheet" type="text/css" href="../resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../resources/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>  
   	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" defer></script>
 	<script>
 	
 	
@@ -22,10 +22,7 @@
 	  var defultImage = "../resources/img/no_thumbnail_ex.jpg";
 	  
 	  $(document).ready(function(){
-		    /*엔터방지*/
-	 		document.mateForm.addEventListener("keydown", evt => {
-	 			  if (evt.code === "Enter") evt.preventDefault();
-	 		});
+		  
 	    	
 		    /*datarange*/
 	 		$('input[name="daterange"]').daterangepicker({
@@ -92,16 +89,12 @@ function goInsert() {
 	    	
 	    	)
 	    	
-	    	
 	    	if(user_code==null || title ==null || content==null || type==null ||
 	    	   direction==null || number ==null || age ==null|| gender==null ||
 	    	   daterange == null || tags == null || status == null || imageViewSrc == defultImage ||
 	    	   first_ask == null || second_ask == null || third_ask == null
 	    	){
-	    	
-	    
-	    		$("#messageType").text("실패");
-	    		$("#myMessage").text("모든 내용을 입력해주세요!");
+	    		alert("모든 내용을 입력해주세요!");
 	    	}else{
 	    		document.mateForm.submit(); // 전송
 	    	}
@@ -117,7 +110,7 @@ function goInsert() {
     <div class="container" >
      <h3 style="padding:50px 0px">작성해주세요 :)</h3>
         <form name="mateForm" id="mateForm" action="${contextPath}/mate/insert" method="post" enctype="multipart/form-data">
-          <input type="hidden" name="user_code" id="user_code" value="1111"/> <!--${session.user_code}  -->
+          <input type="hidden" name="user_code" id="user_code" value="${user}"/> <!--${session.user_code}  -->
        		<div class="container" >
           <div class="row">
          <div class="col-md-6 container container_1" >
@@ -135,20 +128,20 @@ function goInsert() {
           	<div class="container container_2_left col">
 			  		  	<div class="mb-3">
 						    <label class="form-label" style="color: var(--color-accent);">동행타입</label>
-						     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+						     <div  role="group" aria-label="Basic mixed styles example">
 								 <input type="radio" class="btn-check" name="type" id="type_1" autocomplete="off" value="전체동행" checked >
-								 <label class="btn btn-outline-warning" for="type_1" style="margin-right: 0.4rem; border-radius:15px;font-size: 13px;">전체동행 </label>
-							     <input type="radio" class="btn-check" name="type" id="type_2" autocomplete="off" value="부분동행">
-								 <label class="btn btn-outline-warning" for="type_2" style="margin-right: 0.4rem; border-radius:15px;font-size: 13px;"> 부분동행</label>
+								 <label class="btn btn-outline-warning mb-2" for="type_1" style=" font-size: 13px;">전체동행 </label>
+							     <input type="radio" class="btn-check " name="type" id="type_2" autocomplete="off" value="부분동행">
+								 <label class="btn btn-outline-warning mb-2" for="type_2" style="font-size: 13px;"> 부분동행</label>
 								 <input type="radio" class="btn-check" name="type" id="type_3" autocomplete="off" value="밥한끼">
-								 <label class="btn btn-outline-warning" for="type_3" style="border-radius:15px;font-size: 13px;">밥한끼</label>
+								 <label class="btn btn-outline-warning mb-2" for="type_3" style="font-size: 13px;">밥한끼</label>
 						     </div>
 			  			</div>
 			  		   <div class="mb-3">
 					  	    <label  class="form-label">
 					  	    <span style="color: var(--color-accent);">지역선택</span>
 					  	    <span style="padding-left:10px; font-size: 12px">동서남북 중에 골라주세요</span></label>
-							  <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="direction" name="direction" style="font-size: 13px; width: 70%;" >
+							  <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="direction" name="direction" style="font-size: 13px;" >
 			  					<option selected>지역을 선택하세요</option>
 			  					<option value="동부">동부</option>
 			  					<option value="서부">서부</option>
@@ -162,7 +155,7 @@ function goInsert() {
 						  	    <span style="padding-left:10px; font-size: 12px;">동행 인원수를 선택해세주세요</span>
 						  	    <span style="padding-left:5px; font-size: 10px; font-weight: 800">최대 5명</span>
 					  	    </label>
-						      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="number" name="number" style="font-size: 13px; width: 70%;">
+						      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="number" name="number" style="font-size: 13px;">
 			  					<option selected>인원수를 선택하세요</option>
 			  					<option value="2명">2명</option>
 			  					<option value="3명">3명</option>
@@ -174,7 +167,7 @@ function goInsert() {
 					  	    <label class="form-label">
 					  	     <span  style="color: var(--color-accent);">연령대</span>
 					  	     <span style="padding-left:10px; font-size: 12px">원하는 연령대를 선택해세주세요</span></label>
-						     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="age" name="age" style="font-size: 13px;  width: 70%;">
+						     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="age" name="age" style="font-size: 13px;">
 			  					<option selected>연령대를 선택해주세요</option>
 			  					<option value="20대">20대</option>
 			  					<option value="30대">30대</option>
@@ -186,7 +179,7 @@ function goInsert() {
 					  	    <label class="form-label">
 					  	    <span style="color: var(--color-accent);">성별</span>
 					  	    <span style="padding-left:10px; font-size: 12px">원하는 성별을 선택해주세요</span></label>
-						      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="gender" name="gender" style="font-size: 13px;  width: 70%;">
+						      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="gender" name="gender" style="font-size: 13px;">
 			  					<option selected>성별을 선택해주세요</option>
 			  					<option value="여자만">여자만</option>
 			  					<option value="남자만">남자만</option>
@@ -264,6 +257,7 @@ function goInsert() {
 							  	 </span>
 							  </div>
 						</label>
+						<span style="font-size: 12px;">파일크기는 2MB를 넘을 수 없습니다!</span>
 						 <input type="file" name="image" id="imageFile" style="display: none">
 					  		 <div class="card mb-3">
 					  			<img id="imageView" src="../resources/img/no_thumbnail_ex.jpg" style="height: 100px">
@@ -298,24 +292,11 @@ function goInsert() {
           </div><!--container 끝-->
   	        
       <div class="form_btn mb-5" style="width: 100%;text-align: center;">
-      		<button type="button" class="btn btn-primary px-5" onclick="goInsert()" data-bs-toggle="modal" data-bs-target="#exampleModal" >등록</button>
+      		<button type="button" class="btn btn-primary px-5" onclick="goInsert()">등록</button>
       </div>
         </form>
     </div>
-    <!-- 모달창 -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header" style="color:var(--color-accent); height: 20px;">
-        <h1 class="modal-title fs-5" id="messageType"></h1>
-      </div>
-      <div class="modal-body" id="myMessage"></div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-      </div>
-    </div>
-  </div>
-</div>
+ 
     
     
     <div style="height: 100px; background-color: orange;">푸터</div>
