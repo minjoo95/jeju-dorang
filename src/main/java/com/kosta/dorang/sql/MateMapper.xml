@@ -8,7 +8,14 @@
          INSERT INTO mate(user_code,title,content,type,direction,number,age,gender,daterange,tags,status,image,first_ask,second_ask,third_ask,createdAt)
          VALUES (#{user_code},#{title},#{content},#{type},#{direction},#{number},#{age},#{gender},#{daterange},#{tags},#{status},#{image},#{first_ask},#{second_ask},#{third_ask},NOW())
      ]]>
- </insert>
-  
+</insert>
+<select id="selectMate" parameterType="Integer" resultType="com.kosta.dorang.dto.Mate">
+   <![CDATA[ 
+       SELECT * FROM mate WHERE mate_code = #{mate_code}
+    ]]>
+</select>
+<select id="getMateListViewSort" resultType="com.kosta.dorang.dto.Mate">
+  SELECT * FROM mate ORDER BY createdAt DESC
+</select>
 
 </mapper>
