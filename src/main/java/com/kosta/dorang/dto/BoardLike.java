@@ -28,6 +28,11 @@ public class BoardLike {
 	public void setUser_id(int user_id) {
 		this.user_id = user_id;
 	}
+
+	@Override
+	public String toString() {
+		return "BoardLike [board_id=" + board_id + ", user_id=" + user_id + "]";
+	}
 	
 	
 }

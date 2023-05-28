@@ -4,5 +4,20 @@
 
 <mapper namespace="BoardMapper">
 
+	<resultMap id="BoardDTO" type="com.kosta.dorang.dto.Board">
+		<result property="board_id" column="board_id" />
+		<result property="user_code" column="user_code" />
+		<result property="board_category" column="board_category" />
+		<result property="board_title" column="board_title" />
+		<result property="board_content" column="board_content" />
+		<result property="board_reg_date" column="board_reg_date" />
+		<result property="board_like" column="board_like" />
+	</resultMap>
+	
+	<select id = "selectBoardList" resultType = "com.kosta.dorang.dto.Board">
+		<![CDATA[
+        	select * from board2 order by board_id desc
+       ]]>
+	</select>
 
 </mapper>
