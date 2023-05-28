@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,8 @@ import com.kosta.dorang.dto.User;
 @Service
 public class UserService implements UserServiceI {
 
+	@Autowired
+	HttpSession session;
 	@Autowired
 	UserDAOI userDAO;
 	@Autowired
@@ -190,8 +194,10 @@ public class UserService implements UserServiceI {
 				userDAO.insertUserPicAndGender(userInfo);
 			} else userDAO.insertUserAll(userInfo);  
 			
+			session.setAttribute("userInfo", user);
 			return userDAO.selectUser(userInfo);
 		} else {
+			session.setAttribute("userInfo", user);
 			return user;
 		}
 	}

@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:set var="id" value="${sessionScope.user }" />
+<c:set var="user" value="${sessionScope.userInfo }" />
 <c:set var="myPageContentPage" value="${param.page }" />
 
 <c:if test="${myPageContentPage eq null }">
@@ -15,10 +16,10 @@
 <title>제주도랑 - 마이페이지</title>
 </head>
 
-<jsp:include page="/WEB-INF/views/header.jsp" />
-<jsp:include page="/WEB-INF/views/myPageTab.jsp" />
-
 <body>
-	<jsp:include page="${myPageContentPage }" />
+<jsp:include page="/WEB-INF/views/header.jsp" />
+<jsp:include page="/WEB-INF/views/myPageTab.jsp" flush="false"/>
+
+	<jsp:include page="${myPageContentPage }" flush="false"/>
 </body>
 </html>
