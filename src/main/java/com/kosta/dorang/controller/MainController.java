@@ -44,6 +44,7 @@ public class MainController{
 	
 	@RequestMapping(value = "/", method=RequestMethod.GET)
 	public String main(Model model) throws Exception{
+		//왜 안됑ㅇ.ㅣㅐㅣ잉...
 
 		List<Trip> tripList=null;
 		List<Mate> mateList=null;
