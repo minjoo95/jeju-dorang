@@ -1,0 +1,151 @@
+@charset "UTF-8";
+
+/* 박스 레이아웃 */
+.wholeModifyBox {
+	margin:10px auto;
+	padding: 5px;
+	display:flex;
+	flex-wrap:wrap;
+	height: 520px;
+	width: 1100px;
+	border: 2px solid blue;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+}
+
+
+
+/* 프사 박스 */
+.leftPicBox {
+	border:2px solid green;
+	display:flex;
+	justify-content:center;
+	align-items: center;
+	height: 90%;
+	width: 40%;
+}
+
+.myPicBox {
+	display: flex;
+	margin-left:-5px;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	border: 1.5px solid pink;
+	width: 100%;
+}
+
+.myPicCircle {
+	width: 90%;
+	height: 80%;
+	overflow: hidden;
+	border-radius: 70%;
+}
+
+.myPic {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.selectMyPic {
+	display:inline-block;
+	margin-top: 55%;
+	margin-left: -60%;
+	z-index: 2;
+}
+
+.picbutton {
+    display: flex;
+    justify-content: center;
+}
+
+label {
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#chooseFile {
+    visibility: hidden;
+}
+
+.cameraIcon {
+	width: 150px;
+	opacity: 70%;
+	margin-left: 35%;
+	margin-top: 15%;
+}
+
+.cameraIcon:hover {
+	opacity: 100%;
+}
+
+
+
+
+
+/* 텍스트+태그 박스 */
+.rightTextBox {
+	display: flex;
+	flex-direction: column;
+	height: 90%;
+	border: 1.5px solid brown;
+	width: 55%;
+}
+
+.ageAndGenderAndNicknameBox {
+	display:flex;
+	flex-direction:column;
+	margin-top:10%;
+	border: 1px solid red;
+	height: 25%;
+	width: 100%;
+}
+
+.ageAndGenderBox {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 40px;
+	border: 1px solid green;
+}
+.ageBox {
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	margin:0;
+	width: 60px;
+	height: 25px;
+	border-radius: 10px;
+	border: 1.5px solid #FB7A51;
+}
+.genderBox {
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	color:white;
+	font-weight: bold;
+	margin-left: 5px;
+	width: 30px;
+	height: 27px;
+	border-radius: 10px;
+	background: #FB7A51;
+}
+
+
+
+.tagBox {
+	margin-bottom: 5%;
+	border: 1px solid violet;
+	height: 60%;
+	width: 100%;
+}
+
+
+
+
+/* 아래 수정완료버튼, 취소버튼 박스 */
+.bottomBtnBox {
+	height: 8%;
+	width: 95%;
+	border: 1.5px solid orange;
+}
