@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  display: none;
 }
 
 body {
@@ -14,6 +15,8 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  
+ 
 }
 
 button {
@@ -41,6 +44,7 @@ button:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
 }
 
 .modal {

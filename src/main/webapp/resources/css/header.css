@@ -1,6 +1,6 @@
 @charset "UTF-8";
 *{
-	margin: 0;
+	margin: 0 auto;
 	padding: 0;
 }
 .wrap{
@@ -29,7 +29,8 @@
 	align-items: center;
 }
 .navi-item{
-	padding-right: 150px;
+	padding-right: 170px;
+	padding-top: 10px;
 }
 /* .navi-item:hover{
 	background: FB7A51;
@@ -67,10 +68,14 @@
 }
 .notice-img{
 	width: 25px;
+	padding: 10px;
 }
 
 
 /* 모달 */
+.my-log{
+	display: flex;
+}
 .blind{
 	overflow: hidden;
 	clip: rect(1px,1px,1px,1px);
@@ -82,13 +87,14 @@
 .wrap_top_btns .wrap_my_layer button.top_btn.on+.top_layer_assist{
 	display: inline-block;
 	z-index: 2;
+	display: none;
+	
 }
 
 .top_layer_assist{
 	position: absolute;
 	display: none;
 	overflow: hidden;
-	top: 30px;
 	right: -153px;
 	padding-top: 23px;
 	width: 376px;
@@ -153,8 +159,134 @@
 	overflow: clip;
 }
 
-/* .modal-back{
-	 position: fixed;
-  	top:0; left: 0; bottom: 0; right: 0;
-  	background: rgba(0, 0, 0, 0.8);
-} */
+
+.my-img{
+	width: 30px;
+}
+.my-btn{
+	display: flex;
+	padding: 8.5px;
+}
+.my-name{
+    display: flex;
+    align-items: center;
+}
+.my-list>li{
+	list-style: none;
+}
+.myInner{
+	display: block;
+	margin: 0 auto;
+	border: 0;
+	overflow-clip-margin: content-box;
+	overflow: clip;
+	letter-spacing: -1px;
+	
+}
+.lyMyArea{
+	position: relative;
+	 	display: none;
+}
+
+.myInner{
+	position: absolute;
+	overflow: hidden;
+	width: 130px;
+  	left: -20px;
+	text-align: center;
+
+	padding-top: 23px;
+	border:1px solid #d7dce5;
+	border-radius: 16px;
+	box-sizing: border-box;
+/* 	letter-spacing: -1px; */
+	background-color: #fff;
+	box-shadow: 2px 6px 16px 0 rgba(17,42,128,0.08);
+	padding: 13px;
+}
+a{
+	text-decoration: none;
+}
+.myLists{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.my-item{
+	margin-bottom: 5px;
+}
+/* .my{
+	position: relative;
+	margin-left: -1px;
+	webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 20px 10px;
+	height: 100%;
+	background-color: orange;
+}
+
+.iop-cp{
+	position: relative;
+	padding-left: 29px;
+	margin-top: -1px;
+	font-size: 16px;
+	line-height: 28px;
+	color: #3F3D3A;
+	display: block;
+	text-decoration: none;
+	cursor: pointer;
+	
+}
+.btnOpen .my .spGnb{
+	background: rgb(0,0,0,0);
+}
+.userNav-item .user-nickname{
+	display: block;
+	max-width: 82px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	letter-spacing: normal;
+}
+.skip{
+	position: absolute;
+	overflow: hidden;
+	width: 1px;
+	height: 1px;
+	clip: rect(0 0 0 0);
+	margin: -1px;
+}
+.lyArea .my .member{
+	left: auto;
+	right: 0;
+}
+.lyMyArea{
+	display: none;
+	width: 184px;
+	position: absolute;
+	top: 62px;
+	background-color: gray;
+	border: 1px solid #6a6a6a;
+	border-radius: 8px;
+	z-index: 2;
+	box-shadow: 0 2px 8px rgba(0,0,0, 08);
+	overflow: hidden;
+}
+.myLists .lyMyArea{
+	padding: 12px 0;
+	text-align: left;
+}
+.myLists > li{
+	list-style: none;
+}
+ */
+
+
+
+
+
+
+
+
+
+

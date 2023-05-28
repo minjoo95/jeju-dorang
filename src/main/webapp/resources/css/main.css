@@ -11,7 +11,19 @@
 	
 }
 
+*{
+	margin: 0 auto;
+	padding: 0;
+}
+
 .card-img-top{
 	width: 100px;
 	height: 100px;
+}
+
+.card{
+	display: flex;
+}
+.card-item{
+	flex: 1;
 }

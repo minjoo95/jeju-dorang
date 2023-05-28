@@ -93,6 +93,14 @@ public class BoardComments {
 	public void setComment_depth(int comment_depth) {
 		this.comment_depth = comment_depth;
 	}
+
+	@Override
+	public String toString() {
+		return "BoardComments [comment_no=" + comment_no + ", user_id=" + user_id + ", board_id=" + board_id
+				+ ", comment_content=" + comment_content + ", comment_reg_date=" + comment_reg_date
+				+ ", parent_comment_no=" + parent_comment_no + ", comment_group_order=" + comment_group_order
+				+ ", comment_depth=" + comment_depth + "]";
+	}
 	
 	
 
