@@ -6,33 +6,36 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="../resources/css/main.css" />
+	
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>  
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <title>동행 글 목록</title>
 <style type="text/css">
+	
+	
+		
 	.card-tags{
 		font-size: 13px;
 		border-radius: 15px;
 	}
 	.card-top-tags .card-tags{
-		border: 1px solid var(--color-sub);
+		border: 1px solid  #3CB728;
 		padding: 0px 13px;
 	}
 	.card-bottom-tags .card-tags{
 		padding: 0px 3px;
-		color : var(--color-accent);
+		color :  #FB7A51;
 	}
 	.insertMate-title:hover {
-	text-shadow: 1px 1px 1px var(--color-warning);
+	text-shadow: 1px 1px 1px  #FB7A51;
 }
 </style>
 </head>
 <body>
- <jsp:include page="../header.jsp"></jsp:include>
+<jsp:include page="../header.jsp"></jsp:include>
  <div class="container" >
-  <div class="content-title" style="background-color:var(--color-accent); height: 200px;" > section 타이틀 제주도 여행 같이 가요! (미정)</div>
+  <div class="content-title" style="background-color: #FB7A51; height: 200px;" > section 타이틀 제주도 여행 같이 가요! (미정)</div>
  	<h3 style="padding:50px 0px">동행 목록</h3>
  		<div class="container-top d-flex justify-content-between mb-5">
 	 		<div class="sort-btn-group">
@@ -47,10 +50,10 @@
 		 		</span>
 		 	<c:choose>
 		 		<c:when test="${sessionScope.user !=null}">
-		 			<a href="${contextPath}/mate/writeform" class="insertMate-title hoverable" style="font-size: 32px; color: var(--color-accent); text-decoration: none; margin-left: 10px">동행모집글쓰기</a>
+		 			<a href="${contextPath}/mate/writeform" class="insertMate-title hoverable" style="font-size: 32px; color: #FB7A51; text-decoration: none; margin-left: 10px">동행모집글쓰기</a>
 		 		</c:when>
 		 		<c:otherwise>
-		 			<a href="javascript:void(0);" onclick="alert('로그인이 필요합니다');" class="insertMate-title" style="font-size: 32px; color: var(--color-accent); text-decoration: none; margin-left: 10px">동행모집글쓰기</a>
+		 			<a href="javascript:void(0);" onclick="alert('로그인이 필요합니다');" class="insertMate-title" style="font-size: 32px; color:  #FB7A51;margin-left: 10px">동행모집글쓰기</a>
 		 		</c:otherwise>
 		 	</c:choose>
 	 		</div>
@@ -61,7 +64,7 @@
 				  <div class="col">
 				   <a href="${contextPath}/mate/selectMate?mate_code=${mt.mate_code}" class="card-link" style="text-decoration: none; outline: none; color: #000;" >
 				   <div class="mate-status d-flex justify-content-end" style=" font-size: 12px;">
-				    	<p style="color:  var(--color-accent); margin-right:5px; margin-bottom:2px">${mt.status}</p>
+				    	<p style="color:  #FB7A51; margin-right:5px; margin-bottom:2px">${mt.status}</p>
 				    	<p style="margin-bottom:2px">조회수&nbsp;${mt.count}</p>
 				    </div>
 				    <div class="card h-100 shadow p-2">
@@ -74,7 +77,7 @@
 					      <label class="card-tags">${mt.age}</label>
 					      <label class="card-tags">${mt.gender}</label>
 				      </div>
-				      <img src="${contextPath}/resources/img/${mt.image}" class="card-img-top mt-2 mb-3" alt="제주도모집이미지">
+				      <img src="${contextPath}/resources/img/${mt.image}" class="card-img-top mt-2 mb-3" alt="제주도모집이미지" height="150px;">
 					  <div class="card-bottom-tags d-flex flex-wrap justify-content-around justify-content-md-between mb-3">
 					      <label class="card-tags">#태그split예정</label>
 					      <label class="card-tags">#태그split예정</label>
