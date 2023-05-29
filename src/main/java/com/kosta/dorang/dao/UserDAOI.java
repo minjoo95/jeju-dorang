@@ -17,5 +17,7 @@ public interface UserDAOI {
 	public void insertUserPicAndAge(HashMap<String, Object> userInfo) throws Exception;
 	public void insertUserPicAndGender(HashMap<String, Object> userInfo) throws Exception;
 	
-	public void updateUser(HashMap<String, Object> userInfo) throws Exception;
+	public void updateUserPic(HashMap<String, Object> userInfo) throws Exception;
+	public void updateUserAge(HashMap<String, Object> userInfo) throws Exception;
+	public void updateUserGender(HashMap<String, Object> userInfo) throws Exception;
 }

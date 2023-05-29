@@ -29,12 +29,7 @@ public class UserDAO implements UserDAOI {
 		return sqlSession.selectOne("UserMapper.selectUser", userInfo.get("user_code"));
 	}
 
-	@Override
-	public void updateUser(HashMap<String, Object> userInfo) throws Exception {
-		sqlSession.update("UserMapper.updateUser", userInfo);
-	}
-
-	
+	// INSERT	
 	@Override
 	public void insertUserNothing(HashMap<String, Object> userInfo) throws Exception {
 		sqlSession.insert("UserMapper.insertUserNothing", userInfo);		
@@ -69,7 +64,24 @@ public class UserDAO implements UserDAOI {
 	public void insertUserPicAndGender(HashMap<String, Object> userInfo) throws Exception {
 		sqlSession.insert("UserMapper.insertUserPicAndGender", userInfo);			
 	}
-	
-	
 
+	
+	// UPDATE
+	@Override
+	public void updateUserPic(HashMap<String, Object> userInfo) throws Exception {
+		sqlSession.update("UserMapper.updateUserPic", userInfo);
+	}
+
+	@Override
+	public void updateUserAge(HashMap<String, Object> userInfo) throws Exception {
+		sqlSession.update("UserMapper.updateUserAge", userInfo);
+	}
+
+	@Override
+	public void updateUserGender(HashMap<String, Object> userInfo) throws Exception {
+		sqlSession.update("UserMapper.updateUserGender", userInfo);
+	}
+	
+	
+	
 }
