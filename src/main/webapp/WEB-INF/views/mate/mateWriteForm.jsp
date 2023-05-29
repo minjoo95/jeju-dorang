@@ -8,7 +8,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>모집글등록하기</title>
-    <link rel="stylesheet" type="text/css" href="../resources/css/main.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>  
@@ -115,11 +114,11 @@ function goInsert() {
           <div class="row">
          <div class="col-md-6 container container_1" >
 	 			 <div class="mb-5" >
-				    <label for="title" class="form-label" style="color: var(--color-accent);">제목</label>
+				    <label for="title" class="form-label" style="color: #FB7A51;">제목</label>
 				    <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력해주세요">
 	  			 </div> 
 			  	 <div class="mb-3 ">
-			  	    <label for="content" class="form-label" style="color: var(--color-accent);">내용</label>
+			  	    <label for="content" class="form-label" style="color:  #FB7A51;">내용</label>
 				    <textarea class="form-control" placeholder="내용을 입력해주세요" id="content" name="content" style="height:440px; resize: none;"></textarea>
 	  			 </div>
           </div>
@@ -127,7 +126,7 @@ function goInsert() {
           	<div class="row">
           	<div class="container container_2_left col">
 			  		  	<div class="mb-3">
-						    <label class="form-label" style="color: var(--color-accent);">동행타입</label>
+						    <label class="form-label" style="color: #FB7A51;">동행타입</label>
 						     <div  role="group" aria-label="Basic mixed styles example">
 								 <input type="radio" class="btn-check" name="type" id="type_1" autocomplete="off" value="전체동행" checked >
 								 <label class="btn btn-outline-warning mb-2" for="type_1" style=" font-size: 13px;">전체동행 </label>
@@ -139,7 +138,7 @@ function goInsert() {
 			  			</div>
 			  		   <div class="mb-3">
 					  	    <label  class="form-label">
-					  	    <span style="color: var(--color-accent);">지역선택</span>
+					  	    <span style="color:  #FB7A51;">지역선택</span>
 					  	    <span style="padding-left:10px; font-size: 12px">동서남북 중에 골라주세요</span></label>
 							  <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="direction" name="direction" style="font-size: 13px;" >
 			  					<option selected>지역을 선택하세요</option>
@@ -151,7 +150,7 @@ function goInsert() {
 			  		  </div>
 			  		  <div class="mb-3">
 					  	    <label class="form-label">
-					  	    	<span style="color: var(--color-accent);">인원수</span>
+					  	    	<span style="color: #FB7A51;">인원수</span>
 						  	    <span style="padding-left:10px; font-size: 12px;">동행 인원수를 선택해세주세요</span>
 						  	    <span style="padding-left:5px; font-size: 10px; font-weight: 800">최대 5명</span>
 					  	    </label>
@@ -165,7 +164,7 @@ function goInsert() {
 			     		</div>
 						<div class="mb-3">
 					  	    <label class="form-label">
-					  	     <span  style="color: var(--color-accent);">연령대</span>
+					  	     <span  style="color: #FB7A51;">연령대</span>
 					  	     <span style="padding-left:10px; font-size: 12px">원하는 연령대를 선택해세주세요</span></label>
 						     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="age" name="age" style="font-size: 13px;">
 			  					<option selected>연령대를 선택해주세요</option>
@@ -177,7 +176,7 @@ function goInsert() {
 			  			  </div>  		  
 			  		    <div class="mb-3">
 					  	    <label class="form-label">
-					  	    <span style="color: var(--color-accent);">성별</span>
+					  	    <span style="color:  #FB7A51;">성별</span>
 					  	    <span style="padding-left:10px; font-size: 12px">원하는 성별을 선택해주세요</span></label>
 						      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="gender" name="gender" style="font-size: 13px;">
 			  					<option selected>성별을 선택해주세요</option>
@@ -189,7 +188,7 @@ function goInsert() {
 			  	</div> <!-- container container_2_left -->
                 <div class ="container container_2_right col">
 			  		 	 <div class="mb-4">
-						    <label class="form-label" style="color: var(--color-accent); margin-right: 10px">
+						    <label class="form-label" style="color:  #FB7A51; margin-right: 10px">
 						         기간
 						    	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16">
 								  <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
@@ -201,7 +200,7 @@ function goInsert() {
 			  			 <div class="mb-4" >        
 			  			    <input type="hidden" id="tags" name="tags" value=""/>
 					  	    <label class="form-label" style="padding-bottom: 10px;">
-						  	    <span style="color: var(--color-accent);">태그를 선택해주세요</span>
+						  	    <span style="color:  #FB7A51;">태그를 선택해주세요</span>
 						  	    <span style="font-size: 12px;display: block;">둘 중 하나만 선택해주세요</span>
 					  	    </label>
 						      <div class="btn-group" role="group" aria-label="Basic mixed styles example" style="padding-bottom: 10px; width: 100%">
@@ -231,7 +230,7 @@ function goInsert() {
 			  			 </div>
 			  			 <div class="mb-3 mt-3">
 					  	    <label>
-					  	    <span style="color: var(--color-accent);">진행여부</span>
+					  	    <span style="color:  #FB7A51;">진행여부</span>
 					  	    <span style="display:block; font-size: 12px; margin-bottom: 10px">추후 동행이 다 모이면 모집 완료로 변경해주세요</span></label>
 						      <div class="btn-group" role="group" aria-label="Basic mixed styles example">
 								   <input class="form-check-input" type="radio" name="status" id="status1" value="진행중" checked style="font-size: 13px; margin-right: 8px;"> 
@@ -248,7 +247,7 @@ function goInsert() {
 			  		 <div class="container container_2_right_bottom">
 			  		  <div class="mb-3">
 			  			 <label for="imageFile" class="mb-3">
-							  <div class="btn-upload btn" style="background-color: var(--color-accent); color: #ffff; font-size: 13px;" >사진 업로드
+							  <div class="btn-upload btn" style="background-color:  #FB7A51; color: #ffff; font-size: 13px;" >사진 업로드
 							  	 <span>
 								  	 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera-fill" viewBox="0 0 16 16">
 									  <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
@@ -269,7 +268,7 @@ function goInsert() {
 		  </div>
 		  <div class="col container container_2">
   	    	 <h3>
-  	    	 	<span style="font-size: 16px; color: var(--color-accent);">동행에게 하는 질문</span>
+  	    	 	<span style="font-size: 16px; color: #FB7A51;">동행에게 하는 질문</span>
   	    	    <span  style="font-size: 13px">최대 3개</span>
   	    	  </h3>
   	    	 <div class="mb-3" >
