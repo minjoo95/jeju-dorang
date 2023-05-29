@@ -21,16 +21,18 @@ public class UserController {
 	@Autowired
 	HttpSession session;
 	@Autowired
-	UserServiceI userSerivce;
+	UserServiceI userService;
 	@Autowired
 	User user;
 	
 	String access_tok;
+	String access_tok_addition;
 	
 	@RequestMapping(value="/kakaoCallback", method = RequestMethod.GET)
 	public String kakaoCallBack(@RequestParam(value = "code", required = false) String code) throws Throwable {
-		access_tok = userSerivce.getAccess_Token(code);
-		user = userSerivce.getUserInfo(access_tok);
+		access_tok = userService.getAccess_Token(code);
+		System.out.println("처음 aT"+access_tok);
+		user = userService.getUserInfo(access_tok);
 		
 		// HttpSession session에 "user" : (Long) user_code
 		session.setAttribute("user", user.getUser_code());
@@ -39,7 +41,7 @@ public class UserController {
 	
 	@RequestMapping(value="/logout")
 	public String logout(HttpSession session) throws Exception {
-		userSerivce.getLogout(access_tok);
+		userService.getLogout(access_tok);
 		session.setAttribute("user", null);
 		session.setAttribute("userInfo", null);
 		return "redirect:/";
@@ -48,5 +50,14 @@ public class UserController {
 	@RequestMapping(value="/mypage")
 	public String myPage() {
 		return "myPage";
+	}
+	
+	@RequestMapping(value="/kakaoAddition")
+	public String kakaoAdditionAge(@RequestParam(value = "code", required = false) String code) throws Throwable {
+		access_tok_addition = userService.getAccess_TokenAddition(code);
+		System.out.println("추가 aT:"+access_tok_addition);
+		access_tok = access_tok_addition;
+		user = userService.getUserInfoAddition(access_tok);
+		return "redirect:/user/mypage";
 	}
 }

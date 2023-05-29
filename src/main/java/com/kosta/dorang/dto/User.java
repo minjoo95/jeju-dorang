@@ -7,18 +7,22 @@ public class User {
 	private Long user_code;
 	private String user_id;
 	private String user_nickname;
+	private String user_nickname_local;
 	private String user_pic;
+	private String user_pic_local;
 	private String user_age_range;
 	private String user_gender;
 	private String user_tag;
 	
 	public User() {}
-	public User(long user_code, String user_id, String user_nickname, String user_pic, String user_age_range, String user_gender, String user_tag) {
+	public User(long user_code, String user_id, String user_nickname, String user_nickname_local, String user_pic, String user_pic_local, String user_age_range, String user_gender, String user_tag) {
 		super();
 		this.user_code=user_code;
 		this.user_id=user_id;
 		this.user_nickname=user_nickname;
+		this.user_nickname_local=user_nickname_local;
 		this.user_pic=user_pic;
+		this.user_pic_local=user_pic_local;
 		this.user_age_range=user_age_range;
 		this.user_gender=user_gender;
 		this.user_tag=user_tag;

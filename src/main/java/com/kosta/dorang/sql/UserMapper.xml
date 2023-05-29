@@ -68,4 +68,20 @@
 		]]>
 	</insert>
 	
+	<update id="updateUserPic" parameterType="hashMap">
+		<![CDATA[
+		update user set user_pic=#{user_pic} where user_code=#{user_code}
+		]]>
+	</update>
+	<update id="updateUserAge" parameterType="hashMap">
+		<![CDATA[
+		update user set user_age_range=#{user_age_range} where user_code=#{user_code}
+		]]>
+	</update>
+	<update id="updateUserGender" parameterType="hashMap">
+		<![CDATA[
+		update user set user_gender=#{user_gender} where user_code=#{user_code}
+		]]>
+	</update>
+	
 </mapper>
