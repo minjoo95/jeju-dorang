@@ -84,7 +84,7 @@
 														<img class="my-img" alt=""
 															src="<c:url value="/resources/img/person_outline.png"/>">
 													</div>
-													<div class="my-name">
+ 													<div class="my-name">
 														<div class="user-nickname">응시미</div>
 													</div>
 												</div>
