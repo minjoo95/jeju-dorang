@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+
+3<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -43,7 +44,7 @@
 			</div>
 		</div>
 		<div class="selectMyPic">
-			<form method="post" enctype="multipart/form-data" onsubmit="submitPic(event)" action="${contextPath }/user/submitPic">
+			<form method="post" enctype="multipart/form-data">
 				<div class="picButton">
 					<label for="chooseFile" class="picLabel">
 						<img class="cameraIcon" src="<c:url value="/resources/img/icon_pic.png"/>" alt="picIcon" />
@@ -51,7 +52,6 @@
 				</div>
 				<input type="file" id="chooseFile" name="chooseFile" accept="image/*"
 					onchange="loadFile(this)">
-				<input type="submit" style="display:none;">
 			</form>
 		</div>
 		<c:if test="${sessionScope.userInfo.user_pic eq null }">
@@ -169,11 +169,11 @@
 		
 		document.getElementById('myPic').src = newImg; // 업로드한 파일 url로 바꿔주기
 		
-		submitPic(event);
+		document.forms[0].submit();
+		submit();
 	}
 	function submitPic(event){
 		event.preventDefault();
-		document.forms[0].submit();
 	}
 	
 	const open = document.querySelector(".nicknameModifyOpenBtn");

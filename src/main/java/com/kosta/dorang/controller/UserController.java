@@ -1,5 +1,7 @@
 package com.kosta.dorang.controller;
 
+import java.io.File;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.UserServiceI;
@@ -59,12 +60,10 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/submitPic", method = RequestMethod.POST)
-	public void submitPic(@RequestParam(value = "chooseFile", required = false) MultipartFile local_pic) throws Throwable {
+	public void submitPic(@RequestParam(value = "chooseFile", required = false) File local_pic) throws Throwable {
+		System.out.println("dddddddddddd");
 		System.out.println("-------------submitPic-----------------");
-		System.out.println("contentType"+local_pic.getContentType());
-		System.out.println("name"+local_pic.getName());
-		System.out.println("filename"+local_pic.getOriginalFilename());
-		System.out.println("tostring"+local_pic.toString());
+		System.out.println(local_pic);
 	}
 	
 }
