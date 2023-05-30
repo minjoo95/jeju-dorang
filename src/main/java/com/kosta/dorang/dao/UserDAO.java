@@ -81,6 +81,14 @@ public class UserDAO implements UserDAOI {
 	public void updateUserGender(HashMap<String, Object> userInfo) throws Exception {
 		sqlSession.update("UserMapper.updateUserGender", userInfo);
 	}
+
+	
+	
+	// DLETE
+	@Override
+	public void deleteUserPicLocal(HashMap<String, Object> userInfo) throws Exception {
+		sqlSession.update("UserMapper.deleteUserPicLocal", userInfo);
+	}
 	
 	
 	

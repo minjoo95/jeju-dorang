@@ -195,11 +195,9 @@ public class UserService implements UserServiceI {
 			} else userDAO.insertUserAll(userInfo);  
 			
 			session.setAttribute("userInfo", user);
-			session.setAttribute("userFix", user);
 			return userDAO.selectUser(userInfo);
 		} else {
 			session.setAttribute("userInfo", user);
-			session.setAttribute("userFix", user);
 			return user;
 		}
 	}
@@ -371,6 +369,7 @@ public class UserService implements UserServiceI {
 		
 		if(user.getUser_pic() == null && userInfo.get("user_pic") != null) {
 			userDAO.updateUserPic(userInfo);
+			userDAO.deleteUserPicLocal(userInfo); // 프사 연동해서 프사 가져왔으니까 로컬사진 null로 리셋해주기 -- 바로 프사 뜰 수 있게
 		}
 		if(user.getUser_age_range() == null && userInfo.get("user_age_range") != null) {
 			userDAO.updateUserAge(userInfo);
@@ -381,7 +380,6 @@ public class UserService implements UserServiceI {
 		// DB update 후 다시 가져오는 user
 		user = userDAO.selectUser(userInfo);
 		session.setAttribute("userInfo", user);
-		session.setAttribute("userFix", user);
 		return user;
 	}
 

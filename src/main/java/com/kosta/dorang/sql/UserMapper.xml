@@ -7,7 +7,9 @@
 		<result property="user_code" column="user_code" />
 		<result property="user_id" column="user_id" />
 		<result property="user_nickname" column="user_nickname" />
+		<result property="user_nickname_local" column="user_nickname_local" />
 		<result property="user_pic" column="user_pic" />
+		<result property="user_pic_local" column="user_pic_local" />
 		<result property="user_age_range" column="user_age_range" />
 		<result property="user_gender" column="user_gender" />
 		<result property="user_tag" column="user_tag" />
@@ -81,6 +83,12 @@
 	<update id="updateUserGender" parameterType="hashMap">
 		<![CDATA[
 		update user set user_gender=#{user_gender} where user_code=#{user_code}
+		]]>
+	</update>
+	
+	<update id="deleteUserPicLocal" parameterType="hashMap">
+	<![CDATA[
+		update user set user_pic_local=null where user_code=#{user_code}
 		]]>
 	</update>
 	

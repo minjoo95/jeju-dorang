@@ -19,18 +19,31 @@
 	<div class = "leftPicBox">
 		<div class = "myPicBox">
 			<div class = "myPicCircle" style="background: #D9D9D9">
+			
 				<c:choose>
-					<c:when test="${user_pic eq null} ">
-						<img class="myPic" id="myPic" src="<c:url value="/resources/img/mangul2.png"/>" alt="profilePic" />
+					<c:when test="${sessionScope.userInfo.user_pic eq null} "> 
+						<c:if test="${sessionScope.userInfo.user_pic_local eq null }">
+							<img class="myPic" id="myPic" src="<c:url value="/resources/img/mangul2.png"/>" alt="profilePic" />
+						</c:if>
+						<c:if test="${sessionScope.userInfo.user_pic_local ne null }">
+							<img class="myPic" id="myPic" src="<c:url value="${sessionScope.userInfo.user_pic_local }"/>" alt="profilePic" />
+						</c:if>
 					</c:when>
+					
 					<c:otherwise>
-						<img class="myPic" id="myPic" src="<c:url value="${user_pic }"/>" alt="profilePic" />
+						<c:if test="${sessionScope.userInfo.user_pic_local eq null }">
+							<img class="myPic" id="myPic" src="<c:url value="${sessionScope.userInfo.user_pic }"/>" alt="profilePic" />
+						</c:if>
+						<c:if test="${sessionScope.userInfo.user_pic_local ne null }">
+							<img class="myPic" id="myPic" src="<c:url value="${sessionScope.userInfo.user_pic_local }"/>" alt="profilePic" />
+						</c:if>
 					</c:otherwise>
 				</c:choose>	
+
 			</div>
 		</div>
 		<div class="selectMyPic">
-			<form method="post" enctype="multipart/form-data">
+			<form method="post" enctype="multipart/form-data" onsubmit="submitPic(event)" action="${contextPath }/user/submitPic">
 				<div class="picButton">
 					<label for="chooseFile" class="picLabel">
 						<img class="cameraIcon" src="<c:url value="/resources/img/icon_pic.png"/>" alt="picIcon" />
@@ -38,14 +51,15 @@
 				</div>
 				<input type="file" id="chooseFile" name="chooseFile" accept="image/*"
 					onchange="loadFile(this)">
+				<input type="submit" style="display:none;">
 			</form>
 		</div>
-		<c:if test="${sessionScope.userFix.user_pic eq null }">
-				<div class="additionalPic">
-					<a class="additionPic" href="https://kauth.kakao.com/oauth/authorize?client_id=a62a2c16a4182ec20a1185a3f707c2b1&redirect_uri=http://localhost:8080/dorang/user/kakaoAddition&response_type=code&scope=profile_image">
-						카카오 프로필 사진 연동
-					</a>
-				</div>
+		<c:if test="${sessionScope.userInfo.user_pic eq null }">
+			<div class="additionalPic">
+				<a class="additionPic" href="https://kauth.kakao.com/oauth/authorize?client_id=a62a2c16a4182ec20a1185a3f707c2b1&redirect_uri=http://localhost:8080/dorang/user/kakaoAddition&response_type=code&scope=profile_image">
+					카카오 프로필 사진 연동
+				</a>
+			</div>
 		</c:if>
 	</div>
 	
@@ -101,16 +115,16 @@
 					</c:choose>
 				</div>
 				<div class = "additionalAgeAndGender">
-					<c:if test="${sessionScope.userFix.user_age_range eq null }">
+					<c:if test="${sessionScope.userInfo.user_age_range eq null }">
 						<div class="additionalAge additAgeGender">
-							<a class="additionAge" href="https://kauth.kakao.com/oauth/authorize?client_id=a62a2c16a4182ec20a1185a3f707c2b1&redirect_uri=http://localhost:8080/dorang/user/kakaoAddition&response_type=code&scope=user_range">
+							<a class="additionAge" href="https://kauth.kakao.com/oauth/authorize?client_id=a62a2c16a4182ec20a1185a3f707c2b1&redirect_uri=http://localhost:8080/dorang/user/kakaoAddition&response_type=code&scope=age_range">
 								카카오 나이 연동
 							</a>
 						</div>
 					</c:if>
-					<c:if test="${sessionScope.userFix.user_gender eq null }">
+					<c:if test="${sessionScope.userInfo.user_gender eq null }">
 						<div class="additionalGender additAgeGender">
-							<a class="additionGender" href="https://kauth.kakao.com/oauth/authorize?client_id=a62a2c16a4182ec20a1185a3f707c2b1&redirect_uri=http://localhost:8080/dorang/user/kakaoAddition&response_type=code&scope=user_gender">
+							<a class="additionGender" href="https://kauth.kakao.com/oauth/authorize?client_id=a62a2c16a4182ec20a1185a3f707c2b1&redirect_uri=http://localhost:8080/dorang/user/kakaoAddition&response_type=code&scope=gender">
 								카카오 성별 연동
 							</a>
 						</div>
@@ -125,7 +139,7 @@
 				<div class = "nicknameModifyModal hiddenNicknameModal">
 					<p class = "nickModalNotice" id= "nickNoticeTitle">닉네임 수정</p>
 					<p class = "nickModalNotice">사용하실 닉네임을 입력해주세요.</p> 
-					<p class = "nickModalNotice" id="nickNoticeLimit">(최대 20자, 닉네임에는 이모지, <, >, \, '를 사용할 수 없습니다.)</span></p>
+					<p class = "nickModalNotice" id="nickNoticeLimit">(최대 5자, 닉네임에는 이모지, <, >, \, '를 사용할 수 없습니다.)</span></p>
 					<div class = "nicknameTextBox nickModalNotice">
 						<input type="text" name="modifingNickname" class = "modifingNickname" /><a href="${contextPath }/user/checkDuplicated">중복확인</a>
 						<div class = "nicknameModalBottom">
@@ -143,9 +157,6 @@
 	</div>
 </div>
 
-
-
-
 <script>
 
 	// ** 이미지 선택하면 보여지는 이미지 변경해주는 함수 -- 나중에 프로필 수정버튼 눌렀을 때 확정해주기
@@ -153,18 +164,16 @@
 		// 선택된 파일 가져옴
 		let file = input.files[0];
 		
-		
 		let name = file.name; // 파일 이름: mangul2.png
 		let newImg = URL.createObjectURL(file); // 선택한 파일 url : blob:http://localhost:8080/55f926e1-0d1b-47fd-b6e3-1f2a40b7abb8
 		
-		console.log(name);
-		console.log(newImg);
-		console.log("${sessionScope.userInfo.user_gender}");
-		console.log("${sessionScope.userInfo.user_age_range}");
-
-		console.log(document.getElementById('myPic').src); // myPic클래스의 src값
 		document.getElementById('myPic').src = newImg; // 업로드한 파일 url로 바꿔주기
-		console.log("${sessionScope.userFix.user_pic}");
+		
+		submitPic(event);
+	}
+	function submitPic(event){
+		event.preventDefault();
+		document.forms[0].submit();
 	}
 	
 	const open = document.querySelector(".nicknameModifyOpenBtn");
