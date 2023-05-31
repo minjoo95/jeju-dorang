@@ -22,4 +22,5 @@ public interface UserDAOI {
 	public void updateUserGender(HashMap<String, Object> userInfo) throws Exception;
 	
 	public void deleteUserPicLocal(HashMap<String, Object> userInfo) throws Exception;
+	
 }

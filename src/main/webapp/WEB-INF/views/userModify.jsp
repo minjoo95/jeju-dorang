@@ -1,7 +1,8 @@
 
-3<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="<%=request.getContextPath() %>" />
 
 <!DOCTYPE unspecified PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <link rel="stylesheet" type="text/css"  href="<c:url value="/resources/css/userModify.css"/>">
@@ -9,6 +10,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/5c78b43849.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
 
 <c:set var="contextPath" value="<%=request.getContextPath() %>" />
 <c:set var="id" value="${sessionScope.user }" />
@@ -44,14 +47,13 @@
 			</div>
 		</div>
 		<div class="selectMyPic">
-			<form method="post" enctype="multipart/form-data">
+			<form action="${contextPath }/user/uploadUserPic" method="post" enctype="multipart/form-data">
 				<div class="picButton">
 					<label for="chooseFile" class="picLabel">
 						<img class="cameraIcon" src="<c:url value="/resources/img/icon_pic.png"/>" alt="picIcon" />
 					</label>
 				</div>
-				<input type="file" id="chooseFile" name="chooseFile" accept="image/*"
-					onchange="loadFile(this)">
+				<input type="file" id="chooseFile" name="chooseFile" accept="image/*">
 			</form>
 		</div>
 		<c:if test="${sessionScope.userInfo.user_pic eq null }">
@@ -133,18 +135,23 @@
 			</div>
 			<div class = "nicknameBox">
 				<div class = "myNickname">
-					${sessionScope.userInfo.user_nickname }
+					<c:if test="${sessionScope.userInfo.user_nickname_local eq null }">
+						${sessionScope.userInfo.user_nickname.substring(0,7) }
+					</c:if>
+					<c:if test="${sessionScope.userInfo.user_nickname_local ne null }">
+						${sessionScope.userInfo.user_nickname_local }
+					</c:if>
 				</div>
 				<button class = "nicknameModifyOpenBtn">수정<i class="penIcon fa-solid fa-pencil"></i></button>
 				<div class = "nicknameModifyModal hiddenNicknameModal">
-					<p class = "nickModalNotice" id= "nickNoticeTitle">닉네임 수정</p>
-					<p class = "nickModalNotice">사용하실 닉네임을 입력해주세요.</p> 
-					<p class = "nickModalNotice" id="nickNoticeLimit">(최대 5자, 닉네임에는 이모지, <, >, \, '를 사용할 수 없습니다.)</span></p>
+					<p class = "nickModalNotice" id= "nickNoticeTitle">닉네임 변경</p>
+					<p class = "nickModalNotice" id= "nickNoticeSub">사용하실 닉네임을 입력해주세요.	</p> 
 					<div class = "nicknameTextBox nickModalNotice">
-						<input type="text" name="modifingNickname" class = "modifingNickname" /><a href="${contextPath }/user/checkDuplicated">중복확인</a>
+						<input type="text" name="modifyingNickname" class = "modifyingNickname" maxlength= "7" placeholder="최대 7글자" />
+						<div class = "checkRestriction">닉네임에는 이모지, <, >, \, '를 사용할 수 없습니다.</div>
 						<div class = "nicknameModalBottom">
-							<a href="${contextPath }/user/nicknameModifyConfirm">수정</a>
-							<button class = "nicknameModalCloseBtn">완료</button>
+							<button class="nickNameBottomBtn" id="nickModifyBtn">수정</button>
+							<button class = "nicknameModalCloseBtn nickNameBottomBtn" id="nickCancleBtn">취소</button>
 						</div>
 					</div>
 				</div>
@@ -158,23 +165,6 @@
 </div>
 
 <script>
-
-	// ** 이미지 선택하면 보여지는 이미지 변경해주는 함수 -- 나중에 프로필 수정버튼 눌렀을 때 확정해주기
-	function loadFile(input){
-		// 선택된 파일 가져옴
-		let file = input.files[0];
-		
-		let name = file.name; // 파일 이름: mangul2.png
-		let newImg = URL.createObjectURL(file); // 선택한 파일 url : blob:http://localhost:8080/55f926e1-0d1b-47fd-b6e3-1f2a40b7abb8
-		
-		document.getElementById('myPic').src = newImg; // 업로드한 파일 url로 바꿔주기
-		
-		document.forms[0].submit();
-		submit();
-	}
-	function submitPic(event){
-		event.preventDefault();
-	}
 	
 	const open = document.querySelector(".nicknameModifyOpenBtn");
 	const close = document.querySelector(".nicknameModalCloseBtn");
@@ -186,9 +176,67 @@
 		});
 		close.addEventListener("click", function() {
 			modal.classList.add("hiddenNicknameModal"); // close버튼 누르면 display:none 적용되는 클래스 이름 추가하기 --> 닫힘
+			$(".modifyingNickname").html("");
 		});
 	}
 	
 	init();
 	
+</script>
+
+<script>
+
+ 	var defaultUserPic = "../resources/img/mangul2.png" // 프사 없으면 디폴트 
+	var prevText = $(".checkRestriction").text(); // 닉네임 제한 요소 알림 문구
+	console.log(prevText);
+ 	
+$(document).ready(function(){
+	$("#chooseFile").on("change", function(e){
+		var formData = new FormData();
+		var inputFile = $("input[name='chooseFile']");
+		var files = inputFile[0].files;
+		console.log(files);
+	
+		// 이미지 변경 : files에서는 URL을 가져올 수 없기 때문에 FileReader 객체 생성해서, 거기서 URL 불러와주기
+		if(files && files[0]){
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			var fileURL = e.target.result;	
+			$("#myPic").attr("src", fileURL);
+			console.log(fileURL);
+		};
+		reader.readAsDataURL(files[0]);
+		}	
+	});
+	
+	$(".modifyingNickname").on('keyup', function(){
+		var modifyNickname = $(".modifyingNickname").val();
+		console.log(prevText);
+ 		console.log(modifyNickname);
+
+ 		//공백만 입력된 경우
+ 		var blank_pattern = /^\s+|\s+$/g;
+ 		if(modifyNickname.replace(blank_pattern, '' ) == "" ){
+ 			$(".checkRestriction").text('공백이 입력되었습니다.');
+ 		}
+
+ 		//문자열에 공백이 있는 경우
+ 		blank_pattern = /[\s]/g;
+ 		if( blank_pattern.test(modifyNickname) == true){
+ 			$(".checkRestriction").text('공백이 입력되었습니다.');
+ 		}
+
+ 		//특수문자가 있는 경우
+ 		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+ 		if( special_pattern.test(modifyNickname) == true){
+ 			$(".checkRestriction").text('특수문자가 입력되었습니다.');
+ 		}
+
+ 		//공백 혹은 특수문자가 있는 경우
+ 		if( modifyNickname.search(/\W|\s/g) > -1){
+ 			$(".checkRestriction").text('특수문자 또는 공백이 입력되었습니다.');
+ 		}
+	});
+	
+}); 
 </script>

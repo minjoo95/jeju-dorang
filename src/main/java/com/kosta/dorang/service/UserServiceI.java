@@ -9,4 +9,5 @@ public interface UserServiceI {
 	
 	String getAccess_TokenAddition(String code) throws Throwable;
 	public User getUserInfoAddition(String access_token) throws Exception;
+	
 }

@@ -17,7 +17,7 @@
 
 /* 박스 레이아웃 */
 .wholeModifyBox {
-	margin:10px auto;
+	margin:30px auto;
 	padding: 5px;
 	display:flex;
 	flex-wrap:wrap;
@@ -203,51 +203,105 @@
 	background-color: #696969;
 	font-family: 'Dovemayo_gothic';
 }
+.nicknameModifyOpenBtn:hover {
+	cursor: pointer;
+}
 .penIcon {
 	padding-left: 6px;
 }
+
 
 /* 닉네임 모달 */
 .nicknameModifyModal {
 	position: absolute; /* 모달 창 독립 */
 	
+	margin-top: 30px;
+	margin-left:-100px;
 	width: 350px;
-	height: 150px;
+	height: 200px;
 	
 	display: flex;
 	flex-direction: column;
-	justify-content:flex-start;
+	justify-content:center;
 	align-itmes: center;
-	background-color: yellow;
+	background-color: white;
+	border: 1px solid #3CB728;
+	border-radius: 10px;
+	z-index:20;
+	
+	box-shadow: 0px 0px 5px #444
 }
 .nickModalNotice {
 	font-size: 0.9em;
 	margin-top: 2px;
-	margin-left: 5px;
 }
 #nickNoticeTitle {
-	font-size: 1.3em;
+	margin-top:10px;
+	font-size: 1.5em;
 	font-weight: bold;
 }
-#nickNoticeLimit {
-	font-size: 0.5em;
-	color: #E74747;
+#nickNoticeSub {
+	margin-top: -5px;
+	font-size: 0.9em;
 }
 .hiddenNicknameModal {
 	display: none;
 }
-.modifingNickname {
+
+.nicknameTextBox {
+	margin-top: 10px;	
+}
+
+.modifyingNickname {
+	font-size: 1.2em;
+	width: 300px;
+	height: 35px;
+	border: none;
+	border-bottom: 1px solid black;
+}
+.modifyingNickname:focus {
+    outline: none;   
+    border-bottom: 1px solid red; 
+  }
+.checkRestriction {
 	width: 100%;
+	height: 16px;
+	color: #E74747;
+	font-size: 0.3em;
 }
 .nicknameModalBottom {
 	display:flex;
-	flex-direction: row-reverse;
+	margin-left: -2px;
+	justify-content: space-between;
+}
+.nickNameBottomBtn {
+	margin: 5px;
+	width: 145px;
+	height: 35px;
+	border: none;
+	border-radius: 7px;
+}
+#nickModifyBtn {
+	background-color: #3CB728;
+}
+#nickModifyBtn:hover {
+	color:white;
+	font-weight: bold;
+	cursor: pointer;
+	background-color: #36a523;
+}
+#nickCancleBtn {
+	background-color: #D9D9D9;
+}
+#nickCancleBtn:hover {
+	color:white;
+	cursor: pointer;
+	background-color: #696969;
 }
 
 
 
-
-
+/* 태그 박스 */
 .tagBox {
 	margin-bottom: 5%;
 	border: 1px solid violet;

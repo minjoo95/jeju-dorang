@@ -1,7 +1,8 @@
 package com.kosta.dorang.controller;
 
-import java.io.File;
+import java.util.logging.Logger;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.UserServiceI;
 
+
 @Controller @RequestMapping("/user")
 public class UserController {
+   private static final Logger log = Logger.getLogger("myLogger");
 	
 	@Autowired
 	HttpSession session;
@@ -53,17 +56,10 @@ public class UserController {
 	@RequestMapping(value="/kakaoAddition")
 	public String kakaoAdditionAge(@RequestParam(value = "code", required = false) String code) throws Throwable {
 		access_tok_addition = userService.getAccess_TokenAddition(code);
-		System.out.println("추가 aT:"+access_tok_addition);
 		access_tok = access_tok_addition;
 		user = userService.getUserInfoAddition(access_tok);
 		return "redirect:/user/mypage";
 	}
 	
-	@RequestMapping(value="/submitPic", method = RequestMethod.POST)
-	public void submitPic(@RequestParam(value = "chooseFile", required = false) File local_pic) throws Throwable {
-		System.out.println("dddddddddddd");
-		System.out.println("-------------submitPic-----------------");
-		System.out.println(local_pic);
-	}
-	
-}
+}	
+

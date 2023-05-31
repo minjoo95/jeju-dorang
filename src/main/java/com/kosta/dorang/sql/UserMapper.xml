@@ -86,9 +86,15 @@
 		]]>
 	</update>
 	
+	
 	<update id="deleteUserPicLocal" parameterType="hashMap">
 	<![CDATA[
 		update user set user_pic_local=null where user_code=#{user_code}
+		]]>
+	</update>
+	<update id="updateUserNicknameLocal" parameterType="hashMap">
+		<![CDATA[
+		update user set user_nickname_local=#{user_nickname_local} where user_code=#{user_code}
 		]]>
 	</update>
 	
