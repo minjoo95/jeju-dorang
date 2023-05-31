@@ -134,24 +134,29 @@
 				</div>
 			</div>
 			<div class = "nicknameBox">
-				<div class = "myNickname">
-					<c:if test="${sessionScope.userInfo.user_nickname_local eq null }">
-						${sessionScope.userInfo.user_nickname.substring(0,7) }
-					</c:if>
-					<c:if test="${sessionScope.userInfo.user_nickname_local ne null }">
-						${sessionScope.userInfo.user_nickname_local }
-					</c:if>
-				</div>
-				<button class = "nicknameModifyOpenBtn">수정<i class="penIcon fa-solid fa-pencil"></i></button>
-				<div class = "nicknameModifyModal hiddenNicknameModal">
-					<p class = "nickModalNotice" id= "nickNoticeTitle">닉네임 변경</p>
-					<p class = "nickModalNotice" id= "nickNoticeSub">사용하실 닉네임을 입력해주세요.	</p> 
-					<div class = "nicknameTextBox nickModalNotice">
-						<input type="text" name="modifyingNickname" class = "modifyingNickname" maxlength= "7" placeholder="최대 7글자" />
-						<div class = "checkRestriction">닉네임에는 이모지, <, >, \, '를 사용할 수 없습니다.</div>
-						<div class = "nicknameModalBottom">
-							<button class="nickNameBottomBtn" id="nickModifyBtn">수정</button>
-							<button class = "nicknameModalCloseBtn nickNameBottomBtn" id="nickCancleBtn">취소</button>
+			<div class = "myCodeBox">
+				<div class = "myCode">#&nbsp;${sessionScope.userInfo.user_code.toString().substring(0,4) }</div>
+			</div>
+				<div class = "myNicknameBtnAndName">
+					<div class = "myNickname">
+						<c:if test="${sessionScope.userInfo.user_nickname_local eq null }">
+							${sessionScope.userInfo.user_nickname.substring(0,7) }
+						</c:if>
+						<c:if test="${sessionScope.userInfo.user_nickname_local ne null }">
+							${sessionScope.userInfo.user_nickname_local.substring(0,7) }
+						</c:if>
+					</div>
+					<button class = "nicknameModifyOpenBtn">변경<i class="penIcon fa-solid fa-pencil"></i></button>
+					<div class = "nicknameModifyModal hiddenNicknameModal">
+						<p class = "nickModalNotice" id= "nickNoticeTitle">닉네임 변경</p>
+						<p class = "nickModalNotice" id= "nickNoticeSub">사용하실 닉네임을 입력해주세요.	</p> 
+						<div class = "nicknameTextBox nickModalNotice">
+							<input type="text" name="modifyingNickname" class = "modifyingNickname" maxlength= "7" placeholder="최대 7글자" />
+							<div class = "checkRestriction">닉네임에는 공백, 이모지, 특수문자를 사용할 수 없습니다.</div>
+							<div class = "nicknameModalBottom">
+								<button class="nickNameBottomBtn" id="nickModifyBtn">수정</button>
+								<button class = "nicknameModalCloseBtn nickNameBottomBtn" id="nickCancleBtn">취소</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -179,16 +184,13 @@
 			$(".modifyingNickname").html("");
 		});
 	}
-	
 	init();
 	
-</script>
-
-<script>
 
  	var defaultUserPic = "../resources/img/mangul2.png" // 프사 없으면 디폴트 
 	var prevText = $(".checkRestriction").text(); // 닉네임 제한 요소 알림 문구
-	console.log(prevText);
+	
+	var modifyNickname = "";
  	
 $(document).ready(function(){
 	$("#chooseFile").on("change", function(e){
@@ -210,32 +212,27 @@ $(document).ready(function(){
 	});
 	
 	$(".modifyingNickname").on('keyup', function(){
-		var modifyNickname = $(".modifyingNickname").val();
+		modifyNickname = $(".modifyingNickname").val();
 		console.log(prevText);
  		console.log(modifyNickname);
 
- 		//공백만 입력된 경우
- 		var blank_pattern = /^\s+|\s+$/g;
- 		if(modifyNickname.replace(blank_pattern, '' ) == "" ){
- 			$(".checkRestriction").text('공백이 입력되었습니다.');
- 		}
-
- 		//문자열에 공백이 있는 경우
- 		blank_pattern = /[\s]/g;
- 		if( blank_pattern.test(modifyNickname) == true){
- 			$(".checkRestriction").text('공백이 입력되었습니다.');
- 		}
-
- 		//특수문자가 있는 경우
- 		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
- 		if( special_pattern.test(modifyNickname) == true){
- 			$(".checkRestriction").text('특수문자가 입력되었습니다.');
- 		}
-
- 		//공백 혹은 특수문자가 있는 경우
- 		if( modifyNickname.search(/\W|\s/g) > -1){
- 			$(".checkRestriction").text('특수문자 또는 공백이 입력되었습니다.');
- 		}
+ 		const regex = /^[가-힣|a-z|A-Z|0-9|]+$/;
+ 		 if (regex.test(modifyNickname) == false) {
+  			$(".checkRestriction").text('특수문자나 공백이 입력되었습니다.');
+ 			$(".checkRestriction").attr("style","color:#E74747;");
+ 			$("#nickModifyBtn").attr("disabled", "disabled");
+ 		 } else if (regex.test(modifyNickname) == true && modifyNickname.length > 1) {
+ 			$(".checkRestriction").text('사용 가능한 닉네임입니다.');
+ 			$(".checkRestriction").attr("style","color:#3CB728;");
+ 			$("#nickModifyBtn").removeAttr("disabled");
+ 		 } 
+	});
+	
+	// 닉네임 모달 수정버튼 -> 보여지는 닉네임 변경
+	$("#nickModifyBtn").on("click", function(e){
+		$(".myNickname").html(modifyNickname.substring(0,7));
+		$(".modifyingNickname").val("");
+		modal.classList.add("hiddenNicknameModal");
 	});
 	
 }); 
