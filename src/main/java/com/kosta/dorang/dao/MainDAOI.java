@@ -12,5 +12,4 @@ public interface MainDAOI {
 	List<Mate> selectHotMateList() throws Exception;
 
 	List<Mate> selectMyMateList(String kakao_id) throws Exception;
-
 }

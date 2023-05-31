@@ -1,14 +1,14 @@
 $(document).ready(function(){
 	
 	//모달 열기
-	$(".top_btn").click(function(event){
+	$(".alarm-btn").click(function(event){
 		event.stopPropagation();
 		
-		if ($(".alarm_layer_content").is(":visible")) {
-	    	$(".alarm_layer_content").hide();
+		if ($(".alarm_modal_content").is(":visible")) {
+	    	$(".alarm_modal_content").hide();
 	    	
 	  	} else {
-	    	$(".alarm_layer_content").show();
+	    	$(".alarm_modal_content").show();
 	  	}
 	});
 		
@@ -16,24 +16,24 @@ $(document).ready(function(){
 	$(document).click(function(event){
 		var targetElement=event.target;
 		
-		if(!$(targetElement).closest(".modal").length && !$(targetElement).hasClass("modal")){
-			$(".alarm_layer_content").hide();
+		if(!$(targetElement).closest(".alarm-modal-container").length && !$(targetElement).hasClass("alarm-modal-container")){
+			$(".alarm_modal_content").hide();
 		}
 	});
 	
 	// 모달 열기
-	$(".mypage-btn").mouseenter(function(event){
+	$(".myPage_btn").mouseenter(function(event){
 	  event.stopPropagation();
-	  if($(".alarm_layer_content").is(":visible")){
-	  	$(".lyMyArea").hide();
+	  if($(".alarm_modal_content").is(":visible")){
+	  	$(".myPage_modal_container").hide();
 	  } else {
-	  	$(".lyMyArea").show();
+	  	$(".myPage_modal_container").show();
 	  }
 	});
 	
-	$(".lyMyArea").mouseenter(function(event){
+	$(".myPage_modal_container").mouseenter(function(event){
 	  event.stopPropagation();
-	   if($(".alarm_layer_content").is(":visible")){
+	   if($(".alarm_modal_content").is(":visible")){
 	  	$(this).hide();
 	  } else {
 	  	$(this).show();
@@ -41,12 +41,12 @@ $(document).ready(function(){
 	});
 	
 	// 모달 닫기
-	$(".mypage-btn").mouseleave(function(event){
+	$(".myPage_btn").mouseleave(function(event){
 	  event.stopPropagation();
-	  $(".lyMyArea").hide();
+	  $(".myPage_modal_container").hide();
 	});
 	
-	$(".lyMyArea").mouseleave(function(event){
+	$(".myPage_modal_container").mouseleave(function(event){
 	  event.stopPropagation();
 	  $(this).hide();
 	});

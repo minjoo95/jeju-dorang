@@ -29,5 +29,4 @@ public class MainDAO implements MainDAOI {
 	public List<Mate> selectMyMateList(String kakao_id) throws Exception {
 		return sqlSession.selectList("MainMapper.selectMyMateList",kakao_id);
 	}
-
 }

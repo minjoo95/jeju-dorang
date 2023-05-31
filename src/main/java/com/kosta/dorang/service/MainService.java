@@ -26,7 +26,4 @@ public class MainService implements MainServiceI {
 	public List<Mate> selectMyMateList(String kakao_id) throws Exception {
 		return mainDaoI.selectMyMateList(kakao_id);
 	}
-
-
-
 }
