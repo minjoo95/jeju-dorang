@@ -14,16 +14,28 @@
     font-weight: normal;
     font-style: normal;
 }
+/* 어그로체 */
+@font-face {
+    font-family: 'SBAggroB-lighter';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
+    font-weight: normal;
+    font-style: 300;
+}
+@font-face {
+    font-family: 'SBAggroB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
 
 /* 박스 레이아웃 */
 .wholeModifyBox {
-	margin:10px auto;
+	margin:30px auto;
 	padding: 5px;
 	display:flex;
 	flex-wrap:wrap;
 	height: 520px;
 	width: 1100px;
-	border: 2px solid blue;
 	font-family: 'IBM Plex Sans KR', sans-serif;
 }
 
@@ -31,7 +43,6 @@
 
 /* 프사 박스 */
 .leftPicBox {
-	border:2px solid green;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content:center;
@@ -46,13 +57,12 @@
 	justify-content: center;
 	align-items: center;
 	height: 100%;
-	border: 1.5px solid pink;
 	width: 100%;
 }
 
 .myPicCircle {
-	width: 90%;
-	height: 80%;
+	width: 80%;
+	height: 70%;
 	overflow: hidden;
 	border-radius: 70%;
 }
@@ -85,7 +95,7 @@
 }
 
 .cameraIcon {
-	width: 150px;
+	width: 110px;
 	opacity: 70%;
 	margin-left: 35%;
 	margin-top: 15%;
@@ -116,7 +126,6 @@
 	display: flex;
 	flex-direction: column;
 	height: 90%;
-	border: 1.5px solid brown;
 	width: 55%;
 }
 
@@ -124,7 +133,6 @@
 	display:flex;
 	flex-direction:column;
 	margin-top:10%;
-	border: 1px solid red;
 	height: 25%;
 	width: 100%;
 }
@@ -133,7 +141,6 @@
 	align-items: center;
 	width: 100%;
 	height: 40px;
-	border: 1px solid green;
 }
 .ageBox {
 	display:flex;
@@ -142,8 +149,8 @@
 	margin:0;
 	width: 60px;
 	height: 25px;
+	border: 1px solid #FB7A51;
 	border-radius: 10px;
-	border: 1.5px solid #FB7A51;
     font-family: 'Cafe24Ssurround';
 }
 .genderBox {
@@ -151,7 +158,6 @@
 	justify-content:center;
 	align-items:center;
 	color:white;
-	font-weight: bold;
 	margin-left: 5px;
 	width: 30px;
 	height: 27px;
@@ -175,85 +181,211 @@
 }
 
 
+/* 닉네임 */
 .nicknameBox {
-	display: flex;
+	display:flex;
 	width: 100%;
 	height: 40px;
-	border: 1px solid green; 
+}
+.nickAndCodeBox{
+	margin-left:0;
+	display:flex;
+	width:100%;
 }
 
+.myCodeBox {
+	width:20%;
+	display:flex;
+	margin-left:0;
+	margin-right:0;
+	align-items: center;
+}
+.myCode {
+	margin-left:0;
+	font-size: 1.5em;
+    font-family: 'SBAggroB';
+}
+
+.myNicknameBtnAndName {
+	margin-left:0;
+	display:flex;
+	width: 45%;
+}
 
 .myNickname {
-	margin:0;
-	width: 30%;
+	width: 70%;
 	display: flex;
-	font-size: 1.5em;
+	font-size: 1.7em;
+	justify-content: center;
 	align-items: center;
-	font-family:'Cafe24Ssurround';
+    font-family: SBAggroB-lighter;
 }
 .nicknameModifyOpenBtn {
 	width: 60px;
 	border: none;
 	height: 30px;
 	color: white;
-	margin-top:5px;
+	margin-top: 2px;
 	margin-left: 15px;
-	mragin: 10px 15px;
 	border-radius: 10px;
 	background-color: #696969;
 	font-family: 'Dovemayo_gothic';
+}
+.nicknameModifyOpenBtn:hover {
+	cursor: pointer;
 }
 .penIcon {
 	padding-left: 6px;
 }
 
+
 /* 닉네임 모달 */
 .nicknameModifyModal {
 	position: absolute; /* 모달 창 독립 */
 	
+	margin-top: 30px;
+	margin-left:-100px;
 	width: 350px;
-	height: 150px;
+	height: 200px;
 	
 	display: flex;
 	flex-direction: column;
-	justify-content:flex-start;
+	justify-content:center;
 	align-itmes: center;
-	background-color: yellow;
+	background-color: white;
+	border: 1px solid #3CB728;
+	border-radius: 10px;
+	z-index:20;
+	
+	box-shadow: 0px 0px 5px #444
 }
 .nickModalNotice {
 	font-size: 0.9em;
 	margin-top: 2px;
-	margin-left: 5px;
 }
 #nickNoticeTitle {
-	font-size: 1.3em;
+	margin-top:10px;
+	font-size: 1.5em;
 	font-weight: bold;
 }
-#nickNoticeLimit {
-	font-size: 0.5em;
-	color: #E74747;
+#nickNoticeSub {
+	margin-top: -5px;
+	font-size: 0.9em;
 }
 .hiddenNicknameModal {
 	display: none;
 }
-.modifingNickname {
+
+.nicknameTextBox {
+	margin-top: 10px;	
+}
+
+.modifyingNickname {
+	font-size: 1.2em;
+	width: 300px;
+	height: 35px;
+	border: none;
+	border-bottom: 1px solid black;
+}
+.modifyingNickname:focus {
+    outline: none;   
+    border-bottom: 1px solid red; 
+  }
+.checkRestriction {
 	width: 100%;
+	height: 16px;
+	color: #E74747;
+	font-size: 0.3em;
 }
 .nicknameModalBottom {
 	display:flex;
-	flex-direction: row-reverse;
+	margin-left: -2px;
+	justify-content: space-between;
+}
+.nickNameBottomBtn {
+	margin: 5px;
+	width: 145px;
+	height: 35px;
+	border: none;
+	border-radius: 7px;
+}
+#nickModifyBtn {
+	background-color: #3CB728;
+}
+#nickModifyBtn:hover {
+	color:white;
+	font-weight: bold;
+	cursor: pointer;
+	background-color: #36a523;
+}
+#nickCancleBtn {
+	background-color: #D9D9D9;
+}
+#nickCancleBtn:hover {
+	color: #FFFFFF;
+	cursor: pointer;
+	background-color: #696969;
 }
 
 
 
 
-
+/* 태그 박스 */
 .tagBox {
 	margin-bottom: 5%;
-	border: 1px solid violet;
-	height: 60%;
+	height: 48%;
 	width: 100%;
 }
+
+.tagTitleBox {
+	width: 100%;
+	height: 12%;
+	color: #FB7A51;
+	font-size: 1.2em;
+}
+#test12 {
+	font-size: 1.1em;
+	font-weight: lighter;
+    font-family: 'SBAggroB-lighter';
+}
+.allTagsBox {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	margin-top: 20px;
+	flex-direction: column;
+	align-items: center;
+}
+.pTags {
+	display: flex;
+	width: 100%;
+	height: 20%;
+}
+.eachTag {
+	width: 20%;
+	height: 60%;
+	display:flex;
+	color: #FFFFFF;	
+	font-size: 0.8em;
+	align-items: center;
+	justify-content: center;
+	border-radius: 8px;
+	background-color: #D9D9D9;
+}
+.eachTag:hover {
+	background-color: #FB7A51;
+	cursor: pointer;
+}
+
+.selectedTag {
+	background-color: #FB7A51;
+}
+
+
+.hiddenProfileForm{
+	display:none;
+}
+
 
 
 
@@ -262,5 +394,29 @@
 .bottomBtnBox {
 	height: 8%;
 	width: 95%;
-	border: 1.5px solid orange;
+	display: flex;
+	margin-top: 10px;
+	justify-content: center;
+	align-items: center;
+}
+.profileBottomBtns {
+	color: #FFFFFF;
+	width: 170px;
+	height: 40px;
+	font-size:0.8em;
+	margin: 20px 15px;
+	border: none;
+	border-radius: 8px;
+	background-color: #D9D9D9;
+}
+#profileModifyInsertBtn {
+	background-color: #FB7A51;
+}
+#profileModifyInsertBtn:hover {
+	cursor: pointer;
+	font-weight: bold;
+}
+#profileModifyCancleBtn:hover {
+	cursor: pointer;
+	background-color: #696969;
 }

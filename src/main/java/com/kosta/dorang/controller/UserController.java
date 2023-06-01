@@ -1,7 +1,7 @@
 package com.kosta.dorang.controller;
 
-import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,10 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.UserServiceI;
+
 
 @Controller @RequestMapping("/user")
 public class UserController {
@@ -55,9 +59,31 @@ public class UserController {
 	@RequestMapping(value="/kakaoAddition")
 	public String kakaoAdditionAge(@RequestParam(value = "code", required = false) String code) throws Throwable {
 		access_tok_addition = userService.getAccess_TokenAddition(code);
-		System.out.println("추가 aT:"+access_tok_addition);
 		access_tok = access_tok_addition;
 		user = userService.getUserInfoAddition(access_tok);
 		return "redirect:/user/mypage";
 	}
-}
+	
+
+	@ResponseBody
+	@RequestMapping(value="/uploadUserProfile", method = RequestMethod.POST)
+	public Map<String, Object> updateUserProfile(@RequestPart(value = "key",required = false) Map<String, Object> param) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		System.out.println("파람"+param);
+		user = userService.updateUserProfile(param);
+		result.put("SUCCESS", true);
+		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/uploadUserPic", method = RequestMethod.POST)
+	public ModelAndView updateUserProfilePic(@RequestPart(value = "chooseFile",required = false) MultipartFile chooseFile) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		System.out.println("파일"+chooseFile);
+		System.out.println(chooseFile.getOriginalFilename());
+		/* user = userService.updateUserProfile(param, chooseFile); */
+		mav.setViewName("myPage");
+		return mav;
+	}
+}	
+
