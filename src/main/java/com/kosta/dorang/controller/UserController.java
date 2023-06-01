@@ -1,5 +1,8 @@
 package com.kosta.dorang.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.UserServiceI;
@@ -61,12 +66,24 @@ public class UserController {
 	
 
 	@ResponseBody
+	@RequestMapping(value="/uploadUserProfile", method = RequestMethod.POST)
+	public Map<String, Object> updateUserProfile(@RequestPart(value = "key",required = false) Map<String, Object> param) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		System.out.println("파람"+param);
+		user = userService.updateUserProfile(param);
+		result.put("SUCCESS", true);
+		return result;
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="/uploadUserPic", method = RequestMethod.POST)
-	public String updateUserProfile(MultipartFile mulf) throws Throwable {
-		// 이제 컨트롤러까지는 넘어오는데 파일이 안넘어옴 ㄱ-
-		System.out.println("-----------------------------");
-		System.out.println(mulf);
-		return "mypage";
+	public ModelAndView updateUserProfilePic(@RequestPart(value = "chooseFile",required = false) MultipartFile chooseFile) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		System.out.println("파일"+chooseFile);
+		System.out.println(chooseFile.getOriginalFilename());
+		/* user = userService.updateUserProfile(param, chooseFile); */
+		mav.setViewName("myPage");
+		return mav;
 	}
 }	
 

@@ -47,7 +47,7 @@
 			</div>
 		</div>
 		<div class="selectMyPic">
-			<form action="${contextPath}/user/uploadUserPic" method="post" enctype="multipart/form-data" id="userLocalPicUploadForm">
+			<form method="post" action="${contextPath }/user/uploadUserPic" enctype="multipart/form-data" id="userLocalPicUploadForm">
 				<div class="picButton">
 					<label for="chooseFile" class="picLabel">
 						<img class="cameraIcon" src="<c:url value="/resources/img/icon_pic.png"/>" alt="picIcon" />
@@ -313,29 +313,35 @@ $(document).ready(function(){
 		$("#changingTags").val(changingMyTags);
 		// submit form
 		alert($("#chooseFile").val());
-		
+		alert($("#changingNickname").val());
+		alert($("#changingTags").val());
 
-		var form = $("#userLocalPicUploadForm")[0];
-		var formData = new FormData(form);
+		var formData = new FormData();
+		
+		var data = {
+				"changingNickname" : $("#changingNickname").val(),
+				"changingTags"     : $("#changingTags").val()
+		}
+		var chooseFile = $("#chooseFile");
+		
+		formData.append('key', new Blob([ JSON.stringify(data) ], {type : "application/json"}));
 	
 		$.ajax({
-			type : "",
-			url : "${contextPath}/user/uploadUserPic",
-			type : "POST",
+			url : "${contextPath}/user/uploadUserProfile",
+		 	type : "POST", 
 			data : formData,
 			processData: false,
 			contentType: false,
+			enctype : 'multipart/form-data',
 			success : function(data){
+				if(result.SUCCESS == true){
 				alert("(^^)b");
-				alert(changingNickname);
-				alert(BindedUserCode);
-				alert(changingTags);
-			},
-			error : function(error){
-				alert(error);
+				} else {
+				alert("(- -)q");
+				}
 			}
 		});
-	 	$("#userLocalPicUploadForm").submit(); 
+	  	 $("#userLocalPicUploadForm").submit();   
 	});
 	
 	/* 	 action="${contextPath}/user/uploadUserPic" */

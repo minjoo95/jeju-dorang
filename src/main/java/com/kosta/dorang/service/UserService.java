@@ -385,10 +385,9 @@ public class UserService implements UserServiceI {
 	}
 
 	@Override
-	public void insertUserLocalPic(UserPicLocal upL) throws Throwable {
-		
+	public User updateUserProfile(Map<String, Object> param) throws Exception {
+		return null;
 	}
 
-	
 	
 }
