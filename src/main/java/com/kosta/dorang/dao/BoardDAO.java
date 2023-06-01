@@ -18,4 +18,26 @@ public class BoardDAO implements BoardDAOI {
 	public List<Board> selectBoardList() {
 		return sqlSession.selectList("BoardMapper.selectBoardList");
 	}
+
+	@Override
+	public int insertBoard(Board board) {
+		return sqlSession.insert("BoardMapper.insertBoard", board);
+	}
+
+	@Override
+	public Board selectOneBoard(int no) {
+		return sqlSession.selectOne("BoardMapper.selectOneBoard", no);
+	}
+
+	@Override
+	public int updateBoard(Board board) {
+		return sqlSession.update("BoardMapper.updateBoard", board);
+	}
+
+	@Override
+	public int deleteBoard(int no) {
+		return sqlSession.delete("BoardMapper.deleteBoard", no);
+	}
+	
+	
 }

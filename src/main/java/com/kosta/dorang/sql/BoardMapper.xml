@@ -16,8 +16,38 @@
 	
 	<select id = "selectBoardList" resultType = "com.kosta.dorang.dto.Board">
 		<![CDATA[
-        	select * from board2 order by board_id desc
+        	select * from board order by board_id desc
        ]]>
 	</select>
+	
+	<select id = "selectOneBoard" resultType = "com.kosta.dorang.dto.Board" >
+		<![CDATA[
+			select * from board where board_id = #{no}
+		]]>
+	</select>
+	
+	<insert id="insertBoard" parameterType="com.kosta.dorang.dto.Board">
+		<![CDATA[
+			insert into board(user_code, board_category, board_title, board_content)
+			values (#{user_code}, #{board_category}, #{board_title}, #{board_content})
+		]]>
+	</insert>
+	
+	<update id="updateBoard" parameterType="com.kosta.dorang.dto.Board">
+		<![CDATA[
+			update board
+			set user_code=#{user_code}, board_category=#{board_category}, board_title=#{board_title}, board_content=#{board_content}, board_reg_date=#{board_reg_date}, board_like=#{board_like}
+			where board_id = #{board_id}
+		]]>	
+	</update>
+	
+	<delete id="deleteBoard">
+		<![CDATA[
+			delete from board where board_id = #{no}
+			
+		]]>	
+	
+	
+	</delete>
 
 </mapper>

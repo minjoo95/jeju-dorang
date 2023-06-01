@@ -20,4 +20,28 @@ public class BoardService implements BoardServiceI {
 		return boardDaoI.selectBoardList();
 	}
 
+	@Override
+	public int insertBoard(Board board) {
+		
+		return boardDaoI.insertBoard(board);
+	}
+
+	@Override
+	public Board selectOneBoard(int no) {
+		
+		return boardDaoI.selectOneBoard(no);
+	}
+
+	@Override
+	public int updateBoard(Board board) {
+	
+		return boardDaoI.updateBoard(board);
+	}
+
+	@Override
+	public int deleteBoard(int no) {
+		
+		return boardDaoI.deleteBoard(no);
+	}
+
 }
