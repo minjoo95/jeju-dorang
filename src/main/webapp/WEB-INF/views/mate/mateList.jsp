@@ -12,25 +12,44 @@
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <title>동행 글 목록</title>
 <style type="text/css">
-	
-	
-		
-	.card-tags{
-		font-size: 13px;
-		border-radius: 15px;
-	}
-	.card-top-tags .card-tags{
-		border: 1px solid  #3CB728;
-		padding: 0px 13px;
-	}
-	.card-bottom-tags .card-tags{
-		padding: 0px 3px;
-		color :  #FB7A51;
-	}
+  *:not(html), .wrap, header {
+    box-sizing: content-box !important;
+  }
+  .container, .container * {
+    box-sizing: border-box !important;
+  }
+  .card-tags{
+	font-size: 13px;
+	border-radius: 15px;
+  }
+  .card-top-tags .card-tags{
+	border: 1px solid  #3CB728;
+	padding: 0px 13px;
+  }
+  .card-bottom-tags .card-tags{
+	padding: 0px 3px;
+	color :  #FB7A51;
+   }
 	.insertMate-title:hover {
 	text-shadow: 1px 1px 1px  #FB7A51;
-}
+  }
+	
 </style>
+<script type="text/javascript">
+
+$(document).ready(function(){
+    $(".tags_strings").each(function() {
+      var tags = $(this).html();
+      var tagList = tags.split('/');
+      var tags_label = $(this).closest(".card").find("#tags_list label");
+      for (var i = 0; i < tagList.length; i++) {
+        tags_label.eq(i).text("#" + tagList[i]);
+      }
+    });
+  });
+ 
+</script>
+
 </head>
 <body>
 <jsp:include page="../header.jsp"></jsp:include>
@@ -53,7 +72,7 @@
 		 			<a href="${contextPath}/mate/writeform" class="insertMate-title hoverable" style="font-size: 32px; color: #FB7A51; text-decoration: none; margin-left: 10px">동행모집글쓰기</a>
 		 		</c:when>
 		 		<c:otherwise>
-		 			<a href="javascript:void(0);" onclick="alert('로그인이 필요합니다');" class="insertMate-title" style="font-size: 32px; color:  #FB7A51;margin-left: 10px">동행모집글쓰기</a>
+		 			<a href="javascript:void(0);" onclick="alert('로그인이 필요합니다'); window.location.href = 'https://kauth.kakao.com/oauth/authorize?client_id=a62a2c16a4182ec20a1185a3f707c2b1&redirect_uri=http://localhost:8080/dorang/user/kakaoCallback&response_type=code&prompt=login';" class="insertMate-title" style="font-size: 32px; color: #FB7A51; margin-left: 10px">동행모집글쓰기</a>
 		 		</c:otherwise>
 		 	</c:choose>
 	 		</div>
@@ -62,7 +81,7 @@
              <div class="row row-cols-1 row-cols-md-3 g-5">
             	  <c:forEach var="mt" items="${mateList}">
 				  <div class="col">
-				   <a href="${contextPath}/mate/selectMate?mate_code=${mt.mate_code}" class="card-link" style="text-decoration: none; outline: none; color: #000;" >
+				   <a href="${contextPath}/mate/select?mate_code=${mt.mate_code}" class="card-link" style="text-decoration: none; outline: none; color: #000;" >
 				   <div class="mate-status d-flex justify-content-end" style=" font-size: 12px;">
 				    	<p style="color:  #FB7A51; margin-right:5px; margin-bottom:2px">${mt.status}</p>
 				    	<p style="margin-bottom:2px">조회수&nbsp;${mt.count}</p>
@@ -77,12 +96,12 @@
 					      <label class="card-tags">${mt.age}</label>
 					      <label class="card-tags">${mt.gender}</label>
 				      </div>
-				      <img src="${contextPath}/resources/img/${mt.image}" class="card-img-top mt-2 mb-3" alt="제주도모집이미지" height="150px;">
-					  <div class="card-bottom-tags d-flex flex-wrap justify-content-around justify-content-md-between mb-3">
-					      <label class="card-tags">#태그split예정</label>
-					      <label class="card-tags">#태그split예정</label>
-					      <label class="card-tags">#태그split예정</label>
-					      <label class="card-tags">#태그split예정</label>
+				      <img src="${contextPath}/resources/img/${mt.image}" class="card-img-top mt-2 mb-3" alt="제주도모집이미지" style="height: 150px">
+					 <div  class="tags_strings" id="tags_strings" style="display: none;">${mt.tags}</div>
+                      <div class="card-bottom-tags d-flex flex-wrap  mb-3" id="tags_list">
+					      <label class="card-tags"></label>
+					      <label class="card-tags"></label>
+					      <label class="card-tags"></label>
 				      </div>
 					  <div class="card-footer d-flex align-items-center" style="background-color: #FFFFFF;">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#3CB728" class="bi bi-calendar2-heart" viewBox="0 0 16 16">

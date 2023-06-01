@@ -24,11 +24,15 @@ public class MateService implements MateServiceI {
 		return mateDAO.getMateListViewSort();
 	
 	}
-	/*@Override
+	
+	@Override
 	public Mate selectMate(int mate_code) throws Exception {
 		
 		return mateDAO.selectMate(mate_code);
-	}*/
+	}
+	
+
+
 
 	
 	

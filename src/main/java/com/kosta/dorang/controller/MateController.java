@@ -33,7 +33,6 @@ public class MateController {
 		
 		
 		List<Mate> matelist = null;
-	    
 	    try {
 	        matelist = mateService.getMateListViewSort();
 	    } catch (Exception e) {
@@ -44,31 +43,27 @@ public class MateController {
 
 	    return "/mate/mateList";
 	}
-	
-	
-	
-	
-	
-	
-	
 
-	@RequestMapping(value = "/writeform", method = RequestMethod.GET)
+	@RequestMapping(value = "/writeform")
 	public String Writeform() {
 		return "/mate/mateWriteForm";
 	}
 
 	
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public String Insert(RedirectAttributes rttr, HttpServletRequest request) throws Exception {
+	public String Insert(HttpServletRequest request) throws Exception {
 
 		MultipartRequest multi = null;
 		int fileMaxSize = 2 * 1024 * 1024;
 		String savePath = request.getRealPath("resources/img");
+		System.out.print(savePath);
 
+		try {
+			multi = new MultipartRequest(request, savePath, fileMaxSize, "UTF-8", new DefaultFileRenamePolicy());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		
-		multi = new MultipartRequest(request, savePath, fileMaxSize, "UTF-8", new DefaultFileRenamePolicy());
-
 		long user_code = Long.parseLong(multi.getParameter("user_code"));
 		String title =multi.getParameter("title");
 		String content = multi.getParameter("content");
@@ -95,4 +90,84 @@ public class MateController {
 	
 		return "redirect:/mate/list";
 	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/select", method = RequestMethod.GET)
+	public String select(Model m,@RequestParam("mate_code") int mate_Code) {
+		Mate mt = null;
+		try {
+		   mt = mateService.selectMate(mate_Code);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		m.addAttribute("mt",mt);
+		
+		return "/mate/mateDetail";
+	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/updateForm", method = RequestMethod.GET)
+	public String updateForm(Model m,@RequestParam("mate_code") int mate_Code) {
+		Mate mt = null;
+		try {
+			   mt = mateService.selectMate(mate_Code);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			m.addAttribute("mt",mt);
+		
+		
+		return "/mate/mateUpdateForm";
+	}
+	
+
+	
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String updateMate(HttpServletRequest request) throws Exception {
+	
+		
+		
+		MultipartRequest multi = null;
+		int fileMaxSize = 2 * 1024 * 1024;
+		String savePath = request.getRealPath("resources/img");
+
+		try {
+			multi = new MultipartRequest(request, savePath, fileMaxSize, "UTF-8", new DefaultFileRenamePolicy());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		int mate_code = Integer.parseInt(multi.getParameter("mate_code"));
+		System.out.println(mate_code);
+		String title =multi.getParameter("title");
+		String content = multi.getParameter("content");
+		String type = multi.getParameter("type");
+		String direction = multi.getParameter("direction");
+		String number = multi.getParameter("number");
+		String age = multi.getParameter("age");
+		String gender = multi.getParameter("gender");
+		String daterange = multi.getParameter("daterange");
+		String tags = multi.getParameter("tags");
+		String status = multi.getParameter("status");
+		String first_ask = multi.getParameter("first_ask");
+		String second_ask = multi.getParameter("second_ask");
+		String third_ask = multi.getParameter("third_ask");
+		
+		File file = multi.getFile("image");
+		
+		
+		//String image = file.getName();
+	
+		return "redirect:/";
+	}
+	
+	
 }

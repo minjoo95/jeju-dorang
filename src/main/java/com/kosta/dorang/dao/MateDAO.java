@@ -17,12 +17,12 @@ public class MateDAO implements MateDAOI {
 	public void insertMate(Mate m) throws Exception {
 		sqlSession.insert("MateMapper.insertMate", m);
 	}
-
+	
 	@Override
-	public Mate detailMate(int mate_code) {
-		// TODO Auto-generated method stub
-		return null;
+	public Mate selectMate(int mate_code) throws Exception {
+		return sqlSession.selectOne("MateMapper.selectMate",mate_code);
 	}
+	
 
 	@Override
 	public void upateMate(Mate m) {
@@ -41,12 +41,6 @@ public class MateDAO implements MateDAOI {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("MateMapper.getMateListViewSort");
 	}
-
-/*	@Override
-	public Mate selectMate(int mate_code) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("MateMapper.selectMate",mate_code);
-	}*/
 
 	
 
