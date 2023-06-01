@@ -1,8 +1,5 @@
 package com.kosta.dorang.controller;
 
-import java.util.logging.Logger;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.UserServiceI;
@@ -17,7 +16,6 @@ import com.kosta.dorang.service.UserServiceI;
 
 @Controller @RequestMapping("/user")
 public class UserController {
-   private static final Logger log = Logger.getLogger("myLogger");
 	
 	@Autowired
 	HttpSession session;
@@ -61,5 +59,14 @@ public class UserController {
 		return "redirect:/user/mypage";
 	}
 	
+
+	@ResponseBody
+	@RequestMapping(value="/uploadUserPic", method = RequestMethod.POST)
+	public String updateUserProfile(MultipartFile mulf) throws Throwable {
+		// 이제 컨트롤러까지는 넘어오는데 파일이 안넘어옴 ㄱ-
+		System.out.println("-----------------------------");
+		System.out.println(mulf);
+		return "mypage";
+	}
 }	
 

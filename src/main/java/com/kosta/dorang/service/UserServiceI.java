@@ -1,6 +1,7 @@
 package com.kosta.dorang.service;
 
 import com.kosta.dorang.dto.User;
+import com.kosta.dorang.dto.UserPicLocal;
 
 public interface UserServiceI {
 	String getAccess_Token(String code) throws Throwable;
@@ -9,5 +10,7 @@ public interface UserServiceI {
 	
 	String getAccess_TokenAddition(String code) throws Throwable;
 	public User getUserInfoAddition(String access_token) throws Exception;
+	
+	public void insertUserLocalPic(UserPicLocal upL) throws Throwable;
 	
 }

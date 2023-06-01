@@ -22,6 +22,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kosta.dorang.dao.UserDAOI;
 import com.kosta.dorang.dto.User;
+import com.kosta.dorang.dto.UserPicLocal;
 
 @Repository
 @Service
@@ -383,6 +384,11 @@ public class UserService implements UserServiceI {
 		return user;
 	}
 
+	@Override
+	public void insertUserLocalPic(UserPicLocal upL) throws Throwable {
+		
+	}
 
+	
 	
 }

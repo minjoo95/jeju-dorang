@@ -47,13 +47,16 @@
 			</div>
 		</div>
 		<div class="selectMyPic">
-			<form action="${contextPath }/user/uploadUserPic" method="post" enctype="multipart/form-data">
+			<form action="${contextPath}/user/uploadUserPic" method="post" enctype="multipart/form-data" id="userLocalPicUploadForm">
 				<div class="picButton">
 					<label for="chooseFile" class="picLabel">
 						<img class="cameraIcon" src="<c:url value="/resources/img/icon_pic.png"/>" alt="picIcon" />
 					</label>
 				</div>
-				<input type="file" id="chooseFile" name="chooseFile" accept="image/*">
+				<input type="file" value="chooseFile" id="chooseFile" name="chooseFile" accept="image/*">
+				<input type="hidden" id="bindedUserCode" name="bindedUserCode" value="${sessionScope.userInfo.user_code }">
+				<input type="hidden" id="changingNickname" name="changingNickname"/>
+				<input type="hidden" id="changingTags" name="changingTags" />
 			</form>
 		</div>
 		<c:if test="${sessionScope.userInfo.user_pic eq null }">
@@ -134,43 +137,91 @@
 				</div>
 			</div>
 			<div class = "nicknameBox">
-			<div class = "myCodeBox">
-				<div class = "myCode">#&nbsp;${sessionScope.userInfo.user_code.toString().substring(0,4) }</div>
-			</div>
-				<div class = "myNicknameBtnAndName">
-					<div class = "myNickname">
-						<c:if test="${sessionScope.userInfo.user_nickname_local eq null }">
-							${sessionScope.userInfo.user_nickname.substring(0,7) }
-						</c:if>
-						<c:if test="${sessionScope.userInfo.user_nickname_local ne null }">
-							${sessionScope.userInfo.user_nickname_local.substring(0,7) }
-						</c:if>
+				<div class = "nickAndCodeBox">
+					<div class = "myCodeBox">
+						<div class = "myCode">#&nbsp;${sessionScope.userInfo.user_code.toString().substring(0,4) }</div>
 					</div>
-					<button class = "nicknameModifyOpenBtn">변경<i class="penIcon fa-solid fa-pencil"></i></button>
-					<div class = "nicknameModifyModal hiddenNicknameModal">
-						<p class = "nickModalNotice" id= "nickNoticeTitle">닉네임 변경</p>
-						<p class = "nickModalNotice" id= "nickNoticeSub">사용하실 닉네임을 입력해주세요.	</p> 
-						<div class = "nicknameTextBox nickModalNotice">
-							<input type="text" name="modifyingNickname" class = "modifyingNickname" maxlength= "7" placeholder="최대 7글자" />
-							<div class = "checkRestriction">닉네임에는 공백, 이모지, 특수문자를 사용할 수 없습니다.</div>
-							<div class = "nicknameModalBottom">
-								<button class="nickNameBottomBtn" id="nickModifyBtn">수정</button>
-								<button class = "nicknameModalCloseBtn nickNameBottomBtn" id="nickCancleBtn">취소</button>
+					<div class = "myNicknameBtnAndName">
+						<div class = "myNickname">
+							<c:if test="${sessionScope.userInfo.user_nickname_local eq null }">
+								${sessionScope.userInfo.user_nickname.substring(0,7) }
+							</c:if>
+							<c:if test="${sessionScope.userInfo.user_nickname_local ne null }">
+								${sessionScope.userInfo.user_nickname_local.substring(0,7) }
+							</c:if>
+						</div>
+						<button class = "nicknameModifyOpenBtn">변경<i class="penIcon fa-solid fa-pencil"></i></button>
+						<div class = "nicknameModifyModal hiddenNicknameModal">
+							<p class = "nickModalNotice" id= "nickNoticeTitle">닉네임 변경</p>
+							<p class = "nickModalNotice" id= "nickNoticeSub">사용하실 닉네임을 입력해주세요.	</p> 
+							<div class = "nicknameTextBox nickModalNotice">
+								<input type="text" name="modifyingNickname" class = "modifyingNickname" maxlength= "7" placeholder="최대 7글자" />
+								<div class = "checkRestriction">닉네임에는 공백, 이모지, 특수문자를 사용할 수 없습니다.</div>
+								<div class = "nicknameModalBottom">
+									<button class="nickNameBottomBtn" id="nickModifyBtn">수정</button>
+									<button class = "nicknameModalCloseBtn nickNameBottomBtn" id="nickCancleBtn">취소</button>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class = "tagBox"></div>		
+		<div class = "tagBox">
+			<div class = "tagTitleBox">
+				<span id="test12">나의 태그</span>
+			</div>
+			<div class = "allTagsBox">
+				<div class = "pTags drinkPreferTags">
+					<div class = "eachTag">차</div>
+					<div class = "eachTag">술</div>
+					<div class = "eachTag">커피</div>
+					<div class = "eachTag">주스</div>
+				</div>
+				<div class = "pTags personalityTags">
+					<div class = "eachTag">외향적</div>
+					<div class = "eachTag">내향적</div>
+					<div class = "eachTag">계획적</div>
+					<div class = "eachTag">즉흥적</div>
+				</div>
+				<div class = "pTags tripPreferTags">
+					<div class = "eachTag">버스</div>
+					<div class = "eachTag">택시</div>
+					<div class = "eachTag">뚜벅이</div>
+					<div class = "eachTag">렌트/자차</div>
+				</div>
+				<div class = "pTags activityPreferTags">
+					<div class = "eachTag">관광</div>
+					<div class = "eachTag">휴양</div>
+					<div class = "eachTag">식도락</div>
+					<div class = "eachTag">액티비티</div>
+				</div>
+			</div>
+		</div>		
 	</div>
 	
 	<div class = "bottomBtnBox">
+		<div class = "bottomBtns">
+			<button class = "profileBottomBtns" id="profileModifyInsertBtn">수정</button>
+			<button class = "profileBottomBtns" id="profileModifyCancleBtn">취소</button>
+		</div>
 	</div>
+	
+	<form class="hiddenProfileForm" action="${contextPath }/user/updateUserProfile" method="POST" enctype="multipart/form-data">
+		<input type="text" id="changingNickname" name="changingNickname"/>
+		<input type="text" id="changingTags" name="changingTags" />
+		<input type="text" id="changingPicFileURL" name="changingPicFileURL" />
+		<input type="file" id="changingPicFile" name="changingPicFile" />
+		<input type="submit">
+	</form>
 </div>
+
+
+
 
 <script>
 	
+	// ** 닉네임 모달
 	const open = document.querySelector(".nicknameModifyOpenBtn");
 	const close = document.querySelector(".nicknameModalCloseBtn");
 	const modal = document.querySelector(".nicknameModifyModal");
@@ -191,8 +242,10 @@
 	var prevText = $(".checkRestriction").text(); // 닉네임 제한 요소 알림 문구
 	
 	var modifyNickname = "";
- 	
+
 $(document).ready(function(){
+	
+	// ** 프사 바꾸기
 	$("#chooseFile").on("change", function(e){
 		var formData = new FormData();
 		var inputFile = $("input[name='chooseFile']");
@@ -208,9 +261,12 @@ $(document).ready(function(){
 			console.log(fileURL);
 		};
 		reader.readAsDataURL(files[0]);
-		}	
+		}
+		
+		
 	});
 	
+	// 닉네임 특수문자, 공백, 한글모음 필터
 	$(".modifyingNickname").on('keyup', function(){
 		modifyNickname = $(".modifyingNickname").val();
 		console.log(prevText);
@@ -218,7 +274,7 @@ $(document).ready(function(){
 
  		const regex = /^[가-힣|a-z|A-Z|0-9|]+$/;
  		 if (regex.test(modifyNickname) == false) {
-  			$(".checkRestriction").text('특수문자나 공백이 입력되었습니다.');
+  			$(".checkRestriction").text('사용 불가능한 닉네임입니다.');
  			$(".checkRestriction").attr("style","color:#E74747;");
  			$("#nickModifyBtn").attr("disabled", "disabled");
  		 } else if (regex.test(modifyNickname) == true && modifyNickname.length > 1) {
@@ -234,6 +290,55 @@ $(document).ready(function(){
 		$(".modifyingNickname").val("");
 		modal.classList.add("hiddenNicknameModal");
 	});
+	
+	// 태그 클릭하면 색깔 고정, 클래스 추가 - 다시 클릭하면 색깔 이전으로, 클래스 삭제
+	$(".eachTag").on("click", function(e){
+		let clicked = event.currentTarget; 
+		if (clicked.classList.contains("selectedTag")) {
+	        clicked.classList.remove("selectedTag");
+	    } else {
+	        clicked.classList.add("selectedTag");
+	    }
+	});	
+	
+	
+	// ** 프로필 수정 DB 반영
+	$("#profileModifyInsertBtn").on("click", function(){
+		
+		$("#changingNickname").val(modifyNickname.toString());
+		let changingMyTags = [];
+		$(".selectedTag").each(function(index, item){
+			changingMyTags.push($(this).text());
+		});
+		$("#changingTags").val(changingMyTags);
+		// submit form
+		alert($("#chooseFile").val());
+		
+
+		var form = $("#userLocalPicUploadForm")[0];
+		var formData = new FormData(form);
+	
+		$.ajax({
+			type : "",
+			url : "${contextPath}/user/uploadUserPic",
+			type : "POST",
+			data : formData,
+			processData: false,
+			contentType: false,
+			success : function(data){
+				alert("(^^)b");
+				alert(changingNickname);
+				alert(BindedUserCode);
+				alert(changingTags);
+			},
+			error : function(error){
+				alert(error);
+			}
+		});
+	 	$("#userLocalPicUploadForm").submit(); 
+	});
+	
+	/* 	 action="${contextPath}/user/uploadUserPic" */
 	
 }); 
 </script>
