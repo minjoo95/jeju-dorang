@@ -3,70 +3,57 @@
 	margin: 0 auto;
 	padding: 0;
 }
-.wrap{
-/* 	margin-left: 100px;
-	margin-right: 100px; */
+.header-nav{
+    display: flex;
+    justify-content: center;
 }
-.header-logo{
-	display: inline-flex;
-}
-
 .header-wrap{
 	display:flex;
 	width: 100%;
 	justify-content: space-evenly;
 	padding-top: 12px
 }
-.header-nav{
-    display: flex;
-    justify-content: center;
+.header-logo{
+	display: inline-flex;
 }
-.navbar-navi{
-	display: flex;
+.navi-link{
+	font-family: KimjungchulMyungjo-Bold;
 }
- .header-category{
+
+.header-category{
 	display: flex;
 	align-items: center;
 }
-.navi-item{
-	padding-right: 170px;
-	padding-top: 10px;
+.login-container>img{
+	height: 23px;
 }
-/* .navi-item:hover{
-	background: FB7A51;
-} */
 
-.wrap_top_btns{
+.header-alarm-myPage-Container{
 	display: flex;
 }
-.notice-btn{
+.navi-item{
+	padding-right: 140px;
+	padding-top: 10px;
+}
+.navi-link:hover{
+	color:#FB7A51;
+}
+.alarm-container{
+	display: flex;
+}
+.alarm-btn-container{
 	margin-right: 10px;
 }
-
-
-.wrap_top_btns .wrap_my_layer{
+.alarm-container{
 	display: inline-block;
 	position: relative;
-	/* margin-left: 8px; */
 }
-
-.wrap_top_btns .wrap_my_layer button.top_btn.on{
-	/* background-color: #eff5ff; */
-}
-
-.wrap_top_btns .wrap_my_layer button.top_btn{
-	/* width: 40px;
-	height 40px;
-	border-radius: 50%; */
-}
-
-.top_btn{
+.alarm-btn{
 	border:0;
 	background: transparent;
 	cursor: pointer;
-	/* line-height: normal; */
 }
-.notice-img{
+.alarm-img{
 	width: 25px;
 	padding: 10px;
 }
@@ -84,14 +71,13 @@
 	height: 1px;
 }
 
-.wrap_top_btns .wrap_my_layer button.top_btn.on+.top_layer_assist{
+.alarm-container button.alarm-btn.on+.alarm_modal_content{
 	display: inline-block;
 	z-index: 2;
 	display: none;
-	
 }
 
-.top_layer_assist{
+.alarm_modal_content {
 	position: absolute;
 	display: none;
 	overflow: hidden;
@@ -106,24 +92,22 @@
 	box-shadow: 2px 6px 16px 0 rgba(17,42,128,0.08);
 	padding: 30px;
 }
-.top_layer_assist>.title{
+.alarm_modal_content>.alarm_modal_title{
 	display: block;
 	margin-bottom: 24px;
 	color: #3F3D3A;
 	font-size: 20px;
 	line-height: 28px;
 }
-.strong {
-	font-weight: bold;
-}
-.empty_txt{
+
+.empty_alarm_txt{
 	color: #707070;
     font-weight: 300;
     font-size: 14px;
     padding-top: 10px;
     display: block;
 }
-.top_layer_assist>.view_status{
+.alarm_modal_content>.alram_view_status{
 	display: block;
 	position: absolute;
 	top: 27px;
@@ -133,12 +117,12 @@
 	letter-spacing: -0.5px;
 	line-height: 20px;	
 }
-.top_layer_assist .empty_list.alarm_area.default{
+.alarm_modal_content .empty_list.alarm_area.default{
 	margin: 0 32px;
 	padding-top: 168px;
 	height: 608px;
 }
-.top_layer_assist .empty_list.alarm_area{
+.alarm_modal_content .empty_list.alarm_area{
 	padding: 42px 0;
 	width: 310px;
 	border-radius: 8px;
@@ -146,35 +130,30 @@
 	background-color: #f4f6fa;
 	margin: 0 auto;
 }
-.top_layer_assist .empty_list{
+.alarm_modal_content .empty_list{
 	padding-top: 110px;
 	letter-spacing: -1px;
 	text-align: center;
 }
-.top_layer_assist .empty_listimg{
+.alarm_modal_content .empty_listimg{
 	display: block;
 	margin: 0 auto;
 	border: 0;
 	overflow-clip-margin: content-box;
 	overflow: clip;
 }
-
-
-.my-img{
+.myPage_img{
 	width: 30px;
 }
-.my-btn{
+.myPage_btn{
 	display: flex;
 	padding: 8.5px;
 }
-.my-name{
+.myPage_name{
     display: flex;
     align-items: center;
 }
-.my-list>li{
-	list-style: none;
-}
-.myInner{
+.myPage_List{
 	display: block;
 	margin: 0 auto;
 	border: 0;
@@ -183,103 +162,32 @@
 	letter-spacing: -1px;
 	
 }
-.lyMyArea{
+.myPage_modal_container{
 	position: relative;
-	 	display: none;
+	display: none;
 }
-
-.myInner{
+.myPage_List{
 	position: absolute;
 	overflow: hidden;
 	width: 130px;
   	left: -20px;
 	text-align: center;
-
 	padding-top: 23px;
 	border:1px solid #d7dce5;
 	border-radius: 16px;
 	box-sizing: border-box;
-/* 	letter-spacing: -1px; */
 	background-color: #fff;
 	box-shadow: 2px 6px 16px 0 rgba(17,42,128,0.08);
 	padding: 13px;
 }
-a{
-	text-decoration: none;
-}
-.myLists{
+.myPage_List{
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 }
-.my-item{
+.myPage_item{
 	margin-bottom: 5px;
 }
-/* .my{
-	position: relative;
-	margin-left: -1px;
-	webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	padding: 20px 10px;
-	height: 100%;
-	background-color: orange;
-}
-
-.iop-cp{
-	position: relative;
-	padding-left: 29px;
-	margin-top: -1px;
-	font-size: 16px;
-	line-height: 28px;
-	color: #3F3D3A;
-	display: block;
-	text-decoration: none;
-	cursor: pointer;
-	
-}
-.btnOpen .my .spGnb{
-	background: rgb(0,0,0,0);
-}
-.userNav-item .user-nickname{
-	display: block;
-	max-width: 82px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	letter-spacing: normal;
-}
-.skip{
-	position: absolute;
-	overflow: hidden;
-	width: 1px;
-	height: 1px;
-	clip: rect(0 0 0 0);
-	margin: -1px;
-}
-.lyArea .my .member{
-	left: auto;
-	right: 0;
-}
-.lyMyArea{
-	display: none;
-	width: 184px;
-	position: absolute;
-	top: 62px;
-	background-color: gray;
-	border: 1px solid #6a6a6a;
-	border-radius: 8px;
-	z-index: 2;
-	box-shadow: 0 2px 8px rgba(0,0,0, 08);
-	overflow: hidden;
-}
-.myLists .lyMyArea{
-	padding: 12px 0;
-	text-align: left;
-}
-.myLists > li{
-	list-style: none;
-}
- */
 
 
 

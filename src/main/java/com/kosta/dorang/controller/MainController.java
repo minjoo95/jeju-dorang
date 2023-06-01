@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kosta.dorang.dto.Mate;
 import com.kosta.dorang.dto.Trip;
+import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.MainServiceI;
 
 @Controller
@@ -19,7 +20,7 @@ public class MainController{
 
 	@Autowired
 	HttpSession session;
-	
+		
 	/* SqlSessionTemplate sqlSession; */
 	
 	//@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -44,7 +45,6 @@ public class MainController{
 	
 	@RequestMapping(value = "/", method=RequestMethod.GET)
 	public String main(Model model) throws Exception{
-		//왜 안됑ㅇ.ㅣㅐㅣ잉...
 
 		List<Trip> tripList=null;
 		List<Mate> mateList=null;
@@ -54,12 +54,25 @@ public class MainController{
 				System.out.println(a);
 			}
 			model.addAttribute("place",tripList);
+			
+//			if(session!=null) {
+//				User user=(User) session.getAttribute("userInfo");
+//				if(user!=null) {
+//				System.out.println(user.getUser_nickname());
+//				model.addAttribute(user);
+//				}else {
+//					System.out.println("로그인 필요");
+//				}
+//			}
+			
 //			mateList = mainServiceI.selectHotMateList();
 //			for(Mate a:mateList) {
 //				System.out.println(a);
 //			}
 //			model.addAttribute("mateA",mateList);
-//			mateList = mainServiceI.selectMyMateList(kakao_id);
+//			
+//			User userInfo=(User) session.getAttribute("userInfo");
+//			mateList = mainServiceI.selectMyMateList(userInfo.getUser_id());
 //			for(Mate a:mateList) {
 //				System.out.println(a);
 //			}
@@ -70,11 +83,5 @@ public class MainController{
 		}
 		return "main";
 	}
-	
-	/*
-	 * @RequestMapping(value = "logout", method=RequestMethod.GET) public String
-	 * mainLogout() throws Exception{ session.removeAttribute("id");
-	 * System.out.println("로그아웃"); return "redirect:/"; }
-	 */
 
 }
