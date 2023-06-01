@@ -70,49 +70,6 @@
 									</div>
 								</div>
 							</div>
-<<<<<<< HEAD
-						</div>
-						<div class="header-myPage-Container">
-							<c:choose>
-								<c:when test="${sessionScope.user eq null }">
-									<a class="header-login"
-										href="https://kauth.kakao.com/oauth/authorize?client_id=a62a2c16a4182ec20a1185a3f707c2b1&redirect_uri=http://localhost:8080/dorang/user/kakaoCallback&response_type=code&prompt=login">로그인</a>
-								</c:when>
-								<c:otherwise>
-									<div class="userNav-item my member">
-										<div class="mypage-btn">
-											<a class="btnMyopen txt-button icon-cp" href="${contextPath }/user/mypage">
-												<div class="my-btn">
-													<div class="my-img-container">
-														<img class="my-img" alt=""
-															src="<c:url value="/resources/img/person_outline.png"/>">
-													</div>
- 													<div class="my-name">
-														<div class="user-nickname">응시미</div>
-													</div>
-												</div>
-											</a>
-										</div>
-										<div class="lyMyArea myWorld">
-											<div class="myInner">
-												<div class="myLists">
-													<div class="my-item">
-														<a href="${contextPath }/user/mypage">프로필 수정</a>
-													</div>
-													<div class="my-item">
-														<a href="">찜한 여행지</a>
-													</div>
-													<div class="my-item">
-														<a href="">마이 동행</a>
-													</div>
-													<div class="my-item">
-														<a href="">작성글 목록</a>
-													</div>
-													<div class="my-item">
-														<a class="btnLogOut"  href="${contextPath }/user/logout">로그아웃</a>
-													</div>
-												</div>
-=======
 							<!-- 마이페이지 -->
 							<div class=" myPage_container">
 								<!-- 마이페이지 버튼 -->
@@ -124,7 +81,6 @@
 											</div>
 											<div class="myPage_name">
 												<div class="user_nickname">${sessionScope.userInfo.user_nickname}</div>
->>>>>>> dev
 											</div>
 										</div>
 									</a>
@@ -158,4 +114,3 @@
 		</div>
 	</nav>
 </div>
-
