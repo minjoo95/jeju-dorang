@@ -86,6 +86,22 @@ public class User {
 	public void setUser_tag(String user_tag) {
 		this.user_tag = user_tag;
 	}
+	public String getUser_nickname_local() {
+		return user_nickname_local;
+	}
+	
+	public void setUser_nickname_local(String user_nickname_local) {
+		this.user_nickname_local = user_nickname_local;
+	}
+	public String getUser_pic_local() {
+		return user_pic_local;
+	}
+	public void setUser_pic_local(String user_pic_local) {
+		this.user_pic_local = user_pic_local;
+	}
+	public void setUser_code(Long user_code) {
+		this.user_code = user_code;
+	}
 	
 	
 }
