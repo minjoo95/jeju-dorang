@@ -1,29 +1,113 @@
 @charset "UTF-8";
+.main_wrap{
+	margin-left:130px;
+	margin-right: 130px;
+	margin-top: 50px;
+}
+.main_category{
+	font-size: 17px;
+	font-family: KimjungchulMyungjo-Bold;
+	color: #3F3D3A;
+	margin-left: 20px;
+}
 
- :root {
-	--color-accent : #FB7A51;
-	--color-sub : #3CB728;
-	--color-main : #3F3D3A;
-	--color-sub2 : #D9D9D9;
-	--color-submain : #696969;
-	--color-warning : #E74747;
-	--color-white : #FFFFFF;	
+.main_card_container{
+	height: 400px;
+	width: 350px;
+	border-radius: 15px;
+	display: inline-block;
+	margin-top: 30px;
+	/* margin-left: 30px; */
+	margin-bottom: 30px;
+	position: relative;
+	/* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); */
+	box-shadow: 2px 6px 16px 0 rgba(17,42,128,0.08);
+	overflow: hidden;
+}
+.card-header{
+	width: 100%;
+	height: 270px;
+	border-radius: 15px 15px 0 0;
+	background-size: 100% 280px;
+	background-repeat: no-repeat;
+	transition: all .3s;
+}
+.main_card_container:hover .card-header{
 	
 }
-
-*{
-	margin: 0 auto;
-	padding: 0;
+.card-header-is-closed{
+	font-family: KimjungchulMyungjo-Bold;
+	display:flex;
+	border-style: solid;
+	font-size: 11px;
+	border-color: #EF5A31;
+	background-color: #fff;
+	color: #3F3D3A;
+	text-align: center;
+	float: right;
+	margin: 15px 15px 0 0;
+	border-radius: 15%;
+	padding: 3px 3px;
+	/* line-height: 20px; */
+}
+.card-body-title{
+	font-family: KimjungchulMyungjo-Bold;
+	font-size: 20px;
+	font-weight: bold;
+}
+.card-body-background{
+	position : absolute;
+	top: 70%;
+	line-height: 25px;
+	margin: 10px 20px 0px 20px;
+}
+.card-body-description{
+	line-height: 25px;
+	height: 180px;
+	margin: 5px 20px;
+}
+.main_card_container:hover .card-body-background{
+	top: 50%;
 }
 
-.card-img-top{
-	width: 100px;
-	height: 100px;
+.main_card_container  .card-header {
+	height: 50%;
 }
-
-.card{
-	display: flex;
+.main_card_container:hover .card-header {
+	height: 30%;
 }
-.card-item{
-	flex: 1;
+.card-body-hashtag{
+	font-size:15px;
+	color: #2478FF;
+	font-family: KimjungchulMyungjo-Bold;
+}
+.card-body-footer{
+	font-family: KimjungchulMyungjo-Bold;
+	position: absolute;
+	margin-top: 15px;
+	margin-bottom: 6px;
+	bottom: 0;
+	width: 314px;
+	font-size: 14px;
+	color: #3F3D3A;
+	padding: 0 15px;
+}
+.icon{
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 2px;
+}
+.icon-view_count{
+	width: 25px;
+	height: 17px;
+	background: url() no-repeat;
+}
+.icon-comments_count{
+	margin-left: 5px;
+	width: 25px;
+	height: 17px;
+	background: url() no-repeat;
+}
+.reg_date{
+	float: right;
 }

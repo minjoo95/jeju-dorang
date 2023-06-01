@@ -23,7 +23,7 @@ public class MainService implements MainServiceI {
 		return mainDaoI.selectHotMateList();
 	}
 	@Override
-	public List<Mate> selectMyMateList(String kakao_id) throws Exception {
-		return mainDaoI.selectMyMateList(kakao_id);
+	public List<Mate> selectMyMateList(String user_id) throws Exception {
+		return mainDaoI.selectMyMateList(user_id);
 	}
 }

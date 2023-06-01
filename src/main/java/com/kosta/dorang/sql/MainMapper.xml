@@ -15,7 +15,7 @@
     </select>
     <select id="selectMyMateList" resultType="com.kosta.dorang.dto.Mate">
     	<![CDATA[
-    	select * from mate where kakao_id=#{kakao_id};
+    	select * from mate where user_id=#{user_id};
     	]]>
     </select>
 </mapper>

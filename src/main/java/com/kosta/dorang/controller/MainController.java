@@ -70,7 +70,9 @@ public class MainController{
 //				System.out.println(a);
 //			}
 //			model.addAttribute("mateA",mateList);
-//			mateList = mainServiceI.selectMyMateList(kakao_id);
+//			
+//			User userInfo=(User) session.getAttribute("userInfo");
+//			mateList = mainServiceI.selectMyMateList(userInfo.getUser_id());
 //			for(Mate a:mateList) {
 //				System.out.println(a);
 //			}

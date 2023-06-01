@@ -26,7 +26,7 @@ public class MainDAO implements MainDAOI {
 	}
 
 	@Override
-	public List<Mate> selectMyMateList(String kakao_id) throws Exception {
-		return sqlSession.selectList("MainMapper.selectMyMateList",kakao_id);
+	public List<Mate> selectMyMateList(String user_id) throws Exception {
+		return sqlSession.selectList("MainMapper.selectMyMateList",user_id);
 	}
 }

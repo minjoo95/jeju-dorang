@@ -35,6 +35,9 @@
 	padding-right: 140px;
 	padding-top: 10px;
 }
+.navi-link:hover{
+	color:#FB7A51;
+}
 .alarm-container{
 	display: flex;
 }
@@ -74,7 +77,7 @@
 	display: none;
 }
 
-.alarm_modal_content{
+.alarm_modal_content {
 	position: absolute;
 	display: none;
 	overflow: hidden;

@@ -18,13 +18,13 @@
 			<!-- 헤더 카테고리 -->
 			<div class="header-category">
 				<div class="navi-item">
-					<a class="navi-link" href="${contextPath }/travel/list">여행</a>
+					<a class="navi-link navi-link-travel" href="${contextPath }/travel/list">여행</a>
 				</div>
 				<div class="navi-item">
-					<a class="navi-link" href="${contextPath }/mate/list">동행</a>
+					<a class="navi-link navi-link-mate" href="${contextPath }/mate/list">동행</a>
 				</div>
 				<div class="navi-item">
-					<a class="navi-link" href="${contextPath }/board/list">커뮤니티</a>
+					<a class="navi-link navi-link-community" href="${contextPath }/board/list">커뮤니티</a>
 				</div>
 				<!-- 로그린 or 로그아웃 시 알림 and 마이페이지-->
 				<div class="navi-item">
@@ -74,7 +74,7 @@
 							<div class=" myPage_container">
 								<!-- 마이페이지 버튼 -->
 								<div class="myPage_btn_container">
-									<a class="navi-link" href="${contextPath }/user/mypage">
+									<a class="navi-link navi-link-mypage" href="${contextPath }/user/mypage">
 										<div class="myPage_btn">
 											<div class="myPage_img_container">
 												<img class="myPage_img" alt="에러" src="<c:url value="/resources/img/person_outline.png"/>">
