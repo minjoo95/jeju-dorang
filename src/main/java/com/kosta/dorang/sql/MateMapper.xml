@@ -42,7 +42,7 @@
 </insert>
 <select id="selectApplyMate" parameterType="Map" resultType="com.kosta.dorang.dto.MateApply">
    <![CDATA[ 
-       SELECT * FROM mate WHERE mate_code = #{mate_code} and user_code = #{user_code}
+       SELECT * FROM MateApply WHERE mate_code = #{mate_code} and user_code = #{user_code}
     ]]>
 </select>
 

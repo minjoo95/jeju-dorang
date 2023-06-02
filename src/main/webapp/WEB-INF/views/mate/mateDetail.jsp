@@ -21,6 +21,7 @@
   }
   .container, .container * {
     box-sizing: border-box !important;
+    position: relative;
   }
   .custom-bg {
  	 background-color: red; /* 원하는 배경색 지정 */
@@ -60,10 +61,24 @@
   .ask {
   	color:#FB7A51;
   }
+  
+  .applyAlert{
+  	position: absolute;
+  	bottom: 32px;
+  	left: 50%;
+  	margin-left: calc(-258px / 2);
+  	width: 259px;
+  	box-sizing: border-box;
+  }
   </style>
   <script type="text/javascript">
 
  $(document).ready(function(){
+	
+	    $("#myButton").click(function() {
+	    	  $("#myAlert").show();
+	    	});
+	   
   
 	 var tags=$("#tags_strings").html();
 	 var tagList = tags.split('/');
@@ -85,13 +100,17 @@
 	  	 var mate_code = $('#mate_code').val(); 
 	  	 var user_code =$('#user_code').val(); 
 	  	 
-	  	  var applyData = {
+	  	 
+	  	 
+	  	  var send_data = {
 	  			"mate_code": mate_code,
 	  			"user_code": user_code,
 	  	  		"frist_answer": frist_answer,
 	  	   		"second_answer": second_answer,
 	  	    	"third_answer": third_answer 			 
 	  	 };
+	  	  
+	  	 console.log(send_data);
 	  	 if( frist_answer == null || frist_answer.trim() === "" || 
 	  		 second_answer == null || second_answer.trim() === "" ||
 	  		 third_answer == null || third_answer.trim() === ""){
@@ -101,37 +120,42 @@
 	  	 }else{
 	  		$.ajax({
 	  		    url: "/dorang/mate/apply",
-	  		    type: "post",
-	  		    data: {
-	  		    	"mp" : JSON.stringify(applyData),	
-	  		    },
+	  		    type: "POST",
 	  		    contentType:"application/json",
+	  		    data: JSON.stringify(send_data),//JSON문자열 생성
 	  		    dataType: "text",
 	  		    success: function(response) {
-	  		    	alert("확인");
 	  		        if (response === "success") {
+	  		        	
 	  		            $("#liveAlert").css("display", "block");
-	  		            $("#liveAlert").html("신청되었습니다! :)");
+	  		            $("#liveAlertText").html("신청되었습니다! :)");
 	  		        }else if (response === "already") {
 	  		            $("#liveAlert").css("display", "block");
-	  		            $("#liveAlert").html("이미 신청된 게시글입니다!");
+	  		             $(".alert-warning").removeClass("alert-warning").addClass("alert-danger");
+	  		            $("#liveAlertText").html("이미 신청된 게시글입니다!");
 	  		        }else{
+	  		        	 $(".alert-warning").removeClass("alert-warning").addClass("alert-danger");
 	  		            $("#liveAlert").css("display", "block");
-			            $("#liveAlert").html("오류가 발생했습니다.");
+			            $("#liveAlertText").html("오류가 발생했습니다.");
 	  		        }
 	  		    },
-	  		  error: function(jqXHR, textStatus, errorThrown) {
-	  			alert("ERROR : " + textStatus + " : " + errorThrown);
+	  		  error : function(xhr,status,error) {
+	  			console.log(status + ", " + error);
 	  		}
 	  		});
 	  	 }
 	  			 
 	  		
 	}   
+  
+  function alertClose() {
+	  $("#liveAlert").css("display", "none");
+}
  
  
 </script>
   <body>
+
   <jsp:include page="../header.jsp"></jsp:include>
     <div class="container" style="padding:50px 0px" >
      <c:set var="sessionUserCode" value="${sessionScope.userInfo.user_code}" />
@@ -143,7 +167,7 @@
 	    </div>
      </c:if>
         <form id="mateDetail">
-          <input type="hidden" name="mate_code" id="mate_code" value="${mate_code}"/>
+          <input type="hidden" name="mate_code" id="mate_code" value="${mt.mate_code}"/>
           <input type="hidden" name="user_code" id="user_code" value="${sessionScope.userInfo.user_code}"/>
        		<div class="container" >
           <div class="row">
@@ -202,7 +226,7 @@
 		  			 </div>
 			      </div> 
 			  </div>
-		  <div class="container_3 mt-5">
+		  <div class="container_3 mt-2">
   	    	 <h3 class="mb-3" style="font-size: 23px">
   	    	 	동행 신청하기
   	    	  </h3>
@@ -226,10 +250,11 @@
 		  </div>
 		 </div> 
           </div> 
-		   <div class="alert alert-warning alert-dismissible fade show" style="display: none"  role="alert" id="liveAlert">
-			     <p></p>
-			    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="closeAlert()"></button>
+		   <div class="alert alert-warning alert-dismissible fade show applyAlert" style="display: none"  role="alert" id="liveAlert">
+			     <p id="liveAlertText"></p>
+			     <button type="button" class="btn-close"  onclick="alertClose()"></button>
 	       </div>
+	       
       <div class="form_btn mb-5" style="width: 100%;text-align: center;">
       		 <c:choose>
 		 		<c:when test="${sessionScope.user !=null}">
@@ -248,6 +273,7 @@
         </form>
     </div>
     <div style="height: 100px; background-color: orange;">푸터</div>
+
   </body>
 </html>
 

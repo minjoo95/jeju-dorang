@@ -181,28 +181,26 @@ public class MateController {
 		 return "redirect:/mate/list";
 	}
 	
-	
+	@ResponseBody
 	@RequestMapping(value = "/apply", method = RequestMethod.POST)
 	public String applyMate(@RequestBody MateApply mp) throws Exception {
-	    System.out.println(mp.getMate_code());
-	    System.out.println(mp.getUser_code());
-	    System.out.println(mp.getFrist_answer());
-	    System.out.println(mp.getSecond_answer());
-	    System.out.println(mp.getThird_answer());
+		
+		
+		int mate_code = mp.getMate_code();
+        long user_code = mp.getUser_code();
 	  
 		   
 	    try {
-	        int mate_code = mp.getMate_code();
-	        long user_code = mp.getUser_code();
-
 	        MateApply mpResult = mateService.selectMateApply(mate_code, user_code);
+	        System.out.println(mpResult);
 
 	        if (mpResult != null) { // 이미 신청된 게시글인 경우
 	            return "already";
-	        } 
+	        }else {
+	        	 mateService.insertMateApply(mp);
+	 	         return "success"; // 성공적으로 처리되었음을 알리는 응답 반환
+	        }
 	        
-	        mateService.insertMateApply(mp);
-	        return "success"; // 성공적으로 처리되었음을 알리는 응답 반환
 
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -210,7 +208,7 @@ public class MateController {
 	    }
 	}
 
-
+   
 	
 	
 	
