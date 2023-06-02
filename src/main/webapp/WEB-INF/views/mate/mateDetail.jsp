@@ -76,28 +76,80 @@
 	 }
 		
   });//document끝
+  
+  function mateApply() {
+		 
+		 var frist_answer = $('#frist_answer').val();
+	  	 var second_answer = $('#second_answer').val();
+	  	 var third_answer = $('#third_answer').val();
+	  	 var mate_code = $('#mate_code').val(); 
+	  	 var user_code =$('#user_code').val(); 
+	  	 
+	  	  var applyData = {
+	  			"mate_code": mate_code,
+	  			"user_code": user_code,
+	  	  		"frist_answer": frist_answer,
+	  	   		"second_answer": second_answer,
+	  	    	"third_answer": third_answer 			 
+	  	 };
+	  	 if( frist_answer == null || frist_answer.trim() === "" || 
+	  		 second_answer == null || second_answer.trim() === "" ||
+	  		 third_answer == null || third_answer.trim() === ""){
+	  		 
+	  		      alert("모든 내용을 입력해주세요");
+	  		      
+	  	 }else{
+	  		$.ajax({
+	  		    url: "/dorang/mate/apply",
+	  		    type: "post",
+	  		    data: {
+	  		    	"mp" : JSON.stringify(applyData),	
+	  		    },
+	  		    contentType:"application/json",
+	  		    dataType: "text",
+	  		    success: function(response) {
+	  		    	alert("확인");
+	  		        if (response === "success") {
+	  		            $("#liveAlert").css("display", "block");
+	  		            $("#liveAlert").html("신청되었습니다! :)");
+	  		        }else if (response === "already") {
+	  		            $("#liveAlert").css("display", "block");
+	  		            $("#liveAlert").html("이미 신청된 게시글입니다!");
+	  		        }else{
+	  		            $("#liveAlert").css("display", "block");
+			            $("#liveAlert").html("오류가 발생했습니다.");
+	  		        }
+	  		    },
+	  		  error: function(jqXHR, textStatus, errorThrown) {
+	  			alert("ERROR : " + textStatus + " : " + errorThrown);
+	  		}
+	  		});
+	  	 }
+	  			 
+	  		
+	}   
+ 
  
 </script>
   <body>
   <jsp:include page="../header.jsp"></jsp:include>
     <div class="container" style="padding:50px 0px" >
-    
      <c:set var="sessionUserCode" value="${sessionScope.userInfo.user_code}" />
 	 <c:set var="boardUserCode" value="${mt.user_code}" />
-	
      <c:if test="${sessionUserCode ne null and sessionUserCode eq boardUserCode}">
         <div class="writer-btn d-flex justify-content-end" style="padding-bottom: 50px">
 	    	<a class="update_btn" href="${contextPath}/mate/updateForm?mate_code=${mt.mate_code}">수정하기</a>
-	    	<a class="delete_btn" style="margin-left: 5px;" href="${contextPath}/mate/deleteMate?mate_code=${mt.mate_code}">삭제하기</a>
+	    	<a class="delete_btn" style="margin-left: 5px;" href="${contextPath}/mate/delete?mate_code=${mt.mate_code}">삭제하기</a>
 	    </div>
      </c:if>
         <form id="mateDetail">
           <input type="hidden" name="mate_code" id="mate_code" value="${mate_code}"/>
+          <input type="hidden" name="user_code" id="user_code" value="${sessionScope.userInfo.user_code}"/>
        		<div class="container" >
           <div class="row">
 	          <div class="col-md-6  container_1" >
 		 			 <div class="mb-5" >
-					    <label for="title" class="form-label" style="color: #FB7A51;">${mt.title}</label>
+					    <label  class="form-label" style="color: #FB7A51;">${mt.title}</label>
 		  			 </div> 
 		  			  <!-- 이미지 --> 
 					<div class="mb-5">
@@ -156,32 +208,36 @@
   	    	  </h3>
   	    	 <div style=" border: 2px solid #D9D9D9; border-radius: 15px; padding:50px 40px; margin-bottom: 50px"> 
 	  	    	 <div class="mb-3" >
-	  	    		<label for="first_ask" class="w-100 ask">Q&nbsp;.&nbsp;${mt.first_ask}
-	  	    			   <input type="text" class="form-control" id="first_ask" name="first_ask" placeholder="답변을 입력해주세요." >
+	  	    		<label for="frist_answer" class="w-100 ask">Q&nbsp;.&nbsp;${mt.first_ask}
+	  	    			   <input type="text" class="form-control" id="frist_answer" name="frist_answer" placeholder="답변을 입력해주세요." >
 	  	    		</label>
 	             </div>
 	              <div class="mb-3">
-	                <label for="second_ask" class="w-100 ask">Q&nbsp;.&nbsp;${mt.second_ask}
-	   			 	    <input type="text" class="form-control" id="second_ask" name="second_ask" placeholder="답변을 입력해주세요." >
+	                <label for="second_answer" class="w-100 ask">Q&nbsp;.&nbsp;${mt.second_ask}
+	   			 	    <input type="text" class="form-control" id="second_answer" name="second_answer" placeholder="답변을 입력해주세요." >
 	    	    	</label>
 	             </div>
 	              <div class="mb-3">
-	              	<label for="third_ask" class="w-100 ask">Q&nbsp;.&nbsp;${mt.third_ask}
-	   			 	    <input type="text" class="form-control" id="third_ask" name="third_ask" placeholder="답변을 입력해주세요.">
+	              	<label for="third_answer" class="w-100 ask">Q&nbsp;.&nbsp;${mt.third_ask}
+	   			 	    <input type="text" class="form-control" id="third_answer" name="third_answer" placeholder="답변을 입력해주세요.">
 	    	    	</label>
 	             </div>
 	            </div>
 		  </div>
 		 </div> 
           </div> 
+		   <div class="alert alert-warning alert-dismissible fade show" style="display: none"  role="alert" id="liveAlert">
+			     <p></p>
+			    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="closeAlert()"></button>
+	       </div>
       <div class="form_btn mb-5" style="width: 100%;text-align: center;">
       		 <c:choose>
 		 		<c:when test="${sessionScope.user !=null}">
 		 			<c:if test="${sessionUserCode ne boardUserCode}">
-			       		<button type="button" disabled  class="btn btn-primary px-5" onclick="goInsert()">동행신청</button>
+			       		<button id="liveAlertBtn" type="button" class="btn btn-primary px-5" onclick="mateApply()">동행신청</button>
             		</c:if>
             		<c:if test="${sessionUserCode eq boardUserCode}">
-			       		<button type="button" disabled  class="btn btn-secondary px-5" onclick="goInsert()">동행신청</button>
+			       		<button id="liveAlertBtn" type="button" disabled  class="btn btn-secondary px-5">동행신청</button>
             		</c:if>
 		 		</c:when>
 		 		<c:otherwise>
@@ -194,3 +250,6 @@
     <div style="height: 100px; background-color: orange;">푸터</div>
   </body>
 </html>
+
+
+
