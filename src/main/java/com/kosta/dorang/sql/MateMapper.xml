@@ -17,5 +17,35 @@
 <select id="getMateListViewSort" resultType="com.kosta.dorang.dto.Mate">
   SELECT * FROM mate ORDER BY createdAt DESC
 </select>
+<update id="updateMate" parameterType="com.kosta.dorang.dto.Mate">
+     	 <![CDATA[
+        UPDATE mate
+        SET title = #{title}, content = #{content}, type = #{type}, direction = #{direction},
+            number = #{number}, age = #{age}, gender = #{gender}, daterange = #{daterange},
+            tags = #{tags}, status = #{status}, image = #{image},
+            first_ask = #{first_ask}, second_ask = #{second_ask}, third_ask = #{third_ask}
+        WHERE mate_code = #{mate_code}
+    ]]>
+</update>
+<delete id="deleteMate" parameterType="Integer">
+		   <![CDATA[
+		    DELETE FROM mate WHERE mate_code = #{mate_code}
+		   ]]>
+</delete>
+
+<!-- 신청테이블 -->
+<insert id="insertApplyMate" parameterType="com.kosta.dorang.dto.MateApply">
+     <![CDATA[
+         INSERT INTO MateApply(mate_code,user_code,frist_answer,second_answer,third_answer,createdAt)
+         VALUES (#{mate_code},#{user_code},#{frist_answer},#{second_answer},#{third_answer},NOW())       
+     ]]>
+</insert>
+<select id="selectApplyMate" parameterType="Map" resultType="com.kosta.dorang.dto.MateApply">
+   <![CDATA[ 
+       SELECT * FROM MateApply WHERE mate_code = #{mate_code} and user_code = #{user_code}
+    ]]>
+</select>
+
+
 
 </mapper>

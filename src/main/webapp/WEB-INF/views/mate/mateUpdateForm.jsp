@@ -95,6 +95,8 @@ function updateMate() {
 			
 			)
 			
+		
+			
 			if(title ==null ||title.trim() === "" || content==null || content.trim() === ""||
 			   type==null || direction==null || number ==null || age ==null|| gender==null ||
 			   daterange == null || tags == null || status == null || imageViewSrc == defultImage ||
@@ -116,8 +118,9 @@ function updateMate() {
   <body>
   <jsp:include page="../header.jsp"></jsp:include>
     <div class="container" >
-     <h3 style="padding:50px 0px">작성해주세요 :</h3>
+     <h3 style="padding:50px 0px">작성해주세요 :)</h3>
         <form name="mateForm" id="mateForm" action="${contextPath}/mate/update" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="user_code" id="user_code" value="${sessionScope.userInfo.user_code}"/> 
           <input type="hidden" name="mate_code" id="mate_code" value="${mt.mate_code}"/> 
        		<div class="container" >
 	          <div class="row">
@@ -319,7 +322,7 @@ function updateMate() {
           </div><!--container 끝-->
   	        
       <div class="form_btn mb-5" style="width: 100%;text-align: center;">
-      		<button type="button" class="btn btn-primary px-5" onclick="updateMate()">등록</button>
+      		<button type="button" class="btn btn-primary px-5" onclick="updateMate()">수정완료</button>
       </div>
         </form>
     </div>
