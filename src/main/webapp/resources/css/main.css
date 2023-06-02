@@ -4,16 +4,40 @@
 	margin-right: 130px;
 	margin-top: 50px;
 }
+.mate-card-wrap{
+	display:flex;
+	padding: 10px;
+	box-sizing: border-box;
+}
 .main_category{
 	font-size: 17px;
 	font-family: KimjungchulMyungjo-Bold;
 	color: #3F3D3A;
 	margin-left: 20px;
 }
-
-.main_card_container{
+.travel-card-wrap{
+	display:flex;
+	padding: 10px;
+	box-sizing: border-box;
+}
+.travel_card_container{
+	margin: 0px;
 	height: 400px;
-	width: 350px;
+	width: 330px;
+	border-radius: 15px;
+	display: inline-block;
+	margin-top: 30px;
+	/* margin-left: 30px; */
+	margin-bottom: 30px;
+	position: relative;
+	/* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); */
+	box-shadow: 2px 6px 16px 0 rgba(17,42,128,0.08);
+	overflow: hidden;
+}
+.mate_card_container{
+	margin: 0px;
+	height: 400px;
+	width: 330px;
 	border-radius: 15px;
 	display: inline-block;
 	margin-top: 30px;
@@ -32,7 +56,7 @@
 	background-repeat: no-repeat;
 	transition: all .3s;
 }
-.main_card_container:hover .card-header{
+.mate_card_container:hover .card-header{
 	
 }
 .card-header-is-closed{
@@ -66,14 +90,14 @@
 	height: 180px;
 	margin: 5px 20px;
 }
-.main_card_container:hover .card-body-background{
+.mate_card_container:hover .card-body-background{
 	top: 50%;
 }
 
-.main_card_container  .card-header {
+.mate_card_container  .card-header {
 	height: 50%;
 }
-.main_card_container:hover .card-header {
+.mate_card_container:hover .card-header {
 	height: 30%;
 }
 .card-body-hashtag{
