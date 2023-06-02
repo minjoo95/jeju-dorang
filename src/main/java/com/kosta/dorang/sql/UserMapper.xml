@@ -9,10 +9,11 @@
 		<result property="user_nickname" column="user_nickname" />
 		<result property="user_nickname_local" column="user_nickname_local" />
 		<result property="user_pic" column="user_pic" />
-		<result property="user_pic_local" column="user_pic_local" />
 		<result property="user_age_range" column="user_age_range" />
 		<result property="user_gender" column="user_gender" />
 		<result property="user_tag" column="user_tag" />
+		<result property="user_pic_local" column="user_pic_local" />
+		<result property="user_pic_local_changed_name" column="user_pic_local_changed_name" />
 	</resultMap>
 	
  	<select id="selectUser" parameterType="Long" resultType="com.kosta.dorang.dto.User">
@@ -20,6 +21,7 @@
 		select * from user where user_code=#{"user_code"}
 		]]>
 	</select>
+
  	
 	<insert id="insertUserAll" parameterType="hashMap">
 		<![CDATA[
@@ -95,6 +97,18 @@
 	<update id="updateUserNicknameLocal" parameterType="hashMap">
 		<![CDATA[
 		update user set user_nickname_local=#{user_nickname_local} where user_code=#{user_code}
+		]]>
+	</update>
+	
+	<update id="updateUserPic" parameterType="com.kosta.dorang.dto.User">
+		<![CDATA[
+		update user_profile set user_pic_original_name=#{user_pic_original_name} where user_code=#{user_code}
+		]]>
+	</update>
+	<update id="updateUserProfile" parameterType="com.kosta.dorang.dto.User">
+		<![CDATA[
+		update user set (user_nickname_local, user_tag) 
+		values (#{user_nickname_local}, #{user_tag}) where user_code=#{user_code}
 		]]>
 	</update>
 	

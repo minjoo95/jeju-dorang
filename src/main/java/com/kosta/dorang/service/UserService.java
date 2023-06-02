@@ -35,6 +35,7 @@ public class UserService implements UserServiceI {
 	@Autowired
 	User user;
 
+	/* 카카오 서버로부터 토큰 얻어오기 */
 	@Override
 	public String getAccess_Token(String authorize_code) throws Exception {
 		String access_token = "";
@@ -61,7 +62,6 @@ public class UserService implements UserServiceI {
 
 			// 결과 코드 : 200이면 성공
 			int responseCode = conn.getResponseCode();
-			System.out.println("#UserService.getAccessToken#_responseCode: " + responseCode);
 
 			// 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -71,7 +71,6 @@ public class UserService implements UserServiceI {
 			while ((line = br.readLine()) != null) {
 				result += line;
 			}
-			System.out.println("#UserService.getAccessToken#_response body : " + result);
 
 			// jackson objectmapper 객체 생성
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -82,9 +81,6 @@ public class UserService implements UserServiceI {
 			access_token = jsonMap.get("access_token").toString();
 			refresh_token = jsonMap.get("refresh_token").toString();
 
-			System.out.println("#UserService.getAccessToken#_access_token: " + access_token);
-			System.out.println("#UserService.getAccessToken#_refresh_token: " + refresh_token);
-
 			br.close();
 			bw.close();
 		} catch (IOException e) {
@@ -93,13 +89,13 @@ public class UserService implements UserServiceI {
 		return access_token;
 	}
 
+	
+	/* 얻어온 액세스 토큰을 이용해 카카오 서버에 접근해서 사용자 정보 가져와서 유저 객체로 만들어 넘기기 */
 	@Override
 	public User getUserInfo(String access_token) throws Exception {
-
-		// 요청하는 클라이언트마다 가진 정보가 다를 수 있기 때문에 HashMap타입으로 선언
+		// 요청하는 클라이언트마다 가진 정보가 다를 수 있기 때문에 HashMap타입으로 선언해줌
 		HashMap<String, Object> userInfo = new HashMap<>();
 		String reqURL = "https://kapi.kakao.com/v2/user/me";
-
 		try {
 			URL url = new URL(reqURL);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -109,7 +105,6 @@ public class UserService implements UserServiceI {
 			conn.setRequestProperty("Authorization", "Bearer " + access_token);
 
 			int responseCode = conn.getResponseCode();
-			System.out.println("@UserService.getUserInfo responseCode:" + responseCode);
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
@@ -119,8 +114,6 @@ public class UserService implements UserServiceI {
 			while ((line = br.readLine()) != null) {
 				result += line;
 			}
-			System.out.println("@UserService.getUserInfo response body:" + result);
-			System.out.println("@UserService.getUserInfo result type" + result.getClass().getName()); // java.lang.String
 
 			// jackson objectmapper 객체 생성
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -129,11 +122,7 @@ public class UserService implements UserServiceI {
 			});
 
 			long user_code = (long) jsonMap.get("id");
-			System.out.println("@UserService.getUserInfo_user_code:" + user_code);
 			userInfo.put("user_code", user_code);
-
-			System.out.println(jsonMap.get("properties"));
-			System.out.println(jsonMap.get("kakao_account"));
 
 			Map<String, Object> properties = (Map<String, Object>) jsonMap.get("properties");
 			Map<String, Object> kakao_account = (Map<String, Object>) jsonMap.get("kakao_account");
@@ -145,21 +134,17 @@ public class UserService implements UserServiceI {
 			if (properties != null && properties.containsKey("profile_image")) {
 			    user_pic = properties.get("profile_image").toString();
 			    userInfo.put("user_pic", user_pic);
-			    System.out.println(userInfo.get("user_pic"));
 			}
 			if (properties != null && kakao_account.containsKey("age_range")) {
 			    age_range = kakao_account.get("age_range").toString();
 			    userInfo.put("user_age_range", age_range);
-			    System.out.println(userInfo.get("user_age_range"));
 			}
 			if (properties != null && kakao_account.containsKey("gender")) {
 			    gender = kakao_account.get("gender").toString();
 			    userInfo.put("user_gender", gender);
-			    System.out.println(userInfo.get("user_gender"));
 			}
 			
-			// **닉네임에 이모지가 존재할 경우 처리 필요 -- 프론트에서 걸러주기**
-			String nickname = properties.get("nickname").toString();
+			String nickname = properties.get("nickname").toString().substring(0, 7);
 			String email = kakao_account.get("email").toString();
 			userInfo.put("user_nickname", nickname);				
 			userInfo.put("user_id", email);
@@ -167,33 +152,32 @@ public class UserService implements UserServiceI {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		// 이 위까지 필요한 유저정보 다 가져와서 Map인 userInfo에 저장 완료
+				
 		// DB에 있는 USER인지 확인
 		user = userDAO.selectUser(userInfo);
 		System.out.println("등록유저 " + user); 
 
 		if (user == null) {
-			if(userInfo.get("user_pic")==null && userInfo.get("user_age_range") == null && userInfo.get("user_gender") == null) {
-				userDAO.insertUserNothing(userInfo);
-			}
-			else if(userInfo.get("user_pic")==null && userInfo.get("user_age_range") == null) {
-				userDAO.insertUserGender(userInfo);
-			}
-			else if(userInfo.get("user_pic")==null && userInfo.get("user_gender") == null) {
-				userDAO.insertUserAge(userInfo);
-			}
-			else if(userInfo.get("user_age_range")==null && userInfo.get("user_gender")==null) {
-				userDAO.insertUserPic(userInfo);
-			}
-			else if(userInfo.get("user_pic")==null) {
-				userDAO.insertUserAgeAndGender(userInfo);
-			}
-			else if(userInfo.get("user_gender")==null) {
-				userDAO.insertUserPicAndAge(userInfo);
-			}
-			else if(userInfo.get("user_age_range")==null) {
-				userDAO.insertUserPicAndGender(userInfo);
-			} else userDAO.insertUserAll(userInfo);  
+			/*
+			 * if(userInfo.get("user_pic")==null && userInfo.get("user_age_range") == null
+			 * && userInfo.get("user_gender") == null) {
+			 * userDAO.insertUserNothing(userInfo); } else if(userInfo.get("user_pic")==null
+			 * && userInfo.get("user_age_range") == null) {
+			 * userDAO.insertUserGender(userInfo); } else if(userInfo.get("user_pic")==null
+			 * && userInfo.get("user_gender") == null) { userDAO.insertUserAge(userInfo); }
+			 * else if(userInfo.get("user_age_range")==null &&
+			 * userInfo.get("user_gender")==null) { userDAO.insertUserPic(userInfo); } else
+			 * if(userInfo.get("user_pic")==null) {
+			 * userDAO.insertUserAgeAndGender(userInfo); } else
+			 * if(userInfo.get("user_gender")==null) {
+			 * userDAO.insertUserPicAndAge(userInfo); } else
+			 * if(userInfo.get("user_age_range")==null) {
+			 * userDAO.insertUserPicAndGender(userInfo); } else
+			 * userDAO.insertUserAll(userInfo);
+			 */
+			
+			userDAO.insertUserAll(userInfo);
 			
 			session.setAttribute("userInfo", user);
 			return userDAO.selectUser(userInfo);

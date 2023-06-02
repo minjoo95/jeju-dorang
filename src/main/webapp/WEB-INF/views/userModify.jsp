@@ -47,10 +47,10 @@
 			</div>
 		</div>
 		<div class="selectMyPic">
-			<form method="post" action="${contextPath }/user/uploadUserPic" enctype="multipart/form-data" id="userLocalPicUploadForm">
+			<form method="post" action="${contextPath }/user/uploadUserLocalProfile" enctype="multipart/form-data" id="userLocalProfileloadForm">
 				<div class="picButton">
 					<label for="chooseFile" class="picLabel">
-						<img class="cameraIcon" src="<c:url value="/resources/img/icon_pic.png"/>" alt="picIcon" />
+						<img class="cameraIcon" src="<c:url value="/resources/img/icon_pic.png"/>" alt="picIcon"/>
 					</label>
 				</div>
 				<input type="file" value="chooseFile" id="chooseFile" name="chooseFile" accept="image/*">
@@ -206,14 +206,6 @@
 			<button class = "profileBottomBtns" id="profileModifyCancleBtn">취소</button>
 		</div>
 	</div>
-	
-	<form class="hiddenProfileForm" action="${contextPath }/user/updateUserProfile" method="POST" enctype="multipart/form-data">
-		<input type="text" id="changingNickname" name="changingNickname"/>
-		<input type="text" id="changingTags" name="changingTags" />
-		<input type="text" id="changingPicFileURL" name="changingPicFileURL" />
-		<input type="file" id="changingPicFile" name="changingPicFile" />
-		<input type="submit">
-	</form>
 </div>
 
 
@@ -250,14 +242,19 @@ $(document).ready(function(){
 		var formData = new FormData();
 		var inputFile = $("input[name='chooseFile']");
 		var files = inputFile[0].files;
-		console.log(files);
-	
+		var maxSize = 5 * 1024 * 1024; // 5mb제한
 		// 이미지 변경 : files에서는 URL을 가져올 수 없기 때문에 FileReader 객체 생성해서, 거기서 URL 불러와주기
+		
 		if(files && files[0]){
-		var reader = new FileReader();
-		reader.onload = function(e) {
-			var fileURL = e.target.result;	
-			$("#myPic").attr("src", fileURL);
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				var fileURL = e.target.result;	
+				$("#myPic").attr("src", fileURL);
+				if(files[0].size > maxSize){
+					alert("첨부파일 사이즈는 5MB 이내로 등록 가능합니다.");
+					$("#myPic").attr("src", "");
+					return false;
+			}
 			console.log(fileURL);
 		};
 		reader.readAsDataURL(files[0]);
@@ -299,6 +296,11 @@ $(document).ready(function(){
 	    } else {
 	        clicked.classList.add("selectedTag");
 	    }
+		
+		if($('.eachTag.selectedTag').length>4){
+			alert("태그 선택은 최대 4개까지 가능합니다.");
+			$(".eachTag.selectedTag").removeClass("selectedTag");
+		}
 	});	
 	
 	
@@ -316,7 +318,7 @@ $(document).ready(function(){
 		alert($("#changingNickname").val());
 		alert($("#changingTags").val());
 
-		var formData = new FormData();
+/* 		var formData = new FormData();
 		
 		var data = {
 				"changingNickname" : $("#changingNickname").val(),
@@ -340,8 +342,8 @@ $(document).ready(function(){
 				alert("(- -)q");
 				}
 			}
-		});
-	  	 $("#userLocalPicUploadForm").submit();   
+		}); */
+	  	 $("#userLocalProfileloadForm").submit();   
 	});
 	
 	/* 	 action="${contextPath}/user/uploadUserPic" */
