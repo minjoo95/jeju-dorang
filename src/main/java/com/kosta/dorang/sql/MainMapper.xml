@@ -8,14 +8,22 @@
     	select * from trip order by like_count desc limit 3;
     	]]>
     </select>
-    <select id="selectHotMateList" resultType="com.kosta.dorang.dto.Mate">
+    <select id="selectHotMateList" resultType="com.kosta.dorang.dto.MateUser">
     	<![CDATA[
-    	select * from mate order by count desc limit 3;
+    	select m.*, u.user_nickname
+		from mate m
+		left outer join user u
+		on m.user_code=u.user_code
+    	order by count desc limit 3;
     	]]>
     </select>
-    <select id="selectMyMateList" resultType="com.kosta.dorang.dto.Mate">
+    <select id="selectMyMateList" parameterType="Long" resultType="com.kosta.dorang.dto.MateUser">
     	<![CDATA[
-    	select * from mate where user_id=#{user_id};
+    	select m.*, u.user_nickname
+		from mate m
+		left outer join user u
+		on m.user_code=u.user_code
+		where m.user_code=#{user_code};
     	]]>
     </select>
 </mapper>

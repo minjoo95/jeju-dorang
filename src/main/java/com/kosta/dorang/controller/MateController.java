@@ -169,5 +169,12 @@ public class MateController {
 		return "redirect:/";
 	}
 	
+	// 응심이가 만든거 삭제 ㄴㄴ
+	@RequestMapping(value="/mymatepage", method=RequestMethod.GET)
+	public String mateReply(Model model){
+		System.out.println("들어오기");
+		return "/mate/mateCommunity";
+	}
+	
 	
 }
