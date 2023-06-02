@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kosta.dorang.dto.Board;
+import com.kosta.dorang.dto.BoardLike;
 
 @Repository
 public class BoardDAO implements BoardDAOI {
@@ -38,6 +39,24 @@ public class BoardDAO implements BoardDAOI {
 	public int deleteBoard(int no) {
 		return sqlSession.delete("BoardMapper.deleteBoard", no);
 	}
+
+	@Override
+	public BoardLike selectOneBoardLike(BoardLike boardLike) {
+		//System.out.println("selectOneBoardLike : " + boardLike.getBoard_id() + ", " + boardLike.getUser_code());
+		return sqlSession.selectOne("BoardMapper.selectOneBoardLike", boardLike);
+	}
+
+	@Override
+	public int insertBoardLike(BoardLike boardLike) {
+		
+		return sqlSession.insert("BoardMapper.insertBoardLike", boardLike);
+	}
+	
+	
+
+
+	
+	
 	
 	
 }

@@ -26,10 +26,23 @@
 		]]>
 	</select>
 	
+	<select id = "selectOneBoardLike" resultType = "com.kosta.dorang.dto.BoardLike" parameterType="com.kosta.dorang.dto.BoardLike">
+		<![CDATA[
+			select * from board_like where board_id = #{board_id} and user_code = #{user_code}
+		]]>
+	</select>
+	
 	<insert id="insertBoard" parameterType="com.kosta.dorang.dto.Board">
 		<![CDATA[
 			insert into board(user_code, board_category, board_title, board_content)
 			values (#{user_code}, #{board_category}, #{board_title}, #{board_content})
+		]]>
+	</insert>
+	
+	<insert id="insertBoardLike" parameterType="com.kosta.dorang.dto.BoardLike">
+		<![CDATA[
+			insert into board_like
+			values (#{board_id}, #{user_code})
 		]]>
 	</insert>
 	
@@ -46,7 +59,6 @@
 			delete from board where board_id = #{no}
 			
 		]]>	
-	
 	
 	</delete>
 

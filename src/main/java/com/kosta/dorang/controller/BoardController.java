@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kosta.dorang.dto.Board;
+import com.kosta.dorang.dto.BoardLike;
 import com.kosta.dorang.service.BoardServiceI;
 
 @Controller
@@ -141,7 +142,7 @@ public class BoardController {
 	
 	@RequestMapping("/boardDetail")
 	public void boardSelectOne(@RequestParam int no, Model model) {
-		boardServiceI.selectBoardList();
+		//boardServiceI.selectBoardList();
 		
 		try {
 			
@@ -204,6 +205,41 @@ public class BoardController {
 		
 		return result;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/boardLike", method = RequestMethod.POST)
+	//public int boardLike(Integer board_id, Long user_code) { //int board_id
+	public void boardLike(Integer board_id, Long user_code) {	
+		
+		int no = (int)board_id;
+		long userCode = (long)user_code;
+		
+		System.out.println("no : " + no);
+		System.out.println("userCode : " + userCode);
+		
+		//db확인
+		//Board board = boardServiceI.selectOneBoard(no);
+		
+		BoardLike boardLike = new BoardLike(no, userCode);
+		
+		BoardLike resultBoardLike = boardServiceI.selectOneBoard(boardLike);
+		
+		if(resultBoardLike == null) {
+			//db에 없으면 넣어주고
+			int result = boardServiceI.insertBoardLike(boardLike);
+			System.out.println("like result : "  + result);
+			
+		} else {
+			//db에 있으면 안 넣어주고
+			System.out.println("이미 있음!");
+		}
+		
+		
+	//	int result = boardServiceI.insertBoardLike(no);
+
+	}
+	
+	
 	
 	
 	

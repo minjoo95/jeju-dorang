@@ -2,6 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<%!
+	Long currentUserCode = null;
+	Long writerCode = null;
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +22,8 @@
 <!-- Editor's Style -->
 <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 <!-- <script src="https://uicdn.toast.com/editor/latest/i18n/ko-kr.min.js"></script> -->
+
+<link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
 
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 
@@ -45,9 +51,80 @@ function deleteBoard(board_id){
 		
 	} else {
 		
-	}
-	
+	}	
 }
+
+
+function likeBoard(board_id){
+	
+	console.log(board_id);
+	
+//	const likeModalEl = document.getElementById('likeModal');
+
+
+/* 	const likeModalEl = new bootstrap.Modal(document.querySelector("#likeModal"));
+	console.log(likeModalEl);
+	likeModalEl.show(); */
+	
+/* 	const cancelLikeModalEl = new bootstrap.Modal(document.querySelector("#cancelLikeModal"));
+	console.log(cancelLikeModalEl);
+	cancelLikeModalEl.show(); */
+	
+	
+	//console.log("${userInfo.user_code} : " + ${userInfo.user_code});
+	//db에 이 user가 추천했는지 확인
+	$.ajax({ 
+			type: "post",
+			url: "${pageContext.request.contextPath}/board/boardLike",
+			data:{
+				board_id: ${board.board_id},
+				user_code : ${userInfo.user_code}
+			},
+			success: function(data) {
+				
+				//location.href = "${pageContext.request.contextPath}/board/list" //추천수 바뀌어야...
+				$.ajax({ 
+					type: "post",
+					url: "${pageContext.request.contextPath}/board/boardLike",
+					data:{
+						board_id: ${board.board_id},
+						user_code : ${userInfo.user_code}
+					},
+					success: function(data) {
+						
+						
+					}
+		})
+			}
+		}
+	
+
+//modal event
+
+/* var likeModal = document.getElementById('likeModal');
+likeModal.addEventListener('shown.bs.modal', function (event) {
+	console.log('ㅎㅋ');
+})
+ */
+
+/* $('#likeModal').on('show.bs.modal', function () {
+	console.log("show modal");
+}); */
+
+//$('#likeModal').modal();
+
+$('#likeModal').modal(); //왜 이게 먹히는..
+
+
+$('#likeModal').on('shown.bs.modal', function () {
+	console.log("shown modal");
+});
+
+
+
+
+
+
 
 console.log("여기");
 //var test=${board.board_content};
@@ -85,8 +162,10 @@ document.getElementById("viewer-content").innerHTML = content; */
 	<!-- 작성자만 보이게 -->
 	<%
 		//header를 꼭 포함해야 함  - 아닌듯..?
-		Long currentUserCode = (Long)pageContext.getAttribute("currentUserCode");
-		Long writerCode = (Long)pageContext.getAttribute("writerCode");
+		//Long currentUserCode = (Long)pageContext.getAttribute("currentUserCode");
+		//Long writerCode = (Long)pageContext.getAttribute("writerCode");
+		currentUserCode = (Long)pageContext.getAttribute("currentUserCode");
+		writerCode = (Long)pageContext.getAttribute("writerCode");
 		
 		System.out.println("currentUserCode : " + currentUserCode);
 		System.out.println("writerCode : " + writerCode);
@@ -104,9 +183,6 @@ document.getElementById("viewer-content").innerHTML = content; */
 
 </div>
 
-	
-
-		<!-- 띄어쓰기가 잘 안되는데 db입력시 &nbsp로 변환해서 넣어줘야하는지 -->
 	<div id="viewer">
 		${board.getBoard_content()}
 		<%--<p id = "viewer-content"><%-- ${board.board_content} </p> --%>
@@ -124,16 +200,50 @@ document.getElementById("viewer-content").innerHTML = content; */
 		
 	</script>
 	
-<!--  	<script>
-	let content = `${board.board_content}`;
-	console.log("before : " + content);
-	//content = content.replace(' ', '&nsbp;');
-	content = content.replace(' ', '\u00A0');
-	console.log("after : " + content);
-	document.getElementById("viewer-content").innerHTML = content;
-	</script>  -->
+	<div id="footer-btn-div">
+		<button type="button" class="btn" style="border-color:#FB7A51; color:#FB7A51;">댓글작성</button>
+		
+		
+		<button type="button" id="likeBtn1" class="btn" style="border-color:#FB7A51; color:#FB7A51;" onclick="likeBoard(${board.board_id})">추천1</button>
+		
+		<button type="button" id="likeBtn2" class="btn" data-bs-toggle="modal" data-bs-target="#likeModal" style="border-color:#FB7A51; color:#FB7A51;">
+  			추천2
+		</button>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="likeModal" tabindex="-1"
+			aria-labelledby="likeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body">
+						<i class="em em-partying_face" aria-role="presentation" aria-label="FACE WITH PARTY HORN AND PARTY HAT"></i>
+						<h5>추천완료</h5>
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">확인</button>
+					</div>
+	
+				</div>
+			</div>
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="cancelLikeModal" tabindex="-1"
+			aria-labelledby="cancelLikeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body">
+						<i class="em em-thinking_face" aria-role="presentation" aria-label="THINKING FACE"></i>
+						<h5>추천취소</h5>
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">확인</button>
+					</div>
+	
+				</div>
+			</div>
+		</div>
 
-
+		<button type="button" class="btn text-white" style="background-color:#FB7A51;">목록</button>
+	</div>
 
 </body>
 </html>

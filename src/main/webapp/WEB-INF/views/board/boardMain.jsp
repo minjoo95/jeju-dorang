@@ -25,7 +25,7 @@ function goBoardWrite(){
 </script>
 </head>
 <body>
-<section id = "board-container">
+<section class = "container" id = "board-container">
 	
 	<span>후기</span>
 	<button type="button" class="btn text-white" style="background-color:#FB7A51;" onclick="goBoardWrite()">후기 작성</button>

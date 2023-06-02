@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kosta.dorang.dao.BoardDAOI;
 import com.kosta.dorang.dto.Board;
+import com.kosta.dorang.dto.BoardLike;
 
 @Service
 public class BoardService implements BoardServiceI {
@@ -42,6 +43,19 @@ public class BoardService implements BoardServiceI {
 	public int deleteBoard(int no) {
 		
 		return boardDaoI.deleteBoard(no);
+	}
+
+	@Override
+	public BoardLike selectOneBoard(BoardLike boardLike) {
+		
+		return boardDaoI.selectOneBoardLike(boardLike);
+
+	}
+
+	@Override
+	public int insertBoardLike(BoardLike boardLike) {
+		
+		return boardDaoI.insertBoardLike(boardLike);
 	}
 
 }
