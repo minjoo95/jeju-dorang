@@ -1,11 +1,14 @@
 package com.kosta.dorang.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.kosta.dorang.dto.Mate;
+import com.kosta.dorang.dto.MateApply;
 
 @Repository
 public class MateDAO implements MateDAOI {
@@ -25,14 +28,15 @@ public class MateDAO implements MateDAOI {
 	
 
 	@Override
-	public void upateMate(Mate m) {
-		// TODO Auto-generated method stub
+	public void updateMate(Mate m) {
+		
+		sqlSession.update("MateMapper.updateMate",m);
 
 	}
 
 	@Override
-	public void deleteMate(Mate m) {
-		// TODO Auto-generated method stub
+	public void deleteMate(int mate_code) {
+		sqlSession.delete("MateMapper.deleteMate",mate_code);
 
 	}
 
@@ -42,6 +46,23 @@ public class MateDAO implements MateDAOI {
 		return sqlSession.selectList("MateMapper.getMateListViewSort");
 	}
 
+	/*동행신청*/
+	
+	@Override
+	public void insertApplyMate(MateApply mp) throws Exception {
+		sqlSession.insert("MateMapper.insertApplyMate",mp);
+		
+	}
+
+	@Override
+	public MateApply selectApplyMate(int mate_code, Long user_code) throws Exception {
+		  Map<String, Object> applyMap = new HashMap<>();
+		  applyMap.put("mate_code", mate_code);
+		  applyMap.put("user_code", user_code);
+		  return sqlSession.selectOne("MateMapper.selectApplyMate", applyMap);
+	}
+
+	
 	
 
 }
