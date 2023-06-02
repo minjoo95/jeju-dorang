@@ -95,7 +95,7 @@
 											<a href="">찜한 여행지</a>
 										</div>
 										<div class="myPage_item">
-											<a href="">마이 동행</a>
+											<a href="${contextPath }/mate/mymatepage">마이 동행</a>
 										</div>
 										<div class="myPage_item">
 											<a href="">작성글 목록</a>

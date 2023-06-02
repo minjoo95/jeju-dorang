@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kosta.dorang.dto.Mate;
+import com.kosta.dorang.dto.MateUser;
 import com.kosta.dorang.dto.Trip;
 import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.MainServiceI;
@@ -47,7 +48,8 @@ public class MainController{
 	public String main(Model model) throws Exception{
 
 		List<Trip> tripList=null;
-		List<Mate> mateList=null;
+		List<MateUser> mateList=null;
+
 		try {
 			tripList = mainServiceI.selectBestTripList();
 			for(Trip a:tripList) {
@@ -65,18 +67,19 @@ public class MainController{
 //				}
 //			}
 			
-//			mateList = mainServiceI.selectHotMateList();
-//			for(Mate a:mateList) {
-//				System.out.println(a);
-//			}
-//			model.addAttribute("mateA",mateList);
-//			
-//			User userInfo=(User) session.getAttribute("userInfo");
-//			mateList = mainServiceI.selectMyMateList(userInfo.getUser_id());
-//			for(Mate a:mateList) {
-//				System.out.println(a);
-//			}
-//			model.addAttribute("mateB",mateList);
+			mateList = mainServiceI.selectHotMateList();
+			for(Mate a:mateList) {
+				System.out.println(a);
+			}
+			model.addAttribute("mateA",mateList);
+			
+			User userInfo=(User) session.getAttribute("userInfo");
+			System.out.println("user_code="+userInfo.getUser_code());
+			mateList = mainServiceI.selectMyMateList(userInfo.getUser_code());
+			for(Mate a:mateList) {
+				System.out.println(a);
+			}
+			model.addAttribute("mateB",mateList);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
