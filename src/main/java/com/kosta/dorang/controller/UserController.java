@@ -3,6 +3,7 @@ package com.kosta.dorang.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,9 @@ public class UserController {
 	
 	@RequestMapping(value="/kakaoCallback", method = RequestMethod.GET)
 	public String kakaoCallBack(@RequestParam(value = "code", required = false) String code) throws Throwable {
+		// 로그인 누르면 - 카카오서버에서 토큰 얻어오긴
 		access_tok = userService.getAccess_Token(code);
-		System.out.println("처음 aT"+access_tok);
+		// 얻어온 토큰으로 카카오서버에 있는 사용자 정보에 접근해서 User객체로 가져오기
 		user = userService.getUserInfo(access_tok);
 		
 		// HttpSession session에 "user" : (Long) user_code
@@ -58,30 +60,34 @@ public class UserController {
 	
 	@RequestMapping(value="/kakaoAddition")
 	public String kakaoAdditionAge(@RequestParam(value = "code", required = false) String code) throws Throwable {
-		access_tok_addition = userService.getAccess_TokenAddition(code);
+		access_tok_addition = userService.getAccess_Token(code);
 		access_tok = access_tok_addition;
-		user = userService.getUserInfoAddition(access_tok);
+		user = userService.getUserInfo(access_tok);
 		return "redirect:/user/mypage";
 	}
 	
 
 	@ResponseBody
-	@RequestMapping(value="/uploadUserProfile", method = RequestMethod.POST)
-	public Map<String, Object> updateUserProfile(@RequestPart(value = "key",required = false) Map<String, Object> param) throws Exception {
-		Map<String, Object> result = new HashMap<String, Object>();
-		System.out.println("파람"+param);
-		user = userService.updateUserProfile(param);
-		result.put("SUCCESS", true);
-		return result;
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="/uploadUserPic", method = RequestMethod.POST)
-	public ModelAndView updateUserProfilePic(@RequestPart(value = "chooseFile",required = false) MultipartFile chooseFile) throws Exception {
+	@RequestMapping(value="/uploadUserLocalProfile", method = RequestMethod.POST)
+	public ModelAndView updateUserProfilePic(@RequestPart(value = "chooseFile",required = false) MultipartFile chooseFile, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		System.out.println("파일"+chooseFile);
-		System.out.println(chooseFile.getOriginalFilename());
-		/* user = userService.updateUserProfile(param, chooseFile); */
+
+		Long user_code = Long.parseLong(request.getParameter("bindedUserCode"));
+		String user_nickname_local = request.getParameter("changingNickname");
+		String user_tag = request.getParameter("changingTags");
+		
+		System.out.println(user_code);
+		System.out.println(user_nickname_local);
+		System.out.println(user_tag);
+		System.out.println(chooseFile.getOriginalFilename()); // 카카오면 originalFilename이 안잡힘! -> 이걸로 구별
+
+//		Map<String, Object> updateUser = new HashMap<>();
+//		updateUser.put("user_code", user_code);
+//		updateUser.put("user_nickname_local", user_nickname_local);
+//		updateUser.put("user_tag", user_tag);
+		
+		
+		/* user = userService.updateUserLocalProfile(param, chooseFile); */
 		mav.setViewName("myPage");
 		return mav;
 	}

@@ -65,6 +65,7 @@
 	height: 70%;
 	overflow: hidden;
 	border-radius: 70%;
+		box-shadow: 2px 8px 10px 0 rgba(17,42,128,0.08);
 }
 
 .myPic {
