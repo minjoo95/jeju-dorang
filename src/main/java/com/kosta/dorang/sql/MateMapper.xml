@@ -9,13 +9,14 @@
          VALUES (#{user_code},#{title},#{content},#{type},#{direction},#{number},#{age},#{gender},#{daterange},#{tags},#{status},#{image},#{first_ask},#{second_ask},#{third_ask},NOW())
      ]]>
 </insert>
-<select id="selectMate" parameterType="Integer" resultType="com.kosta.dorang.dto.Mate">
+<select id="selectMate" resultType="com.kosta.dorang.dto.Mate">
    <![CDATA[ 
        SELECT * FROM mate WHERE mate_code = #{mate_code}
     ]]>
 </select>
-<select id="getMateListViewSort" resultType="com.kosta.dorang.dto.Mate">
-  SELECT * FROM mate ORDER BY createdAt DESC
+<select id="getMateListViewSort" parameterType="com.kosta.dorang.dto.MateCriteria" resultType="com.kosta.dorang.dto.Mate">
+  SELECT * FROM mate ORDER BY createdAt DESC 
+  limit #{pageStart},#{perPageNum}
 </select>
 <update id="updateMate" parameterType="com.kosta.dorang.dto.Mate">
      	 <![CDATA[
@@ -45,7 +46,32 @@
        SELECT * FROM MateApply WHERE mate_code = #{mate_code} and user_code = #{user_code}
     ]]>
 </select>
+	<insert id="insertMateReply" parameterType="com.kosta.dorang.dto.MateComments">
+		<![CDATA[
+			insert into matecomment (comment_code, mate_code, user_code, content, createAt, updateAt,mate_reply_depth,mate_reply_group_code) 
+			values (
+				(nextval('num')),#{mate_code},#{user_code},#{content},now(),now(),1,0
+        		)
+		]]>
+	</insert>
+	<select id="selectMateReplyListByMateCode" parameterType="Int" resultType="com.kosta.dorang.dto.MateComments">
+		<![CDATA[
+			select * from matecomment where mate_code=#{mate_code}
+		]]>
+	</select>
+<select id="totalCount" resultType="Integer">
+    select count(*) from mate;
+</select>
+<update id="mateCount" parameterType="Integer">
+   <![CDATA[
+	update mate set count=count+1 where mate_code=#{mate_code}
+   ]]>
+</update>
 
-
-
+<!-- 마이페이지 -->
+<select id="getmyMateWriteList" parameterType="Map" resultType="com.kosta.dorang.dto.Mate">
+   <![CDATA[ 
+         SELECT * FROM mate where user_code = #{user_code} ORDER BY createdAt DESC limit #{pageStart},#{perPageNum}
+    ]]>
+</select>
 </mapper>

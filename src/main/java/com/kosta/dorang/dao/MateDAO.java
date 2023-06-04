@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.kosta.dorang.dto.Mate;
 import com.kosta.dorang.dto.MateApply;
+import com.kosta.dorang.dto.MateComments;
+import com.kosta.dorang.dto.MateCriteria;
+
 
 @Repository
 public class MateDAO implements MateDAOI {
@@ -41,9 +44,9 @@ public class MateDAO implements MateDAOI {
 	}
 
 	@Override
-	public List<Mate> getMateListViewSort() throws Exception {
+	public List<Mate> getMateListViewSort(MateCriteria cri) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("MateMapper.getMateListViewSort");
+		return sqlSession.selectList("MateMapper.getMateListViewSort",cri);
 	}
 
 	/*동행신청*/
@@ -61,8 +64,37 @@ public class MateDAO implements MateDAOI {
 		  applyMap.put("user_code", user_code);
 		  return sqlSession.selectOne("MateMapper.selectApplyMate", applyMap);
 	}
+  
+	@Override
+	public int totalCount() {
+		return sqlSession.selectOne("MateMapper.totalCount");
+	}
+
+	@Override
+	public void mateCount(int mate_code) throws Exception {
+		sqlSession.update("MateMapper.mateCount",mate_code);
+		
+	}
+
+	@Override
+	public List<Mate> getmyMateWriteList(Long user_code, MateCriteria cri) throws Exception {
+			Map<String, Object> mylist = new HashMap<>();
+			mylist.put("user_code", user_code);
+			mylist.put("pageStart", cri.getPageStart());
+			mylist.put("perPageNum", cri.getPerPageNum());
+			return sqlSession.selectList("MateMapper.getmyMateWriteList",mylist);
+	}
+	
+  //응심이 
+	@Override
+	public List<MateComments> selectMateReplyListByMateCode(int mate_code) throws Exception {
+		return sqlSession.selectList("MateMapper.selectMateReplyListByMateCode",mate_code);
+	}
+
+	@Override
+	public void insertMateReply(MateComments mateComments) {
+		sqlSession.insert("MateMapper.insertMateReply",mateComments);
+	}
 
 	
-	
-
 }
