@@ -6,11 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kosta.dorang.dao.MateDAO;
+import com.kosta.dorang.dao.MateDAOI;
 import com.kosta.dorang.dto.Mate;
 import com.kosta.dorang.dto.MateApply;
+import com.kosta.dorang.dto.MateComments;
 
 @Service
 public class MateService implements MateServiceI {
+	
+	@Autowired
+	private MateDAOI mateDaoI;
 
 	@Autowired
 	private MateDAO mateDAO;
@@ -54,11 +59,20 @@ public class MateService implements MateServiceI {
 		return mateDAO.selectApplyMate(mate_code, user_code);
 	}
 
-	
-	
+	@Override
+	public List<Mate> selectMateListByUser(long user_code) throws Exception {
+		return mateDaoI.selectMateListByUser(user_code);
+	}
 
+	@Override
+	public List<MateComments> selectMateReplyListByMateCode(int mate_code) throws Exception {
+		return mateDaoI.selectMateReplyListByMateCode(mate_code);
+	}
 
+	@Override
+	public void insertMateReply(MateComments mateComments) {
+		mateDaoI.insertMateReply(mateComments);
+		
+	}
 
-	
-	
 }

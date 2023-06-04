@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.kosta.dorang.dto.Mate;
 import com.kosta.dorang.dto.MateApply;
+import com.kosta.dorang.dto.MateComments;
 
 @Repository
 public class MateDAO implements MateDAOI {
@@ -62,7 +63,21 @@ public class MateDAO implements MateDAOI {
 		  return sqlSession.selectOne("MateMapper.selectApplyMate", applyMap);
 	}
 
-	
-	
+	@Override
+	public List<Mate> selectMateListByUser(long user_code) {
+		return sqlSession.selectList("MateMapper.selectMateListByUser",user_code);
+	}
 
+	@Override
+	public List<MateComments> selectMateReplyListByMateCode(int mate_code) throws Exception {
+		return sqlSession.selectList("MateMapper.selectMateReplyListByMateCode",mate_code);
+	}
+
+	@Override
+	public void insertMateReply(MateComments mateComments) {
+		sqlSession.insert("MateMapper.insertMateReply",mateComments);
+		
+	}
+
+	
 }

@@ -8,14 +8,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>모집글등록하기</title>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+   <!--  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>  
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>   -->
   	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" defer></script>
+	<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" defer></script> -->
+	<script src="<c:url value="/resources/js/mate.js"/>"></script>
   </head>
-  <style>
+ <!--  <style>
   	 *:not(html), .wrap, header {
     box-sizing: content-box !important;
   }
@@ -77,15 +78,17 @@
 		
   });//document끝
  
-</script>
+</script> -->
   <body>
   <jsp:include page="../header.jsp"></jsp:include>
-    <div class="container" style="padding:50px 0px" >
+    <%-- <div class="container" style="padding:50px 0px" >
     
      <c:set var="sessionUserCode" value="${sessionScope.userInfo.user_code}" />
-	 <c:set var="boardUserCode" value="${mt.user_code}" />
+	 <c:set var="boardUserCode" value="${mt.user_code}" /> --%>
+	<%--  <c:set target="mateList" var="mateList" /> --%>
 	
-     <c:if test="${sessionUserCode ne null and sessionUserCode eq boardUserCode}">
+	
+    <%--  <c:if test="${sessionUserCode ne null and sessionUserCode eq boardUserCode}">
         <div class="writer-btn d-flex justify-content-end" style="padding-bottom: 50px">
 	    	<a class="update_btn" href="${contextPath}/mate/updateForm?mate_code=${mt.mate_code}">수정하기</a>
 	    	<a class="delete_btn" style="margin-left: 5px;" href="${contextPath}/mate/deleteMate?mate_code=${mt.mate_code}">삭제하기</a>
@@ -191,10 +194,67 @@
       </div>
         </form>
     </div>
-    
+     --%>
     
     
     <!-- 동행 댓글 -->
+  <!--   <table class="mate_reply_list_wrap">
+    	<thead>
+    		<td colspan="4"><strong class="mate_reply_list_title">댓글 목록</strong></td>
+    	</thead>
+    </table>
+    <tbody></tbody> -->
+   
+   <!--댓글 목록  --> 
+ <!--   <div class="tt-wrap-cmt">
+   	<div class="tt-box-thumb">
+   		<a href="#">after
+   			<span class="tt-thumbnail" style=""></span>
+   		</a>
+   	</div>
+   	<div class="tt-box-content">
+   		<div class="tt-box-meta">
+   			<a class="tt-link-user" href="#"></a>
+   		</div>
+   		<div class="tt-wrap-desc">
+   			<p class="tt_desc"></p>
+   		</div>
+   		<div class="tt-wrap-info">
+   			<span class="tt_date"></span>
+   			<span class="tt-wrap-link-comment">before
+   				<a class="tt-link-comment" href="#">
+   					<span class="tt_txt_g">답글</span>
+   				</a>
+   			</span>
+   		</div>
+   		<div class="tt-box-modify">
+   			<button type="button" class="tt_img_area_reply tt-button-modify">더보기</button>
+   			<ul class="tt-list-modify">
+   				<li>
+   					<a href="#">고정</a>
+   				</li>
+   				<li>
+   					<a href="#">수정</a>
+   				</li>
+   				<li>
+   					<a href="#">삭제</a>
+   				</li>
+   			</ul>
+   		</div>
+   	</div>
+   </div> -->
+   <div>${mate_code }</div>
+   
+   <table align="center" width="500" border="1" id="rtb">
+		<thead>
+			<td colspan="4"><b id="rCount">댓글목록</b></td>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+   
+   <!--댓글쓰기  -->
+   <input type="hidden" name="mate_code" id="mate_code" value="${mate_code}"/>
     <div class="mate_reply_wrap">
     	<div class="mate_reply_container">
     		<textarea class="comment_txt" name="comment_txt" placeholder="댓글 입력..."></textarea>
@@ -203,7 +263,7 @@
     		<button class="mate_reply_btn">입력</button>
     	</div>
     </div>
-    
+    <!-- ------------------------------------------------------------ -->
     
     <div style="height: 100px; background-color: orange;">푸터</div>
   </body>

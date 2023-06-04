@@ -1,6 +1,7 @@
 package com.kosta.dorang.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,10 +16,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.File;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kosta.dorang.dto.Mate;
 import com.kosta.dorang.dto.MateApply;
+import com.kosta.dorang.dto.MateComments;
+import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.MateService;
-
+import com.kosta.dorang.service.MateServiceI;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -27,8 +32,13 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 public class MateController {
 
 	@Autowired
+	private MateServiceI mateServiceI;
+	
+	@Autowired
 	MateService mateService;
 	
+	@Autowired
+	HttpSession session;
 	
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -173,13 +183,6 @@ public class MateController {
 		return "redirect:/mate/list";
 	}
 	
-	// 응심이가 만든거 삭제 ㄴㄴ
-	@RequestMapping(value="/mymatepage", method=RequestMethod.GET)
-	public String mateReply(Model model){
-		System.out.println("들어오기");
-		return "/mate/mateCommunity";
-	}
-	
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public String deleteMate(@RequestParam("mate_code") int mate_Code) throws Exception {
@@ -217,7 +220,110 @@ public class MateController {
 
    
 	
-	
-	
+	// 응심이가 만든거 삭제 ㄴㄴ
+		@RequestMapping(value="/writelist", method=RequestMethod.GET)
+		public String myMateList(Model model) throws Exception{
+			List<Mate> mateList=null;
+			List<MateComments> mateCommentList=null;
+			User user=(User) session.getAttribute("userInfo");
+			try {
+				mateList=mateServiceI.selectMateListByUser(user.getUser_code());
+				System.out.println("--------mateList--------");
+				for(Mate a:mateList) {
+					System.out.println(a.getContent());
+				}
+				System.out.println("--------------------------------");
+				//mateCommentList=mateServiceI.selectMateReplyListByMateCode(mate_code);
+//				System.out.println("--------mateCommentList--------");
+//				for(MateComments a:mateCommentList) {
+//					System.out.println(a.getContent());
+//				}
+//				System.out.println("--------------------------------");
+				model.addAttribute("mateList",mateList);
+//				model.addAttribute("mateComments",mateCommentList);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return "/mate/myMateList";
+		}
+		
+		@RequestMapping(value="/mymatedetail", method=RequestMethod.GET)
+		public String mateCommunity(Model model, int mate_code) throws Exception{
+			List<Mate> mateList=null;
+			List<MateComments> mateCommentList=null;
+			System.out.println(mate_code);
+			User user=(User) session.getAttribute("userInfo");
+			try {
+				mateList=mateServiceI.selectMateListByUser(user.getUser_code());
+				System.out.println("--------mateList--------");
+				for(Mate a:mateList) {
+					System.out.println(a.getContent());
+				}
+				mateCommentList=mateServiceI.selectMateReplyListByMateCode(mate_code);
+				System.out.println("--------mateCommentList--------");
+				for(MateComments a:mateCommentList) {
+					System.out.println(a.getContent());
+				}
+
+				model.addAttribute("mateList",mateList);
+				model.addAttribute("mateComments",mateCommentList);
+				model.addAttribute("mate_code",mate_code);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return "/mate/myMateDetail";
+		}
+		
+		@RequestMapping(value="/mateReplyInsert", method=RequestMethod.POST)
+		@ResponseBody
+		public void mateReplyInsert(@RequestParam("mate_code") int mate_code,@RequestParam("mateReplyContent") String mateReplyContent) throws Exception{
+			System.out.println("댓글 insert 컨트롤러 들어오기 성공");
+			User user=(User) session.getAttribute("userInfo");
+			System.out.println("mate_code : "+mate_code);
+			MateComments mateComments=new MateComments();
+			mateComments.setContent(mateReplyContent);
+			mateComments.setMate_code(mate_code);
+			mateComments.setUser_code(user.getUser_code());
+			System.out.println(mateComments.getContent());
+			try {
+				mateServiceI.insertMateReply(mateComments);
+				System.out.println("insert 다음");
+//				mateServiceI.selectMateReplyList(mate_code);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		@RequestMapping(value="/mateReplySelect", method=RequestMethod.GET)
+		@ResponseBody
+		public List<MateComments> mateReplySelect(@RequestParam("mate_code") int mate_code) throws Exception{
+			System.out.println("댓글 select 컨트롤러 들어오기 성공");
+//			User user=(User) session.getAttribute("userInfo");
+			System.out.println("mate_code : "+mate_code);
+//			MateComments mateComments=new MateComments();
+//			mateComments.setContent(mateReplyContent);
+//			mateComments.setMate_code(mate_code);
+//			mateComments.setUser_code(user.getUser_code());
+//			System.out.println(mateComments.getContent());
+			List<MateComments> mateComments=null;
+			try {
+				mateComments=mateServiceI.selectMateReplyListByMateCode(mate_code);
+				System.out.println("댓글 리스트 ---------------------------------");
+				for(MateComments a:mateComments) {
+					System.out.println(a.getContent());
+				}
+				System.out.println("--------------------------------------------");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+//			if(mateComments!=null) {
+//				Gson gson=new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+//				return gson.toJson(mateComments);
+//			}else {
+//				
+//				return "";
+//			}
+			return mateComments;
+		}
 	
 }
