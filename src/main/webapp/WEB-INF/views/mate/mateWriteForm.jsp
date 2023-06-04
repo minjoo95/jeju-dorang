@@ -24,7 +24,43 @@
 	</style>
 	
 	<script>
-	
+	$(document).ready(function() {
+		
+		  var textarea = $('#content');
+		  var inputCount =$('.inputCount');
+
+		  textarea.on('input', function() {
+		    var maxLength = 150;
+		    var remainingChars = maxLength - textarea.val().length;  
+
+		    if (remainingChars <= 0) {
+		      textarea.val(textarea.val().substring(0, maxLength)); 
+		      remainingChars = 0;
+		    }
+
+		    $('#charCount').text(textarea.val().length);
+		  });
+
+		  textarea.on('keypress', function(e) {
+		    if (textarea.val().length >= maxLength) {
+		      e.preventDefault();
+		    }
+		  });
+		  
+		  inputCount.on('input',function(){
+			  var maxLength = 30;
+			  var remainingChars = maxLength - $(this).val().length;
+			  if (remainingChars <= 0) {
+				  $(this).val($(this).val().substring(0, maxLength)); 
+			      remainingChars = 0;
+			    }
+			  $(this).next().text($(this).val().length);
+		  });
+		  
+		  
+		});
+
+
 	
 	  /*모집 이미지 기본 사진*/
 	  var defultImage = "../resources/img/no_thumbnail_ex.jpg";
@@ -126,7 +162,8 @@ function goInsert() {
 			        <div class="col-md-6 container_left" >
 				 		<div class="mb-4" >
 							<label for="title" class="form-label" style="color: #FB7A51;">제목</label>
-							<input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력해주세요">
+							<input type="text" class="form-control inputCount" id="title" name="title" placeholder="제목을 입력해주세요">
+							<span id="inputCount">0</span>/30
 				  		</div> 
 						 <!-- 이미지 -->
 							 <div class="card mb-3">
@@ -270,6 +307,7 @@ function goInsert() {
 				    <div class="mb-3 ">
 					  	    <label for="content" class="form-label" style="color:  #FB7A51;">내용</label>
 						    <textarea class="form-control" placeholder="내용을 입력해주세요" id="content" name="content" style="height:150px; resize: none;"></textarea>
+			  		        <span id="charCount">0</span>/150
 			  		</div>
 			   </div>
 			  <div class="container_ask">
@@ -279,17 +317,20 @@ function goInsert() {
 	  	    	  </h3>
 	  	    	 <div class="mb-3" >
 	  	    		<label for="first_ask" class="w-100">
-	   			 	    <input type="text" class="form-control" id="first_ask" name="first_ask" placeholder="질문1.">
+	   			 	    <input type="text" class="form-control inputCount" id="first_ask" name="first_ask" placeholder="질문1.">
+	   			 	    	<span id="inputCount">0</span>/30
 	    	    	</label>
 	             </div>
 	              <div class="mb-3">
 	                <label for="second_ask" class="w-100">
-	   			 	    <input type="text" class="form-control" id="second_ask" name="second_ask" placeholder="질문2." >
+	   			 	    <input type="text" class="form-control inputCount" id="second_ask" name="second_ask" placeholder="질문2." >
+	   			 	    	<span id="inputCount">0</span>/30
 	    	    	</label>
 	             </div>
 	              <div class="mb-5">
 	              	<label for="third_ask" class="w-100">
-	   			 	    <input type="text" class="form-control" id="third_ask" name="third_ask" placeholder="질문3.">
+	   			 	    <input type="text" class="form-control inputCount" id="third_ask" name="third_ask" placeholder="질문3.">
+	   			 	    	<span id="inputCount">0</span>/30
 	    	    	</label>
 	             </div>
 			  </div>
