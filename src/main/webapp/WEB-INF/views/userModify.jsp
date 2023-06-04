@@ -238,9 +238,6 @@ $(document).ready(function(){
 						}
 					});
 				});
-			},
-			error: function(){
-				alert("-_-");
 			}
 		});	
 		
