@@ -238,6 +238,7 @@ public class UserService implements UserServiceI {
 		if (user == null) {
 			userInfo.put("user_nickname", userInfo.get("user_nickname_kakao"));
 			userInfo.put("user_pic", userInfo.get("user_pic_kakao"));
+
 			userDAO.insertUser(userInfo);
 			return userDAO.selectUser((Long)userInfo.get("user_code"));
 		} else {
