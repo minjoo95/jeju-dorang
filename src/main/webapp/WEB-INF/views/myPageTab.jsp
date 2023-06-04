@@ -16,19 +16,19 @@
 	<div class = "myPageTabListBox">
 		<ul class = "myPageTabList">
 			<li class = "tabList">
-				<a class="myTab" href="${contextPath }/user/mypage?page=userModify.jsp" onclick="menuClick(event);"><i class="tabIcon fa-regular fa-circle-user"></i>프로필 수정</a>
+				<a class="myTab" id="modifyMyProfile" href="${contextPath }/user/mypage?page=userModify.jsp" onclick="menuClick(event);"><i class="tabIcon fa-regular fa-circle-user"></i>프로필 수정</a>
 				<img class="leaf" style="display:none;" src="<c:url value="/resources/img/icon_menuLeaf.png"/>" alt="leaf" />
 			</li>
 			<li class = "tabList">
-				<a class="myTab" href="#" onclick="menuClick(event);"><i class="tabIcon fa-solid fa-heart"></i>찜한 여행지</a>
+				<a class="myTab" id="likedMyTrip" href="#" onclick="menuClick(event);"><i class="tabIcon fa-solid fa-heart"></i>찜한 여행지</a>
 				<img class="leaf" style="display:none;" src="<c:url value="/resources/img/icon_menuLeaf.png"/>" alt="leaf" />
 			</li>
 			<li class = "tabList">
-				<a class="myTab" href="#" onclick="menuClick(event);"><i class="tabIcon fa-solid fa-user-group"></i>MY 동행</a>
+				<a class="myTab" id="myMate" href="#" onclick="menuClick(event);"><i class="tabIcon fa-solid fa-user-group"></i>MY 동행</a>
 				<img class="leaf" style="display:none;" src="<c:url value="/resources/img/icon_menuLeaf.png"/>" alt="leaf" />
 			</li>
 			<li class = "tabList">
-				<a class="myTab" href="#" onclick="menuClick(event);"><i class="tabIcon fa-regular fa-pen-to-square"></i>작성글 목록</a>
+				<a class="myTab" id="myBoard" href="#" onclick="menuClick(event);"><i class="tabIcon fa-regular fa-pen-to-square"></i>작성글 목록</a>
 				<img class="leaf" style="display:none;" src="<c:url value="/resources/img/icon_menuLeaf.png"/>" alt="leaf" />
 			</li>
 		</ul>
