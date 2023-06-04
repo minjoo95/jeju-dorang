@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kosta.dorang.dao.MainDAOI;
+import com.kosta.dorang.dto.Mate;
 import com.kosta.dorang.dto.MateUser;
 import com.kosta.dorang.dto.Trip;
+import com.kosta.dorang.dto.User;
 
 @Service
 public class MainService implements MainServiceI {

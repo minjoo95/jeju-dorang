@@ -10,6 +10,7 @@ import com.kosta.dorang.dao.MateDAOI;
 import com.kosta.dorang.dto.Mate;
 import com.kosta.dorang.dto.MateApply;
 import com.kosta.dorang.dto.MateComments;
+import com.kosta.dorang.dto.MateCriteria;
 
 @Service
 public class MateService implements MateServiceI {
@@ -26,8 +27,8 @@ public class MateService implements MateServiceI {
 	}
 
 	@Override
-	public List<Mate> getMateListViewSort() throws Exception {
-		return mateDAO.getMateListViewSort();
+	public List<Mate> getMateListViewSort(MateCriteria cri) throws Exception {
+		return mateDAO.getMateListViewSort(cri);
 	
 	}
 	
@@ -58,13 +59,24 @@ public class MateService implements MateServiceI {
 	public MateApply selectMateApply(int mate_code, Long user_code) throws Exception {
 		return mateDAO.selectApplyMate(mate_code, user_code);
 	}
-
+  
 	@Override
-	public List<Mate> selectMateListByUser(long user_code) throws Exception {
-		return mateDaoI.selectMateListByUser(user_code);
+	public int totalCount() throws Exception {
+		return mateDAO.totalCount();
 	}
 
 	@Override
+	public void mateCount(int mate_code) throws Exception {
+		 mateDAO.mateCount(mate_code);
+	}
+	
+	@Override
+	public List<Mate> getmyMateWriteList(Long user_code,MateCriteria cri) throws Exception {
+		return mateDAO.getmyMateWriteList(user_code,cri);
+	}
+
+  //응심이 댓글
+  @Override
 	public List<MateComments> selectMateReplyListByMateCode(int mate_code) throws Exception {
 		return mateDaoI.selectMateReplyListByMateCode(mate_code);
 	}
@@ -74,5 +86,5 @@ public class MateService implements MateServiceI {
 		mateDaoI.insertMateReply(mateComments);
 		
 	}
-
+	
 }

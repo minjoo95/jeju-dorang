@@ -15,9 +15,10 @@ public class MateComments {
 	public MateComments() {
 		// TODO Auto-generated constructor stub
 	}
-
+  
 	public MateComments(int comment_code, int mate_code, long user_code, String content, Date createAt,
 			Date updateAt, int mate_reply_depth,int mate_reply_group_code) {
+
 		this.comment_code = comment_code;
 		this.mate_code = mate_code;
 		this.user_code = user_code;
@@ -26,6 +27,7 @@ public class MateComments {
 		this.updateAt = updateAt;
 		this.mate_reply_depth=mate_reply_depth;
 		this.mate_reply_group_code=mate_reply_group_code;
+
 	}
 
 	public int getComment_code() {
@@ -43,6 +45,7 @@ public class MateComments {
 	public void setMate_code(int mate_code) {
 		this.mate_code = mate_code;
 	}
+
 
 	public Long getUser_code() {
 		return user_code;
@@ -72,6 +75,7 @@ public class MateComments {
 		return updateAt;
 	}
 
+
 	public void setUpdateAt(Date updateAt) {
 		this.updateAt = updateAt;
 	}
@@ -91,7 +95,5 @@ public class MateComments {
 	public void setMate_reply_group_code(int mate_reply_group_code) {
 		this.mate_reply_group_code = mate_reply_group_code;
 	}
-	
-	
 	
 }
