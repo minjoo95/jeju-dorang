@@ -46,8 +46,6 @@ public class MateController {
 	@Autowired
 	HttpSession session;
 	
-	@Autowired
-	HttpSession session;
 	
 	@RequestMapping(value = "/writelist", method = RequestMethod.GET)
 	public String mateMyPage(Model m, @RequestParam(defaultValue = "1") int page) throws Exception {
