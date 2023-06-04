@@ -65,6 +65,7 @@
 	height: 70%;
 	overflow: hidden;
 	border-radius: 70%;
+		box-shadow: 2px 8px 10px 0 rgba(17,42,128,0.08);
 }
 
 .myPic {
@@ -90,7 +91,7 @@
     font-size: 1em;
 }
 
-#chooseFile {
+#pic_local {
     visibility: hidden;
 }
 
@@ -169,15 +170,15 @@
 	display: flex;
 	flex-direction: row;
 	align-items: flex-end;
-	margin-right: 0;
+	margin-right: 25px;
 	margin-bottom: -10px;
-	font-size: 0.5em;
 }
 .additAgeGender {
 	margin: 0 5px;
 }
 .additionAge, .additionGender {
 	color: #696969;
+	font-size: 0.5em;
 }
 
 
@@ -209,11 +210,11 @@
 .myNicknameBtnAndName {
 	margin-left:0;
 	display:flex;
-	width: 45%;
+	width: 55%;
 }
 
 .myNickname {
-	width: 70%;
+	width: 90%;
 	display: flex;
 	font-size: 1.7em;
 	justify-content: center;
@@ -221,7 +222,7 @@
     font-family: SBAggroB-lighter;
 }
 .nicknameModifyOpenBtn {
-	width: 60px;
+	width: 75px;
 	border: none;
 	height: 30px;
 	color: white;
@@ -237,6 +238,25 @@
 .penIcon {
 	padding-left: 6px;
 }
+.nicknameDeleteBtn {
+	width: 75px;
+	border: none;
+	height: 30px;
+	color: white;
+	margin-top: 2px;
+	margin-left: 15px;
+	border-radius: 10px;
+	background-color: #696969;
+	font-family: 'Dovemayo_gothic';
+}
+.nicknameDeleteBtn:hover {
+	cursor: pointer;
+}
+.eraserIcon {
+	padding-left: 6px;
+}
+
+
 
 
 /* 닉네임 모달 */
@@ -343,7 +363,7 @@
 	color: #FB7A51;
 	font-size: 1.2em;
 }
-#test12 {
+#myTagTitle {
 	font-size: 1.1em;
 	font-weight: lighter;
     font-family: 'SBAggroB-lighter';
@@ -360,6 +380,7 @@
 	display: flex;
 	width: 100%;
 	height: 20%;
+	margin-left: -15px;
 }
 .eachTag {
 	width: 20%;
