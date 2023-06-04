@@ -20,6 +20,12 @@
 <jsp:include page="/WEB-INF/views/header.jsp" />
 <jsp:include page="/WEB-INF/views/myPageTab.jsp" flush="false"/>
 
-	<jsp:include page="${myPageContentPage }" flush="false"/>
+<jsp:include page="${myPageContentPage }" flush="false"/>
+
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>
+
+<script>
+	localStorage.setItem('lastClicked', 'userModify');
+</script>

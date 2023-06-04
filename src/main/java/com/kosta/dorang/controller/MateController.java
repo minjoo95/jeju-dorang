@@ -21,8 +21,12 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kosta.dorang.dto.Mate;
 import com.kosta.dorang.dto.MateApply;
+
+import com.kosta.dorang.dto.MateComments;
 import com.kosta.dorang.dto.MateCriteria;
 import com.kosta.dorang.dto.MatePageMaker;
 import com.kosta.dorang.dto.User;
@@ -30,11 +34,13 @@ import com.kosta.dorang.service.MateService;
 import com.kosta.dorang.service.MateServiceI;
 
 
-
 @Controller
 @RequestMapping("/mate")
 public class MateController {
 
+	@Autowired
+	private MateServiceI mateServiceI;
+	
 	@Autowired
 	MateService mateService;
 	@Autowired
@@ -311,16 +317,58 @@ public class MateController {
 	    }
 	}
 	
-
-	// 응심이가 만든거 삭제 ㄴㄴ
-	@RequestMapping(value="/mymatepage", method=RequestMethod.GET)
-	public String mateReply(Model model){
-		System.out.println("들어오기");
-		return "/mate/mateCommunity";
-	}
 	
-	
-	
-	
+	//응심이 댓글
+		@RequestMapping(value="/mateReplyInsert", method=RequestMethod.POST)
+		@ResponseBody
+		public void mateReplyInsert(@RequestParam("mate_code") int mate_code,@RequestParam("mateReplyContent") String mateReplyContent) throws Exception{
+			System.out.println("댓글 insert 컨트롤러 들어오기 성공");
+			User user=(User) session.getAttribute("userInfo");
+			System.out.println("mate_code : "+mate_code);
+			MateComments mateComments=new MateComments();
+			mateComments.setContent(mateReplyContent);
+			mateComments.setMate_code(mate_code);
+			mateComments.setUser_code(user.getUser_code());
+			System.out.println(mateComments.getContent());
+			try {
+				mateServiceI.insertMateReply(mateComments);
+				System.out.println("insert 다음");
+//				mateServiceI.selectMateReplyList(mate_code);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		@RequestMapping(value="/mateReplySelect", method=RequestMethod.GET)
+		@ResponseBody
+		public List<MateComments> mateReplySelect(@RequestParam("mate_code") int mate_code) throws Exception{
+			System.out.println("댓글 select 컨트롤러 들어오기 성공");
+//			User user=(User) session.getAttribute("userInfo");
+			System.out.println("mate_code : "+mate_code);
+//			MateComments mateComments=new MateComments();
+//			mateComments.setContent(mateReplyContent);
+//			mateComments.setMate_code(mate_code);
+//			mateComments.setUser_code(user.getUser_code());
+//			System.out.println(mateComments.getContent());
+			List<MateComments> mateComments=null;
+			try {
+				mateComments=mateServiceI.selectMateReplyListByMateCode(mate_code);
+				System.out.println("댓글 리스트 ---------------------------------");
+				for(MateComments a:mateComments) {
+					System.out.println(a.getContent());
+				}
+				System.out.println("--------------------------------------------");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+//			if(mateComments!=null) {
+//				Gson gson=new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+//				return gson.toJson(mateComments);
+//			}else {
+//				
+//				return "";
+//			}
+			return mateComments;
+		}
 	
 }

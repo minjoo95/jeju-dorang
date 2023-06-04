@@ -46,6 +46,19 @@
        SELECT * FROM MateApply WHERE mate_code = #{mate_code} and user_code = #{user_code}
     ]]>
 </select>
+	<insert id="insertMateReply" parameterType="com.kosta.dorang.dto.MateComments">
+		<![CDATA[
+			insert into matecomment (comment_code, mate_code, user_code, content, createAt, updateAt,mate_reply_depth,mate_reply_group_code) 
+			values (
+				(nextval('num')),#{mate_code},#{user_code},#{content},now(),now(),1,0
+        		)
+		]]>
+	</insert>
+	<select id="selectMateReplyListByMateCode" parameterType="Int" resultType="com.kosta.dorang.dto.MateComments">
+		<![CDATA[
+			select * from matecomment where mate_code=#{mate_code}
+		]]>
+	</select>
 <select id="totalCount" resultType="Integer">
     select count(*) from mate;
 </select>
