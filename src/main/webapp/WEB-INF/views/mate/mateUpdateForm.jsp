@@ -26,10 +26,7 @@
 	
 	<script>
 	
-	
-	  /*모집 이미지 기본 사진*/
-	  var defultImage = "../resources/img/no_thumbnail_ex.jpg";
-	  
+
 	  $(document).ready(function(){
 		  
 		    /*datarange*/
@@ -99,7 +96,7 @@ function updateMate() {
 			
 			if(title ==null ||title.trim() === "" || content==null || content.trim() === ""||
 			   type==null || direction==null || number ==null || age ==null|| gender==null ||
-			   daterange == null || tags == null || status == null || imageViewSrc == defultImage ||
+			   daterange == null || tags == null || status == null || 
 			   first_ask == null || first_ask.trim() === "" || 
 			   second_ask == null || second_ask.trim() === "" ||
 			   third_ask == null || third_ask.trim() === ""
@@ -131,7 +128,7 @@ function updateMate() {
 				  		</div> 
 						 <!-- 이미지 -->
 							 <div class="card mb-3">
-							  	<img id="imageView" src="${contextPath}/resources/img/${mt.image}" style="height: 370px">
+							  	<img  id="imageView" src="${contextPath}/resources/upload/mate/${mt.image}" class="card-img-top" alt="제주도모집이미지" style="height: 370px; border-radius: 0px;">
 							 </div>	 
 			         </div>
 	         		<div class="col container_right" >
@@ -324,10 +321,12 @@ function updateMate() {
       <div class="form_btn mb-5" style="width: 100%;text-align: center;">
       		<button type="button" class="btn btn-primary px-5" onclick="updateMate()">수정완료</button>
       </div>
+        <input type="hidden" name="page" value="<c:out value='${cri.page}'/>"/>
+        <input type="hidden" name="perPageNum" value="<c:out value='${cri.perPageNum}'/>"/>
         </form>
     </div>
- 
-    
+
+   
     
     <div style="height: 100px; background-color: orange;">푸터</div>
   </body>
