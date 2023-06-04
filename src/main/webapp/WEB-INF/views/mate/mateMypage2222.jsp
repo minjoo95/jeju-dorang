@@ -71,20 +71,6 @@
 </head>
 <body>
    <div class="container">
-   <ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled">Disabled</a>
-  </li>
-</ul>
        <h3 style="padding:50px 0px 20px 0px">동행 목록</h3>
   		<div class="sort-btn-group mb-5" style="text-align: right;">
 	 		<button type="button" class="btn" style="background: #FB7A51">내가 작성한 글 보기</button>
