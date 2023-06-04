@@ -236,8 +236,8 @@ public class UserService implements UserServiceI {
 		System.out.println("@@@새로갱신@@@"+user);
 		// DB에 없으면 insert
 		if (user == null) {
-			userInfo.put("user_nickname", user.getUser_nickname_kakao());
-			userInfo.put("user_pic", user.getUser_pic_kakao());
+			userInfo.put("user_nickname", userInfo.get("user_nickname_kakao"));
+			userInfo.put("user_pic", userInfo.get("user_pic_kakao"));
 			userDAO.insertUser(userInfo);
 			return userDAO.selectUser((Long)userInfo.get("user_code"));
 		} else {

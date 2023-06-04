@@ -16,7 +16,7 @@
 	<div class = "myPageTabListBox">
 		<ul class = "myPageTabList">
 			<li class = "tabList">
-				<a class="myTab" id="modifyMyProfile" href="${contextPath }/user/mypage?page=userModify.jsp" onclick="menuClick(event);"><i class="tabIcon fa-regular fa-circle-user"></i>프로필 수정</a>
+				<a class="myTab" id="userModify" href="${contextPath }/user/mypage?page=userModify.jsp" onclick="menuClick(event);"><i class="tabIcon fa-regular fa-circle-user"></i>프로필 수정</a>
 				<img class="leaf" style="display:none;" src="<c:url value="/resources/img/icon_menuLeaf.png"/>" alt="leaf" />
 			</li>
 			<li class = "tabList">
@@ -35,33 +35,52 @@
 	</div>
 </div>
 
-<script type = "text/javascript">
+<script>
+
+$(document).ready(function() {
+	// 직전에 클릭했던 메뉴 id 로컬에서 가져와서 css 적용
+	let lastClicked = localStorage.getItem('lastClicked');
+	if(lastClicked != null){
+		$("#"+lastClicked).css('color', '#FB7A51');
+		$("#"+lastClicked).css('font-weight', 'bold');
+		$("#"+lastClicked).next('.leaf').css('display', 'inline-block');
+		$("#"+lastClicked).next('.leaf').addClass('visible');
+	} else {
+		lastClicked = 'userModify';
+		$("#"+lastClicked).css('color', '#FB7A51');
+		$("#"+lastClicked).css('font-weight', 'bold');
+		$("#"+lastClicked).next('.leaf').css('display', 'inline-block');
+		$("#"+lastClicked).next('.leaf').addClass('visible');
+	}
+});
+
 	function menuClick(event){
 		
 		let clicked = event.currentTarget; // 이벤트 발생한 태그
 		let clickedImage = clicked.parentNode.querySelector('.leaf');
 		
-		let pageUrl = clicked.getAttribute('href');
+		// 클릭한 메뉴 id저장하고 로컬에 저장! - 페이지 이동하면서 변수까지 리셋되므로
+		lastClicked = clicked.id;
+		localStorage.setItem('lastClicked', lastClicked);
 		
 		// 이전 클릭 메뉴에 적용했던 효과 삭제
 		let menus = document.querySelectorAll('.myTab');
 		for(let i=0; i<menus.length; i++){
-			menus[i].style.color='';
-			menus[i].style.fontWeight='';
+			menus[i].style.color = '';
+			menus[i].style.fontWeight = '';
 		}
 		let prevLeaf = document.querySelector('.leaf.visible');
 		if (prevLeaf != null) {
-			prevLeaf.style.display='none';
+			prevLeaf.style.display= 'none';
 			prevLeaf.classList.remove('visible');
 		}
 
 		// 클릭했을 때, 잎사귀 + 색깔 + 글자 굵기 적용
-		clicked.style.color='#FB7A51';
-		clicked.style.fontWeight='bold';
+		clicked.style.color ='#FB7A51';
+		clicked.style.fontWeight = 'bold';
 		clickedImage.style.display = 'inline-block';
 		clickedImage.classList.add('visible');
-		
-		// include jsp 이동하면서 메뉴 선택 효과 사라지는 중.. ㄱ- 해결해야 함
-		// ajax ?
+
 	}
+
 </script>
