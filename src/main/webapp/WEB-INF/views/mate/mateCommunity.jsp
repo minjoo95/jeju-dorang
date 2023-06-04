@@ -21,7 +21,6 @@
   }
   .container, .container * {
     box-sizing: border-box !important;
-    position: relative;
   }
   .custom-bg {
  	 background-color: red; /* 원하는 배경색 지정 */
@@ -61,24 +60,10 @@
   .ask {
   	color:#FB7A51;
   }
-  
-  .applyAlert{
-  	position: absolute;
-  	bottom: 32px;
-  	left: 50%;
-  	margin-left: calc(-258px / 2);
-  	width: 259px;
-  	box-sizing: border-box;
-  }
   </style>
   <script type="text/javascript">
 
  $(document).ready(function(){
-	
-	    $("#myButton").click(function() {
-	    	  $("#myAlert").show();
-	    	});
-	   
   
 	 var tags=$("#tags_strings").html();
 	 var tagList = tags.split('/');
@@ -91,89 +76,28 @@
 	 }
 		
   });//document끝
-  
-  function mateApply() {
-		 
-		 var frist_answer = $('#frist_answer').val();
-	  	 var second_answer = $('#second_answer').val();
-	  	 var third_answer = $('#third_answer').val();
-	  	 var mate_code = $('#mate_code').val(); 
-	  	 var user_code =$('#user_code').val(); 
-	  	 
-	  	 
-	  	 
-	  	  var send_data = {
-	  			"mate_code": mate_code,
-	  			"user_code": user_code,
-	  	  		"frist_answer": frist_answer,
-	  	   		"second_answer": second_answer,
-	  	    	"third_answer": third_answer 			 
-	  	 };
-	  	  
-	  	 console.log(send_data);
-	  	 if( frist_answer == null || frist_answer.trim() === "" || 
-	  		 second_answer == null || second_answer.trim() === "" ||
-	  		 third_answer == null || third_answer.trim() === ""){
-	  		 
-	  		      alert("모든 내용을 입력해주세요");
-	  		      
-	  	 }else{
-	  		$.ajax({
-	  		    url: "/dorang/mate/apply",
-	  		    type: "POST",
-	  		    contentType:"application/json",
-	  		    data: JSON.stringify(send_data),//JSON문자열 생성
-	  		    dataType: "text",
-	  		    success: function(response) {
-	  		        if (response === "success") {
-	  		        	
-	  		            $("#liveAlert").css("display", "block");
-	  		            $("#liveAlertText").html("신청되었습니다! :)");
-	  		        }else if (response === "already") {
-	  		            $("#liveAlert").css("display", "block");
-	  		             $(".alert-warning").removeClass("alert-warning").addClass("alert-danger");
-	  		            $("#liveAlertText").html("이미 신청된 게시글입니다!");
-	  		        }else{
-	  		        	 $(".alert-warning").removeClass("alert-warning").addClass("alert-danger");
-	  		            $("#liveAlert").css("display", "block");
-			            $("#liveAlertText").html("오류가 발생했습니다.");
-	  		        }
-	  		    },
-	  		  error : function(xhr,status,error) {
-	  			console.log(status + ", " + error);
-	  		}
-	  		});
-	  	 }
-	  			 
-	  		
-	}   
-  
-  function alertClose() {
-	  $("#liveAlert").css("display", "none");
-}
- 
  
 </script>
   <body>
-
   <jsp:include page="../header.jsp"></jsp:include>
     <div class="container" style="padding:50px 0px" >
+    
      <c:set var="sessionUserCode" value="${sessionScope.userInfo.user_code}" />
 	 <c:set var="boardUserCode" value="${mt.user_code}" />
+	
      <c:if test="${sessionUserCode ne null and sessionUserCode eq boardUserCode}">
         <div class="writer-btn d-flex justify-content-end" style="padding-bottom: 50px">
 	    	<a class="update_btn" href="${contextPath}/mate/updateForm?mate_code=${mt.mate_code}">수정하기</a>
-	    	<a class="delete_btn" style="margin-left: 5px;" href="${contextPath}/mate/delete?mate_code=${mt.mate_code}">삭제하기</a>
+	    	<a class="delete_btn" style="margin-left: 5px;" href="${contextPath}/mate/deleteMate?mate_code=${mt.mate_code}">삭제하기</a>
 	    </div>
      </c:if>
         <form id="mateDetail">
-          <input type="hidden" name="mate_code" id="mate_code" value="${mt.mate_code}"/>
-          <input type="hidden" name="user_code" id="user_code" value="${sessionScope.userInfo.user_code}"/>
+          <input type="hidden" name="mate_code" id="mate_code" value="${mate_code}"/>
        		<div class="container" >
           <div class="row">
 	          <div class="col-md-6  container_1" >
 		 			 <div class="mb-5" >
-					    <label  class="form-label" style="color: #FB7A51;">${mt.title}</label>
+					    <label for="title" class="form-label" style="color: #FB7A51;">${mt.title}</label>
 		  			 </div> 
 		  			  <!-- 이미지 --> 
 					<div class="mb-5">
@@ -226,43 +150,38 @@
 		  			 </div>
 			      </div> 
 			  </div>
-		  <div class="container_3 mt-2">
+		  <div class="container_3 mt-5">
   	    	 <h3 class="mb-3" style="font-size: 23px">
   	    	 	동행 신청하기
   	    	  </h3>
   	    	 <div style=" border: 2px solid #D9D9D9; border-radius: 15px; padding:50px 40px; margin-bottom: 50px"> 
 	  	    	 <div class="mb-3" >
-	  	    		<label for="frist_answer" class="w-100 ask">Q&nbsp;.&nbsp;${mt.first_ask}
-	  	    			   <input type="text" class="form-control" id="frist_answer" name="frist_answer" placeholder="답변을 입력해주세요." >
+	  	    		<label for="first_ask" class="w-100 ask">Q&nbsp;.&nbsp;${mt.first_ask}
+	  	    			   <input type="text" class="form-control" id="first_ask" name="first_ask" placeholder="답변을 입력해주세요." >
 	  	    		</label>
 	             </div>
 	              <div class="mb-3">
-	                <label for="second_answer" class="w-100 ask">Q&nbsp;.&nbsp;${mt.second_ask}
-	   			 	    <input type="text" class="form-control" id="second_answer" name="second_answer" placeholder="답변을 입력해주세요." >
+	                <label for="second_ask" class="w-100 ask">Q&nbsp;.&nbsp;${mt.second_ask}
+	   			 	    <input type="text" class="form-control" id="second_ask" name="second_ask" placeholder="답변을 입력해주세요." >
 	    	    	</label>
 	             </div>
 	              <div class="mb-3">
-	              	<label for="third_answer" class="w-100 ask">Q&nbsp;.&nbsp;${mt.third_ask}
-	   			 	    <input type="text" class="form-control" id="third_answer" name="third_answer" placeholder="답변을 입력해주세요.">
+	              	<label for="third_ask" class="w-100 ask">Q&nbsp;.&nbsp;${mt.third_ask}
+	   			 	    <input type="text" class="form-control" id="third_ask" name="third_ask" placeholder="답변을 입력해주세요.">
 	    	    	</label>
 	             </div>
 	            </div>
 		  </div>
 		 </div> 
           </div> 
-		   <div class="alert alert-warning alert-dismissible fade show applyAlert" style="display: none"  role="alert" id="liveAlert">
-			     <p id="liveAlertText"></p>
-			     <button type="button" class="btn-close"  onclick="alertClose()"></button>
-	       </div>
-	       
       <div class="form_btn mb-5" style="width: 100%;text-align: center;">
       		 <c:choose>
 		 		<c:when test="${sessionScope.user !=null}">
 		 			<c:if test="${sessionUserCode ne boardUserCode}">
-			       		<button id="liveAlertBtn" type="button" class="btn btn-primary px-5" onclick="mateApply()">동행신청</button>
+			       		<button type="button" disabled  class="btn btn-primary px-5" onclick="goInsert()">동행신청</button>
             		</c:if>
             		<c:if test="${sessionUserCode eq boardUserCode}">
-			       		<button id="liveAlertBtn" type="button" disabled  class="btn btn-secondary px-5">동행신청</button>
+			       		<button type="button" disabled  class="btn btn-secondary px-5" onclick="goInsert()">동행신청</button>
             		</c:if>
 		 		</c:when>
 		 		<c:otherwise>
@@ -272,10 +191,20 @@
       </div>
         </form>
     </div>
+    
+    
+    
+    <!-- 동행 댓글 -->
+    <div class="mate_reply_wrap">
+    	<div class="mate_reply_container">
+    		<textarea class="comment_txt" name="comment_txt" placeholder="댓글 입력..."></textarea>
+    	</div>
+    	<div class="mate_reply_btn_container">
+    		<button class="mate_reply_btn">입력</button>
+    	</div>
+    </div>
+    
+    
     <div style="height: 100px; background-color: orange;">푸터</div>
-
   </body>
 </html>
-
-
-

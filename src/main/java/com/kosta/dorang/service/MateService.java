@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kosta.dorang.dao.MateDAO;
 import com.kosta.dorang.dto.Mate;
+import com.kosta.dorang.dto.MateApply;
 
 @Service
 public class MateService implements MateServiceI {
@@ -30,6 +31,30 @@ public class MateService implements MateServiceI {
 		
 		return mateDAO.selectMate(mate_code);
 	}
+
+	@Override
+	public void updateMate(Mate m) throws Exception {
+		 mateDAO.updateMate(m);
+		
+	}
+
+	@Override
+	public void deleteMate(int mate_code) throws Exception {
+		mateDAO.deleteMate(mate_code);
+	}
+
+	@Override
+	public void insertMateApply(MateApply mp) throws Exception {
+		mateDAO.insertApplyMate(mp);
+		
+	}
+
+	@Override
+	public MateApply selectMateApply(int mate_code, Long user_code) throws Exception {
+		return mateDAO.selectApplyMate(mate_code, user_code);
+	}
+
+	
 	
 
 

@@ -21,7 +21,7 @@ public class Mate {
 	private String image;
 	private String status;
 	private int join_count;
-	private Date createdAt; // 데이터베이스에도 스트링?
+	private Date createdAt;
 
 	public Mate() {
 
@@ -46,6 +46,26 @@ public class Mate {
 		this.second_ask = second_ask;
 		this.third_ask = third_ask;
 		this.createdAt = createdAt;
+	}
+	public Mate(int mate_code, String title, String content, String type, String direction, String number,
+			String age, String gender, String daterange, String tags, String status, String image,
+			String first_ask, String second_ask, String third_ask) {
+		this.mate_code = mate_code;
+		this.title = title;
+		this.content = content;
+		this.type = type;
+		this.direction = direction;
+		this.number = number;
+		this.age = age;
+		this.gender = gender;
+		this.daterange = daterange;
+		this.tags = tags;
+		this.status = status;
+		this.image = image;
+		this.first_ask = first_ask;
+		this.second_ask = second_ask;
+		this.third_ask = third_ask;
+		
 	}
 
 	public int getMate_code() {
@@ -200,13 +220,14 @@ public class Mate {
 		this.createdAt = createdAt;
 	}
 
-	@Override
-	public String toString() {
-		return "Mate [mate_code=" + mate_code + ", user_code=" + user_code + ", title=" + title + ", content=" + content
-				+ ", type=" + type + ", direction=" + direction + ", number=" + number + ", age=" + age + ", gender="
-				+ gender + ", daterange=" + daterange + ", tags=" + tags + ", first_ask=" + first_ask + ", second_ask="
-				+ second_ask + ", third_ask=" + third_ask + ", count=" + count + ", image=" + image + ", status="
-				+ status + ", join_count=" + join_count + ", createdAt=" + createdAt + "]";
-	}
+	
+
+
+
+	
+	
+	
+
+	
 	
 }
