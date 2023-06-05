@@ -18,9 +18,34 @@
 <c:set var="user_pic" value="${sessionScope.userInfo.user_pic }" />
 
 <div class = "wholeModifyBox">
+
+	<div class = "nicknameModifyModal hiddenNicknameModal">
+		<p class = "nickModalNotice" id= "nickNoticeTitle">닉네임 변경</p>
+		<p class = "nickModalNotice" id= "nickNoticeSub">사용하실 닉네임을 입력해주세요.	</p> 
+		<div class = "nicknameTextBox nickModalNotice">
+			<c:if test="${sessionScope.userInfo.user_nickname_local ne null}" >
+				<input type="text" name="modifyingNickname" class = "modifyingNickname" maxlength= "7" placeholder="최소 2글자, 최대 7글자" value="${sessionScope.userInfo.user_nickname_local}" />
+			</c:if>	
+			<c:if test="${sessionScope.userInfo.user_nickname_local eq null}" >
+				<input type="text" name="modifyingNickname" class = "modifyingNickname" maxlength= "7" placeholder="최소 2글자, 최대 7글자" />
+			</c:if>	
+				<div class = "checkRestriction">닉네임에는 공백, 이모지, 특수문자를 사용할 수 없습니다.</div>
+				<div class = "nicknameModalBottom">
+					<button class="nickNameBottomBtn" id="nickModifyBtn" disabled>확인</button>
+					<button class = "nicknameModalCloseBtn nickNameBottomBtn" id="nickCancleBtn">취소</button>
+				</div>
+				<div class = "deleteUserBtn">
+					<a href="${contextPath }/user/deleteUser" class="deleteUser">회원 탈퇴</a>
+				</div>
+		</div>
+	</div>
+	
 	<div class = "leftPicBox">
 		<div class = "myPicBox">
 			<div class = "myPicCircle" style="background: #D9D9D9">
+				<c:if test="${sessionScope.userInfo.user_pic == null}">
+					<img class="myPic" id="myPic" src="<c:url value="/resources/img/img_profileDefault.jpg"/>" alt="profilePic" />
+				</c:if>
 				<c:if test="${sessionScope.userInfo.user_pic.indexOf('kakao') == -1}" >
 					<img class="myPic" id="myPic" src="<c:url value="/resources/uploadProfilePic/${sessionScope.userInfo.user_pic }"/>" alt="profilePic" />
 				</c:if>
@@ -42,13 +67,18 @@
 				<input type="hidden" id="changingTags" name="changingTags" />
 			</form>
 		</div>
-		<c:if test="${sessionScope.userInfo.user_pic_kakao eq null }">
-			<div class="additionalPic">
-				<a class="additionPic" href="https://kauth.kakao.com/oauth/authorize?client_id=a62a2c16a4182ec20a1185a3f707c2b1&redirect_uri=http://localhost:8080/dorang/user/kakaoAddition&response_type=code&scope=profile_image">
-					카카오 프로필 사진 연동
-				</a>
+		<div class="profilePicBtnBox">
+			<div class="deletePicLocal">
+				<div class="deletePicLocalRequest">프로필 사진 삭제</div>
 			</div>
-		</c:if>
+			<c:if test="${sessionScope.userInfo.user_pic_kakao eq null }">
+				<div class="additionalPic">
+					<a class="additionPic" href="https://kauth.kakao.com/oauth/authorize?client_id=a62a2c16a4182ec20a1185a3f707c2b1&redirect_uri=http://localhost:8080/dorang/user/kakaoAddition&response_type=code&scope=profile_image">
+						카카오 프로필 사진 연동
+					</a>
+				</div>
+			</c:if>
+		</div>
 	</div>
 	
 	<div class = "rightTextBox">
@@ -129,23 +159,6 @@
 							${sessionScope.userInfo.user_nickname }
 						</div>
 						<button class = "nicknameModifyOpenBtn">변경<i class="penIcon fa-solid fa-pencil"></i></button>
-						<div class = "nicknameModifyModal hiddenNicknameModal">
-							<p class = "nickModalNotice" id= "nickNoticeTitle">닉네임 변경</p>
-							<p class = "nickModalNotice" id= "nickNoticeSub">사용하실 닉네임을 입력해주세요.	</p> 
-							<div class = "nicknameTextBox nickModalNotice">
-								<c:if test="${sessionScope.userInfo.user_nickname_local ne null}" >
-									<input type="text" name="modifyingNickname" class = "modifyingNickname" maxlength= "7" placeholder="최소 2글자, 최대 7글자" value="${sessionScope.userInfo.user_nickname_local}" />
-								</c:if>	
-								<c:if test="${sessionScope.userInfo.user_nickname_local eq null}" >
-									<input type="text" name="modifyingNickname" class = "modifyingNickname" maxlength= "7" placeholder="최소 2글자, 최대 7글자" />
-								</c:if>	
-									<div class = "checkRestriction">닉네임에는 공백, 이모지, 특수문자를 사용할 수 없습니다.</div>
-									<div class = "nicknameModalBottom">
-										<button class="nickNameBottomBtn" id="nickModifyBtn">수정</button>
-										<button class = "nicknameModalCloseBtn nickNameBottomBtn" id="nickCancleBtn">취소</button>
-									</div>
-							</div>
-						</div>
 						<button class = "nicknameDeleteBtn">삭제<i class="eraserIcon fa-solid fa-eraser"></i></button>
 					</div>
 				</div>
@@ -187,7 +200,7 @@
 	<div class = "bottomBtnBox">
 		<div class = "bottomBtns">
 			<button class = "profileBottomBtns" id="profileModifyInsertBtn">수정</button>
-			<button class = "profileBottomBtns" id="profileModifyCancleBtn">취소</button>
+			<button class = "profileBottomBtns" id="profileModifyCancleBtn" onClick="window.location.reload()">취소</button>
 		</div>
 	</div>
 </div>
@@ -213,7 +226,6 @@
 	}
 	init();
 	
- 	var defaultUserPic = "../resources/img/mangul2.png" // 프사 없으면 디폴트 
 	var prevText = $(".checkRestriction").text(); // 닉네임 제한 요소 알림 문구
 	
 	var modifyNickname = "";
@@ -226,23 +238,50 @@ $(document).ready(function(){
 			url : "${contextPath}/user/getSelectedTags",
 			type : "GET",
 			dataType : 'json',
-			success : function(data){
-				var tags = data.tags.split(',');
-				$(".eachTag").each(function(){
-		            var nowT = $(this);  // 다음 forEach문 가면 this 쓸 수 없으니까 변수에 $(this)를 할당해줌
-					
-					tags.forEach(function(t){
-						// 이미 선택했던 태그면 미리 선택클래스 추가해주기
-						if(nowT.html().indexOf(t) > -1){
-							nowT.addClass("selectedTag");
-						}
+			success : function(data){ // Controller에서 data로 db에 저장된 user_tag를 넘겨줌
+				var tags = data.tags.split(','); // 받은 값을 ,으로 쪼개서 배열로 저장 <object>
+				var tagsString = JSON.stringify(tags); // <String>
+				
+				let reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ]/gim;
+				
+				// ,로 쪼갠 값이 null이거나 비어있지 않을 때만 addClass
+				if(tagsString.replaceAll(reg, "").length > 0) { // sring으로 바뀌면서 [, , ,] 다 없애주기
+					$(".eachTag").each(function(){
+							// 지금 이 .eachTag
+				            var nowT = $(this);  // 다음 forEach문 가면 this 쓸 수 없으니까 변수에 $(this)를 할당해줌
+				            // 넘어온 태그 하나하나 비교해서
+							tags.forEach(function(t){
+								// 이미 선택했던 태그면 미리 선택클래스 추가해주기
+								// - .eachTag.html()에 태그내용이 포함돼있으면 addClass
+								if(nowT.html().trim().indexOf(t) > -1){
+									nowT.addClass("selectedTag");
+								}
+							});
 					});
-				});
-			}
+				} 
+			}	
 		});	
-		
 	}
 
+	
+	// ** 로컬프사 삭제
+	$(".deletePicLocalRequest").on("click", function(){
+		var input = confirm("프로필 사진을 삭제하시겠습니까?");
+		if(input == true){
+			if('<%= ((Map)request.getSession().getAttribute("userInfo")).get("user_pic_kakao") %>' == null){
+				$("#myPic").attr("src","<c:url value='/resources/img/img_profileDefault.jpg'/>");
+			} else {
+				$("#myPic").attr("src","<c:url value='${sessionScope.userInfo.user_pic_kakao }'/>");
+			}
+			$.ajax({
+				url : "${contextPath}/user/deletePicLocal",
+				type : "POST",
+				success : function(data){
+					alert("^^/");
+				} 
+			});
+		}
+	});
 	
 	// ** 프사 바꾸기
 	$("#pic_local").on("change", function(e){
@@ -263,11 +302,12 @@ $(document).ready(function(){
 					$("#myPic").attr("src", "");
 					return false;
 			}
-		};
+		}
 		reader.readAsDataURL(files[0]);
 		}
-		
 	});
+
+
 	
 	// 닉네임 특수문자, 공백, 한글모음 필터
 	$(".modifyingNickname").on('keyup', function(){
@@ -277,10 +317,12 @@ $(document).ready(function(){
  		 if (regex.test(modifyNickname) == false) {
   			$(".checkRestriction").text('사용 불가능한 닉네임입니다.');
  			$(".checkRestriction").attr("style","color:#E74747;");
+ 			$(".modifyingNickname").attr("style", "border-bottom:1px solid #E74747;");
  			$("#nickModifyBtn").attr("disabled", "disabled");
  		 } else if (regex.test(modifyNickname) == true && modifyNickname.length > 1) {
  			$(".checkRestriction").text('사용 가능한 닉네임입니다.');
  			$(".checkRestriction").attr("style","color:#3CB728;");
+ 			$(".modifyingNickname").attr("style", "border-bottom:1px solid #3CB728;");
  			$("#nickModifyBtn").removeAttr("disabled");
  		 } 
 	});
@@ -333,5 +375,6 @@ $(document).ready(function(){
 	});
 	
 	
+
 }); 
 </script>

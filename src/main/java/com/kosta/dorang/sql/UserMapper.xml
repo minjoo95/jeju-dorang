@@ -61,10 +61,19 @@
 	<!-- 마이페이지 로컬닉네임 삭제 -->
 	<update id="deleteNicknameLocal" parameterType="hashMap">
 		<![CDATA[
-			update user set 
-			user_nickname_local=null, user_nickname=#{user_nickname_kakao}
-			where user_code=#{user_code}
-			]]>
+		update user set 
+		user_nickname_local=null, user_nickname=#{user_nickname_kakao}
+		where user_code=#{user_code}
+		]]>
+	</update>
+	
+	<!-- 마이페이지 로컬프사 삭제 -->
+	<update id="deletePicLocal" parameterType="hashMap">
+		<![CDATA[
+		update user set 
+		user_pic_local=null, user_pic=#{user_pic_kakao}
+		where user_code=#{user_code}
+		]]>
 	</update>
 
 	
