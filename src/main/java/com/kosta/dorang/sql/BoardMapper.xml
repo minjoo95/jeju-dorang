@@ -16,8 +16,71 @@
 	
 	<select id = "selectBoardList" resultType = "com.kosta.dorang.dto.Board">
 		<![CDATA[
-        	select * from board2 order by board_id desc
+        	select * from board order by board_id desc
        ]]>
 	</select>
+	
+	<select id = "selectOneBoard" resultType = "com.kosta.dorang.dto.Board" >
+		<![CDATA[
+			select * from board where board_id = #{no}
+		]]>
+	</select>
+	
+	<select id = "selectOneBoardLike" resultType = "com.kosta.dorang.dto.BoardLike" parameterType="com.kosta.dorang.dto.BoardLike">
+		<![CDATA[
+			select * from board_like where board_id = #{board_id} and user_code = #{user_code}
+		]]>
+	</select>
+	
+	<select id = "selectBoardCommentsList" resultType = "com.kosta.dorang.dto.BoardComments">
+		<![CDATA[
+        	select * from board_comment_temp where board_id = #{no}
+       ]]>
+	</select>
+	
+	<insert id="insertBoard" parameterType="com.kosta.dorang.dto.Board">
+		<![CDATA[
+			insert into board(user_code, board_category, board_title, board_content)
+			values (#{user_code}, #{board_category}, #{board_title}, #{board_content})
+		]]>
+	</insert>
+	
+	<insert id="insertBoardLike" parameterType="com.kosta.dorang.dto.BoardLike">
+		<![CDATA[
+			insert into board_like
+			values (#{board_id}, #{user_code})
+		]]>
+	</insert>
+	
+	<insert id="insertBoardComments" parameterType="com.kosta.dorang.dto.BoardComments">
+		<![CDATA[
+			insert into board_comment (user_code, board_id, comment_content, parent_comment_no)
+			values (#{user_code}, #{board_id}, #{comment_content}, #{parent_comment_no})
+		]]>
+	</insert>
+	
+	<update id="updateBoard" parameterType="com.kosta.dorang.dto.Board">
+		<![CDATA[
+			update board
+			set user_code=#{user_code}, board_category=#{board_category}, board_title=#{board_title}, board_content=#{board_content}, board_reg_date=#{board_reg_date}, board_like=#{board_like}
+			where board_id = #{board_id}
+		]]>	
+	</update>
+	
+	<update id="updateBoardLike" parameterType="com.kosta.dorang.dto.Board">
+		<![CDATA[
+			update board
+			set board_like=board_like+1
+			where board_id = #{no}
+		]]>	
+	</update>
+	
+	<delete id="deleteBoard">
+		<![CDATA[
+			delete from board where board_id = #{no}
+			
+		]]>	
+	
+	</delete>
 
 </mapper>
