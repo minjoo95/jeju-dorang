@@ -6,11 +6,15 @@
 	<resultMap id="UserDTO" type="com.kosta.dorang.dto.User">
 		<result property="user_code" column="user_code" />
 		<result property="user_id" column="user_id" />
-		<result property="user_nickname" column="user_nickname" />
+		<result property="user_nickname_kakao" column="user_nickname_kakao" />
 		<result property="user_pic" column="user_pic" />
+		<result property="user_nickname" column="user_nickname" />
+		<result property="user_pic_kakao" column="user_pic_kakao" />
 		<result property="user_age_range" column="user_age_range" />
 		<result property="user_gender" column="user_gender" />
+		<result property="user_nickname_local" column="user_nickname_local" />
 		<result property="user_tag" column="user_tag" />
+		<result property="user_pic_local" column="user_pic_local" />
 	</resultMap>
 	
  	<select id="selectUser" parameterType="Long" resultType="com.kosta.dorang.dto.User">
@@ -18,70 +22,50 @@
 		select * from user where user_code=#{"user_code"}
 		]]>
 	</select>
- 	
-	<insert id="insertUserAll" parameterType="hashMap">
+	
+ 	<!-- 처음 로그인 -->
+	<insert id="insertUser" parameterType="hashMap">
 		<![CDATA[
-		insert into user (user_code, user_id, user_nickname, user_pic, user_age_range, user_gender)
-		values (#{user_code}, #{user_id}, #{user_nickname}, #{user_pic}, #{user_age_range}, #{user_gender})
-		]]>
-	</insert>
-	<insert id="insertUserNothing" parameterType="hashMap">
-		<![CDATA[
-		insert into user (user_code, user_id, user_nickname)
-		values (#{user_code}, #{user_id}, #{user_nickname})
-		]]>
-	</insert>	
-		<insert id="insertUserGender" parameterType="hashMap">
-		<![CDATA[
-		insert into user (user_code, user_id, user_nickname, user_gender)
-		values (#{user_code}, #{user_id}, #{user_nickname}, #{user_gender})
-		]]>
-	</insert>
-	<insert id="insertUserAge" parameterType="hashMap">
-		<![CDATA[
-		insert into user (user_code, user_id, user_nickname, user_age_range)
-		values (#{user_code}, #{user_id}, #{user_nickname}, #{user_age_range})
-		]]>
-	</insert>
-	<insert id="insertUserPic" parameterType="hashMap">
-		<![CDATA[
-		insert into user (user_code, user_id, user_nickname, user_pic)
-		values (#{user_code}, #{user_id}, #{user_nickname}, #{user_pic})
-		]]>
-	</insert>
-	<insert id="insertUserAgeAndGender" parameterType="hashMap">
-		<![CDATA[
-		insert into user (user_code, user_id, user_nickname, user_age_range, user_gender)
-		values (#{user_code}, #{user_id}, #{user_nickname}, #{user_age_range}, #{user_gender})
-		]]>
-	</insert>
-	<insert id="insertUserPicAndAge" parameterType="hashMap">
-		<![CDATA[
-		insert into user (user_code, user_id, user_nickname, user_pic, user_age_range)
-		values (#{user_code}, #{user_id}, #{user_nickname}, #{user_pic}, #{user_age_range})
-		]]>
-	</insert>
-	<insert id="insertUserPicAndGender" parameterType="hashMap">
-		<![CDATA[
-		insert into user (user_code, user_id, user_nickname, user_pic, user_gender)
-		values (#{user_code}, #{user_id}, #{user_nickname}, #{user_pic}, #{user_gender})
+		insert into user 
+		(user_code, user_id, user_nickname_kakao, user_pic, user_nickname, 
+		user_pic_kakao, user_age_range, user_gender)
+		values 
+		(#{user_code}, #{user_id}, #{user_nickname_kakao}, #{user_pic}, #{user_nickname},
+		#{user_pic_kakao}, #{user_age_range}, #{user_gender} )
 		]]>
 	</insert>
 	
-	<update id="updateUserPic" parameterType="hashMap">
+	<!-- 로그인할때마다, 동의항목 추가할 때 업데이트 -->
+	<update id="updateUserProfileInfo" parameterType="hashMap">
 		<![CDATA[
-		update user set user_pic=#{user_pic} where user_code=#{user_code}
+		update user set 
+		user_id=#{user_id}, user_nickname_kakao=#{user_nickname_kakao}, user_pic=#{user_pic}, 
+		user_nickname=#{user_nickname}, user_pic_kakao=#{user_pic_kakao},
+		user_age_range=#{user_age_range}, user_gender=#{user_gender}
+		where user_code=#{user_code}
 		]]>
 	</update>
-	<update id="updateUserAge" parameterType="hashMap">
+
+	
+	<!-- 마이페이지 수정 -->
+	<update id="updateUserProfile" parameterType="com.kosta.dorang.dto.User">
 		<![CDATA[
-		update user set user_age_range=#{user_age_range} where user_code=#{user_code}
+		update user set 
+		user_pic=#{user_pic}, user_nickname=#{user_nickname}, 
+		user_nickname_local=#{user_nickname_local}, user_tag=#{user_tag},
+		user_pic_local=#{user_pic_local}
+		where user_code=#{user_code}
 		]]>
 	</update>
-	<update id="updateUserGender" parameterType="hashMap">
+	
+	<!-- 마이페이지 로컬닉네임 삭제 -->
+	<update id="deleteNicknameLocal" parameterType="hashMap">
 		<![CDATA[
-		update user set user_gender=#{user_gender} where user_code=#{user_code}
-		]]>
+			update user set 
+			user_nickname_local=null, user_nickname=#{user_nickname_kakao}
+			where user_code=#{user_code}
+			]]>
 	</update>
+
 	
 </mapper>

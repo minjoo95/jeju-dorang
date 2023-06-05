@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+	
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>  
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -32,13 +33,6 @@
 	.insertMate-title:hover {
 	text-shadow: 1px 1px 1px  #FB7A51;
   }
-  
-  .card-title{
-	  white-space: nowrap; 
-	  overflow: hidden; 
-	  text-overflow: ellipsis; 
-  }
-  
 	
 </style>
 <script type="text/javascript">
@@ -52,37 +46,6 @@ $(document).ready(function(){
         tags_label.eq(i).text("#" + tagList[i]);
       }
     });
-    
-    var pageFrm = $("#pageFrm");
-    $(".paginate_button a").on("click",function(e){
-    	e.preventDefault(); 
-    	var page=$(this).attr("href");
-    	pageFrm.find("#page").val(page);
-    	pageFrm.submit();
-    });
-    
-    
-    $(".mateMove").on("click",function(e){
-    	e.preventDefault();
-    	var mate_code = $(this).attr("href");
-    	var tag="<input type='hidden' name='mate_code' value='"+mate_code+"'/>";
-    	pageFrm.append(tag);
-    	pageFrm.attr("action","${contextPath}/mate/select");
-    	
-    	$.ajax({
-   		     url: "/dorang/mate/count/",
-			 type : "POST",    			 
-			 data: { mate_code: mate_code },
-			 dataType : "json",
-			 success : function(data){
-				 $("#cnt").text(data.count);
-			 },    			 
-			 error : function(){ alert("error"); }
-		 });
-    	
-    	pageFrm.submit();
-    });
-    
   });
  
 </script>
@@ -96,7 +59,7 @@ $(document).ready(function(){
  		<div class="container-top d-flex justify-content-between mb-5">
 	 		<div class="sort-btn-group">
 	 			 <button type="button" class="btn btn-warning">날짜순</button>
-	  			 <button type="button" id="cnt" class="btn btn-warning">조회순</button>
+	  			 <button type="button" class="btn btn-warning">조회순</button>
 	 		</div>
 	 		<div class="insertMate-btn d-flex align-items-center">
 		 		<span>
@@ -114,11 +77,11 @@ $(document).ready(function(){
 		 	</c:choose>
 	 		</div>
  	    </div>
-        <div class="container-content" style="margin-bottom: 70px" >
+        <div class="container-content">
              <div class="row row-cols-1 row-cols-md-3 g-5">
             	  <c:forEach var="mt" items="${mateList}">
 				  <div class="col">
-				   <a href="${mt.mate_code}" class="card-link mateMove" style="text-decoration: none; outline: none; color: #000;" >
+				   <a href="${contextPath}/mate/mymatedetail?mate_code=${mt.mate_code}" class="card-link" style="text-decoration: none; outline: none; color: #000;" >
 				   <div class="mate-status d-flex justify-content-end" style=" font-size: 12px;">
 				    	<p style="color:  #FB7A51; margin-right:5px; margin-bottom:2px">${mt.status}</p>
 				    	<p style="margin-bottom:2px">조회수&nbsp;${mt.count}</p>
@@ -133,7 +96,7 @@ $(document).ready(function(){
 					      <label class="card-tags">${mt.age}</label>
 					      <label class="card-tags">${mt.gender}</label>
 				      </div>
-				       <img src="${contextPath}/resources/upload/mate/${mt.image}" class="card-img-top" alt="제주도모집이미지" style="height: 200px; border-radius: 0px;">
+				      <img src="${contextPath}/resources/img/${mt.image}" class="card-img-top mt-2 mb-3" alt="제주도모집이미지" style="height: 150px">
 					 <div  class="tags_strings" id="tags_strings" style="display: none;">${mt.tags}</div>
                       <div class="card-bottom-tags d-flex flex-wrap  mb-3" id="tags_list">
 					      <label class="card-tags"></label>
@@ -152,57 +115,8 @@ $(document).ready(function(){
 					</a>
 					</div>
 			</c:forEach>		
-		</div>
+				</div>
   </div>
-  <!-- 페이징 -->
- <div class="container d-flex justify-content-center">
-  <div style="text-align: center;">
-	 <nav aria-label="Page navigation example">
-	  <ul class="pagination">
-	  <c:if test="${pm.prev}">
-	    <li class="page-item paginate_button">
-	      <a class="page-link" href="${pm.startPage-1}" aria-label="Previous">
-	        <span aria-hidden="true">
-	        	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
-				  <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
-				</svg>
-	        </span>
-	      </a>
-	    </li>
-	  </c:if>
-	    <c:forEach var="pageNum" begin="${pm.startPage}" end="${pm.endPage}">
-		    <c:if test="${pm.cri.page!=pageNum}">
-		        <li class="page-item paginate_button">
-		            <a class="page-link" href="${pageNum}">${pageNum}</a>
-		        </li>
-		    </c:if>
-		    <c:if test="${pm.cri.page==pageNum}">
-		        <li class="page-item active paginate_button">
-		            <a class="page-link" href="${pageNum}">${pageNum}</a>
-		        </li>
-		    </c:if>
-        </c:forEach>
-	    <c:if test="${pm.next}">
-		    <li class="page-item paginate_button">
-		      <a class=" page-link" href="${pm.endPage+1}" aria-label="Next">
-		        <span aria-hidden="true">
-		        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
-				  <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
-				</svg>
-		        </span>
-		      </a>
-		    </li>
-	  </c:if>
-	  </ul>
-	</nav>
-  </div>
-  </div>
-  <!-- end -->
-  <form id="pageFrm" action="${contextPath}/mate/list"  method="get">
-  		<input type="hidden" id="page" name="page" value="${pm.cri.page}" />
-  		<input type="hidden" name="perPageNum" value="${pm.cri.perPageNum}" />
-  </form>
-  
  </div>
  
 </body>

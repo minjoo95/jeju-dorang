@@ -53,26 +53,29 @@ function deleteBoard(board_id){
 		
 	}	
 }
+</script>
 
-
-function likeBoard(board_id){
+<script>
+function likeBoard2(board_id){
 	
 	console.log(board_id);
 	
 //	const likeModalEl = document.getElementById('likeModal');
 
 
-/* 	const likeModalEl = new bootstrap.Modal(document.querySelector("#likeModal"));
-	console.log(likeModalEl);
-	likeModalEl.show(); */
+ 	const likeModalEl = new bootstrap.Modal(document.querySelector("#likeModal"));
+	//console.log(likeModalEl);
+	//likeModalEl.show();
 	
-/* 	const cancelLikeModalEl = new bootstrap.Modal(document.querySelector("#cancelLikeModal"));
-	console.log(cancelLikeModalEl);
-	cancelLikeModalEl.show(); */
+	const cancelLikeModalEl = new bootstrap.Modal(document.querySelector("#cancelLikeModal"));
+	//console.log(cancelLikeModalEl);
+	//cancelLikeModalEl.show();
 	
 	
 	//console.log("${userInfo.user_code} : " + ${userInfo.user_code});
 	//db에 이 user가 추천했는지 확인
+
+	
 	$.ajax({ 
 			type: "post",
 			url: "${pageContext.request.contextPath}/board/boardLike",
@@ -81,22 +84,18 @@ function likeBoard(board_id){
 				user_code : ${userInfo.user_code}
 			},
 			success: function(data) {
+
+				console.log("data : " + data);
 				
 				//location.href = "${pageContext.request.contextPath}/board/list" //추천수 바뀌어야...
-				$.ajax({ 
-					type: "post",
-					url: "${pageContext.request.contextPath}/board/boardLike",
-					data:{
-						board_id: ${board.board_id},
-						user_code : ${userInfo.user_code}
-					},
-					success: function(data) {
-						
-						
-					}
-		})
-			}
-		}
+
+			},
+			error : function(error) {
+				//console.log("이미 db에 있음");
+				//cancelLikeModalEl.show();
+
+			},
+		});
 	
 
 //modal event
@@ -121,11 +120,6 @@ $('#likeModal').on('shown.bs.modal', function () {
 });
 
 
-
-
-
-
-
 console.log("여기");
 //var test=${board.board_content};
 //let content= "\` ${board.board_content} \`";
@@ -134,6 +128,7 @@ console.log("여기");
 console.log(content);
 document.getElementById("viewer-content").innerHTML = content; */
 
+}
 
 </script>
 
@@ -200,10 +195,74 @@ document.getElementById("viewer-content").innerHTML = content; */
 		
 	</script>
 	
+	
+	<div id="comment_temp">
+	
+		<div class="comment_container">
+		
+			<form name="boardCommentForm" action="${pageContext.request.contextPath}/board/boardCommentWrite" method="post">
+				<input type="hidden" name="board_id" value="${board.board_id }">
+				<!-- 로그인 처리 -->
+				<input type="hidden" name="user_code" value="${userInfo.user_code}">
+				<input type="hidden" name="comment_depth" value="0">
+				<input type="hidden" name="parent_comment_no" value="0">
+				<textarea name="comment_content"> </textarea>
+				<button type="submit" >
+					댓글등록
+				</button>
+			</form>	
+		</div>
+		
+		<table>
+			<!-- 대댓글 처리 어떻게... -->
+			<c:forEach items="${commentsList}" var="comments">
+
+				<tr class="comments_">
+					<td><span>${comments.user_code}</span> <span>${comments.comment_reg_date}</span>
+						<br />
+						<p>${comments.comment_content}
+						<p></td>
+					<td>
+						<button class="btn-reply" value="${comments.comment_no}">대댓글
+							쓰기</button>
+					</td>
+				</tr>
+			</c:forEach>
+
+
+		</table>
+		
+		
+	
+		<textarea> </textarea>
+		<button type="button" onClick="addComment(${board.board_id})">
+			댓글등록
+		</button>
+		
+		<c:forEach var="boardComments" items="${boardComments}" varStatus="status">
+			<div
+				style="border: 1px solid gray; width: 600px; padding: 5px; margin-top: 5px;
+          margin-left: <c:out value="${20*boardComments.comment_depth}"/>px; display: inline-block">
+				<c:out value="${boardComments.user_code}" />
+				<c:out value="${boardComments.comment_reg_date}" />
+				<a href="#"
+					onclick="fn_replyDelete('<c:out value="${boardComments.comment_no}"/>')">삭제</a>
+				<a href="#"
+					onclick="fn_replyUpdate('<c:out value="${boardComments.comment_no}"/>')">수정</a>
+				<a href="#"
+					onclick="fn_replyReply('<c:out value="${boardComments.comment_no}"/>')">댓글</a>
+				<br />
+				<div id="reply<c:out value="${boardComments.comment_no}"/>">
+					<c:out value="${boardComments.comment_content}" />
+				</div>
+			</div>
+			<br />
+		</c:forEach>
+		
+	</div>
 	<div id="footer-btn-div">
 		<button type="button" class="btn" style="border-color:#FB7A51; color:#FB7A51;">댓글작성</button>
-		
-		
+
 		<button type="button" id="likeBtn1" class="btn" style="border-color:#FB7A51; color:#FB7A51;" onclick="likeBoard(${board.board_id})">추천1</button>
 		
 		<button type="button" id="likeBtn2" class="btn" data-bs-toggle="modal" data-bs-target="#likeModal" style="border-color:#FB7A51; color:#FB7A51;">
@@ -217,7 +276,7 @@ document.getElementById("viewer-content").innerHTML = content; */
 				<div class="modal-content">
 					<div class="modal-body">
 						<i class="em em-partying_face" aria-role="presentation" aria-label="FACE WITH PARTY HORN AND PARTY HAT"></i>
-						<h5>추천완료</h5>
+						<h5>추천 완료</h5>
 						<button type="button" class="btn btn-secondary"
 							data-bs-dismiss="modal">확인</button>
 					</div>
@@ -233,7 +292,7 @@ document.getElementById("viewer-content").innerHTML = content; */
 				<div class="modal-content">
 					<div class="modal-body">
 						<i class="em em-thinking_face" aria-role="presentation" aria-label="THINKING FACE"></i>
-						<h5>추천취소</h5>
+						<h5>이미 추천하셨습니다.</h5>
 						<button type="button" class="btn btn-secondary"
 							data-bs-dismiss="modal">확인</button>
 					</div>
@@ -244,6 +303,74 @@ document.getElementById("viewer-content").innerHTML = content; */
 
 		<button type="button" class="btn text-white" style="background-color:#FB7A51;">목록</button>
 	</div>
+<script>
+function likeBoard(board_id){
+	
+	console.log(board_id);
+	
+//	const likeModalEl = document.getElementById('likeModal');
 
+
+ 	const likeModalEl = new bootstrap.Modal(document.querySelector("#likeModal"));
+	//console.log(likeModalEl);
+	//likeModalEl.show();
+	
+	const cancelLikeModalEl = new bootstrap.Modal(document.querySelector("#cancelLikeModal"));
+	//console.log(cancelLikeModalEl);
+	//cancelLikeModalEl.show();
+	
+	
+	//console.log("${userInfo.user_code} : " + ${userInfo.user_code});
+	//db에 이 user가 추천했는지 확인
+
+	
+	$.ajax({ 
+			type: "post",
+			url: "${pageContext.request.contextPath}/board/boardLike",
+			data:{
+				board_id: ${board.board_id},
+				user_code : ${userInfo.user_code}
+			},
+			success: function(data) {
+
+				console.log("data : " + data);
+				if(data == 1){
+					likeModalEl.show();
+				} else {
+					cancelLikeModalEl.show();
+				}
+				
+				//location.href = "${pageContext.request.contextPath}/board/list" //추천수 바뀌어야...
+
+			}
+		});
+}
+
+</script>
+<script>
+$(".btn-reply").click(function(){
+	
+	var html = "<tr>";
+	html += "<td colspan='2' style='display:none; text-align:left;'>";
+	html += '<form name="boardCommentForm" action="${pageContext.request.contextPath}/board/boardCommentWrite" method="post">';
+	html += '<input type="hidden" name="board_id" value="${board.board_id }"/>';
+	html += '<input type="hidden" name="user_code" value="${userInfo.user_code}"/>';
+	html += '<input type="hidden" name="comment_depth" value="1"/>';
+	html += '<input type="hidden" name="parent_comment_no" value="' + $(this).val() + '"/>';
+	html += '<textarea name="comment_content"> </textarea>';
+	html += '<button type="submit" >댓글등록</button>';
+	html += '</form>';
+	html += "</td>";
+	html += "</tr>";
+
+	var $reply_btn = $(this).parent().parent();
+	$(html).insertAfter($reply_btn).children("td").slideDown(800);
+
+	$(this).off("click");
+});
+
+
+
+</script>
 </body>
 </html>

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kosta.dorang.dto.Board;
+import com.kosta.dorang.dto.BoardComments;
 import com.kosta.dorang.dto.BoardLike;
 import com.kosta.dorang.service.BoardServiceI;
 
@@ -150,8 +151,14 @@ public class BoardController {
 			
 			System.out.println("boardDetail : " + board.getBoard_title());
 			System.out.println("boardDetail : " + board.getBoard_content());
-			model.addAttribute("board", board);
 			
+			List<BoardComments> commentsList = boardServiceI.selectBoardCommentsList(no);
+			System.out.println("commentsList : " + commentsList);
+			
+			
+			model.addAttribute("board", board);
+			model.addAttribute("commentsList", commentsList);
+		
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -174,13 +181,8 @@ public class BoardController {
 //	public void boardUpdate(Board board) {
 	public String boardUpdate(Board board) {
 		
-		System.out.println("update board_id : " + board.getBoard_id());
-		System.out.println("update user_code : " + board.getUser_code());
-		System.out.println("update title : " + board.getBoard_title());
-		System.out.println("update content : " + board.getBoard_content());
-		System.out.println("update reg date: " + board.getBoard_reg_date());
-		System.out.println("update like: " + board.getBoard_like());
-		
+		System.out.println("update board: " + board);
+
 		String afterContent = replaceSpace(board.getBoard_content());		
 		board.setBoard_content(afterContent);
 		
@@ -208,8 +210,8 @@ public class BoardController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/boardLike", method = RequestMethod.POST)
-	//public int boardLike(Integer board_id, Long user_code) { //int board_id
-	public void boardLike(Integer board_id, Long user_code) {	
+	public int boardLike(Integer board_id, Long user_code) { //int board_id
+	//public void boardLike(Integer board_id, Long user_code) {	
 		
 		int no = (int)board_id;
 		long userCode = (long)user_code;
@@ -218,28 +220,58 @@ public class BoardController {
 		System.out.println("userCode : " + userCode);
 		
 		//db확인
-		//Board board = boardServiceI.selectOneBoard(no);
 		
 		BoardLike boardLike = new BoardLike(no, userCode);
 		
 		BoardLike resultBoardLike = boardServiceI.selectOneBoard(boardLike);
 		
 		if(resultBoardLike == null) {
-			//db에 없으면 넣어주고
-			int result = boardServiceI.insertBoardLike(boardLike);
-			System.out.println("like result : "  + result);
+			//db에 없으면 넣어주고 + board db like + 1
+			
+			//int result = boardServiceI.insertBoardLike(boardLike);
+			int result1 = boardServiceI.insertBoardLike(boardLike);
+			//System.out.println("like result : "  + result);
+			
+			//board db like + 1
+			int result2 = boardServiceI.updateBoardLike(no);
+			
+			return 1;
 			
 		} else {
 			//db에 있으면 안 넣어주고
 			System.out.println("이미 있음!");
+		
+			return 0;
 		}
 		
-		
-	//	int result = boardServiceI.insertBoardLike(no);
 
 	}
 	
+	@RequestMapping(value = "/boardCommentWrite", method = RequestMethod.POST)
+	public String boardCommentWrite(BoardComments boardComments) {
+
+		try {
+			
+			System.out.println(boardComments);
+			
+			int result = boardServiceI.insertBoardComments(boardComments);
+			System.out.println("댓글 등록 갔다 옴");
+//			model.addAttribute("");
+			
+		} catch(Exception e) {
+			System.out.println("게시글 등록 오류");
+			e.printStackTrace();
+		}
+		
+		return "redirect:/board/boardDetail?no=" + boardComments.getBoard_id();
 	
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/boardLikeView", method = RequestMethod.POST)
+	public void boardLikeView(Integer board_id) {
+		
+	}
 	
 	
 	

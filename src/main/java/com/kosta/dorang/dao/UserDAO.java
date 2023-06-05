@@ -18,51 +18,22 @@ public class UserDAO implements UserDAOI {
 	public UserDAO(SqlSessionTemplate sqlSession) {
 		this.sqlSession = sqlSession;
 	}
-
+	
 	@Override
-	public void insertUserAll(HashMap<String, Object> userInfo) throws Exception {
-		sqlSession.insert("UserMapper.insertUserAll", userInfo);
+	public User selectUser(Long user_code) throws Exception {
+		return sqlSession.selectOne("UserMapper.selectUser", user_code);
 	}
 
+	// 처음 로그인
 	@Override
-	public User selectUser(HashMap<String, Object> userInfo) throws Exception {
-		return sqlSession.selectOne("UserMapper.selectUser", userInfo.get("user_code"));
+	public void insertUser(HashMap<String, Object> userInfo) throws Exception {
+		sqlSession.insert("UserMapper.insertUser", userInfo);
 	}
-
-	// INSERT	
+	
+	// 로그인할 때마다, 동의 항목 추가할 때 정보 업데이트
 	@Override
-	public void insertUserNothing(HashMap<String, Object> userInfo) throws Exception {
-		sqlSession.insert("UserMapper.insertUserNothing", userInfo);		
-	}
-
-	@Override
-	public void insertUserGender(HashMap<String, Object> userInfo) throws Exception {
-		sqlSession.insert("UserMapper.insertUserGender", userInfo);		
-	}
-
-	@Override
-	public void insertUserAge(HashMap<String, Object> userInfo) throws Exception {
-		sqlSession.insert("UserMapper.insertUserAge", userInfo);			
-	}
-
-	@Override
-	public void insertUserPic(HashMap<String, Object> userInfo) throws Exception {
-		sqlSession.insert("UserMapper.insertUserPic", userInfo);			
-	}
-
-	@Override
-	public void insertUserAgeAndGender(HashMap<String, Object> userInfo) throws Exception {
-		sqlSession.insert("UserMapper.insertUserAgeAndGender", userInfo);			
-	}
-
-	@Override
-	public void insertUserPicAndAge(HashMap<String, Object> userInfo) throws Exception {
-		sqlSession.insert("UserMapper.insertUserPicAndAge", userInfo);			
-	}
-
-	@Override
-	public void insertUserPicAndGender(HashMap<String, Object> userInfo) throws Exception {
-		sqlSession.insert("UserMapper.insertUserPicAndGender", userInfo);			
+	public void updateUserProfileInfo(HashMap<String, Object> userInfo) throws Exception {
+		sqlSession.update("UserMapper.updateUserProfileInfo", userInfo);
 	}
 
 	
@@ -82,6 +53,25 @@ public class UserDAO implements UserDAOI {
 		sqlSession.update("UserMapper.updateUserGender", userInfo);
 	}
 	
+	
+	
+	// 마이페이지 수정
+	@Override
+	public void updateUserProfile(User user) throws Exception {
+		sqlSession.update("UserMapper.updateUserProfile", user);
+	}
+	
+	
+	// DLETE
+	@Override
+	public void deleteNicknameLocal(HashMap<String, Object> userInfo) throws Exception {
+		sqlSession.update("UserMapper.deleteNicknameLocal", userInfo);
+	}
+
+
+	
+	
+
 	
 	
 }

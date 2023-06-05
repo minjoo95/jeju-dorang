@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+.footerAllBox{
+	background-color: yellow;
+	width: 1512px;
+	height: 280px;
+}
+
+.footerWrapper{
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	margin:0 160px;
+	height:280px;
+	background-color: blue;
+	border-top: 2px solid #D9D9D9;
+}
+.footerInnerBox{
+	display:flex;
+	margin:5%;
+	width: 90%;
+	height: 70%;
+	background-color: purple;
+}
+
+
+.leftBox{
+	heiht:100%;
+	width: 40%;
+	background-color: orange;
+}
+.logoAndPolicyBox{
+	display:flex;
+	align-items: flex-end;
+}
+.footerLogoBox{
+	background-color:red;
+	width: 120px;
+	height: 60px;
+}
+
+
+
+
+
+.rightBox{
+	height:100%;
+	width:40%;
+	background-color: pink;
+}

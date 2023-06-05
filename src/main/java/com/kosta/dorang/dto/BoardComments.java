@@ -10,15 +10,15 @@ public class BoardComments {
 	private String comment_content; //댓글 내용
 	private Timestamp comment_reg_date; //작성 일자
 	private int parent_comment_no; //부모(대댓글)댓글번호
-	private int comment_group_order; //대댓글 순서 식별
 	private int comment_depth; //대댓글 길이
+	private int comment_order; //대댓글 순서 식별
 	
 
 	public BoardComments() {
 	}
 	
 	public BoardComments(int comment_no, long user_code, int board_id, String comment_content, Timestamp comment_reg_date,
-			int parent_comment_no, int comment_group_order, int comment_depth) {
+			int parent_comment_no, int comment_order, int comment_depth) {
 
 		this.comment_no = comment_no;
 		this.user_code = user_code;
@@ -26,7 +26,7 @@ public class BoardComments {
 		this.comment_content = comment_content;
 		this.comment_reg_date = comment_reg_date;
 		this.parent_comment_no = parent_comment_no;
-		this.comment_group_order = comment_group_order;
+		this.comment_order = comment_order;
 		this.comment_depth = comment_depth;
 	}
 
@@ -78,12 +78,12 @@ public class BoardComments {
 		this.parent_comment_no = parent_comment_no;
 	}
 
-	public int getComment_group_order() {
-		return comment_group_order;
+	public int getComment_order() {
+		return comment_order;
 	}
 
-	public void setComment_group_order(int comment_group_order) {
-		this.comment_group_order = comment_group_order;
+	public void setComment_order(int comment_order) {
+		this.comment_order = comment_order;
 	}
 
 	public int getComment_depth() {
@@ -98,7 +98,7 @@ public class BoardComments {
 	public String toString() {
 		return "BoardComments [comment_no=" + comment_no + ", user_code=" + user_code + ", board_id=" + board_id
 				+ ", comment_content=" + comment_content + ", comment_reg_date=" + comment_reg_date
-				+ ", parent_comment_no=" + parent_comment_no + ", comment_group_order=" + comment_group_order
+				+ ", parent_comment_no=" + parent_comment_no + ", comment_order=" + comment_order
 				+ ", comment_depth=" + comment_depth + "]";
 	}
 	

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kosta.dorang.dto.Mate;
+import com.kosta.dorang.dto.MateUser;
 import com.kosta.dorang.dto.Trip;
 
 @Repository
@@ -21,13 +22,12 @@ public class MainDAO implements MainDAOI {
 	}
 
 	@Override
-	public List<Mate> selectHotMateList() throws Exception {
+	public List<MateUser> selectHotMateList() throws Exception {
 		return sqlSession.selectList("MainMapper.selectHotMateList");
 	}
 
 	@Override
-	public List<Mate> selectMyMateList(String kakao_id) throws Exception {
-		return sqlSession.selectList("MainMapper.selectMyMateList",kakao_id);
+	public List<MateUser> selectMyMateList(long user_code) throws Exception {
+		return sqlSession.selectList("MainMapper.selectMyMateList",user_code);
 	}
-
 }

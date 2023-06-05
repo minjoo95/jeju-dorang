@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.kosta.dorang.dao.MainDAOI;
 import com.kosta.dorang.dto.Mate;
+import com.kosta.dorang.dto.MateUser;
 import com.kosta.dorang.dto.Trip;
+import com.kosta.dorang.dto.User;
 
 @Service
 public class MainService implements MainServiceI {
@@ -19,14 +21,11 @@ public class MainService implements MainServiceI {
 		return mainDaoI.selectBestTripList();
 	}
 	@Override
-	public List<Mate> selectHotMateList() throws Exception {
+	public List<MateUser> selectHotMateList() throws Exception {
 		return mainDaoI.selectHotMateList();
 	}
 	@Override
-	public List<Mate> selectMyMateList(String kakao_id) throws Exception {
-		return mainDaoI.selectMyMateList(kakao_id);
+	public List<MateUser> selectMyMateList(long user_code) throws Exception {
+		return mainDaoI.selectMyMateList(user_code);
 	}
-
-
-
 }

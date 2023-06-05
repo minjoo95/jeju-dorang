@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kosta.dorang.dto.Mate;
+import com.kosta.dorang.dto.MateUser;
 import com.kosta.dorang.dto.Trip;
+import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.MainServiceI;
 
 @Controller
@@ -19,7 +21,7 @@ public class MainController{
 
 	@Autowired
 	HttpSession session;
-	
+		
 	/* SqlSessionTemplate sqlSession; */
 	
 	//@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -44,37 +46,45 @@ public class MainController{
 	
 	@RequestMapping(value = "/", method=RequestMethod.GET)
 	public String main(Model model) throws Exception{
-		//왜 안됑ㅇ.ㅣㅐㅣ잉...
 
 		List<Trip> tripList=null;
-		List<Mate> mateList=null;
+		List<MateUser> mateList=null;
+
 		try {
 			tripList = mainServiceI.selectBestTripList();
 			for(Trip a:tripList) {
 				System.out.println(a);
 			}
 			model.addAttribute("place",tripList);
-//			mateList = mainServiceI.selectHotMateList();
-//			for(Mate a:mateList) {
-//				System.out.println(a);
+			
+//			if(session!=null) {
+//				User user=(User) session.getAttribute("userInfo");
+//				if(user!=null) {
+//				System.out.println(user.getUser_nickname());
+//				model.addAttribute(user);
+//				}else {
+//					System.out.println("로그인 필요");
+//				}
 //			}
-//			model.addAttribute("mateA",mateList);
-//			mateList = mainServiceI.selectMyMateList(kakao_id);
-//			for(Mate a:mateList) {
-//				System.out.println(a);
-//			}
-//			model.addAttribute("mateB",mateList);
+			
+			mateList = mainServiceI.selectHotMateList();
+			for(Mate a:mateList) {
+				System.out.println(a);
+			}
+			model.addAttribute("mateA",mateList);
+			
+			User userInfo=(User) session.getAttribute("userInfo");
+			System.out.println("user_code="+userInfo.getUser_code());
+			mateList = mainServiceI.selectMyMateList(userInfo.getUser_code());
+			for(Mate a:mateList) {
+				System.out.println(a);
+			}
+			model.addAttribute("mateB",mateList);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "main";
 	}
-	
-	/*
-	 * @RequestMapping(value = "logout", method=RequestMethod.GET) public String
-	 * mainLogout() throws Exception{ session.removeAttribute("id");
-	 * System.out.println("로그아웃"); return "redirect:/"; }
-	 */
 
 }
