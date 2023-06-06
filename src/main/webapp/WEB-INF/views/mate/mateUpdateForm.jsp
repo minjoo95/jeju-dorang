@@ -326,8 +326,6 @@ function updateMate() {
         </form>
     </div>
 
-   
-    
-    <div style="height: 100px; background-color: orange;">푸터</div>
+ <jsp:include page="../footer.jsp"></jsp:include>
   </body>
 </html>

@@ -45,11 +45,9 @@
 
 $(document).ready(function(){
 	
-	var activeBtn = $(".sort-btn-group button.active");
-	var currentSortBy = activeBtn.data("btn");
-    sortMateList(currentSortBy);
-   
 
+    sortMateList($("#sortBy").val());
+	
     $(".tags_strings").each(function() {
       var tags = $(this).html();
       var tagList = tags.split('/');
@@ -66,8 +64,10 @@ $(document).ready(function(){
    
     	 $(".sort-btn-group button").removeClass("active");
     	 $(this).addClass("active");
-    	 currentSortBy = $(this).data("btn");
-         sortMateList(currentSortBy);
+    	 sortBy = $(this).data("btn");
+    	 $("#sortBy").val(sortBy);
+    	
+         sortMateList(sortBy);
 
     });
     
@@ -79,12 +79,15 @@ $(document).ready(function(){
      	var page=$(this).attr("href");	
     	var perPageNum=$(this).attr("href");
     	var sortBy = $(".sort-btn-group button.active").data("btn");
-
     	$("#page").val(page);
-    	$("#sortBy").val(sortBy)
+    	$("#sortBy").val(sortBy);
+    	
+    	console.log("페이지버튼 눌렀을 때 active된 버튼 :" + sortBy );
+    	console.log("페이지버튼 눌렀을 때 sortBy값 : " +$("#sortBy").val() );
     	
     	
-	     pageFrm.submit();
+    
+	    pageFrm.submit();
 	     
 	      
     	
@@ -97,6 +100,7 @@ $(document).ready(function(){
     function sortMateList(sortBy) {
     
         var page = $("#page").val();
+  
         
         
 	    $.ajax({
@@ -158,6 +162,7 @@ $(document).ready(function(){
 	
 	   }); 
 		$("#viewContent").append(itemHtml);
+		
   
 
    }//displayMateList
@@ -199,7 +204,7 @@ $(document).ready(function(){
  	<h3 style="padding:50px 0px">동행 목록</h3>
  		<div class="container-top d-flex justify-content-between mb-5">
 	 		<div class="sort-btn-group">
-	 			<button type="button" class="btn btn-warning active" data-btn="sortByDate">날짜순</button>
+	 			<button type="button" class="btn btn-warning" data-btn="sortByDate">날짜순</button>
                 <button type="button" class="btn btn-warning" data-btn="sortByCount">조회순</button>
 	 		</div>
 	 		<div class="insertMate-btn d-flex align-items-center">
@@ -276,8 +281,7 @@ $(document).ready(function(){
   		<input type="hidden" id="perPageNum"  name="perPageNum" value="${pm.cri.perPageNum}" />
  		<input type="hidden" id="sortBy" name="sortBy" value="${pm.cri.sortBy}" />
   </form>
-  
  </div>
- 
+  <jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>
