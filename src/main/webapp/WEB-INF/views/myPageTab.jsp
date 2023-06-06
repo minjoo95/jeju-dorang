@@ -2,8 +2,6 @@
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 
-<c:set var="contextPath" value="<%=request.getContextPath() %>" />
-
 <!DOCTYPE unspecified PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <link rel="stylesheet" type="text/css"  href="<c:url value="/resources/css/myPageTab.css"/>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/5c78b43849.js" crossorigin="anonymous"></script>
 
+<c:set var="contextPath" value="<%=request.getContextPath() %>" />
 
 <div class = "wholeContainer">
 	<div class = "myPageTabListBox">
