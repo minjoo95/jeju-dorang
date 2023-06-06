@@ -44,47 +44,93 @@ public class MainController{
 	private MainServiceI mainServiceI;
 	
 	
-	@RequestMapping(value = "/", method=RequestMethod.GET)
-	public String main(Model model) throws Exception{
-
-		List<Trip> tripList=null;
-		List<MateUser> mateList=null;
-
-		try {
-			tripList = mainServiceI.selectBestTripList();
-			for(Trip a:tripList) {
-				System.out.println(a);
-			}
-			model.addAttribute("place",tripList);
-			
-//			if(session!=null) {
-//				User user=(User) session.getAttribute("userInfo");
-//				if(user!=null) {
-//				System.out.println(user.getUser_nickname());
-//				model.addAttribute(user);
-//				}else {
-//					System.out.println("로그인 필요");
-//				}
+//	@RequestMapping(value = "/", method=RequestMethod.GET)
+//	public String main(Model model) throws Exception{
+//
+//		List<Trip> tripList=null;
+//		List<MateUser> mateList=null;
+//
+//		try {
+//			tripList = mainServiceI.selectBestTripList();
+//			for(Trip a:tripList) {
+//				System.out.println(a);
 //			}
-			
-			mateList = mainServiceI.selectHotMateList();
-			for(Mate a:mateList) {
-				System.out.println(a);
-			}
-			model.addAttribute("mateA",mateList);
-			
-			User userInfo=(User) session.getAttribute("userInfo");
-			System.out.println("user_code="+userInfo.getUser_code());
-			mateList = mainServiceI.selectMyMateList(userInfo.getUser_code());
-			for(Mate a:mateList) {
-				System.out.println(a);
-			}
-			model.addAttribute("mateB",mateList);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "main";
-	}
+//			model.addAttribute("place",tripList);
+//			
+////			if(session!=null) {
+////				User user=(User) session.getAttribute("userInfo");
+////				if(user!=null) {
+////				System.out.println(user.getUser_nickname());
+////				model.addAttribute(user);
+////				}else {
+////					System.out.println("로그인 필요");
+////				}
+////			}
+//			
+//			//HOT 동행
+//			mateList = mainServiceI.selectHotMateList();
+//			for(Mate a:mateList) {
+//				System.out.println(a);
+//			}
+//			model.addAttribute("mateA",mateList);
+//			
+//			//MY 동행
+////			User userInfo=(User) session.getAttribute("userInfo");
+//			User user=(User) session.getAttribute("user");
+//			System.out.println("user_code="+user.getUser_code());
+//			mateList = mainServiceI.selectMyMateList(user.getUser_code());
+//			System.out.println("왜 my 동행 안나와");
+//			for(Mate a:mateList) {
+//				System.out.println(a);
+//			}
+//			model.addAttribute("mateB",mateList);
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return "main";
+//	}
+	
+	@RequestMapping(value = "/", method=RequestMethod.GET)
+    public String main(Model model) throws Exception{
 
+        List<Trip> tripList=null;
+        List<MateUser> mateList=null;
+
+        try {
+            tripList = mainServiceI.selectBestTripList();
+            for(Trip a:tripList) {
+                System.out.println(a);
+            }
+            model.addAttribute("place",tripList);
+
+//            if(session!=null) {
+//                User user=(User) session.getAttribute("userInfo");
+//                if(user!=null) {
+//                System.out.println(user.getUser_nickname());
+//                model.addAttribute(user);
+//                }else {
+//                    System.out.println("로그인 필요");
+//                }
+//            }
+
+            mateList = mainServiceI.selectHotMateList();
+            for(Mate a:mateList) {
+                System.out.println(a);
+            }
+            model.addAttribute("mateA",mateList);
+
+            long user_code =  (long) session.getAttribute("user");
+            System.out.println("user_code="+user_code);
+            mateList = mainServiceI.selectMyMateList(user_code);
+            for(Mate a:mateList) {
+                System.out.println(a);
+            }
+            model.addAttribute("mateB",mateList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "main";
+    }
 }
