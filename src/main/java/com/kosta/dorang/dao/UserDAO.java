@@ -68,6 +68,11 @@ public class UserDAO implements UserDAOI {
 		sqlSession.update("UserMapper.deleteNicknameLocal", userInfo);
 	}
 
+	@Override
+	public void deletePicLocal(HashMap<String, Object> userInfo) throws Exception {
+		sqlSession.update("UserMapper.deletePicLocal", userInfo);
+	}
+
 
 	
 	

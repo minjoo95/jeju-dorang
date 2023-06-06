@@ -73,18 +73,27 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/kakaoAddition")
-	public String kakaoAdditionAge(@RequestParam(value = "code", required = false) String code) throws Throwable {
+	public String kakaoAddition(@RequestParam(value = "code", required = false) String code, HttpServletRequest request) throws Throwable {
 		access_tok = userService.getAccess_TokenRe(code);
 		user = userService.getUserInfo(access_tok);
+
+		request.setCharacterEncoding("utf-8");
+
+		HashMap<String, Object> userInfo = (HashMap)request.getSession().getAttribute("userInfo");
+		userInfo.put("user_pic_kakao", user.getUser_pic_kakao());
+		
+		request.getSession().setAttribute("userInfo", userInfo);
 		return "redirect:/user/mypage";
 	}
 
 	@RequestMapping(value="/deleteNicknameLocal")
 	public String deleteNicknameLocal(HttpServletRequest request) {
-		HashMap<String, Object> userInfo = (HashMap)request.getSession().getAttribute("userInfo");
-		userInfo.put("user_nickname", userInfo.get("user_nickname_kakao"));
-		userInfo.put("user_nickname_local", null);
+		HashMap<String, Object> userInfo = null;
 		try {
+			request.setCharacterEncoding("utf-8");
+			userInfo = (HashMap)request.getSession().getAttribute("userInfo");
+			userInfo.put("user_nickname", userInfo.get("user_nickname_kakao"));
+			userInfo.put("user_nickname_local", null);
 			userService.deleteNicknameLocal(userInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,6 +101,23 @@ public class UserController {
 		request.getSession().setAttribute("userInfo", userInfo);
 		return "redirect:/";
 	}
+	
+	@RequestMapping(value="/deletePicLocal")
+	public String deletePicLocal(HttpServletRequest request) {
+		HashMap<String, Object> userInfo = null;
+		try {
+			request.setCharacterEncoding("utf-8");
+			userInfo = (HashMap)request.getSession().getAttribute("userInfo");
+			userInfo.put("user_pic_local", null);
+			userInfo.put("user_pic", userInfo.get("user_pic_kakao"));
+			userService.deletePicLocal(userInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.getSession().setAttribute("userInfo", userInfo);
+		return "redirect:/";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value="/getSelectedTags", method= RequestMethod.GET)
 	public Map<String, Object> getSelectedTags(HttpServletRequest request) {
@@ -109,15 +135,16 @@ public class UserController {
 											@RequestParam String changingTags,
 											HttpServletRequest request ) throws Exception {
 		ModelAndView mav = new ModelAndView();
+		HashMap<String, Object> userInfo = (HashMap)request.getSession().getAttribute("userInfo");
 		
 		String fullPath = "";
-		String user_nickname = user.getUser_nickname();
+		String user_nickname = (String)userInfo.get("user_nickname");
 		
-		String user_tag = user.getUser_tag();
+		String user_tag = (String)userInfo.get("user_tag");
 		
-		String user_pic = user.getUser_pic();
+		String user_pic = (String)userInfo.get("user_pic");
 		String picOriginalName = null;
-		String picFileName = user.getUser_pic();
+		String picFileName = (String)userInfo.get("user_pic");
 		
 		String up = request.getSession().getServletContext().getRealPath("/").concat("resources");
 		String uploadDir = up+"\\uploadProfilePic\\";
@@ -132,7 +159,7 @@ public class UserController {
 			//파일 경로 지정
 			if(user.getUser_pic_local() != null) {
 				//현재 게시판에 존재하는 파일객체를 만듦
-				File file = new File(uploadDir+user.getUser_pic());
+				File file = new File(uploadDir+(String)userInfo.get("user_pic"));
 				if(file.exists()) { // 파일이 존재하면
 					file.delete(); // 파일 삭제	
 				}
@@ -145,12 +172,12 @@ public class UserController {
 		// 새로 입력한 닉네임이 공백이면(아무것도 입력하지 않았다면) 
 		if(changingNickname.trim().length()<1 || changingNickname == null) {
 			// 아무것도 입력하지 않았지만, 최종 닉이 로컬이라면 유지
-			if(user.getUser_nickname_local() != null) {
+			if((String)userInfo.get("user_nickname_local") != null) {
 				changingNickname = user.getUser_nickname_local();
 				user_nickname = changingNickname;
 			} else { // 아무것도 입력하지 않고, 최종 닉도 로컬이 아니라면- 로컬이 비어있다면
 				changingNickname = null;
-				user_nickname = user.getUser_nickname_kakao();
+				user_nickname = (String)userInfo.get("user_nickname_kakao");
 			}
 		} else if (changingNickname == user_nickname ) { // 새로 입력한 값이 본래 닉네임과 같다면 그대로
 			changingNickname = user_nickname;
@@ -159,15 +186,15 @@ public class UserController {
 		}
 		// 닉네임 설정 완료
 		
-		// 파일의 원래 이름이 비었으면 ( 파일 업로드가 안됨 )
-		if(picOriginalName == null) {
+		// 파일의 원래 이름이 비었으면 / 디폴트 파일이라면 ( 파일 업로드가 안됨 )
+		if(picOriginalName == null || picOriginalName.indexOf("img_profileDefault") > -1 || picOriginalName.indexOf("kakao") > -1) {
 			// 업로드를 하지 않았지만, 최종 사진이 로컬이라면 유지해야 함
-			if(user.getUser_pic_local() != null) {
-				picFileName = user.getUser_pic_local();
+			if((String)userInfo.get("user_pic_local") != null) {
+				picFileName = (String)userInfo.get("user_pic_local");
 				user_pic = picFileName;
 			} else { // 업로드를 하지 않았는데, 로컬사진이 비어있다면 
 			picFileName = null; // db에 넘길 picFIleName = null
-			user_pic = user.getUser_pic_kakao(); // 최종 pic은 카카오로
+			user_pic = (String)userInfo.get("user_pic_kakao"); // 최종 pic은 카카오로
 			}	
 		// 올린 파일과 최종 사진이 같다면 그대로 
 		} else if (user_pic == picFileName) {
@@ -179,17 +206,18 @@ public class UserController {
 		
 		// 태그에 아무것도 입력되지 않았다면
 		if(changingTags == null) {
-			if(user_tag != null) { // 근데 유저태그가 비어있지 않다면
+			if(((String)userInfo.get("user_tag")).trim() != null) { // 근데 유저태그가 비어있지 않다면
 				changingTags = user_tag; // 원래태그 유지
 			} else { // 유저태그가 비어있으면
-				changingTags = user_tag; // null 유지
+				changingTags = null;
+				user_tag = changingTags; // null 유지
 			}
 		} // 태그 선택했다면 changingTags 그대로 db에 입력
 		
 		user = new User(bindedUserCode, user_pic, user_nickname, changingNickname, changingTags, picFileName);
 		user = userService.updateUserLocalProfile(user); 
 		
-		HashMap<String, Object> userInfo = new HashMap<>();
+		userInfo = new HashMap<>();
 		userInfo.put("user_code", user.getUser_code());
 		userInfo.put("user_id", user.getUser_id());
 		userInfo.put("user_nickname_kakao", user.getUser_nickname_kakao());
@@ -205,6 +233,11 @@ public class UserController {
 		request.getSession().setAttribute("userInfo", userInfo);
 		mav.setViewName("myPage");
 		return mav;
+	}
+	
+	@RequestMapping(value="/deleteUser", method = RequestMethod.GET)
+	public String deleteUser(HttpServletRequest request) {
+		return "redirect:/";
 	}
 }	
 
