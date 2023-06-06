@@ -4,6 +4,38 @@ $(document).ready(function(){
 	//바로 list 보여주기
 	getReplyList();
 		
+	 var tags=$("#tags_strings").html();
+	 var tagList = tags.split('/');
+	 var tags_label = $("#tags_list label"); 
+	 
+	
+	 for(var i=0; i<tagList.length;i++){
+		tags_label.eq(i).text("#" + tagList[i]); 
+		console.log(tags_label.eq(i).text());
+	 }
+	 
+	 $("button").on("click", function(e){
+		 
+ 		var formData=$("#frm");
+ 		
+ 		var btn=$(this).data("btn"); // data-btn="list"
+ 		
+ 		if(btn=='update'){
+ 			formData.attr("action", "/dorang/mate/updateForm");
+ 		}else if (btn=='list') {
+ 			formData.find("#mate_code").remove();
+ 			formData.find("#user_code").remove();
+			formData.attr("action", "/dorang/mate/writelist");
+		}else if(btn=='delete'){
+			  formData.attr("action", "/dorang/mate/delete");
+		}
+ 		
+ 		
+ 		formData.submit(); 
+ 	});    
+ 	//-------------------------------------------------------------------------------------------------
+	
+
 	//댓글 insert
 	$(".mate_reply_btn").click(function(){
 		alert("insert 들어오기 성공");

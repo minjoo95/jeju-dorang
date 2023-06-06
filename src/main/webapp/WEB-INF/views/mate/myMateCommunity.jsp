@@ -16,7 +16,6 @@
   	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
   	<script src="<c:url value="/resources/js/mate.js"/>"></script>
-  	
   </head>
   <style>
   	 *:not(html), .wrap, header {
@@ -75,58 +74,12 @@
   	box-sizing: border-box;
   }
   </style>
-<script type="text/javascript">
-
- $(document).ready(function(){
-	 
-	 
-	
-	
-	 var tags=$("#tags_strings").html();
-	 var tagList = tags.split('/');
-	 var tags_label = $("#tags_list label"); 
-	 
-	
-	 for(var i=0; i<tagList.length;i++){
-		tags_label.eq(i).text("#" + tagList[i]); 
-		console.log(tags_label.eq(i).text());
-	 }
-	 
-	 $("button").on("click", function(e){
- 		var formData=$("#frm");
- 		
- 		var btn=$(this).data("btn"); // data-btn="list"
- 		
- 		if(btn=='update'){
- 			formData.attr("action", "${contextPath}/mate/updateForm");
- 		}else if (btn=='list') {
- 			formData.find("#mate_code").remove();
- 			formData.find("#user_code").remove();
-			formData.attr("action", "${contextPath}/mate/list");
-		}else if(btn=='delete'){
-			 
-			  formData.attr("action", "${contextPath}/mate/delete");
-		}
- 		
- 		
- 		formData.submit(); 
- 	});    	
-	 
-
-	 
-  });//document끝
-   
-
- 
- 
-</script>
   <body>
   <jsp:include page="../header.jsp"></jsp:include>
     <form id="frm"  method="get">
-         <input type="hidden" name="page" id="page" value="<c:out value='${cri.page}'/>"/>
+          <input type="hidden" name="mate_code" id="mate_code" value="<c:out value='${mt.mate_code}'/>"/>
+          <input type="hidden" name="page" id="page" value="<c:out value='${cri.page}'/>"/>
           <input type="hidden" name="perPageNum" id="perPageNum" value="<c:out value='${cri.perPageNum}'/>"/>
-        <%--   <input type="hidden" name="mate_code" id="mate_code" value="<c:out value='${mt.mate_code}'/>"/>
-          <input type="hidden" name="user_code" id="user_code" value="<c:out value='${sessionScope.userInfo.user_code}'/>"/> --%>
     </form>
     <div class="container" style="padding:50px 0px" >
      <div class="d-flex" >

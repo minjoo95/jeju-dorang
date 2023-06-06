@@ -13,5 +13,6 @@ public interface UserServiceI {
 	
 	public User updateUserLocalProfile(User user) throws Exception;
 	public void deleteNicknameLocal(HashMap<String, Object> userInfo) throws Exception;
+	public void deletePicLocal(HashMap<String, Object> userInfo) throws Exception;
 	
 }

@@ -298,5 +298,10 @@ public class UserService implements UserServiceI {
 		userDAO.deleteNicknameLocal(userInfo);
 	}
 
+	@Override
+	public void deletePicLocal(HashMap<String, Object> userInfo) throws Exception {
+		userDAO.deletePicLocal(userInfo);		
+	}
+
 	
 }

@@ -5,28 +5,28 @@ import java.sql.Timestamp;
 public class BoardComments {
 	
 	private int comment_no; //댓글번호
-	private int user_id; //아이디 식별코드
+	private long user_code; //아이디 식별코드
 	private int board_id; //글 등록 번호
 	private String comment_content; //댓글 내용
 	private Timestamp comment_reg_date; //작성 일자
 	private int parent_comment_no; //부모(대댓글)댓글번호
-	private int comment_group_order; //대댓글 순서 식별
 	private int comment_depth; //대댓글 길이
+	private int comment_order; //대댓글 순서 식별
 	
 
 	public BoardComments() {
 	}
 	
-	public BoardComments(int comment_no, int user_id, int board_id, String comment_content, Timestamp comment_reg_date,
-			int parent_comment_no, int comment_group_order, int comment_depth) {
+	public BoardComments(int comment_no, long user_code, int board_id, String comment_content, Timestamp comment_reg_date,
+			int parent_comment_no, int comment_order, int comment_depth) {
 
 		this.comment_no = comment_no;
-		this.user_id = user_id;
+		this.user_code = user_code;
 		this.board_id = board_id;
 		this.comment_content = comment_content;
 		this.comment_reg_date = comment_reg_date;
 		this.parent_comment_no = parent_comment_no;
-		this.comment_group_order = comment_group_order;
+		this.comment_order = comment_order;
 		this.comment_depth = comment_depth;
 	}
 
@@ -38,12 +38,12 @@ public class BoardComments {
 		this.comment_no = comment_no;
 	}
 
-	public int getUser_id() {
-		return user_id;
+	public long getUser_code() {
+		return user_code;
 	}
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setUser_code(long user_code) {
+		this.user_code = user_code;
 	}
 
 	public int getBoard_id() {
@@ -78,12 +78,12 @@ public class BoardComments {
 		this.parent_comment_no = parent_comment_no;
 	}
 
-	public int getComment_group_order() {
-		return comment_group_order;
+	public int getComment_order() {
+		return comment_order;
 	}
 
-	public void setComment_group_order(int comment_group_order) {
-		this.comment_group_order = comment_group_order;
+	public void setComment_order(int comment_order) {
+		this.comment_order = comment_order;
 	}
 
 	public int getComment_depth() {
@@ -96,9 +96,9 @@ public class BoardComments {
 
 	@Override
 	public String toString() {
-		return "BoardComments [comment_no=" + comment_no + ", user_id=" + user_id + ", board_id=" + board_id
+		return "BoardComments [comment_no=" + comment_no + ", user_code=" + user_code + ", board_id=" + board_id
 				+ ", comment_content=" + comment_content + ", comment_reg_date=" + comment_reg_date
-				+ ", parent_comment_no=" + parent_comment_no + ", comment_group_order=" + comment_group_order
+				+ ", parent_comment_no=" + parent_comment_no + ", comment_order=" + comment_order
 				+ ", comment_depth=" + comment_depth + "]";
 	}
 	

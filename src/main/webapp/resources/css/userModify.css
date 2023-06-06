@@ -30,12 +30,12 @@
 
 /* 박스 레이아웃 */
 .wholeModifyBox {
-	margin:30px auto;
 	padding: 5px;
 	display:flex;
-	flex-wrap:wrap;
 	height: 520px;
 	width: 1100px;
+	flex-wrap:wrap;
+	margin:0 auto 70px auto;
 	font-family: 'IBM Plex Sans KR', sans-serif;
 }
 
@@ -106,19 +106,27 @@
 	opacity: 100%;
 }
 
+.profilePicBtnBox{
+	width:100%;
+	margin-top:-40px;
+	margin-left:30px;
+}
 .additionalPic{
 	diaplsy:inline-block;
 	margin-left:5px;
-	margin-top:-40px;
 	z-index:30;
 }
+.deletePicLocal{
+	margin-left:5px;	
+}
 
-.additionPic {
+.additionPic, .deletePicLocalRequest{
 	font-size:0.5em;
 	color: #696969;
 }
-
-
+.deletePicLocalRequest{
+	cursor: pointer;
+}
 
 
 
@@ -261,23 +269,25 @@
 
 /* 닉네임 모달 */
 .nicknameModifyModal {
-	position: absolute; /* 모달 창 독립 */
 	
-	margin-top: 30px;
-	margin-left:-100px;
-	width: 350px;
-	height: 200px;
+	/* 모달 창 가운데 고정 */
+	position: fixed; 
+	top:50%;
+	left:50%;
+	transform: translate(-50%, -50%);
+	
+	width: 380px;
+	height: 220px;
 	
 	display: flex;
 	flex-direction: column;
 	justify-content:center;
 	align-itmes: center;
 	background-color: white;
-	border: 1px solid #3CB728;
 	border-radius: 10px;
 	z-index:20;
 	
-	box-shadow: 0px 0px 5px #444
+	box-shadow: 0px 0px 10px #444
 }
 .nickModalNotice {
 	font-size: 0.9em;
@@ -297,15 +307,16 @@
 }
 
 .nicknameTextBox {
-	margin-top: 10px;	
+	margin-top: 15px;	
 }
 
 .modifyingNickname {
 	font-size: 1.2em;
 	width: 300px;
 	height: 35px;
+	margin-top: 5px;
 	border: none;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid #D9D9D9;
 }
 .modifyingNickname:focus {
     outline: none;   
@@ -325,26 +336,43 @@
 .nickNameBottomBtn {
 	margin: 5px;
 	width: 145px;
-	height: 35px;
-	border: none;
+	height: 30px;
 	border-radius: 7px;
 }
 #nickModifyBtn {
-	background-color: #3CB728;
+	color: #FB7A51;
+	border:1px solid #FB7A51;
+	background-color: white;
 }
 #nickModifyBtn:hover {
 	color:white;
 	font-weight: bold;
 	cursor: pointer;
-	background-color: #36a523;
+	background-color: #FB7A51;
 }
 #nickCancleBtn {
+	color:white;
+	border: none;
 	background-color: #D9D9D9;
 }
 #nickCancleBtn:hover {
 	color: #FFFFFF;
 	cursor: pointer;
 	background-color: #696969;
+}
+.deleteUserBtn{
+	display:flex;
+	flex-direction:row-reverse;
+	width:95%;
+	height:10%;
+}
+.deleteUser{
+	font-size:4px;
+	margin-right:0;
+	color:  #696969;
+}
+.deleteUser:hover {
+	cursor: pointer;
 }
 
 
