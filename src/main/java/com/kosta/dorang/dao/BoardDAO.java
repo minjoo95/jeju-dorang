@@ -1,6 +1,7 @@
 package com.kosta.dorang.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import com.kosta.dorang.dto.Board;
 import com.kosta.dorang.dto.BoardComments;
+import com.kosta.dorang.dto.BoardCriteria;
 import com.kosta.dorang.dto.BoardLike;
+import com.kosta.dorang.dto.User;
 
 @Repository
 public class BoardDAO implements BoardDAOI {
@@ -20,7 +23,22 @@ public class BoardDAO implements BoardDAOI {
 	public List<Board> selectBoardList() {
 		return sqlSession.selectList("BoardMapper.selectBoardList");
 	}
+	
+	@Override
+	public List<Map<String, Object>> selectBoardPageList(BoardCriteria cri) {	
+		return sqlSession.selectList("BoardMapper.selectBoardPageList", cri);
+	}
 
+	@Override
+	public int countBoardListTotal() {
+		return sqlSession.selectOne("BoardMapper.countBoardListTotal");
+	}
+	
+	@Override
+	public int countBoardSearchListTotal(String boardSearch) {
+		return sqlSession.selectOne("BoardMapper.countBoardSearchListTotal", boardSearch);
+	}
+	
 	@Override
 	public int insertBoard(Board board) {
 		return sqlSession.insert("BoardMapper.insertBoard", board);
@@ -70,12 +88,43 @@ public class BoardDAO implements BoardDAOI {
 		
 		return sqlSession.selectList("BoardMapper.selectBoardCommentsList", no);
 	}
-	
-	
+
+	@Override
+	public int deleteBoardComment(int commentNo, int boardId) {
+		
+		return sqlSession.delete("BoardMapper.deleteBoardComment", sqlSession);
+	}
+
+	//
+	@Override
+	public List<Map<String, Object>> selectBoardSearchPageList(BoardCriteria cri) {
+		return sqlSession.selectList("BoardMapper.selectBoardSearchPageList", cri);
+	}
+
+	@Override
+	public User selectUser(long userCode) {
+		
+		return sqlSession.selectOne("BoardMapper.selectUser", userCode);
+	}
+
+	@Override
+	public int countBoardUserListTotal(long userCode) {
+		
+		return sqlSession.selectOne("BoardMapper.countBoardUserListTotal", userCode);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectBoardUserPageList(BoardCriteria cri) {
+		
+		return sqlSession.selectList("BoardMapper.selectBoardUserPageList", cri);
+	}
 
 
-	
-	
-	
+//	@Override
+//	public List<Board> selectBoardPaging() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}	
+
 	
 }

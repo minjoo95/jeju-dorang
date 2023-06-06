@@ -11,7 +11,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<%-- <%@ include file="/WEB-INF/views/header.jsp"%> --%>
+
+<%@ include file="/WEB-INF/views/header.jsp"%>
 
 <!-- bootstrap-->
 <!-- CSS only -->
@@ -152,7 +153,7 @@ document.getElementById("viewer-content").innerHTML = content; */
 	<br>
 	${board.board_title}
 	<br>
-	작성자 ${board.user_code} | 작성일 ${board.board_reg_date} | 추천수 ${board.board_like}
+	작성자 ${board.user_code} | 작성일 ${board.board_reg_date} | <span class='like_count'>추천수 ${board.board_like} </p>
 	
 	<!-- 작성자만 보이게 -->
 	<%
@@ -223,15 +224,18 @@ document.getElementById("viewer-content").innerHTML = content; */
 						<p>${comments.comment_content}
 						<p></td>
 					<td>
-						<button class="btn-reply" value="${comments.comment_no}">대댓글
-							쓰기</button>
+						<button class="btn-reply" value="${comments.comment_no}">대댓글 쓰기</button>
+						<button class="btn-delete" value="${comments.comment_no}">댓글 삭제</button>
 					</td>
 				</tr>
 			</c:forEach>
 
-
 		</table>
 		
+		<form name="boardDeleteCommentForm" action="${pageContext.request.contextPath}/board/boardDeleteComment" method="post">
+			<input type="hidden" name="comment_no"/>
+			<input type="hidden" name="board_id" value="${board.board_id}"/>
+		</form>
 		
 	
 		<textarea> </textarea>
@@ -334,10 +338,13 @@ function likeBoard(board_id){
 			success: function(data) {
 
 				console.log("data : " + data);
-				if(data == 1){
-					likeModalEl.show();
-				} else {
+				if(data == 0){
 					cancelLikeModalEl.show();
+					
+				} else {
+					likeModalEl.show();
+					$('.like_count').text('추천수 ' + data);
+					console.log("크크");
 				}
 				
 				//location.href = "${pageContext.request.contextPath}/board/list" //추천수 바뀌어야...
@@ -348,6 +355,7 @@ function likeBoard(board_id){
 
 </script>
 <script>
+/* ajax로? */
 $(".btn-reply").click(function(){
 	
 	var html = "<tr>";
@@ -369,7 +377,18 @@ $(".btn-reply").click(function(){
 	$(this).off("click");
 });
 
+$(".btn-delete").click(function(){
 
+	//내것만 삭제하게
+	if(confirm("댓글을 삭제하시겠습니까?")){
+		var $deleteComment = $(document.boardDeleteCommentForm);
+		var commentNo = $(this).val();
+		$deleteComment.find("[name=comment_no]").val(commentNo);
+		$deleteComment.submit();
+	}
+	
+
+});
 
 </script>
 </body>
