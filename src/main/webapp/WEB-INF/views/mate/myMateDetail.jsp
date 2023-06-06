@@ -245,6 +245,7 @@
    </div> -->
    <div>${mate_code }</div>
    
+   <!-- 주우우석 -->
    <table align="center" width="500" border="1" id="rtb">
 		<thead>
 			<td colspan="4"><b id="rCount">댓글목록</b></td>

@@ -3,6 +3,7 @@ package com.kosta.dorang.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,8 @@ import java.util.List;
 
 import com.kosta.dorang.dto.Mate;
 import com.kosta.dorang.dto.MateApply;
+import com.kosta.dorang.dto.MateComments;
+import com.kosta.dorang.dto.MateCommentsUser;
 import com.kosta.dorang.dto.MateCriteria;
 import com.kosta.dorang.dto.MatePageMaker;
 import com.kosta.dorang.dto.User;
@@ -36,11 +39,13 @@ import com.kosta.dorang.service.MateServiceI;
 public class MateController {
 
 	@Autowired
+	MateServiceI mateServiceI;
+	@Autowired
 	MateService mateService;
 	@Autowired
 	HttpSession session;
 	
-	
+	/////
 	@RequestMapping(value = "/writelist", method = RequestMethod.GET)
 	public String mateMyPage(Model m, @RequestParam(defaultValue = "1") int page) throws Exception {
 		
@@ -71,7 +76,7 @@ public class MateController {
 	}
 
 	
-	
+	///
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String mateList(Model m, @RequestParam(defaultValue = "1") int page) throws Exception {
 		MateCriteria cri = new MateCriteria();
@@ -110,21 +115,50 @@ public class MateController {
 	
 	
 	@RequestMapping(value="/mateCommunity",method = RequestMethod.GET)
-    public String mateCommunity(Model m,@RequestParam("mate_code") int mate_code) {
+    public String mateCommunity(Model m,@RequestParam("mate_code") int mate_code,@ModelAttribute("cri") MateCriteria cri) {
 		
 		Mate mt = null;
+		List<MateCommentsUser> mateCommentsUser=null;
 		try {
 		   mt = mateService.selectMate(mate_code);
+		   mateCommentsUser=mateServiceI.selectMateReplyListByMateCode(mate_code);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		m.addAttribute("mt",mt);
-		
-		return "/mate/mateCommunity222222";
+		m.addAttribute("mate_code",mate_code);
+		m.addAttribute("mateReplyList", mateCommentsUser);
+		return "/mate/myMateCommunity";
+//		return "/mate/myMateDetail";
 	}
 	
 	
-	
+//	@RequestMapping(value="/mateCommunity", method=RequestMethod.GET)
+//	public String mateCommunity(Model model, int mate_code) throws Exception{
+////		List<Mate> mateList=null;
+////		List<MateComments> mateCommentList=null;
+//		System.out.println(mate_code);
+////		long user_code=(long) session.getAttribute("user");
+//		try {
+////			mateList=mateServiceI.selectMateListByUser(user.getUser_code());
+////			System.out.println("--------mateList--------");
+////			for(Mate a:mateList) {
+////				System.out.println(a.getContent());
+////			}
+////			mateCommentList=mateServiceI.selectMateReplyListByMateCode(mate_code);
+//			System.out.println("--------mateCommentList--------");
+////			for(MateComments a:mateCommentList) {
+////				System.out.println(a.getContent());
+////			}
+//
+////			model.addAttribute("mateList",mateList);
+////			model.addAttribute("mateComments",mateCommentList);
+//			model.addAttribute("mate_code",mate_code);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return "/mate/myMateDetail";
+//	}
 	
 	
 	
@@ -314,15 +348,113 @@ public class MateController {
 	}
 	
 
-	// 응심이가 만든거 삭제 ㄴㄴ
-	@RequestMapping(value="/mymatepage", method=RequestMethod.GET)
-	public String mateReply(Model model){
-		System.out.println("들어오기");
-		return "/mate/mateCommunity";
+	//응심이 INSERT
+	@RequestMapping(value="/mateReplyInsert", method=RequestMethod.POST)
+	@ResponseBody
+	public void mateReplyInsert(@RequestParam("mate_code") int mate_code,@RequestParam("mateReplyContent") String mateReplyContent) throws Exception{
+		System.out.println("댓글 insert 컨트롤러 들어오기 성공");
+//		User user=(User) session.getAttribute("userInfo");
+		long user_code=(long) session.getAttribute("user");
+		System.out.println("mate_code : "+mate_code);
+		System.out.println("user_code : "+user_code);
+		MateComments mateComments=new MateComments();
+		mateComments.setContent(mateReplyContent);
+		mateComments.setMate_code(mate_code);
+		mateComments.setUser_code(user_code);
+		System.out.println(mateComments.getContent());
+		try {
+			mateServiceI.insertMateReply(mateComments);
+			System.out.println("insert 다음");
+//			mateServiceI.selectMateReplyList(mate_code);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//응심이 SELECT
+	@RequestMapping(value="/mateReplySelect", method=RequestMethod.GET)
+	@ResponseBody
+	public List<MateCommentsUser> mateReplySelect(@RequestParam("mate_code") int mate_code) throws Exception{
+		System.out.println("댓글 select 컨트롤러 들어오기 성공");
+//		User user=(User) session.getAttribute("userInfo");
+		System.out.println("mate_code : "+mate_code);
+//		MateComments mateComments=new MateComments();
+//		mateComments.setContent(mateReplyContent);
+//		mateComments.setMate_code(mate_code);
+//		mateComments.setUser_code(user.getUser_code());
+//		System.out.println(mateComments.getContent());
+		List<MateCommentsUser> mateComments=null;
+		try {
+			mateComments=mateServiceI.selectMateReplyListByMateCode(mate_code);
+			System.out.println("댓글 리스트 ---------------------------------");
+			for(MateComments a:mateComments) {
+				System.out.println(a.getContent());
+			}
+			System.out.println("--------------------------------------------");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+//		if(mateComments!=null) {
+//			Gson gson=new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+//			return gson.toJson(mateComments);
+//		}else {
+//			
+//			return "";
+//		}
+		return mateComments;
 	}
 	
 	
+	//응심이 수정 댓글 하나 가져오기
+		@RequestMapping(value="/onematereply", method=RequestMethod.GET)
+		@ResponseBody
+		public MateCommentsUser selectOneMateReply(@RequestParam("comment_code") int comment_code) throws Exception{
+			System.out.println("댓글 select 컨트롤러 들어오기 성공");
+			System.out.println("comment_code : "+comment_code);
+			MateCommentsUser mateCommentUser=null;
+			JSONObject jsonObj=new JSONObject();
+			try {
+				mateCommentUser=mateServiceI.selectOneMateReply(comment_code);
+				System.out.println("reply content : "+mateCommentUser.getContent());
+				System.out.println("select 성공");
+				//jsonObj.put("content", mateCommentUser.getContent());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return mateCommentUser;
+		}
 	
-	
+		//응심이 UPDATE
+		@RequestMapping(value="/mateReplyUdate", method=RequestMethod.POST)
+		@ResponseBody
+		public void mateReplyUpdate(@RequestParam("comment_code") int comment_code, @RequestParam("content") String content) throws Exception{
+			System.out.println("댓글 update 컨트롤러 들어오기 성공");
+			System.out.println("comment_code : "+comment_code);
+			System.out.println("content : "+content);
+			MateComments mateComments=new MateComments();
+			mateComments.setContent(content);
+			mateComments.setComment_code(comment_code);
+			try {
+				mateServiceI.updateMateReply(mateComments);
+				System.out.println("update 성공");
+				System.out.println("update content : "+mateComments.getContent());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//응심이 DETETE
+		@RequestMapping(value="/mateReplyDelete", method=RequestMethod.POST)
+		@ResponseBody
+		public void mateReplyDelete(@RequestParam("comment_code") int comment_code) throws Exception{
+			System.out.println("댓글 delete 컨트롤러 들어오기 성공");
+			System.out.println("comment_code : "+comment_code);
+			try {
+				mateServiceI.deleteMateReply(comment_code);
+				System.out.println("delete 성공");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	
 }
