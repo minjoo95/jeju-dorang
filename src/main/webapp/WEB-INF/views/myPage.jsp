@@ -13,19 +13,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>제주도랑 - 마이페이지</title>
+	<title>제주도랑 - 마이페이지</title>
 </head>
 
 <body>
-<jsp:include page="/WEB-INF/views/header.jsp" />
-<jsp:include page="/WEB-INF/views/myPageTab.jsp" flush="false"/>
-
-<jsp:include page="${myPageContentPage }" flush="false"/>
-
-<jsp:include page="/WEB-INF/views/footer.jsp" />
+	<jsp:include page="/WEB-INF/views/header.jsp" />
+	<jsp:include page="/WEB-INF/views/myPageTab.jsp" flush="false"/>
+	
+	<jsp:include page="${myPageContentPage }" flush="false"/>
+	
+	<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
+
 </html>
 
 <script>
+	/* 메뉴 선택 초기화 */
 	localStorage.setItem('lastClicked', 'userModify');
 </script>

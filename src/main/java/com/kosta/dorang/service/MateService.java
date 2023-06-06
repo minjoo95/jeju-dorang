@@ -10,6 +10,7 @@ import com.kosta.dorang.dao.MateDAOI;
 import com.kosta.dorang.dto.Mate;
 import com.kosta.dorang.dto.MateApply;
 import com.kosta.dorang.dto.MateComments;
+import com.kosta.dorang.dto.MateCommentsUser;
 import com.kosta.dorang.dto.MateCriteria;
 
 @Service
@@ -75,16 +76,32 @@ public class MateService implements MateServiceI {
 		return mateDAO.getmyMateWriteList(user_code,cri);
 	}
 
-  //응심이 댓글
+  //응심이 댓글 select
   @Override
-	public List<MateComments> selectMateReplyListByMateCode(int mate_code) throws Exception {
+	public List<MateCommentsUser> selectMateReplyListByMateCode(int mate_code) throws Exception {
 		return mateDaoI.selectMateReplyListByMateCode(mate_code);
 	}
-
+  //응심이 댓글 insert
 	@Override
 	public void insertMateReply(MateComments mateComments) {
 		mateDaoI.insertMateReply(mateComments);
 		
+	}
+	 //응심이 댓글 delete
+	@Override
+	public void deleteMateReply(int comment_code) throws Exception {
+		mateDaoI.deleteMateReply(comment_code);
+		
+	}
+
+	@Override
+	public MateCommentsUser selectOneMateReply(int comment_code) throws Exception {
+		return mateDaoI.selectOneMateReply(comment_code);
+	}
+
+	@Override
+	public void updateMateReply(MateComments mateComments) throws Exception {
+		mateDaoI.updateMateReply(mateComments);
 	}
 	
 }

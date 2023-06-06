@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kosta.dorang.dto.Mate;
 import com.kosta.dorang.dto.MateApply;
 import com.kosta.dorang.dto.MateComments;
+import com.kosta.dorang.dto.MateCommentsUser;
 import com.kosta.dorang.dto.MateCriteria;
 
 
@@ -87,13 +88,29 @@ public class MateDAO implements MateDAOI {
 	
   //응심이 
 	@Override
-	public List<MateComments> selectMateReplyListByMateCode(int mate_code) throws Exception {
+	public List<MateCommentsUser> selectMateReplyListByMateCode(int mate_code) throws Exception {
 		return sqlSession.selectList("MateMapper.selectMateReplyListByMateCode",mate_code);
 	}
 
 	@Override
 	public void insertMateReply(MateComments mateComments) {
 		sqlSession.insert("MateMapper.insertMateReply",mateComments);
+	}
+
+	@Override
+	public void deleteMateReply(int comment_code) throws Exception {
+		sqlSession.delete("MateMapper.deleteMateReply",comment_code);
+		
+	}
+
+	@Override
+	public MateCommentsUser selectOneMateReply(int comment_code) throws Exception {
+		return sqlSession.selectOne("MateMapper.selectOneMateReply",comment_code);
+	}
+
+	@Override
+	public void updateMateReply(MateComments mateComments) throws Exception {
+		sqlSession.update("MateMapper.updateMateReply",mateComments);
 	}
 
 	

@@ -73,6 +73,11 @@ public class UserDAO implements UserDAOI {
 		sqlSession.update("UserMapper.deletePicLocal", userInfo);
 	}
 
+	@Override
+	public void deleteUser(Long user_code) {
+		sqlSession.delete("UserMapper.deleteUser", user_code);
+	}
+
 
 	
 	
