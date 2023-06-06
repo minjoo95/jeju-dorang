@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.Console;
 import java.io.File;
 import java.io.InputStream;
 import java.time.LocalDate;
@@ -67,27 +68,59 @@ public class MateController {
 	 	pm.setTotalCount(mateService.totalCount());
 	 	m.addAttribute("pm", pm);
 
-	    return "/mate/mateMypage2222";
+	    return "/mate/mateMypage";
 	}
 
 	
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String mateList(Model m, @RequestParam(defaultValue = "1") int page) throws Exception {
+	public String mateList(Model m, @RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "sortByDate") String sortBy) throws Exception {
 		MateCriteria cri = new MateCriteria();
 		cri.setPage(page);
 		cri.setPerPageNum(9);
-		List<Mate> matelist = mateService.getMateListViewSort(cri);
+		cri.setSortBy(sortBy);
 	    
 	    MatePageMaker pm = new MatePageMaker();
 	    pm.setCri(cri);
 	    pm.setTotalCount(mateService.totalCount());
-	    m.addAttribute("mateList", matelist); 
+	   
 	    m.addAttribute("pm",pm);
 
 	    
 	    return "/mate/mateList";
 	}
+	
+	
+	@RequestMapping(value = "/listSort", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Mate> listSort(Model m, @RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "sortByDate") String sortBy) {
+	    
+		MateCriteria cri = new MateCriteria();
+		cri.setPage(page);
+		cri.setPerPageNum(9);
+		cri.setSortBy(sortBy);
+
+		try {
+			 List<Mate>  matelistSortBy = mateService.getMateListViewSort(cri);
+			 m.addAttribute("mateList", matelistSortBy); 
+			 MatePageMaker pm = new MatePageMaker();
+			 pm.setCri(cri);
+			 pm.setTotalCount(mateService.totalCount());
+			   
+			 m.addAttribute("pm",pm);
+			 
+	        return matelistSortBy;
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
+	
+	
+	
+	
+	
 
 	@RequestMapping(value = "/writeform")
 	public String Writeform() {
@@ -110,7 +143,7 @@ public class MateController {
 	
 	
 	@RequestMapping(value="/mateCommunity",method = RequestMethod.GET)
-    public String mateCommunity(Model m,@RequestParam("mate_code") int mate_code) {
+    public String mateCommunity(Model m,@RequestParam("mate_code") int mate_code,@ModelAttribute("cri") MateCriteria cri) {
 		
 		Mate mt = null;
 		try {
@@ -120,7 +153,7 @@ public class MateController {
 		}
 		m.addAttribute("mt",mt);
 		
-		return "/mate/mateCommunity222222";
+		return "/mate/myMateCommunity";
 	}
 	
 	

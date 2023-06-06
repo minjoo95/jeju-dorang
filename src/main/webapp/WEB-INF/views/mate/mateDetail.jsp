@@ -197,7 +197,7 @@
      <c:if test="${sessionUserCode ne null and sessionUserCode eq boardUserCode}">
         <div class="writer-btn d-flex justify-content-end" style="padding-bottom: 50px">
 	    	<button class="update_btn btn" data-btn="update" >수정하기</button>
-	    	<button class="delete_btn btn"data-btn="delete" style="margin-left: 5px;">삭제하기</button>
+	    	<button class="delete_btn btn" data-btn="delete" style="margin-left: 5px;">삭제하기</button>
 	    </div>
      </c:if>
        		<div class="container" >

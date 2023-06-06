@@ -5,11 +5,12 @@ public class MateCriteria {
 	
 	   private int page; 
 	   private int perPageNum;
+	   private String sortBy;
 	   
 	   public int getPage() {
-		return page;
-		}
-		public void setPage(int page) {
+	    return page;
+	   }
+	   public void setPage(int page) {
 			this.page = page;
 		}
 		public int getPerPageNum() {
@@ -18,6 +19,16 @@ public class MateCriteria {
 		public void setPerPageNum(int perPageNum) {
 			this.perPageNum = perPageNum;
 		}
+		
+		public String getSortBy() {
+	        return sortBy;
+	    }
+	    
+	    public void setSortBy(String sortBy) {
+	        this.sortBy = sortBy;
+	    }
+		
+		
 		public MateCriteria() {
 			   
 		 }
