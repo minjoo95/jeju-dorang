@@ -13,7 +13,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>  
   	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" defer></script>
+	<script type="text/javascript" src="<c:url value="/resources/js/mate.js"/>"></script>
   </head>
   <style>
   	 *:not(html), .wrap, header {
@@ -21,6 +21,7 @@
   }
   .container, .container * {
     box-sizing: border-box !important;
+    position: relative;
   }
   .custom-bg {
  	 background-color: red; /* 원하는 배경색 지정 */
@@ -42,11 +43,12 @@
   .card-bottom-tags .card-tags{
   	color:#FB7A51;
   }
-  .writer-btn> a{
+  .writer-btn> .btn{
   	color:#ffffff;
   	background-color:#3CB728;
 	padding: 0px 7px;
 	font-size: 15px;
+	border-radius: 5px;
   }
   .status-tags{
     color:#ffffff;
@@ -60,49 +62,51 @@
   .ask {
   	color:#FB7A51;
   }
-  </style>
-  <script type="text/javascript">
-
- $(document).ready(function(){
   
-	 var tags=$("#tags_strings").html();
-	 var tagList = tags.split('/');
-	 var tags_label = $("#tags_list label"); 
-	 
-	
-	 for(var i=0; i<tagList.length;i++){
-		tags_label.eq(i).text("#" + tagList[i]); 
-		console.log(tags_label.eq(i).text());
-	 }
-		
-  });//document끝
- 
-</script>
+  .applyAlert{
+  	position: absolute;
+  	bottom: 32px;
+  	left: 50%;
+  	margin-left: calc(-258px / 2);
+  	width: 259px;
+  	box-sizing: border-box;
+  }
+  </style>
+  
   <body>
   <jsp:include page="../header.jsp"></jsp:include>
+    <form id="frm"  method="get">
+          <input type="hidden" name="mate_code" id="mate_code" value="<c:out value='${mt.mate_code}'/>"/>
+          <input type="hidden" name="page" id="page" value="<c:out value='${cri.page}'/>"/>
+          <input type="hidden" name="perPageNum" id="perPageNum" value="<c:out value='${cri.perPageNum}'/>"/>
+    </form>
     <div class="container" style="padding:50px 0px" >
-    
+     <div class="d-flex" >
+		  <button data-btn="list" class="btn" style="background: #FB7A51; color:#ffffff; display: block;" >
+					동행목록가기
+		  </button>
+	</div>
      <c:set var="sessionUserCode" value="${sessionScope.userInfo.user_code}" />
 	 <c:set var="boardUserCode" value="${mt.user_code}" />
-	
      <c:if test="${sessionUserCode ne null and sessionUserCode eq boardUserCode}">
         <div class="writer-btn d-flex justify-content-end" style="padding-bottom: 50px">
-	    	<a class="update_btn" href="${contextPath}/mate/updateForm?mate_code=${mt.mate_code}">수정하기</a>
-	    	<a class="delete_btn" style="margin-left: 5px;" href="${contextPath}/mate/deleteMate?mate_code=${mt.mate_code}">삭제하기</a>
+	    	<button class="update_btn btn" data-btn="update" >수정하기</button>
+	    	<button class="delete_btn btn"data-btn="delete" style="margin-left: 5px;">삭제하기</button>
 	    </div>
      </c:if>
-        <form id="mateDetail">
-          <input type="hidden" name="mate_code" id="mate_code" value="${mate_code}"/>
        		<div class="container" >
+	       		<div class="mate-createdAt d-flex justify-content-end" style=" font-size: 12px;">
+					    	<p style="font-size: 15px">작성일&nbsp;${mt.createdAt}</p>
+		        </div>
           <div class="row">
 	          <div class="col-md-6  container_1" >
 		 			 <div class="mb-5" >
-					    <label for="title" class="form-label" style="color: #FB7A51;">${mt.title}</label>
+					    <label  class="form-label" style="color: #FB7A51;">${mt.title}</label>
 		  			 </div> 
 		  			  <!-- 이미지 --> 
 					<div class="mb-5">
 					  	 <div class="card" style="padding: 0px;">
-						    <img src="${contextPath}/resources/img/${mt.image}" class="card-img-top" alt="제주도모집이미지" style="height: 370px; border-radius: 0px;">
+						    <img src="${contextPath}/resources/upload/mate/${mt.image}" class="card-img-top" alt="제주도모집이미지" style="height: 370px; border-radius: 0px;">
 		  				</div>
 	  				</div>
 	          </div>
@@ -150,61 +154,13 @@
 		  			 </div>
 			      </div> 
 			  </div>
-		  <div class="container_3 mt-5">
-  	    	 <h3 class="mb-3" style="font-size: 23px">
-  	    	 	동행 신청하기
-  	    	  </h3>
-  	    	 <div style=" border: 2px solid #D9D9D9; border-radius: 15px; padding:50px 40px; margin-bottom: 50px"> 
-	  	    	 <div class="mb-3" >
-	  	    		<label for="first_ask" class="w-100 ask">Q&nbsp;.&nbsp;${mt.first_ask}
-	  	    			   <input type="text" class="form-control" id="first_ask" name="first_ask" placeholder="답변을 입력해주세요." >
-	  	    		</label>
-	             </div>
-	              <div class="mb-3">
-	                <label for="second_ask" class="w-100 ask">Q&nbsp;.&nbsp;${mt.second_ask}
-	   			 	    <input type="text" class="form-control" id="second_ask" name="second_ask" placeholder="답변을 입력해주세요." >
-	    	    	</label>
-	             </div>
-	              <div class="mb-3">
-	              	<label for="third_ask" class="w-100 ask">Q&nbsp;.&nbsp;${mt.third_ask}
-	   			 	    <input type="text" class="form-control" id="third_ask" name="third_ask" placeholder="답변을 입력해주세요.">
-	    	    	</label>
-	             </div>
-	            </div>
-		  </div>
 		 </div> 
           </div> 
-      <div class="form_btn mb-5" style="width: 100%;text-align: center;">
-      		 <c:choose>
-		 		<c:when test="${sessionScope.user !=null}">
-		 			<c:if test="${sessionUserCode ne boardUserCode}">
-			       		<button type="button" disabled  class="btn btn-primary px-5" onclick="goInsert()">동행신청</button>
-            		</c:if>
-            		<c:if test="${sessionUserCode eq boardUserCode}">
-			       		<button type="button" disabled  class="btn btn-secondary px-5" onclick="goInsert()">동행신청</button>
-            		</c:if>
-		 		</c:when>
-		 		<c:otherwise>
-		 			<button type="button" class="btn btn-primary px-5" onclick="alert('로그인이 필요합니다'); window.location.href = 'https://kauth.kakao.com/oauth/authorize?client_id=a62a2c16a4182ec20a1185a3f707c2b1&redirect_uri=http://localhost:8080/dorang/user/kakaoCallback&response_type=code&prompt=login&state=${pageURL}';">동행신청</button>
-		 		</c:otherwise>
-	        </c:choose>    
-      </div>
-        </form>
     </div>
-    
-    
-    
-    <!-- 동행 댓글 -->
-    <div class="mate_reply_wrap">
-    	<div class="mate_reply_container">
-    		<textarea class="comment_txt" name="comment_txt" placeholder="댓글 입력..."></textarea>
-    	</div>
-    	<div class="mate_reply_btn_container">
-    		<button class="mate_reply_btn">입력</button>
-    	</div>
-    </div>
-    
-    
     <div style="height: 100px; background-color: orange;">푸터</div>
+
   </body>
 </html>
+
+
+

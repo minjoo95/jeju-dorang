@@ -44,6 +44,12 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
+	
+	var activeBtn = $(".sort-btn-group button.active");
+	var currentSortBy = activeBtn.data("btn");
+    sortMateList(currentSortBy);
+   
+
     $(".tags_strings").each(function() {
       var tags = $(this).html();
       var tagList = tags.split('/');
@@ -53,50 +59,148 @@ $(document).ready(function(){
       }
     });
     
-    var pageFrm = $("#pageFrm");
-    $(".paginate_button a").on("click",function(e){
+    //버튼 정렬 
+    $(".sort-btn-group button").on("click",function(e){
+    
     	e.preventDefault(); 
-    	var page=$(this).attr("href");
-    	pageFrm.find("#page").val(page);
-    	pageFrm.submit();
+   
+    	 $(".sort-btn-group button").removeClass("active");
+    	 $(this).addClass("active");
+    	 currentSortBy = $(this).data("btn");
+         sortMateList(currentSortBy);
+
     });
     
-    
-    $(".mateMove").on("click",function(e){
-    	e.preventDefault();
-    	var mate_code = $(this).attr("href");
-    	var tag="<input type='hidden' name='mate_code' value='"+mate_code+"'/>";
-    	pageFrm.append(tag);
-    	pageFrm.attr("action","${contextPath}/mate/select");
+ 
+
+    $(".paginate_button a").on("click",function(e){
+    	e.preventDefault(); 
+    	var pageFrm = $("#pageFrm");	 	
+     	var page=$(this).attr("href");	
+    	var perPageNum=$(this).attr("href");
+    	var sortBy = $(".sort-btn-group button.active").data("btn");
+
+    	$("#page").val(page);
+    	$("#sortBy").val(sortBy)
     	
-    	$.ajax({
-   		     url: "/dorang/mate/count/",
+    	
+	     pageFrm.submit();
+	     
+	      
+    	
+    });
+    
+ 
+  });
+    var contextPath = "${pageContext.request.contextPath}";
+    
+    function sortMateList(sortBy) {
+    
+        var page = $("#page").val();
+        
+        
+	    $.ajax({
+		    url: "${contextPath}/mate/listSort",
+		    method: "GET",
+		    data:{
+		        sortBy: sortBy,
+		        page: page
+		      },
+		    dataType : "json",
+		    success:function(data) {
+		        displayMateList(data);     
+		      },
+		    error: function() {
+		      console.log("데이터 요청 실패");
+		    }
+		  }); 
+   }//sortMateList
+   
+    function displayMateList(data) {
+    
+     $("#viewContent").empty();
+     var itemHtml = ""; 
+	   $.each(data, function(index,mt) {
+		    var createdAt = new Date(mt.createdAt);  
+	    	var formattedDate = createdAt.toLocaleDateString();
+		    
+		   itemHtml +=  "<div class='col'>"
+		   itemHtml +=  "<a href='javascript:goContent("+mt.mate_code+")' 'class='card-link' style='text-decoration: none; outline: none; color: #000;'>"
+		   itemHtml +=  "<div class='mate-status d-flex justify-content-end' style='font-size: 12px;'>"
+		   itemHtml +=  "<p style='color:  #FB7A51; margin-right:5px; margin-bottom:2px'>"+ mt.status + "</p>"
+		   itemHtml +=  "<p style='margin-bottom:2px'><span>조회수</span><span id='cnt"+mt.mate_code+"'>"+mt.count+"</span></p>"
+		   itemHtml +=  "</div>"
+		   itemHtml +=  "<div class='card h-100 shadow p-2'>"
+		   itemHtml +=  "<h5 class='card-title'>"+mt.title+"</h5>"
+		   itemHtml +=  "<p class='createAt' style='text-align: right; font-size: 11px'>작성일&nbsp;"+formattedDate +"</p>"  	
+		   itemHtml +=  "<div class='card-top-tags d-flex flex-wrap align-items-center justify-content-around justify-content-md-between mb-3'>"	
+		   itemHtml +=  "<label class='card-tags'>"+mt.type+"</label>"
+		   itemHtml +=  "<label class='card-tags'>"+mt.direction+"</label>"
+		   itemHtml +=  "<label class='card-tags'>"+mt.number+"</label>"
+		   itemHtml +=  "<label class='card-tags'>"+mt.gender+"</label>"
+		   itemHtml +=  "</div>" 
+		   itemHtml += "<img src='" + contextPath + "/resources/upload/mate/" + mt.image + "' class='card-img-top' alt='제주도모집이미지' style='height: 200px; border-radius: 0px;'>";
+		   itemHtml += "<div class='tags_strings' id='tags_strings' style='display: none;'>'"+mt.tags +"</div>"
+		   itemHtml += "<div class='card-bottom-tags d-flex flex-wrap  mb-3' id='tags_list'>"
+		   itemHtml += "<label class='card-tags'></label>"
+		   itemHtml += "<label class='card-tags'></label>"
+		   itemHtml += "<label class='card-tags'></label>"
+		   itemHtml += "</div>"
+		   itemHtml += "<div class='card-footer d-flex align-items-center' style='background-color: #FFFFFF;'>"
+		   itemHtml += "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill=''#3CB728' class='bi bi-calendar2-heart' viewBox='0 0 16 16'>"
+		   itemHtml += "<path fill-rule='evenodd' d='M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5ZM1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3Zm2 .5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V4a.5.5 0 0 0-.5-.5H3Zm5 4.493c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z'/>"
+		   itemHtml += "</svg>"
+		   itemHtml +="<small class='daterange' style='opacity: 0.8; padding: 0px 3px;'>여행기간&nbsp;"+mt.daterange+"</small>"
+		   itemHtml += "</div>"
+		   itemHtml += "</div>"
+		   itemHtml += "</a>"
+		   itemHtml += "</div>"
+	
+	   }); 
+		$("#viewContent").append(itemHtml);
+  
+
+   }//displayMateList
+   
+    
+    
+     function goContent(mate_code) {
+    	 var pageFrm = $("#pageFrm");
+		 var tag="<input type='hidden' name='mate_code' value='"+mate_code+"'/>";
+	     pageFrm.append(tag);
+	     pageFrm.attr("action","${contextPath}/mate/select");
+	     pageFrm.submit();
+	     
+	         $.ajax({
+             url: "/dorang/mate/count/",
 			 type : "POST",    			 
 			 data: { mate_code: mate_code },
 			 dataType : "json",
 			 success : function(data){
-				 $("#cnt").text(data.count);
+				 $("#cnt"+mate_code).text(data.count);
 			 },    			 
 			 error : function(){ alert("error"); }
 		 });
-    	
-    	pageFrm.submit();
-    });
+	     
+	    
+	}
+     
+
     
-  });
- 
+    
 </script>
 
 </head>
 <body>
+
 <jsp:include page="../header.jsp"></jsp:include>
  <div class="container" >
   <div class="content-title" style="background-color: #FB7A51; height: 200px;" > section 타이틀 제주도 여행 같이 가요! (미정)</div>
  	<h3 style="padding:50px 0px">동행 목록</h3>
  		<div class="container-top d-flex justify-content-between mb-5">
 	 		<div class="sort-btn-group">
-	 			 <button type="button" class="btn btn-warning">날짜순</button>
-	  			 <button type="button" id="cnt" class="btn btn-warning">조회순</button>
+	 			<button type="button" class="btn btn-warning active" data-btn="sortByDate">날짜순</button>
+                <button type="button" class="btn btn-warning" data-btn="sortByCount">조회순</button>
 	 		</div>
 	 		<div class="insertMate-btn d-flex align-items-center">
 		 		<span>
@@ -105,7 +209,7 @@ $(document).ready(function(){
 					</svg>
 		 		</span>
 		 	<c:choose>
-		 		<c:when test="${sessionScope.user !=null}">
+		 		<c:when test="${sessionScope.user ne null}">
 		 			<a href="${contextPath}/mate/writeform" class="insertMate-title hoverable" style="font-size: 32px; color: #FB7A51; text-decoration: none; margin-left: 10px">동행모집글쓰기</a>
 		 		</c:when>
 		 		<c:otherwise>
@@ -115,50 +219,18 @@ $(document).ready(function(){
 	 		</div>
  	    </div>
         <div class="container-content" style="margin-bottom: 70px" >
-             <div class="row row-cols-1 row-cols-md-3 g-5">
-            	  <c:forEach var="mt" items="${mateList}">
-				  <div class="col">
-				   <a href="${mt.mate_code}" class="card-link mateMove" style="text-decoration: none; outline: none; color: #000;" >
-				   <div class="mate-status d-flex justify-content-end" style=" font-size: 12px;">
-				    	<p style="color:  #FB7A51; margin-right:5px; margin-bottom:2px">${mt.status}</p>
-				    	<p style="margin-bottom:2px">조회수&nbsp;${mt.count}</p>
-				    </div>
-				    <div class="card h-100 shadow p-2">
-				     <h5 class="card-title">${mt.title}</h5>
-				     <p class="createAt" style="text-align: right; font-size: 11px">작성일&nbsp;${mt.createdAt}</p>
-				      <div class="card-top-tags d-flex flex-wrap align-items-center justify-content-around justify-content-md-between mb-3">
-					      <label class="card-tags" >${mt.type}</label>
-					      <label class="card-tags" >${mt.direction}</label>
-					      <label class="card-tags" >${mt.number}</label>
-					      <label class="card-tags">${mt.age}</label>
-					      <label class="card-tags">${mt.gender}</label>
-				      </div>
-				       <img src="${contextPath}/resources/upload/mate/${mt.image}" class="card-img-top" alt="제주도모집이미지" style="height: 200px; border-radius: 0px;">
-					 <div  class="tags_strings" id="tags_strings" style="display: none;">${mt.tags}</div>
-                      <div class="card-bottom-tags d-flex flex-wrap  mb-3" id="tags_list">
-					      <label class="card-tags"></label>
-					      <label class="card-tags"></label>
-					      <label class="card-tags"></label>
-				      </div>
-					  <div class="card-footer d-flex align-items-center" style="background-color: #FFFFFF;">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#3CB728" class="bi bi-calendar2-heart" viewBox="0 0 16 16">
-								  <path fill-rule="evenodd" d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5ZM1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3Zm2 .5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V4a.5.5 0 0 0-.5-.5H3Zm5 4.493c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z"/>
-							</svg>
-						    <small class="daterange" style="opacity: 0.8; padding: 0px 3px;">
-						          여행기간&nbsp;${mt.daterange}
-						    </small>
-				     </div>
-				   </div>
-					</a>
-					</div>
-			</c:forEach>		
-		</div>
-  </div>
+             <div class="row row-cols-1 row-cols-md-3 g-5" id="viewContent">
+             <!-- 동행리스트 -->
+		    </div>
+        </div>
   <!-- 페이징 -->
+    
+	
  <div class="container d-flex justify-content-center">
   <div style="text-align: center;">
 	 <nav aria-label="Page navigation example">
-	  <ul class="pagination">
+	  <ul class="pagination" id="pm">
+	
 	  <c:if test="${pm.prev}">
 	    <li class="page-item paginate_button">
 	      <a class="page-link" href="${pm.startPage-1}" aria-label="Previous">
@@ -198,9 +270,11 @@ $(document).ready(function(){
   </div>
   </div>
   <!-- end -->
+
   <form id="pageFrm" action="${contextPath}/mate/list"  method="get">
   		<input type="hidden" id="page" name="page" value="${pm.cri.page}" />
-  		<input type="hidden" name="perPageNum" value="${pm.cri.perPageNum}" />
+  		<input type="hidden" id="perPageNum"  name="perPageNum" value="${pm.cri.perPageNum}" />
+ 		<input type="hidden" id="sortBy" name="sortBy" value="${pm.cri.sortBy}" />
   </form>
   
  </div>

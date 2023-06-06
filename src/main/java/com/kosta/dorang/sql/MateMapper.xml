@@ -15,8 +15,18 @@
     ]]>
 </select>
 <select id="getMateListViewSort" parameterType="com.kosta.dorang.dto.MateCriteria" resultType="com.kosta.dorang.dto.Mate">
-  SELECT * FROM mate ORDER BY createdAt DESC 
-  limit #{pageStart},#{perPageNum}
+  <choose>
+    <when test="sortBy == 'sortByDate'">
+      SELECT * FROM mate ORDER BY createdAt DESC 
+    </when>
+    <when test="sortBy == 'sortByCount'">
+      SELECT * FROM mate ORDER BY count DESC 
+    </when>
+    <otherwise>
+       SELECT * FROM mate ORDER BY createdAt DESC 
+    </otherwise>
+  </choose>
+   LIMIT #{pageStart}, #{perPageNum}
 </select>
 <update id="updateMate" parameterType="com.kosta.dorang.dto.Mate">
      	 <![CDATA[

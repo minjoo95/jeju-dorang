@@ -119,6 +119,8 @@ function updateMate() {
         <form name="mateForm" id="mateForm" action="${contextPath}/mate/update" method="post" enctype="multipart/form-data">
           <input type="hidden" name="user_code" id="user_code" value="${sessionScope.userInfo.user_code}"/> 
           <input type="hidden" name="mate_code" id="mate_code" value="${mt.mate_code}"/> 
+       	  <input type="hidden" name="page" value="<c:out value='${cri.page}'/>"/>
+          <input type="hidden" name="perPageNum" value="<c:out value='${cri.perPageNum}'/>"/>	
        		<div class="container" >
 	          <div class="row">
 			        <div class="col-md-6 container_left" >
@@ -321,8 +323,6 @@ function updateMate() {
       <div class="form_btn mb-5" style="width: 100%;text-align: center;">
       		<button type="button" class="btn btn-primary px-5" onclick="updateMate()">수정완료</button>
       </div>
-        <input type="hidden" name="page" value="<c:out value='${cri.page}'/>"/>
-        <input type="hidden" name="perPageNum" value="<c:out value='${cri.perPageNum}'/>"/>
         </form>
     </div>
 
