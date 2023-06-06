@@ -2,129 +2,270 @@
 
 /* 카페24 써라운드 */
 @font-face {
-    font-family: 'Cafe24Ssurround';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'Cafe24Ssurround';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 /* 둘기마요고딕 */
 @font-face {
-    font-family: 'Dovemayo_gothic';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+	font-family: 'Dovemayo_gothic';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2')
+		format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+/* gmarket */
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
-/* 어그로체 */
+/* 샐러드체 */
 @font-face {
-    font-family: 'SBAggroB-lighter';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
-    font-weight: normal;
-    font-style: 300;
+     font-family: 'S-CoreDream-3Light';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
 }
-@font-face {
-    font-family: 'SBAggroB';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
-    font-weight: 500;
-    font-style: normal;
-}
+
+
+
 
 /* 박스 레이아웃 */
 .wholeModifyBox {
 	padding: 5px;
-	display:flex;
+	display: flex;
 	height: 520px;
 	width: 1100px;
-	flex-wrap:wrap;
-	margin:0 auto 70px auto;
+	flex-wrap: wrap;
+	margin: 0 auto 70px auto;
 	font-family: 'IBM Plex Sans KR', sans-serif;
 }
 
 
+/* 닉네임 모달 */
+.nicknameModifyModal {
+	/* 모달 창 가운데 고정 */
+	top: 0;
+	left: 0;
+	margin-top: 15%;
+	margin-left:36%;
+	z-index: 20;
+	width: 380px;
+	height: 220px;
+	display: flex;
+	position: fixed;
+	border-radius: 10px;
+	align-itmes: center;
+	flex-direction: column;
+	background-color: white;
+	justify-content: center;
+	transform: translate(-50%, -50%);
+  	box-shadow: 0 25px 40px -20px #3c4a56;
+ 	animation: appear .8s cubic-bezier(.77,0,.175,1) forwards;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.nickModalNotice {
+	display:flex;
+	margin: auto 0;
+	font-size: 0.9em;
+	justify-content: center;
+}
+#nickNoticeTitle {
+	display:flex;
+	margin-top: 7%;
+	font-size: 1.5em;
+	font-weight: bold;
+	align-items:center;
+	justify-content: center;
+}
+#nickNoticeSub {
+	margin-top: -5px;
+	font-size: 0.9em;
+}
+.hiddenNicknameModal {
+	display: none;
+}
+.nicknameTextBox {
+	display:flex;
+	margin-top: 15px;
+	flex-direction:column;
+	justify-content: center;
+}
+.modifyingNickname {
+	height: 35px;
+	border: none;
+	width: 300px;
+	margin-top: 5px;
+	font-size: 1.2em;
+	border-bottom: 1px solid #D9D9D9;
+}
+.modifyingNickname:focus {
+	outline: none;
+	border-bottom: 1px solid red;
+}
+.checkRestriction {
+	width: 100%;
+	height: 16px;
+	color: #E74747;
+	font-size: 0.3em;
+	text-align:center;
+}
+.nicknameModalBottom {
+	display: flex;
+	justify-content: center;
+}
+.nickNameBottomBtn {
+	margin: 5px;
+	height: 30px;
+	width: 145px;
+	border-radius: 7px;
+}
+#nickModifyBtn {
+	disabled;
+	color: #FB7A51;
+	background-color: white;
+	border: 1px solid #FB7A51;
+}
+#nickModifyBtn:hover {
+	color: white;
+	cursor: pointer;
+	font-weight: bold;
+	background-color: #FB7A51;
+}
+#nickCancleBtn {
+	color: white;
+	border: none;
+	background-color: #D9D9D9;
+}
+#nickCancleBtn:hover {
+	color: #FFFFFF;
+	cursor: pointer;
+	background-color: #696969;
+}
+.deleteUserBtn {
+	width: 77%;
+	height: 10%;
+	display: flex;
+	flex-direction: row-reverse;
+}
+.deleteUser {
+	border: none;
+	color: #696969;
+	margin-right: 0;
+	font-size: 0.8em;
+	margin-top: -5px;
+	background-color: white;
+	font-family: 'Dovemayo_gothic';
+}
+.deleteUser:hover {
+	cursor: pointer;
+}
+
+.modalAnimationOut{
+  animation: disappear .8s cubic-bezier(.77,0,.175,1) forwards;
+}
+
+@keyframes disappear {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
 
 /* 프사 박스 */
 .leftPicBox {
+	width: 40%;
+	height: 90%;
 	display: flex;
 	flex-wrap: wrap;
-	justify-content:center;
 	align-items: center;
-	height: 90%;
-	width: 40%;
-}
-
-.myPicBox {
-	display: flex;
-	margin-left:-5px;
 	justify-content: center;
-	align-items: center;
-	height: 100%;
-	width: 100%;
 }
-
+.myPicBox {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	margin-left: -5px;
+	align-items: center;
+	justify-content: center;
+}
 .myPicCircle {
 	width: 80%;
 	height: 70%;
 	overflow: hidden;
 	border-radius: 70%;
-		box-shadow: 2px 8px 10px 0 rgba(17,42,128,0.08);
+	box-shadow: 2px 8px 10px 0 rgba(17, 42, 128, 0.08);
 }
-
 .myPic {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 }
-
 .selectMyPic {
-	display:inline-block;
+	z-index: 2;
 	margin-top: 55%;
 	margin-left: -60%;
-	z-index: 2;
+	display: inline-block;
 }
-
 .picButton {
-    display: flex;
-    justify-content: center;
+	display: flex;
+	justify-content: center;
 }
-
 .picLabel {
-    cursor: pointer;
-    font-size: 1em;
+	font-size: 1em;
+	cursor: pointer;
 }
-
 #pic_local {
-    visibility: hidden;
+	visibility: hidden;
 }
-
 .cameraIcon {
 	width: 110px;
 	opacity: 70%;
-	margin-left: 35%;
 	margin-top: 15%;
+	margin-left: 35%;
 }
-
 .cameraIcon:hover {
 	opacity: 100%;
 }
-
-.profilePicBtnBox{
-	width:100%;
-	margin-top:-40px;
-	margin-left:30px;
+.profilePicBtnBox {
+	width: 100%;
+	margin-top: -40px;
+	margin-left: 30px;
 }
-.additionalPic{
-	diaplsy:inline-block;
-	margin-left:5px;
-	z-index:30;
+.additionalPic {
+	z-index: 30;
+	margin-left: 5px;
+	diaplsy: inline-block;
 }
-.deletePicLocal{
-	margin-left:5px;	
+.deletePicLocal {
+	margin-left: 5px;
 }
-
-.additionPic, .deletePicLocalRequest{
-	font-size:0.5em;
+.additionPic, .deletePicLocalRequest {
 	color: #696969;
+	font-size: 0.5em;
 }
-.deletePicLocalRequest{
+.deletePicLocalRequest {
 	cursor: pointer;
 }
 
@@ -132,54 +273,51 @@
 
 /* 텍스트+태그 박스 */
 .rightTextBox {
+	width: 55%;
+	height: 90%;
 	display: flex;
 	flex-direction: column;
-	height: 90%;
-	width: 55%;
 }
-
 .ageAndGenderAndNicknameBox {
-	display:flex;
-	flex-direction:column;
-	margin-top:10%;
-	height: 25%;
 	width: 100%;
+	height: 25%;
+	display: flex;
+	margin-top: 10%;
+	flex-direction: column;
 }
 .ageAndGenderBox {
-	display: flex;
-	align-items: center;
 	width: 100%;
 	height: 40px;
+	display: flex;
+	align-items: center;
 }
 .ageBox {
-	display:flex;
-	justify-content:center;
-	align-items:center;
-	margin:0;
+	margin: 0;
 	width: 60px;
 	height: 25px;
-	border: 1px solid #FB7A51;
+	display: flex;
+	align-items: center;
 	border-radius: 10px;
-    font-family: 'Cafe24Ssurround';
+	justify-content: center;
+	border: 1px solid #FB7A51;
 }
 .genderBox {
-	display:flex;
-	justify-content:center;
-	align-items:center;
-	color:white;
-	margin-left: 5px;
 	width: 30px;
 	height: 27px;
+	color: white;
+	display: flex;
+	margin-left: 5px;
 	border-radius: 10px;
 	background: #FB7A51;
-    font-family: 'Cafe24Ssurround';
+	align-items: center;
+	justify-content: center;
 }
-.additionalAgeAndGender{
+.additionalAgeAndGender {
 	display: flex;
-	flex-direction: row;
-	align-items: flex-end;
 	margin-right: 25px;
+	flex-direction: row;
 	margin-bottom: -10px;
+	align-items: flex-end;
 }
 .additAgeGender {
 	margin: 0 5px;
@@ -190,49 +328,47 @@
 }
 
 
+
 /* 닉네임 */
 .nicknameBox {
-	display:flex;
 	width: 100%;
 	height: 40px;
+	display: flex;
 }
-.nickAndCodeBox{
-	margin-left:0;
-	display:flex;
-	width:100%;
+.nickAndCodeBox {
+	width: 100%;
+	display: flex;
+	margin-left: 0;
 }
-
 .myCodeBox {
-	width:20%;
-	display:flex;
-	margin-left:0;
-	margin-right:0;
+	width: 20%;
+	display: flex;
+	margin-left: 0;
+	margin-right: 0;
 	align-items: center;
 }
 .myCode {
-	margin-left:0;
+	margin-left: 0;
 	font-size: 1.5em;
-    font-family: 'SBAggroB';
+    font-family: 'GmarketSansMedium';
 }
-
 .myNicknameBtnAndName {
-	margin-left:0;
-	display:flex;
 	width: 55%;
+	display: flex;
+	margin-left: 0;
 }
-
 .myNickname {
 	width: 90%;
 	display: flex;
 	font-size: 1.7em;
-	justify-content: center;
 	align-items: center;
-    font-family: SBAggroB-lighter;
+	justify-content: center;
+    font-family: 'GmarketSansMedium';
 }
 .nicknameModifyOpenBtn {
 	width: 75px;
-	border: none;
 	height: 30px;
+	border: none;
 	color: white;
 	margin-top: 2px;
 	margin-left: 15px;
@@ -248,9 +384,9 @@
 }
 .nicknameDeleteBtn {
 	width: 75px;
-	border: none;
 	height: 30px;
 	color: white;
+	border: none;
 	margin-top: 2px;
 	margin-left: 15px;
 	border-radius: 10px;
@@ -266,125 +402,12 @@
 
 
 
-
-/* 닉네임 모달 */
-.nicknameModifyModal {
-	
-	/* 모달 창 가운데 고정 */
-	position: fixed; 
-	top:50%;
-	left:50%;
-	transform: translate(-50%, -50%);
-	
-	width: 380px;
-	height: 220px;
-	
-	display: flex;
-	flex-direction: column;
-	justify-content:center;
-	align-itmes: center;
-	background-color: white;
-	border-radius: 10px;
-	z-index:20;
-	
-	box-shadow: 0px 0px 10px #444
-}
-.nickModalNotice {
-	font-size: 0.9em;
-	margin-top: 2px;
-}
-#nickNoticeTitle {
-	margin-top:10px;
-	font-size: 1.5em;
-	font-weight: bold;
-}
-#nickNoticeSub {
-	margin-top: -5px;
-	font-size: 0.9em;
-}
-.hiddenNicknameModal {
-	display: none;
-}
-
-.nicknameTextBox {
-	margin-top: 15px;	
-}
-
-.modifyingNickname {
-	font-size: 1.2em;
-	width: 300px;
-	height: 35px;
-	margin-top: 5px;
-	border: none;
-	border-bottom: 1px solid #D9D9D9;
-}
-.modifyingNickname:focus {
-    outline: none;   
-    border-bottom: 1px solid red; 
-  }
-.checkRestriction {
-	width: 100%;
-	height: 16px;
-	color: #E74747;
-	font-size: 0.3em;
-}
-.nicknameModalBottom {
-	display:flex;
-	margin-left: -2px;
-	justify-content: space-between;
-}
-.nickNameBottomBtn {
-	margin: 5px;
-	width: 145px;
-	height: 30px;
-	border-radius: 7px;
-}
-#nickModifyBtn {
-	color: #FB7A51;
-	border:1px solid #FB7A51;
-	background-color: white;
-}
-#nickModifyBtn:hover {
-	color:white;
-	font-weight: bold;
-	cursor: pointer;
-	background-color: #FB7A51;
-}
-#nickCancleBtn {
-	color:white;
-	border: none;
-	background-color: #D9D9D9;
-}
-#nickCancleBtn:hover {
-	color: #FFFFFF;
-	cursor: pointer;
-	background-color: #696969;
-}
-.deleteUserBtn{
-	display:flex;
-	flex-direction:row-reverse;
-	width:95%;
-	height:10%;
-}
-.deleteUser{
-	font-size:4px;
-	margin-right:0;
-	color:  #696969;
-}
-.deleteUser:hover {
-	cursor: pointer;
-}
-
-
-
-
 /* 태그 박스 */
 .tagBox {
-	margin-bottom: 5%;
-	height: 48%;
 	width: 100%;
+	height: 48%;
+	margin-bottom: 5%;
 }
-
 .tagTitleBox {
 	width: 100%;
 	height: 12%;
@@ -393,51 +416,43 @@
 }
 #myTagTitle {
 	font-size: 1.1em;
-	font-weight: lighter;
-    font-family: 'SBAggroB-lighter';
+    font-family: 'GmarketSansMedium';
 }
 .allTagsBox {
 	width: 100%;
 	height: 100%;
 	display: flex;
 	margin-top: 20px;
-	flex-direction: column;
 	align-items: center;
+	flex-direction: column;
 }
 .pTags {
-	display: flex;
 	width: 100%;
 	height: 20%;
+	display: flex;
 	margin-left: -15px;
 }
 .eachTag {
 	width: 20%;
 	height: 60%;
-	display:flex;
-	color: #FFFFFF;	
+	display: flex;
+	color: #FFFFFF;
 	font-size: 0.8em;
+	border-radius: 8px;
 	align-items: center;
 	justify-content: center;
-	border-radius: 8px;
 	background-color: #D9D9D9;
 }
 .eachTag:hover {
 	background-color: #FB7A51;
 	cursor: pointer;
 }
-
 .selectedTag {
 	background-color: #FB7A51;
 }
-
-
-.hiddenProfileForm{
-	display:none;
+.hiddenProfileForm {
+	display: none;
 }
-
-
-
-
 
 /* 아래 수정완료버튼, 취소버튼 박스 */
 .bottomBtnBox {
@@ -448,23 +463,27 @@
 	justify-content: center;
 	align-items: center;
 }
+
 .profileBottomBtns {
 	color: #FFFFFF;
 	width: 170px;
 	height: 40px;
-	font-size:0.8em;
+	font-size: 0.8em;
 	margin: 20px 15px;
 	border: none;
 	border-radius: 8px;
 	background-color: #D9D9D9;
 }
+
 #profileModifyInsertBtn {
 	background-color: #FB7A51;
 }
+
 #profileModifyInsertBtn:hover {
 	cursor: pointer;
 	font-weight: bold;
 }
+
 #profileModifyCancleBtn:hover {
 	cursor: pointer;
 	background-color: #696969;
