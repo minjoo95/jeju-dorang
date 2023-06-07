@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	alert("js에 들옹기 성공");
+	//alert("js에 들옹기 성공");
 	
 	//바로 list 보여주기
 	getReplyList();
@@ -27,18 +27,18 @@ $(document).ready(function(){
  			formData.find("#user_code").remove();
 			formData.attr("action", "/dorang/mate/writelist");
 		}else if(btn=='delete'){
-			  formData.attr("action", "/dorang/mate/delete");
+			formData.attr("action", "/dorang/mate/delete");
+		 	formData.submit(); 
 		}
  		
  		
- 		formData.submit(); 
  	});    
  	//-------------------------------------------------------------------------------------------------
 	
 
 	//댓글 insert
 	$(".mate_reply_btn").click(function(){
-		alert("insert 들어오기 성공");
+		//alert("insert 들어오기 성공");
 		var mateCode=$("#mate_code").val();
 		console.log(mateCode);
 			$.ajax({
@@ -64,7 +64,7 @@ $(document).ready(function(){
 
 	//댓글 목록 select
 	function getReplyList(){
-		alert("select 들어오기 성공");
+		//alert("select 들어오기 성공");
 		var mateCode=$("#mate_code").val();
 		$.ajax({
 			url:"/dorang/mate/mateReplySelect",
@@ -81,6 +81,12 @@ $(document).ready(function(){
 						for(var i in result){
 						(function(i){
 						var tr=$("<tr>");
+						console.log(result[i].user_pic);
+						if(result[i].user_pic.indexOf('kakao') > -1) {
+							var Pic = $("<td width='100'>").append("<img src=" + result[i].user_pic + ">");
+						} else {
+							var Pic = $("<td width='100'>").append("<img src=/dorang/resources/uploadProfilePic/" + result[i].user_pic + ">");
+						}
 						var Writer=$("<td width='100'>").text(result[i].user_nickname);
 						var Content=$("<td id='contentID"+ result[i].comment_code +"'>").text(result[i].content);
 						var CreateDate=$("<td width='100'>").text(new Date(result[i].createAt).toLocaleDateString());
@@ -99,6 +105,7 @@ $(document).ready(function(){
 						
 						btnArea.append(modifyLinkBtn).append(deleteLinkBtn);
 							
+							tr.append(Pic);
 							tr.append(Writer);
 							tr.append(Content);
 							tr.append(CreateDate);
@@ -117,7 +124,7 @@ $(document).ready(function(){
 
 		//수정 할 댓글 하나 가져오기
 		function modifyLink(comment_code) {
-			alert("댓글 수정 시작");
+			//alert("댓글 수정 시작");
 			console.log("댓글 수정 시작 : "+comment_code);
 			var contentElement=$('#contentID'+comment_code);
 			var originalContent=contentElement.text().trim();
@@ -140,7 +147,7 @@ $(document).ready(function(){
 		
 		//댓글 수정
 		function modifyDo(comment_code, newContent){
-			alert("찐으로 수정");
+			//alert("찐으로 수정");
 			console.log(comment_code);
 			console.log(newContent);
 			$.ajax({
@@ -162,8 +169,8 @@ $(document).ready(function(){
 			
 		//댓글 삭제
 		function deleteLink(comment_code){
-			alert("delete 들어오기 성공");
-			alert("찐으로 삭제");
+			//alert("delete 들어오기 성공");
+			//alert("찐으로 삭제");
 			console.log(comment_code);
 			$.ajax({
 				url:"/dorang/mate/mateReplyDelete",
