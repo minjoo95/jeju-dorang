@@ -30,7 +30,7 @@ public class UserController {
 	@Autowired
 	User user;
 	
-	String access_tok;
+	String access_tok="";
 	
 	@RequestMapping(value="/kakaoCallback", method = RequestMethod.GET)
 	public String kakaoCallBack(@RequestParam(value = "code", required = false) String code) throws Throwable {
@@ -57,6 +57,7 @@ public class UserController {
 		
 		session.setAttribute("user", user.getUser_code());
 		session.setAttribute("userInfo", userInfo);
+		session.setAttribute("access_token", access_tok);
 		return "redirect:/";
 	}
 	
@@ -83,9 +84,22 @@ public class UserController {
 		userInfo.put("user_pic_kakao", user.getUser_pic_kakao());
 		
 		request.getSession().setAttribute("userInfo", userInfo);
+		request.getSession().setAttribute("access_token", access_tok);
 		return "redirect:/user/mypage";
 	}
-
+	
+	
+	@RequestMapping(value="/disconnectKakao", method = RequestMethod.GET)
+	public String disconnectKakao(HttpSession session, HttpServletRequest request) {
+		// 카카오 로그인 연결 끊기
+		userService.disconnectKakao((String)session.getAttribute("access_token"));
+		// 서버 DB 회원정보 삭제
+		userService.deleteUser((HashMap<String, Object>)session.getAttribute("userInfo"));
+		session.invalidate();
+		return "redirect:/";
+	}	
+	
+	
 	@RequestMapping(value="/deleteNicknameLocal")
 	public String deleteNicknameLocal(HttpServletRequest request) {
 		HashMap<String, Object> userInfo = null;
@@ -235,9 +249,5 @@ public class UserController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/deleteUser", method = RequestMethod.GET)
-	public String deleteUser(HttpServletRequest request) {
-		return "redirect:/";
-	}
 }	
 

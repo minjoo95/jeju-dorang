@@ -17,4 +17,6 @@ public interface UserDAOI {
 	public void deleteNicknameLocal(HashMap<String, Object> userInfo) throws Exception;
 	
 	public void deletePicLocal(HashMap<String, Object> userInfo) throws Exception;
+	
+	public void deleteUser(Long user_code);
 }

@@ -304,4 +304,39 @@ public class UserService implements UserServiceI {
 	}
 
 	
+	@Override
+	public void disconnectKakao(String access_token) {
+		// 카카오 연결 끊기 링크 설정
+		String reqURL = "https://kapi.kakao.com/v1/user/unlink";
+		  try {
+		      URL url = new URL(reqURL);
+		
+		      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		      conn.setRequestMethod("POST");
+		      conn.setRequestProperty("Authorization", "Bearer " + access_token);
+
+		      int responseCode = conn.getResponseCode();
+		      System.out.println("responseCode : " + responseCode);
+
+		      BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+		      String result = "";
+		      String line = "";
+		      
+		      while ((line = br.readLine()) != null) {
+		          result += line;
+		      }
+		      System.out.println(result);
+		  } catch (IOException e) {
+		      e.printStackTrace();
+		  }		
+	}
+
+	@Override
+	public void deleteUser(HashMap<String, Object> userInfo) {
+		userDAO.deleteUser((Long)userInfo.get("user_code"));
+	}
+	
+
+	
 }

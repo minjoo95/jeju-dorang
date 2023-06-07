@@ -1,9 +1,7 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.Map" %>
-<c:set var="contextPath" value="<%=request.getContextPath() %>" />
 
 <!DOCTYPE unspecified PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <link rel="stylesheet" type="text/css"  href="<c:url value="/resources/css/userModify.css"/>">
@@ -13,30 +11,32 @@
 <script src="https://kit.fontawesome.com/5c78b43849.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
-
+<c:set var="contextPath" value="<%=request.getContextPath() %>" />
 <c:set var="contextPath" value="<%=request.getContextPath() %>" />
 <c:set var="user_pic" value="${sessionScope.userInfo.user_pic }" />
 
 <div class = "wholeModifyBox">
 
-	<div class = "nicknameModifyModal hiddenNicknameModal">
-		<p class = "nickModalNotice" id= "nickNoticeTitle">닉네임 변경</p>
-		<p class = "nickModalNotice" id= "nickNoticeSub">사용하실 닉네임을 입력해주세요.	</p> 
-		<div class = "nicknameTextBox nickModalNotice">
-			<c:if test="${sessionScope.userInfo.user_nickname_local ne null}" >
-				<input type="text" name="modifyingNickname" class = "modifyingNickname" maxlength= "7" placeholder="최소 2글자, 최대 7글자" value="${sessionScope.userInfo.user_nickname_local}" />
-			</c:if>	
-			<c:if test="${sessionScope.userInfo.user_nickname_local eq null}" >
-				<input type="text" name="modifyingNickname" class = "modifyingNickname" maxlength= "7" placeholder="최소 2글자, 최대 7글자" />
-			</c:if>	
-				<div class = "checkRestriction">닉네임에는 공백, 이모지, 특수문자를 사용할 수 없습니다.</div>
-				<div class = "nicknameModalBottom">
-					<button class="nickNameBottomBtn" id="nickModifyBtn" disabled>확인</button>
-					<button class = "nicknameModalCloseBtn nickNameBottomBtn" id="nickCancleBtn">취소</button>
-				</div>
-				<div class = "deleteUserBtn">
-					<a href="${contextPath }/user/deleteUser" class="deleteUser">회원 탈퇴</a>
-				</div>
+	<div class = "nicknameModalBox">
+		<div class = "nicknameModifyModal dialog_appear hiddenNicknameModal">
+			<p class = "nickModalNotice" id= "nickNoticeTitle">닉네임 변경</p>
+			<p class = "nickModalNotice" id= "nickNoticeSub">사용하실 닉네임을 입력해주세요.	</p> 
+			<div class = "nicknameTextBox nickModalNotice">
+				<c:if test="${sessionScope.userInfo.user_nickname_local ne null}" >
+					<input type="text" name="modifyingNickname" class = "modifyingNickname" maxlength= "7" placeholder="최소 2글자, 최대 7글자" />
+				</c:if>	
+				<c:if test="${sessionScope.userInfo.user_nickname_local eq null}" >
+					<input type="text" name="modifyingNickname" class = "modifyingNickname" maxlength= "7" placeholder="최소 2글자, 최대 7글자" />
+				</c:if>	
+					<div class = "checkRestriction">닉네임에는 공백, 이모지, 특수문자를 사용할 수 없습니다.</div>
+					<div class = "nicknameModalBottom">
+						<button class="nickNameBottomBtn" id="nickModifyBtn" disabled>확인</button>
+						<button class = "nicknameModalCloseBtn nickNameBottomBtn" id="nickCancleBtn">취소</button>
+					</div>
+			</div>
+			<div class = "deleteUserBtn">
+				<button type="button" class="deleteUser">회원 탈퇴</button>
+			</div>
 		</div>
 	</div>
 	
@@ -81,8 +81,7 @@
 		</div>
 	</div>
 	
-	<div class = "rightTextBox">
-				
+	<div class = "rightTextBox">			
 		<div class = "ageAndGenderAndNicknameBox">
 			<div class = "ageAndGenderBox">
 				<div class = "ageBox">
@@ -203,35 +202,54 @@
 			<button class = "profileBottomBtns" id="profileModifyCancleBtn" onClick="window.location.reload()">취소</button>
 		</div>
 	</div>
+	
 </div>
 
 
 
 
+
+
+
+
 <script>
+
+$(document).ready(function(){	
 	
-	// ** 닉네임 모달
-	const open = document.querySelector(".nicknameModifyOpenBtn");
-	const close = document.querySelector(".nicknameModalCloseBtn");
-	const modal = document.querySelector(".nicknameModifyModal");
+	// modal open
+	$(".nicknameModifyOpenBtn").click(function(e) {
+		  event.stopPropagation();
+		  // modal display:none이면(:visible false) 모달 열고, 아니면(true) 모달 닫음
+		  if ($(".nicknameModifyModal").is(":visible")) {
+		    $(".nicknameModifyModal").hide();
+		  } else {
+		    $(".nicknameModifyModal").show();
+		  }
+		});
 	
-	function init() {
-		open.addEventListener("click", function() {
-			modal.classList.remove("hiddenNicknameModal"); // open버튼 누르면 display:none 적용되는 클래스 이름 없애주기 --> 열림
-		});
-		close.addEventListener("click", function() {
-			modal.classList.add("hiddenNicknameModal"); // close버튼 누르면 display:none 적용되는 클래스 이름 추가하기 --> 닫힘
-			$(".modifyingNickname").html("");
-		});
+	// modal close - 모달 외 영역 클릭(선택요소 부모가 모달인 경우/선택요소가 모달클래스를 가질 경우 제외) 
+	$(document).click(function(e) {
+	  var targetE = e.target;
+	  if (!$(targetE).closest(".nicknameModifyModal").length && !$(targetE).hasClass("nicknameModifyModal")) {
+	    closeModal();
+	  }
+	});
+	// modal close - 모달 취소버튼 
+	$(".nicknameModalCloseBtn").click(function(e) {
+	  closeModal();
+	});
+	
+	// modal close function <- animation
+	function closeModal() {
+	  $(".nicknameModifyModal").addClass("modalAnimationOut"); // 닫는 애니메이션 적용(클래스 추가)
+	  setTimeout(function() { // 클래스 추가한 뒤 타이머함수 호출-0.1초 후에 실행됨 (시간 간격 안두면 클래스 추가제거가 충돌나서 실행 안되는듯)
+	    $(".nicknameModifyModal").hide(); // 모달 닫음
+	    $(".nicknameModifyModal").removeClass("modalAnimationOut"); // 애니메이션클래스 제거
+	  }, 800);
 	}
-	init();
-	
-	var prevText = $(".checkRestriction").text(); // 닉네임 제한 요소 알림 문구
-	
-	var modifyNickname = "";
-	
-$(document).ready(function(){
-	
+
+
+	/* DB에 저장돼있는 유저의 선택했던 태그 불러와서 css 적용 */
 	getTags();
 	function getTags(){
 		$.ajax({
@@ -264,7 +282,7 @@ $(document).ready(function(){
 	}
 
 	
-	// ** 로컬프사 삭제
+	/* 로컬 프사 삭제 */
 	$(".deletePicLocalRequest").on("click", function(){
 		var input = confirm("프로필 사진을 삭제하시겠습니까?");
 		if(input == true){
@@ -283,7 +301,8 @@ $(document).ready(function(){
 		}
 	});
 	
-	// ** 프사 바꾸기
+	
+	/* 로컬 프사 변경 */
 	$("#pic_local").on("change", function(e){
 		var formData = new FormData();
 		var inputFile = $("input[name='pic_local']");
@@ -309,7 +328,10 @@ $(document).ready(function(){
 
 
 	
-	// 닉네임 특수문자, 공백, 한글모음 필터
+	/* 닉네임 변경: 특수문자, 공백, 한글모음 필터 */
+	var prevText = $(".checkRestriction").text(); // 닉네임 제한 요소 알림 문구
+	var modifyNickname = "";
+	
 	$(".modifyingNickname").on('keyup', function(){
 		modifyNickname = $(".modifyingNickname").val();
 
@@ -326,15 +348,17 @@ $(document).ready(function(){
  			$("#nickModifyBtn").removeAttr("disabled");
  		 } 
 	});
+
 	
-	// 닉네임 모달 수정버튼 -> 보여지는 닉네임 변경
+	/* 닉네임 모달 수정버튼 -> 보여지는 닉네임 변경 */
 	$("#nickModifyBtn").on("click", function(e){
 		$(".myNickname").html(modifyNickname.substring(0,7));
 		$(".modifyingNickname").val("");
-		modal.classList.add("hiddenNicknameModal");
+		closeModal();
 	});
 	
-	// 닉네임 삭제 버튼 -> 로컬 닉네임 삭제
+	
+	/* 닉네임 삭제 버튼 -> 로컬 닉네임 삭제 */
 	$(".nicknameDeleteBtn").on("click", function(e){
 		$.ajax({
 			url : "${contextPath}/user/deleteNicknameLocal",
@@ -345,7 +369,8 @@ $(document).ready(function(){
 		});
 	})
 	
-	// 태그 클릭하면 색깔 고정, 클래스 추가 - 다시 클릭하면 색깔 이전으로, 클래스 삭제
+	
+	/* 태그 클릭하면 색깔 고정, 클래스 추가 - 다시 클릭하면 색깔 이전으로, 클래스 삭제 */
 	$(".eachTag").on("click", function(e){
 		let clicked = event.currentTarget; 
 		if (clicked.classList.contains("selectedTag")) {
@@ -359,9 +384,9 @@ $(document).ready(function(){
 			$(".eachTag.selectedTag").removeClass("selectedTag");
 		}
 	});	
+		
 	
-	
-	// ** 프로필 수정 DB 반영
+	/* 프로필 수정사항 DB 반영 */
 	$("#profileModifyInsertBtn").on("click", function(){
 		
 		$("#changingNickname").val(modifyNickname.toString());
@@ -374,6 +399,14 @@ $(document).ready(function(){
 	  	$("#userLocalProfileloadForm").submit();   
 	});
 	
+	
+	/* 회원 탈퇴 버튼 */
+	$(".deleteUser").on("click", function(){
+		var input = confirm("탈퇴하시겠습니까?");
+		if(input == true){
+			window.location.href = "${contextPath}/user/disconnectKakao";
+		}
+	});
 	
 
 }); 
