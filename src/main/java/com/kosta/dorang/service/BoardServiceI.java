@@ -37,6 +37,7 @@ public interface BoardServiceI {
 
 	List<BoardComments> selectBoardCommentsList(int no);
 
+	//삭제
 	int deleteBoardComment(int commentNo, int boardId);
 	
 	
@@ -48,5 +49,7 @@ public interface BoardServiceI {
 	int countBoardUserListTotal(long userCode);
 
 	List<Map<String, Object>> selectBoardUserPageList(BoardCriteria cri);
+
+	int deleteBoardComment(int commentNo);
 
 }

@@ -89,6 +89,7 @@ public class BoardDAO implements BoardDAOI {
 		return sqlSession.selectList("BoardMapper.selectBoardCommentsList", no);
 	}
 
+	//삭제
 	@Override
 	public int deleteBoardComment(int commentNo, int boardId) {
 		
@@ -117,6 +118,13 @@ public class BoardDAO implements BoardDAOI {
 	public List<Map<String, Object>> selectBoardUserPageList(BoardCriteria cri) {
 		
 		return sqlSession.selectList("BoardMapper.selectBoardUserPageList", cri);
+	}
+
+	@Override
+	public int deleteBoardComment(int commentNo) {
+		
+		return sqlSession.delete("BoardMapper.deleteBoardComment", commentNo);
+		
 	}
 
 

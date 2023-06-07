@@ -102,6 +102,13 @@
 		]]>
 	</insert>
 	
+	<insert id="insertBoardCommentsWithSequence" parameterType="com.kosta.dorang.dto.BoardComments">
+		<![CDATA[
+			insert into board_comment (comment_no, user_code, board_id, comment_content, parent_comment_no, comment_group_order)
+			values ((nextval('num')), #{user_code}, #{board_id}, #{comment_content}, #{parent_comment_no}, #{comment_group_order})
+		]]>
+	</insert>
+	
 	<update id="updateBoard" parameterType="com.kosta.dorang.dto.Board">
 		<![CDATA[
 			update board
@@ -124,6 +131,13 @@
 			
 		]]>	
 	
+	</delete>
+	
+	<delete id="deleteBoardComment">
+		<![CDATA[
+			delete from board_comment where comment_no = #{commentNo}
+			
+		]]>	
 	</delete>
 
 </mapper>

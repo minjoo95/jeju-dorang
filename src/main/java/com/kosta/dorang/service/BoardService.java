@@ -96,6 +96,8 @@ public class BoardService implements BoardServiceI {
 		return boardDaoI.selectBoardCommentsList(no);
 	}
 
+	
+	//삭제
 	@Override
 	public int deleteBoardComment(int commentNo, int boardId) {
 
@@ -124,5 +126,11 @@ public class BoardService implements BoardServiceI {
 	public List<Map<String, Object>> selectBoardUserPageList(BoardCriteria cri) {
 		
 		return boardDaoI.selectBoardUserPageList(cri);
+	}
+
+	@Override
+	public int deleteBoardComment(int commentNo) {
+		
+		return boardDaoI.deleteBoardComment(commentNo);
 	}
 }

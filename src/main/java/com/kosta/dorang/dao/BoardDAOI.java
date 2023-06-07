@@ -35,6 +35,7 @@ public interface BoardDAOI {
 
 	List<BoardComments> selectBoardCommentsList(int no);
 
+	//삭제
 	int deleteBoardComment(int commentNo, int boardId);
 	
 	//
@@ -45,6 +46,8 @@ public interface BoardDAOI {
 	int countBoardUserListTotal(long userCode);
 	
 	List<Map<String, Object>> selectBoardUserPageList(BoardCriteria cri);
+	
+	int deleteBoardComment(int commentNo);
 	
 //	List<Board> selectBoardPaging();
 
