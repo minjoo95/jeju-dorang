@@ -1,26 +1,37 @@
 @charset "UTF-8";
+/* gmarket */
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 *{
 	margin: 0 auto;
 	padding: 0;
 }
 .header-nav{
-    display: flex;
-    justify-content: center;
+	display:flex;
+	width:100%;
+	margin-top: 20px;
 }
 .header-wrap{
+	width: 90%;
 	display:flex;
-	width: 100%;
-	justify-content: space-evenly;
-	padding-top: 12px
+	align-items: flex-end;
 }
 .header-logo{
-	display: inline-flex;
+	width:4.5%;
 }
 .navi-link{
 	font-family: KimjungchulMyungjo-Bold;
+	font-size: 20px;
 }
 
 .header-category{
+	width: 70%;
+	height: 38%;
 	display: flex;
 	align-items: center;
 }
@@ -28,13 +39,23 @@
 	height: 23px;
 }
 
-.header-alarm-myPage-Container{
-	display: flex;
-}
 .navi-item{
-	padding-right: 140px;
-	padding-top: 10px;
+	height:100%;
+	display:flex;
+	align-items:flex-end;
 }
+
+.header-alarm-myPage-Container{
+	display:flex;
+	flex:none;
+	height: 100%;
+	width:100%;
+	margin-left: 65%;
+}
+.login-container{
+	height:100%;
+}
+
 .navi-link:hover{
 	color:#FB7A51;
 }
@@ -98,8 +119,8 @@
 	display: block;
 	margin-bottom: 24px;
 	color: #3F3D3A;
-	font-size: 20px;
 	line-height: 28px;
+
 }
 
 .empty_alarm_txt{
@@ -153,7 +174,9 @@
 }
 .myPage_name{
     display: flex;
+    margin-left:5px;
     align-items: center;
+    font-family: 'GmarketSansMedium';
 }
 .myPage_List{
 	display: block;
