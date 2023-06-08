@@ -355,17 +355,19 @@ public class BoardController {
 		return "redirect:/board/boardDetail?no=" + boardComments.getBoard_id();
 	
 	}
-	
+
 	@RequestMapping(value = "/boardDeleteComment", method = RequestMethod.POST)
-	public String boardDeleteComment(String comment_no, String board_id) {
-	
+//	public String boardDeleteComment(String comment_no, String board_id) {
+	public String boardDeleteComment(String comment_no, @RequestParam int board_id) {
+		
 		int commentNo = Integer.parseInt(comment_no);
-		int boardId = Integer.parseInt(board_id);
+//		int boardId = Integer.parseInt(board_id);
 		
 		//delete하기
-		int result = boardServiceI.deleteBoardComment(commentNo, boardId);
+//		int result = boardServiceI.deleteBoardComment(commentNo, boardId);
+		int result = boardServiceI.deleteBoardComment(commentNo);
 		
-		return "";
+		return "redirect:/board/boardDetail?no=" + board_id;
 	}
 	
 	//유저 프로필 보기

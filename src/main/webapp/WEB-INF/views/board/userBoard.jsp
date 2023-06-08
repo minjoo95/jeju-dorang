@@ -64,7 +64,7 @@ function changeCateBtnName(ths){
 		</tbody>
 	</table>
 	
-	<button type="button" class="btn text-white" style="background-color:#FB7A51;" onclick="location.href="${pageContext.request.contextPath}/board/list">목록</button>
+	<button type="button" class="btn text-white" style="background-color:#FB7A51;" onclick="location.href='${pageContext.request.contextPath}/board/list'">목록</button>
 	
 	<nav aria-label="Page navigation example">
 		<ul class="btn-group pagination">

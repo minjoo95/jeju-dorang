@@ -153,7 +153,7 @@ document.getElementById("viewer-content").innerHTML = content; */
 	<br>
 	${board.board_title}
 	<br>
-	작성자 ${board.user_code} | 작성일 ${board.board_reg_date} | <span class='like_count'>추천수 ${board.board_like} </p>
+	작성자 ${board.user_code} | 작성일 ${board.board_reg_date} | <span class='like_count'>추천수 ${board.board_like}</span> </p>
 	
 	<!-- 작성자만 보이게 -->
 	<%
@@ -175,7 +175,7 @@ document.getElementById("viewer-content").innerHTML = content; */
 		}
 	%>
 	
-	<button type="button" class="btn "></button>
+	<!-- <button type="button" class="btn "></button> -->
 
 </div>
 
@@ -198,9 +198,15 @@ document.getElementById("viewer-content").innerHTML = content; */
 	
 	
 	<div id="comment_temp">
-	
-		<div class="comment_container">
+	<%
+		System.out.println("currentUserCode : " + currentUserCode);
+		System.out.println("writerCode : " + writerCode);
 		
+		if(currentUserCode != null) {
+		
+	%>
+	
+		<div class="comment_container">		
 			<form name="boardCommentForm" action="${pageContext.request.contextPath}/board/boardCommentWrite" method="post">
 				<input type="hidden" name="board_id" value="${board.board_id }">
 				<!-- 로그인 처리 -->
@@ -213,19 +219,52 @@ document.getElementById("viewer-content").innerHTML = content; */
 				</button>
 			</form>	
 		</div>
+	<%		
+		}
+	%>
 		
 		<table>
 			<!-- 대댓글 처리 어떻게... -->
 			<c:forEach items="${commentsList}" var="comments">
-
+			
+			<%-- 이렇게 해서 작성자한테만 삭제 버튼 보여주고 싶었는데 계속 null이 담김ㅜ
+			<c:set var="commentWriter" value="${comments.user_code}"/>
+			<c:set var="commentWriter2" value="${comments.comment_content}"/> --%>
+			
 				<tr class="comments_">
 					<td><span>${comments.user_code}</span> <span>${comments.comment_reg_date}</span>
 						<br />
 						<p>${comments.comment_content}
 						<p></td>
 					<td>
+						<%
+							System.out.println("댓글 currentUserCode : " + currentUserCode);
+							System.out.println("댓글 writerCode : " + writerCode);
+							
+/* 							Long commentWriter = (Long)pageContext.getAttribute("commentWrtier");
+							String commentWriter2 = (String)pageContext.getAttribute("commentWrtier2");
+							
+							System.out.println("commentWriter : " + commentWriter);
+							System.out.println("commentWriter2 : " + commentWriter2); */
+								
+							if(currentUserCode != null) {
+		
+						%>
+						
 						<button class="btn-reply" value="${comments.comment_no}">대댓글 쓰기</button>
-						<button class="btn-delete" value="${comments.comment_no}">댓글 삭제</button>
+						
+						<%
+							}
+							
+							//else {
+						%>
+						
+						
+						<button class="btn-delete" value="${comments.comment_no}" onclick="commentDelete(${comments.comment_no}, ${comments.user_code})">댓글 삭제</button>
+						
+<%-- 						<%
+							}
+						%> --%>
 					</td>
 				</tr>
 			</c:forEach>
@@ -238,10 +277,10 @@ document.getElementById("viewer-content").innerHTML = content; */
 		</form>
 		
 	
-		<textarea> </textarea>
+<%-- 삭제		<textarea> </textarea>
 		<button type="button" onClick="addComment(${board.board_id})">
 			댓글등록
-		</button>
+		</button> --%>
 		
 		<c:forEach var="boardComments" items="${boardComments}" varStatus="status">
 			<div
@@ -267,11 +306,11 @@ document.getElementById("viewer-content").innerHTML = content; */
 	<div id="footer-btn-div">
 		<button type="button" class="btn" style="border-color:#FB7A51; color:#FB7A51;">댓글작성</button>
 
-		<button type="button" id="likeBtn1" class="btn" style="border-color:#FB7A51; color:#FB7A51;" onclick="likeBoard(${board.board_id})">추천1</button>
+		<button type="button" id="likeBtn1" class="btn" style="border-color:#FB7A51; color:#FB7A51;" onclick="likeBoard(${board.board_id})">추천</button>
 		
-		<button type="button" id="likeBtn2" class="btn" data-bs-toggle="modal" data-bs-target="#likeModal" style="border-color:#FB7A51; color:#FB7A51;">
+<!-- 		<button type="button" id="likeBtn2" class="btn" data-bs-toggle="modal" data-bs-target="#likeModal" style="border-color:#FB7A51; color:#FB7A51;">
   			추천2
-		</button>
+		</button> -->
 		
 		<!-- Modal -->
 		<div class="modal fade" id="likeModal" tabindex="-1"
@@ -305,8 +344,41 @@ document.getElementById("viewer-content").innerHTML = content; */
 			</div>
 		</div>
 
-		<button type="button" class="btn text-white" style="background-color:#FB7A51;">목록</button>
+		<button type="button" class="btn text-white" style="background-color:#FB7A51;" onclick="location.href='${pageContext.request.contextPath}/board/list'">목록</button>
 	</div>
+<script>
+function commentDelete(comment_no, user_code){
+	
+	console.log("comment_no : " + comment_no);
+	console.log("user_code : " + user_code);
+	
+	//이게 아니더라도 로그인 안 하면 오류로 인해 삭제 안됨ㅎ;
+	if(${userInfo.user_code} == null) {
+		console.log("null임");
+		alert("로그인 해주세요.");
+	}
+	
+	console.log(${userInfo.user_code});
+	
+	if(${userInfo.user_code} != user_code) {
+		
+		alert("삭제 권한이 없습니다.");
+		return false;
+		
+	}
+
+		
+		if(confirm("댓글을 삭제하시겠습니까?")){
+			var $deleteComment = $(document.boardDeleteCommentForm);
+			
+			//var commentNo = $(this).val();
+			
+			$deleteComment.find("[name=comment_no]").val(comment_no);
+			$deleteComment.submit();
+		}
+}
+
+</script>
 <script>
 function likeBoard(board_id){
 	
@@ -377,9 +449,35 @@ $(".btn-reply").click(function(){
 	$(this).off("click");
 });
 
-$(".btn-delete").click(function(){
 
-	//내것만 삭제하게
+//No
+/* $(".btn-delete").click(function(){
+
+	console.log("zz");
+	console.log($(this).val());
+	
+	if(confirm("댓글을 삭제하시겠습니까?")){
+		var $deleteComment = $(document.boardDeleteCommentForm);
+		var commentNo = $(this).val();
+		$deleteComment.find("[name=comment_no]").val(commentNo);
+		$deleteComment.submit();
+	}
+	
+
+}); */
+
+$(".btn_comment_delete").click(function(){
+
+	console.log("gg");
+	console.log($('input[name=btn_comment_delete]').attr("value1"));
+	console.log($('input[name=btn_comment_delete]').attr("value2"));
+	console.log("gg");
+	
+	$('input[name=btn_comment_delete]').each(function(index, item){
+		console.log($(item).attr("value1"));
+		console.log($(item).attr("value2"))
+	});
+	
 	if(confirm("댓글을 삭제하시겠습니까?")){
 		var $deleteComment = $(document.boardDeleteCommentForm);
 		var commentNo = $(this).val();

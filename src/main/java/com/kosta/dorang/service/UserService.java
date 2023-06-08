@@ -60,8 +60,6 @@ public class UserService implements UserServiceI {
 			bw.write(sb.toString());
 			bw.flush();
 
-			System.out.println("$$$$$$$코드"+authorize_code);
-			// 결과 코드 : 200이면 성공
 			int responseCode = conn.getResponseCode();
 
 			// 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
@@ -174,8 +172,6 @@ public class UserService implements UserServiceI {
 
 			long user_code = (long) jsonMap.get("id");
 			userInfo.put("user_code", user_code);
-			System.out.println("@@@@@@@갱신하자마자 코드"+user_code);
-			System.out.println(userInfo.get("user_code"));
 			
 			Map<String, Object> properties = (Map<String, Object>) jsonMap.get("properties");
 			Map<String, Object> kakao_account = (Map<String, Object>) jsonMap.get("kakao_account");
@@ -231,9 +227,7 @@ public class UserService implements UserServiceI {
 		/* 이 위까지 필요한 유저정보 다 가져와서 Map인 userInfo에 저장 완료 */
 		
 		// DB에 있는 USER인지 확인
-		System.out.println(Long.parseLong(userInfo.get("user_code").toString()));
 		user = userDAO.selectUser(Long.parseLong(userInfo.get("user_code").toString()));
-		System.out.println("@@@새로갱신@@@"+user);
 		// DB에 없으면 insert
 		if (user == null) {
 			userInfo.put("user_nickname", userInfo.get("user_nickname_kakao"));
@@ -269,7 +263,6 @@ public class UserService implements UserServiceI {
 
 			conn.setRequestProperty("Authorization", "Bearer " + access_token);
 			int responseCode = conn.getResponseCode();
-			System.out.println("LOGOUT RESPONSECODE:" + responseCode);
 
 			if (responseCode == 400)
 				throw new RuntimeException("로그아웃 오류!");
@@ -281,7 +274,6 @@ public class UserService implements UserServiceI {
 			while ((br_line = br.readLine()) != null) {
 				result += br_line;
 			}
-			System.out.println("LOGOUT 결과:" + result);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -316,7 +308,6 @@ public class UserService implements UserServiceI {
 		      conn.setRequestProperty("Authorization", "Bearer " + access_token);
 
 		      int responseCode = conn.getResponseCode();
-		      System.out.println("responseCode : " + responseCode);
 
 		      BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 

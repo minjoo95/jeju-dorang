@@ -187,6 +187,12 @@ function showWriterInfo(ths){
 			console.log("user : " + user);
 			console.log(user.user_id);
 			console.log(user.user_code);
+				
+			$('#userAge').empty();
+			$('#userGender').empty();
+			$('#userNickname').empty();
+			$('#userTag').empty();
+					
 			
 			//이미지 수정
 			let img = $("<img>").attr({'src':user.user_pic});

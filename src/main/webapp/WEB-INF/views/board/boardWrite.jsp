@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>커뮤니티 작성</title>
 <!-- 뭔가 어그러짐... -->
-<%@ include file="/WEB-INF/views/header.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/header.jsp"%> --%>
 <%-- <jsp:include page="/WEB-INF/views/header.jsp" /> --%>
 
 <!-- bootstrap-->
