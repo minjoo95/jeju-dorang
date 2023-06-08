@@ -20,8 +20,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.Console;
 import java.io.File;
 import java.io.InputStream;
+import java.net.http.HttpRequest;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.kosta.dorang.dto.Mate;
 import com.kosta.dorang.dto.MateApply;
@@ -46,37 +49,8 @@ public class MateController {
 	@Autowired
 	HttpSession session;
 	
-	/////
-	@RequestMapping(value = "/writelist", method = RequestMethod.GET)
-	public String mateMyPage(Model m, @RequestParam(defaultValue = "1") int page) throws Exception {
-		
-		
-		long user_code =  (long) session.getAttribute("user");
-	   
-		System.out.print(user_code);
-		
-	    MateCriteria cri = new MateCriteria();
-	    cri.setPage(page);
-	    cri.setPerPageNum(6);
-	   
-	    
-	 	System.out.println(user_code);
-	    try {
-	    	List<Mate> mateWriteList = mateService.getmyMateWriteList(user_code,cri);
-	    	m.addAttribute("mateWriteList", mateWriteList);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	    MatePageMaker pm = new MatePageMaker();
-	 	pm.setCri(cri);
-	 	pm.setTotalCount(mateService.totalCount());
-	 	m.addAttribute("pm", pm);
-
-	    return "/mate/mateMypage";
-	}
-
 	
+
 	///
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String mateList(Model m, @RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "sortByDate") String sortBy) throws Exception {
@@ -98,7 +72,7 @@ public class MateController {
 	
 	@RequestMapping(value = "/listSort", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Mate> listSort(Model m, @RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "sortByDate") String sortBy) {
+	public Map<String, Object> listSort(Model m, @RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "sortByDate") String sortBy) {
 	    
 		MateCriteria cri = new MateCriteria();
 		cri.setPage(page);
@@ -107,14 +81,15 @@ public class MateController {
 
 		try {
 			 List<Mate>  matelistSortBy = mateService.getMateListViewSort(cri);
-			 m.addAttribute("mateList", matelistSortBy); 
 			 MatePageMaker pm = new MatePageMaker();
 			 pm.setCri(cri);
 			 pm.setTotalCount(mateService.totalCount());
-			   
-			 m.addAttribute("pm",pm);
 			 
-	        return matelistSortBy;
+			 Map<String, Object> response = new HashMap<>();
+			 response.put("mateList", matelistSortBy); 
+			 response.put("pm",pm);
+			 
+	        return response;
 	        
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -122,7 +97,59 @@ public class MateController {
 	    }
 	}
 	
+/////
+	@RequestMapping(value = "/writelist", method = RequestMethod.GET)
+	public String mateMyPage(Model m, @RequestParam(defaultValue = "1") int page,@RequestParam(defaultValue = "getmyMateWriteList") String sortBy) throws Exception {
+		
+		long user_code =  (long) session.getAttribute("user");
+	    MateCriteria cri = new MateCriteria();
+	    cri.setPage(page);
+	    cri.setPerPageNum(6);
+	    cri.setSortBy(sortBy);
+	   
+	   
+	    MatePageMaker pm = new MatePageMaker();
+	 	pm.setCri(cri);
+	 	pm.setTotalCount(mateService.totalmyCount(user_code,cri));
+	 	m.addAttribute("pm", pm);
+
+	    return "/mate/mateMypage";
+	}
 	
+	@RequestMapping(value = "/myPageListSort", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> myPageListSort(Model m, @RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "1") int endPage,
+			@RequestParam(defaultValue = "getmyMateWriteList") String sortBy) {
+	    
+		long user_code =  (long) session.getAttribute("user");
+		   
+		MateCriteria cri = new MateCriteria();
+		cri.setPage(page);
+		cri.setPerPageNum(6);
+		cri.setSortBy(sortBy);
+		
+
+		try {
+			 List<Mate> myPageListSortby = mateService.getmyMateListViewSort(user_code,cri);
+			 MatePageMaker pm = new MatePageMaker();
+			 pm.setCri(cri);
+			 pm.setTotalCount(mateService.totalmyCount(user_code,cri));
+			 
+			 Map<String, Object> response = new HashMap<>();
+			 response.put("myPageListSortby", myPageListSortby);	 
+			 response.put("pm",pm);
+			
+			 System.out.println(pm.getCri().getPage());
+			
+			 
+	        return response;
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
 	
 	
 	
@@ -166,14 +193,17 @@ public class MateController {
 	
 	
 	@RequestMapping(value = "/updateForm", method = RequestMethod.GET)
-	public String updateForm(Model m,@RequestParam("mate_code") int mate_code,@ModelAttribute("cri") MateCriteria cri) {
+	public String updateForm(Model m,@RequestParam("mate_code") int mate_code,@ModelAttribute("cri") MateCriteria cri,
+			@RequestParam("backPageName") String backPageName) {
 		Mate mt = null;
+		
 		try {
 			   mt = mateService.selectMate(mate_code);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			m.addAttribute("mt",mt);
+			m.addAttribute("backPageName",backPageName);
 		
 		return "/mate/mateUpdateForm";
 	}
@@ -231,8 +261,10 @@ public class MateController {
 	
 	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String updateMate(@RequestParam("image") MultipartFile multi, HttpServletRequest request, MateCriteria cri,RedirectAttributes rttr) throws Exception {
+	public String updateMate(@RequestParam("image") MultipartFile multi, HttpServletRequest request, MateCriteria cri,RedirectAttributes rttr,
+			 @RequestParam("backPageName") String backPageName) throws Exception {
 
+		
 	    String directory = null;
 	    directory = request.getSession().getServletContext().getRealPath("resources/upload/mate/");
 	    String fileName = multi.getOriginalFilename();
@@ -278,7 +310,6 @@ public class MateController {
 	     image = newFileName;
 	        
 	    } else {
-	        // 파일이 선택되지 않은 경우 기존 이미지 유지
 	        Mate originMate = mateService.selectMate(mate_code);
 	        if (originMate != null) {
 	            image = originMate.getImage();
@@ -288,9 +319,15 @@ public class MateController {
 	    Mate m = new Mate(mate_code, title, content, type, direction, number, age, gender, daterange, tags, status, image, first_ask, second_ask, third_ask);
 	    mateService.updateMate(m);
 	    rttr.addAttribute("page",cri.getPage());
+	    rttr.addAttribute("sortBy",cri.getSortBy());
 	    rttr.addAttribute("perPageNum",cri.getPerPageNum());
+	    
+	    if (backPageName.equals("myMateCommunity")) {
+	        return "redirect:/mate/writelist";
+	    } else {
+	        return "redirect:/mate/list";
+	    }
 
-	    return "redirect:/mate/list";
 	}
 
 	
@@ -306,31 +343,50 @@ public class MateController {
 		   
 	    try {
 	        MateApply mpResult = mateService.selectMateApply(mate_code, user_code);
-	        System.out.println(mpResult);
+	       
 
-	        if (mpResult != null) { // 이미 신청된 게시글인 경우
+	        if (mpResult != null) { 
 	            return "already";
 	        }else {
 	        	 mateService.insertMateApply(mp);
-	 	         return "success"; // 성공적으로 처리되었음을 알리는 응답 반환
+	 	         return "success"; 
 	        }
 	        
 
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        return "error"; // 오류가 발생했음을 알리는 응답 반환
+	        return "error";
 	    }
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String deleteMate(@RequestParam("mate_code") int mate_code,MateCriteria cri,RedirectAttributes rttr) throws Exception {
-		 mateService.deleteMate(mate_code);
+	public String deleteMate(HttpServletRequest request ,MateCriteria cri,RedirectAttributes rttr, @RequestParam("backPageName") String backPageName) throws Exception {
 		 
+		//신청된 게시판이 잇으면 신청된 게시판 삭제처리 //댓글달린 게시판이면 댓글데이터 삭제후 게시판 삭제처리 
+		 int mate_code = Integer.parseInt(request.getParameter("mate_code"));
+		 
+		 try {
+			 MateApply mpResult =  mateService.selectApplyMateByMateCode(mate_code);
+			 List<MateComments> MateCommList =  mateService.selectMateCommListByMateCode(mate_code);
+			 if (mpResult != null) { 
+		           mateService.deleteApplyMate(mate_code);
+		        }
+			 if(MateCommList!=null) {
+				  mateService.deleteMateCommListByMateCode(mate_code);
+			 }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		 mateService.deleteMate(mate_code); 
 		 rttr.addAttribute("page",cri.getPage());
 		 rttr.addAttribute("perPageNum",cri.getPerPageNum());
 		
-		 
-		 return "redirect:/mate/list";
+		 if (backPageName.equals("myMateCommunity")) {
+		        return "redirect:/mate/writelist";
+		    } else {
+		        return "redirect:/mate/list";
+		    }
 	}
 
 	

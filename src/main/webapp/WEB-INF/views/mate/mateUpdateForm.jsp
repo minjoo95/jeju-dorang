@@ -22,12 +22,50 @@
 	  .container, .container * {
 	    box-sizing: border-box !important;
 	  }
+	  .inputCountTxt{
+	    text-align: right;
+	  }
 	</style>
 	
 	<script>
 	
 
 	  $(document).ready(function(){
+		  
+		  
+		  var textarea = $('#content');
+		  var inputCount =$('.inputCount');
+
+		  textarea.on('input', function() {
+		    var maxLength = 150;
+		    var remainingChars = maxLength - textarea.val().length;  
+
+		    if (remainingChars <= 0) {
+		      textarea.val(textarea.val().substring(0, maxLength)); 
+		      remainingChars = 0;
+		    }
+
+		    $('#charCount').text(textarea.val().length);
+		  });
+
+		  textarea.on('keypress', function(e) {
+		    if (textarea.val().length >= maxLength) {
+		      e.preventDefault();
+		    }
+		  });
+		  
+		  inputCount.on('input',function(){
+			  var maxLength = 30;
+			  var remainingChars = maxLength - $(this).val().length;
+			  if (remainingChars <= 0) {
+				  $(this).val($(this).val().substring(0, maxLength)); 
+			      remainingChars = 0;
+			    }
+			  $(this).next().find('#inputCount').text($(this).val().length); 
+		  });
+		  
+		  
+		
 		  
 		    /*datarange*/
 	 		$('input[name="daterange"]').daterangepicker({
@@ -120,13 +158,18 @@ function updateMate() {
           <input type="hidden" name="user_code" id="user_code" value="${sessionScope.userInfo.user_code}"/> 
           <input type="hidden" name="mate_code" id="mate_code" value="${mt.mate_code}"/> 
        	  <input type="hidden" name="page" value="<c:out value='${cri.page}'/>"/>
-          <input type="hidden" name="perPageNum" value="<c:out value='${cri.perPageNum}'/>"/>	
+       	  <input type="hidden" name="sortBy" id="sortBy" value="<c:out value='${cri.sortBy}'/>"/>
+          <input type="hidden" name="perPageNum" value="<c:out value='${cri.perPageNum}'/>"/>
+       	 <input type="hidden" name="backPageName" id="backPageName" value="${backPageName}"/>	
        		<div class="container" >
 	          <div class="row">
 			        <div class="col-md-6 container_left" >
 				 		<div class="mb-4" >
 							<label for="title" class="form-label" style="color: #FB7A51;">제목</label>
-							<input type="text" class="form-control" id="title" name="title" value="${mt.title}">
+							<input type="text" class="form-control inputCount" id="title" name="title" value="${mt.title}">
+							<div class="inputCountTxt">
+	   			 	       	   <span id="inputCount">0</span>/30
+	   			 	        </div>
 				  		</div> 
 						 <!-- 이미지 -->
 							 <div class="card mb-3">
@@ -295,6 +338,9 @@ function updateMate() {
 				    <div class="mb-3 ">
 					  	    <label for="content" class="form-label" style="color:  #FB7A51;">내용</label>
 						    <textarea class="form-control" id="content" name="content" style="height:150px; resize: none;">${mt.content}</textarea>
+			  		        <div class="inputCountTxt">
+	   			 	         	 <span id="charCount">0</span>/150
+	   			 	        </div>
 			  		</div>
 			   </div>
 			  <div class="container_ask">
@@ -303,17 +349,26 @@ function updateMate() {
 	  	    	  </h3>
 	  	    	 <div class="mb-3" >
 	  	    		<label for="first_ask" class="w-100">
-	   			 	    <input type="text" class="form-control" id="first_ask" name="first_ask" placeholder="질문1." value="${mt.first_ask}">
+	   			 	    <input type="text" class="form-control inputCount" id="first_ask" name="first_ask" placeholder="질문1." value="${mt.first_ask}">
+	   			 	    <div class="inputCountTxt">
+	   			 	       	<span id="inputCount">0</span>/30
+	   			 	     </div>
 	    	    	</label>
 	             </div>
 	              <div class="mb-3">
 	                <label for="second_ask" class="w-100">
-	   			 	    <input type="text" class="form-control" id="second_ask" name="second_ask" placeholder="질문2." value="${mt.second_ask}">
+	   			 	    <input type="text" class="form-control inputCount" id="second_ask" name="second_ask" placeholder="질문2." value="${mt.second_ask}">
+	   			 	    <div class="inputCountTxt">
+	   			 	       	<span id="inputCount">0</span>/30
+	   			 	     </div>
 	    	    	</label>
 	             </div>
 	              <div class="mb-5">
 	              	<label for="third_ask" class="w-100">
-	   			 	    <input type="text" class="form-control" id="third_ask" name="third_ask" placeholder="질문3." value="${mt.third_ask}">
+	   			 	    <input type="text" class="form-control inputCount" id="third_ask" name="third_ask" placeholder="질문3." value="${mt.third_ask}">
+	   			 	    <div class="inputCountTxt">
+	   			 	       	<span id="inputCount">0</span>/30
+	   			 	     </div>
 	    	    	</label>
 	             </div>
 			  </div>

@@ -26,6 +26,7 @@ $(document).ready(function(){
  		}else if (btn=='list') {
  			formData.find("#mate_code").remove();
  			formData.find("#user_code").remove();
+ 			formData.find("#backPageName").remove();
 			formData.attr("action", "/dorang/mate/writelist");
 			formData.submit(); 
 		}else if(btn=='delete'){

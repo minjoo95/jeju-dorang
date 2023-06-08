@@ -80,6 +80,8 @@
           <input type="hidden" name="mate_code" id="mate_code" value="<c:out value='${mt.mate_code}'/>"/>
           <input type="hidden" name="page" id="page" value="<c:out value='${cri.page}'/>"/>
           <input type="hidden" name="perPageNum" id="perPageNum" value="<c:out value='${cri.perPageNum}'/>"/>
+          <input type="hidden" name="sortBy" id="sortBy" value="<c:out value='${cri.sortBy}'/>"/>
+          <input type="hidden" name="backPageName" id="backPageName" value="myMateCommunity"/>
     </form>
     <div class="container" style="padding:50px 0px" >
      <div class="d-flex" >

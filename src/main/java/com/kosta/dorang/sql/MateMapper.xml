@@ -44,6 +44,28 @@
 		   ]]>
 </delete>
 
+<select id="getmyMateListViewSort" parameterType="Map" resultType="com.kosta.dorang.dto.Mate">
+   <choose>
+    <when test="sortBy == 'getmyMateWriteList'">
+      SELECT * FROM mate
+      WHERE user_code = #{user_code}
+      ORDER BY createdAt DESC
+    </when>
+    <when test="sortBy == 'acceptedList'">
+      SELECT m.mate_code, m.user_code, m.image, m.daterange, m.title, m.status, m.createdAt, m.join_count, ma.result    
+      FROM mate m
+      JOIN MateApply ma ON m.mate_code = ma.mate_code AND ma.user_code = #{user_code}
+      ORDER BY ma.createdAt DESC
+    </when>
+    <otherwise>
+      SELECT * FROM mate
+      WHERE user_code = #{user_code}
+      ORDER BY createdAt DESC
+    </otherwise>
+  </choose>
+  LIMIT #{pageStart}, #{perPageNum}
+</select>
+
 <!-- 신청테이블 -->
 <insert id="insertApplyMate" parameterType="com.kosta.dorang.dto.MateApply">
      <![CDATA[
@@ -56,6 +78,42 @@
        SELECT * FROM MateApply WHERE mate_code = #{mate_code} and user_code = #{user_code}
     ]]>
 </select>
+<select id="selectApplyMateByMateCode" parameterType="Integer" resultType="com.kosta.dorang.dto.MateApply">
+   <![CDATA[ 
+       SELECT * FROM MateApply WHERE mate_code = #{mate_code} 
+    ]]>
+</select>
+<delete id="deleteApplyMate" parameterType="Integer">
+		   <![CDATA[
+		    DELETE FROM MateApply WHERE mate_code = #{mate_code}
+		   ]]>
+</delete>
+<select id="totalCount" resultType="Integer">
+	    select count(*) from mate;
+</select>
+<select id="totalmyCount" parameterType="Map" resultType="Integer">
+	  <if test="sortBy == 'getmyMateWriteList'">
+	    select count(*) from mate WHERE user_code = #{user_code};
+	  </if>
+	  <if test="sortBy == 'acceptedList'">
+	    SELECT count(*)  
+	    FROM mate m
+	    JOIN MateApply ma ON m.mate_code = ma.mate_code AND ma.user_code = #{user_code}
+	  </if>
+</select>
+<select id="selectMateCommListByMateCode" parameterType="Integer" resultType="com.kosta.dorang.dto.MateComments">
+		<![CDATA[
+			select * from matecomment
+			where mate_code=#{mate_code}
+		]]>
+</select>
+<delete id="deleteMateCommListByMateCode" parameterType="Integer">
+		   <![CDATA[
+		    delete from matecomment where mate_code=#{mate_code}
+		   ]]>
+</delete>
+
+<!-- 응심이@@@ -->
 	<insert id="insertMateReply" parameterType="com.kosta.dorang.dto.MateComments">
 		<![CDATA[
 			insert into matecomment (comment_code, mate_code, user_code, content, createAt, updateAt) 
@@ -72,21 +130,14 @@
 			where m.mate_code=#{mate_code}
 		]]>
 	</select>
-	<select id="totalCount" resultType="Integer">
-	    select count(*) from mate;
-	</select>
+
 	<update id="mateCount" parameterType="Integer">
 	   <![CDATA[
 		update mate set count=count+1 where mate_code=#{mate_code}
 	   ]]>
 	</update>
 	
-	<!-- 마이페이지 -->
-	<select id="getmyMateWriteList" parameterType="Map" resultType="com.kosta.dorang.dto.Mate">
-	   <![CDATA[ 
-	         SELECT * FROM mate where user_code = #{user_code} ORDER BY createdAt DESC limit #{pageStart},#{perPageNum}
-	    ]]>
-	</select>
+
 	<!-- 댓글 삭제 -->
 	<delete id="deleteMateReply" parameterType="int">
 		 <![CDATA[

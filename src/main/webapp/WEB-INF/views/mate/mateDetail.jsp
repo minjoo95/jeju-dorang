@@ -65,11 +65,15 @@
   
   .applyAlert{
   	position: absolute;
-  	bottom: 32px;
+  	bottom: 7.5%;
   	left: 50%;
   	margin-left: calc(-258px / 2);
   	width: 259px;
   	box-sizing: border-box;
+  }
+  
+  .btn-close{
+  	cursor: pointer;
   }
   </style>
   <script type="text/javascript">
@@ -113,8 +117,9 @@
   
 
   
-  function mateApply() {
-		 
+  function mateApply(event) {
+	    
+	   
 		 var frist_answer = $('#frist_answer').val();
 	  	 var second_answer = $('#second_answer').val();
 	  	 var third_answer = $('#third_answer').val();
@@ -162,16 +167,14 @@
 	  		    },
 	  		  error : function(xhr,status,error) {
 	  			console.log(status + ", " + error);
-	  		}
+	  		  }
 	  		});
 	  	 }
-	  			 
-	  		
-	}   
+	
+	}   //mateApply
   
   function alertClose() {
 	  $("#liveAlert").css("display", "none");
-	  
 	  
 }
  
@@ -184,7 +187,9 @@
           <input type="hidden" name="mate_code" id="mate_code" value="<c:out value='${mt.mate_code}'/>"/>
           <input type="hidden" name="user_code" id="user_code" value="<c:out value='${sessionScope.userInfo.user_code}'/>"/>
           <input type="hidden" name="page" id="page" value="<c:out value='${cri.page}'/>"/>
+          <input type="hidden" name="sortBy" id="sortBy" value="<c:out value='${cri.sortBy}'/>"/>
           <input type="hidden" name="perPageNum" id="perPageNum" value="<c:out value='${cri.perPageNum}'/>"/>
+    	  <input type="hidden" name="backPageName" id="backPageName" value="mateDetail"/>
     </form>
     <div class="container" style="padding:50px 0px" >
      <div class="d-flex" >
@@ -286,7 +291,7 @@
           </div> 
 		   <div class="alert alert-warning alert-dismissible fade show applyAlert" style="display: none"  role="alert" id="liveAlert">
 			     <p id="liveAlertText"></p>
-			     <button type="button" class="btn-close"  onclick="alertClose()"></button>
+			     <a  class="btn-close"  onclick="alertClose()"></a>
 	       </div>
       <div class="form_btn mb-2" style="width: 100%;text-align: center;">
       		 <c:choose>
@@ -295,10 +300,10 @@
 			 		   <c:when test="${sessionUserCode ne boardUserCode}">
 			 		      <c:choose>
 			 		        <c:when test="${mt.status eq '모집완료'}">
-			 		       		 <button id="liveAlertBtn" type="button" disabled  class="btn btn-secondary px-5">동행신청</button>
+			 		       		 <a id="liveAlertBtn"  disabled  class="btn btn-secondary px-5">동행신청</a>
 			 		        </c:when>
 			 		        <c:otherwise>
-		                        <button id="liveAlertBtn" type="button" class="btn btn-primary px-5" onclick="mateApply()">동행신청</button>
+		                        <a id="liveAlertBtn"  class="btn btn-primary px-5" onclick="mateApply(event)">동행신청</a>
 		                    </c:otherwise>
 			 		      </c:choose>
 			 		   </c:when>
