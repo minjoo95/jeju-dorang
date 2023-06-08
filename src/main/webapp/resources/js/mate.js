@@ -80,36 +80,39 @@ $(document).ready(function(){
 						console.log(result);
 						for(var i in result){
 						(function(i){
-						var tr=$("<tr>");
-						console.log(result[i].user_pic);
+						var tr=$("<tr id='mate_reply_tr'>");
 						if(result[i].user_pic.indexOf('kakao') > -1) {
-							var Pic = $("<td width='100'>").append("<img src=" + result[i].user_pic + ">");
+							var Pic = $("<span class='mate_reply_top'><td>").append("<img src=" + result[i].user_pic + " id='mate-reply-profile-pic'>");
 						} else {
-							var Pic = $("<td width='100'>").append("<img src=/dorang/resources/uploadProfilePic/" + result[i].user_pic + ">");
+							var Pic = $("<span class='mate_reply_top'><td>").append("<img src=/dorang/resources/uploadProfilePic/" + result[i].user_pic + " id='mate-reply-profile-pic'>");
 						}
-						var Writer=$("<td width='100'>").text(result[i].user_nickname);
-						var Content=$("<td id='contentID"+ result[i].comment_code +"'>").text(result[i].content);
-						var CreateDate=$("<td width='100'>").text(new Date(result[i].createAt).toLocaleDateString());
-						var btnArea = $("<td width='80'>");
-						var input=$("<input type='hidden' name='result[i].comment_code' id='comment_id' value=''>");
+						var Writer=$("<span class='mate_reply_top' id='mate-reply-profile-writer'><td>").text(result[i].user_nickname);
+						var Content=$("<div class='contentID'><td id='contentID"+ result[i].comment_code +"'>").text(result[i].content);
+						var CreateDate=$("<span class='mate_reply_top' id='mate-reply-profile-date'><td>").text(new Date(result[i].createAt).toLocaleDateString());
+						var btnArea = $("<span class='mate_reply_top mate_reply_bttn'><td><div class='mate_reply_dropdown'> <i id='mate_reply_menu_icon' class='mate_reply_menu_icon fa-solid fa-ellipsis-vertical' onclick='dropdown(event)'></i>");
+						var input=$("<div><input type='hidden' name='result[i].comment_code' id='comment_id' value=''>");
 						
-						var modifyLinkBtn=$("<button>수정</button>");
+						// 드롭다운 영역 한꺼번에 추가( 컨테이너{수정버튼+삭제버튼) }
+						var modify_dropdown_contents=$("<div class='reply_dropdown_background'><div class='reply_dropdown_content'><button class='reply_dropdown_btns' id='reply_dropdown_modifyBtn'>수정</button><button class='reply_dropdown_btns' id='reply_dropdown_deleteBtn'>삭제</button></div></div>");
+						
+						var modifyLinkBtn = $('#reply_dropdown_modifyBtn');
 						modifyLinkBtn.click(function(){
+							console.log(result[i].comment_code);
 							modifyLink(result[i].comment_code);
 						});//modifyLinkBtn
 						
-						var deleteLinkBtn=$("<button>삭제</button>");
+						var deleteLinkBtn=$('#reply_dropdown_deleteBtn');
 						deleteLinkBtn.click(function(){
 							deleteLink(result[i].comment_code);
 						});//deleteLink
 						
-						btnArea.append(modifyLinkBtn).append(deleteLinkBtn);
+						btnArea.append(modify_dropdown_contents);
 							
 							tr.append(Pic);
 							tr.append(Writer);
-							tr.append(Content);
 							tr.append(CreateDate);
 							tr.append(btnArea);
+							tr.append(Content);
 							tableBody.append(tr);
 							})(i);
 						}//for
@@ -121,10 +124,32 @@ $(document).ready(function(){
 		})//ajax
 		
 		};//getReplyList함수
+		
+		
+		// dropdown open
+		function dropdown(e) {
+			event.stopPropagation();
+			if ($(e.target).closest('.mate_reply_top').find('.reply_dropdown_content').is(':visible')) {
+				$(e.target).closest('.mate_reply_top').find('.reply_dropdown_content').hide();
+			} else {
+				$(e.target).closest('.mate_reply_top').find('.reply_dropdown_content').show();
+			}
+		}
+		
+		// dropdown close
+		$(document).click(function(e) {
+			var targetE = e.target;
+			if(!$(targetE).closest('.reply_dropdown_content').length && !$(targetE).hasClass('reply_dropdown_content')) {
+				$('.reply_dropdown_content').hide();
+			}
+		});
+		
 
 		//수정 할 댓글 하나 가져오기
 		function modifyLink(comment_code) {
 			//alert("댓글 수정 시작");
+			$('.reply_dropdown_content').hide();
+			
 			console.log("댓글 수정 시작 : "+comment_code);
 			var contentElement=$('#contentID'+comment_code);
 			var originalContent=contentElement.text().trim();
@@ -171,6 +196,7 @@ $(document).ready(function(){
 		function deleteLink(comment_code){
 			//alert("delete 들어오기 성공");
 			//alert("찐으로 삭제");
+			$('.reply_dropdown_content').hide();
 			console.log(comment_code);
 			$.ajax({
 				url:"/dorang/mate/mateReplyDelete",

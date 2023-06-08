@@ -6,6 +6,8 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/common.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/mate.css"/>">
 <link rel="stylesheet" type="text/css"  href="<c:url value="/resources/css/mateComment.css"/>">
+<script src="https://kit.fontawesome.com/5c78b43849.js" crossorigin="anonymous"></script>
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -169,7 +171,7 @@
 				<thead id="rCount_head">
 					<td colspan="4"><b id="rCount">댓글목록</b></td>
 				</thead>
-				<tbody>
+				<tbody id="mate_reply_body">
 				</tbody>
 			</table>
 	   </div>
