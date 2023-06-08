@@ -18,16 +18,29 @@
 
 <body>
 	<jsp:include page="/WEB-INF/views/header.jsp" />
-	<jsp:include page="/WEB-INF/views/myPageTab.jsp" flush="false"/>
+	<jsp:include page="/WEB-INF/views/myPageTab.jsp"/>
 	
-	<jsp:include page="${myPageContentPage }" flush="false"/>
-	
+  <div id="myPageContentWrapper">
+    <jsp:include page="${myPageContentPage }"/>
+  </div>
+
 	<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 
 </html>
 
 <script>
-	/* 메뉴 선택 초기화 */
-	localStorage.setItem('lastClicked', 'userModify');
+	/* 메뉴 선택 초기화, 고정 */
+	if(location.href.indexOf('userModify') > -1) {
+		localStorage.setItem('lastClicked', 'userModify');
+	} else if (location.href.indexOf('likedMyTrip') > -1) {
+		localStorage.setItem('lastClicked', 'likedMyTrip');
+	} else if (location.href.indexOf('mateMypage') > -1) {
+		localStorage.setItem('lastClicked', 'mateMypage');
+	} else if (location.href.indexOf('myBoard') > -1) {
+		localStorage.setItem('lastClicked', 'myBoard');
+	} else {
+		localStorage.setItem('lastClicked', 'userModify');
+	}
+	
 </script>
