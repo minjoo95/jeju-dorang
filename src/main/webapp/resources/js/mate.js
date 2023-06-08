@@ -93,18 +93,7 @@ $(document).ready(function(){
 						var input=$("<div><input type='hidden' name='result[i].comment_code' id='comment_id' value=''>");
 						
 						// 드롭다운 영역 한꺼번에 추가( 컨테이너{수정버튼+삭제버튼) }
-						var modify_dropdown_contents=$("<div class='reply_dropdown_background'><div class='reply_dropdown_content'><button class='reply_dropdown_btns' id='reply_dropdown_modifyBtn'>수정</button><button class='reply_dropdown_btns' id='reply_dropdown_deleteBtn'>삭제</button></div></div>");
-						
-						var modifyLinkBtn = $('#reply_dropdown_modifyBtn');
-						modifyLinkBtn.click(function(){
-							console.log(result[i].comment_code);
-							modifyLink(result[i].comment_code);
-						});//modifyLinkBtn
-						
-						var deleteLinkBtn=$('#reply_dropdown_deleteBtn');
-						deleteLinkBtn.click(function(){
-							deleteLink(result[i].comment_code);
-						});//deleteLink
+						var modify_dropdown_contents = $("<div class='reply_dropdown_background'><div class='reply_dropdown_content'><button class='reply_dropdown_btns' id='reply_dropdown_modifyBtn' onclick='modifyMateReplyFunction(event)'>수정</button><button class='reply_dropdown_btns' id='reply_dropdown_deleteBtn' onclick='deleteMateReplyFunction(event)'>삭제</button><input type='hidden' id='hiddenMateReplyCode' value='" + result[i].comment_code + "'></div></div>");
 						
 						btnArea.append(modify_dropdown_contents);
 							
@@ -125,6 +114,20 @@ $(document).ready(function(){
 		
 		};//getReplyList함수
 		
+		
+		// 댓글 수정
+		function modifyMateReplyFunction(e) {
+			console.log($(e.target).closest('.reply_dropdown_content').find('#hiddenMateReplyCode').val());
+			var hiddenReplyCommentCode = $(e.target).closest('.reply_dropdown_content').find('#hiddenMateReplyCode').val();
+			modifyLink(hiddenReplyCommentCode);
+		}
+		
+		// 댓글 삭제
+		function deleteMateReplyFunction(e) {
+			console.log($(e.target).closest('.reply_dropdown_content').find('#hiddenMateReplyCode').val());
+			var hiddenReplyCommentCode = $(e.target).closest('.reply_dropdown_content').find('#hiddenMateReplyCode').val();
+			deleteLink(hiddenReplyCommentCode);
+		}
 		
 		// dropdown open
 		function dropdown(e) {
