@@ -1,8 +1,14 @@
 package com.kosta.dorang.controller;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,7 +24,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kosta.dorang.dto.Board;
 import com.kosta.dorang.dto.BoardComments;
+import com.kosta.dorang.dto.BoardCriteria;
 import com.kosta.dorang.dto.BoardLike;
+import com.kosta.dorang.dto.BoardPageMaker;
+import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.BoardServiceI;
 
 @Controller
@@ -29,21 +38,98 @@ public class BoardController {
 	private BoardServiceI boardServiceI;
 	
 	@RequestMapping("/list")
-	public String boardList(Model model) {
+//	public String boardList(Model model) {
+	public String boardList(Model model, BoardCriteria cri) {
 		
-		//페이징 추가하기 -> 코드수정
-	
+		//페이징
+		BoardPageMaker pageMaker = new BoardPageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(boardServiceI.countBoardListTotal());
 		
-		try {
+		List<Map<String, Object>> list = boardServiceI.selectBoardPageList(cri);
+		System.out.println("boardList : " + list);
+		System.out.println("boardList Size : " + list.size());
+		
+		for(int i=0; i < list.size(); i ++) {
+			System.out.println(list.get(i));
+			System.out.println(list.get(i).get("board_reg_date"));
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			//LocalDateTime -> Date
+			//이렇게까지...?
+			LocalDateTime ldt = (LocalDateTime) list.get(i).get("board_reg_date");
+			Instant instant = ldt.atZone(ZoneId.systemDefault()).toInstant();
+			Date regDate = Date.from(instant);
+			
+			System.out.println("regDate : " + regDate);
+			System.out.println("sdf : " + sdf.format(regDate));
+			
+			list.get(i).replace("board_reg_date", sdf.format(regDate));
+			
+			System.out.println("after list : " + list.get(i));
+		}
+		
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pageMaker", pageMaker);
+		
+		
+		
+/*		try {
 			
 			List<Board> list = boardServiceI.selectBoardList();
 			model.addAttribute("list", list);
 		} catch(Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 		return "board/boardMain";
 	}
+	
+	//제목 검색만
+	@RequestMapping(value= "/boardSearch", method=RequestMethod.GET)
+	public void boardSearchList(Model model, BoardCriteria cri, @RequestParam String boardSearch) {
+		
+		System.out.println("boardSearch : " + boardSearch);
+		
+		BoardPageMaker pageMaker = new BoardPageMaker();
+
+		cri.setSearch(boardSearch);
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(boardServiceI.countBoardSearchListTotal(boardSearch));
+		
+		List<Map<String, Object>> list = boardServiceI.selectBoardSearchPageList(cri);
+		
+		System.out.println("boardSearchList : " + list);
+		System.out.println("boardSearchList Size : " + list.size());
+		
+		for(int i=0; i < list.size(); i ++) {
+			System.out.println(list.get(i));
+			System.out.println(list.get(i).get("board_reg_date"));
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			//LocalDateTime -> Date
+			//이렇게까지...?
+			LocalDateTime ldt = (LocalDateTime) list.get(i).get("board_reg_date");
+			Instant instant = ldt.atZone(ZoneId.systemDefault()).toInstant();
+			Date regDate = Date.from(instant);
+			
+			System.out.println("regDate : " + regDate);
+			System.out.println("sdf : " + sdf.format(regDate));
+			
+			list.get(i).replace("board_reg_date", sdf.format(regDate));
+			
+			System.out.println("after list : " + list.get(i));
+		}
+		
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pageMaker", pageMaker);	
+		
+	}
+	
 	
 	@RequestMapping(value= "/boardWrite", method=RequestMethod.GET)
 	public String boardWrite(Model model, HttpSession session) { //이름
@@ -235,7 +321,10 @@ public class BoardController {
 			//board db like + 1
 			int result2 = boardServiceI.updateBoardLike(no);
 			
-			return 1;
+			int likeCount = boardServiceI.selectOneBoard(no).getBoard_like();
+			
+			
+			return likeCount;
 			
 		} else {
 			//db에 있으면 안 넣어주고
@@ -266,13 +355,87 @@ public class BoardController {
 		return "redirect:/board/boardDetail?no=" + boardComments.getBoard_id();
 	
 	}
-	
-	@ResponseBody
-	@RequestMapping(value = "/boardLikeView", method = RequestMethod.POST)
-	public void boardLikeView(Integer board_id) {
+
+	@RequestMapping(value = "/boardDeleteComment", method = RequestMethod.POST)
+//	public String boardDeleteComment(String comment_no, String board_id) {
+	public String boardDeleteComment(String comment_no, @RequestParam int board_id) {
 		
+		int commentNo = Integer.parseInt(comment_no);
+//		int boardId = Integer.parseInt(board_id);
+		
+		//delete하기
+//		int result = boardServiceI.deleteBoardComment(commentNo, boardId);
+		int result = boardServiceI.deleteBoardComment(commentNo);
+		
+		return "redirect:/board/boardDetail?no=" + board_id;
 	}
 	
+	//유저 프로필 보기
+	@ResponseBody
+	@RequestMapping(value = "/writerInfo", method = RequestMethod.POST)
+//	public int boardLike(String user_code) { //int board_id
+//	public int writerInfo(String user_code) {
+	public User writerInfo(String user_code) {
+		
+		long userCode = Long.parseLong(user_code);
+		System.out.println("userCode : " + userCode);
+		
+		//int result = boardServiceI.selectUser(userCode);
+		
+		User user = boardServiceI.selectUser(userCode);
+		System.out.println("userInfo : " + user);
+		System.out.println(user.getUser_id());
+		
+		//return 1;
+		return user;
+	}
 	
+	@RequestMapping(value = "/userBoard", method = RequestMethod.POST)
+//	public int boardLike(String user_code) { //int board_id
+	public void userBoard(Model model, BoardCriteria cri, @RequestParam String user_code)  {
+		
+		User user = writerInfo(user_code);
+		System.out.println(user.getUser_nickname());
+		
+		long userCode = Long.parseLong(user_code);
+		System.out.println("userBoard userCode : " + userCode);
+		
+		BoardPageMaker pageMaker = new BoardPageMaker();
+
+		cri.setUserCode(userCode);
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(boardServiceI.countBoardUserListTotal(userCode));
+		
+		List<Map<String, Object>> list = boardServiceI.selectBoardUserPageList(cri);
+		
+		System.out.println("boardUserList : " + list);
+		System.out.println("boardUserList Size : " + list.size());
+		
+		for(int i=0; i < list.size(); i ++) {
+			System.out.println(list.get(i));
+			System.out.println(list.get(i).get("board_reg_date"));
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			//LocalDateTime -> Date
+			//이렇게까지...?
+			LocalDateTime ldt = (LocalDateTime) list.get(i).get("board_reg_date");
+			Instant instant = ldt.atZone(ZoneId.systemDefault()).toInstant();
+			Date regDate = Date.from(instant);
+			
+			System.out.println("regDate : " + regDate);
+			System.out.println("sdf : " + sdf.format(regDate));
+			
+			list.get(i).replace("board_reg_date", sdf.format(regDate));
+			
+			System.out.println("after list : " + list.get(i));
+		}
+		
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pageMaker", pageMaker);	
+		model.addAttribute("user", user);
+		
+	}
 	
 }
