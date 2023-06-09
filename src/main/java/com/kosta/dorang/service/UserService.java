@@ -60,8 +60,6 @@ public class UserService implements UserServiceI {
 			bw.write(sb.toString());
 			bw.flush();
 
-			System.out.println("$$$$$$$코드"+authorize_code);
-			// 결과 코드 : 200이면 성공
 			int responseCode = conn.getResponseCode();
 
 			// 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
@@ -174,8 +172,6 @@ public class UserService implements UserServiceI {
 
 			long user_code = (long) jsonMap.get("id");
 			userInfo.put("user_code", user_code);
-			System.out.println("@@@@@@@갱신하자마자 코드"+user_code);
-			System.out.println(userInfo.get("user_code"));
 			
 			Map<String, Object> properties = (Map<String, Object>) jsonMap.get("properties");
 			Map<String, Object> kakao_account = (Map<String, Object>) jsonMap.get("kakao_account");
@@ -231,9 +227,7 @@ public class UserService implements UserServiceI {
 		/* 이 위까지 필요한 유저정보 다 가져와서 Map인 userInfo에 저장 완료 */
 		
 		// DB에 있는 USER인지 확인
-		System.out.println(Long.parseLong(userInfo.get("user_code").toString()));
 		user = userDAO.selectUser(Long.parseLong(userInfo.get("user_code").toString()));
-		System.out.println("@@@새로갱신@@@"+user);
 		// DB에 없으면 insert
 		if (user == null) {
 			userInfo.put("user_nickname", userInfo.get("user_nickname_kakao"));
@@ -269,7 +263,6 @@ public class UserService implements UserServiceI {
 
 			conn.setRequestProperty("Authorization", "Bearer " + access_token);
 			int responseCode = conn.getResponseCode();
-			System.out.println("LOGOUT RESPONSECODE:" + responseCode);
 
 			if (responseCode == 400)
 				throw new RuntimeException("로그아웃 오류!");
@@ -281,7 +274,6 @@ public class UserService implements UserServiceI {
 			while ((br_line = br.readLine()) != null) {
 				result += br_line;
 			}
-			System.out.println("LOGOUT 결과:" + result);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -302,6 +294,40 @@ public class UserService implements UserServiceI {
 	public void deletePicLocal(HashMap<String, Object> userInfo) throws Exception {
 		userDAO.deletePicLocal(userInfo);		
 	}
+
+	
+	@Override
+	public void disconnectKakao(String access_token) {
+		// 카카오 연결 끊기 링크 설정
+		String reqURL = "https://kapi.kakao.com/v1/user/unlink";
+		  try {
+		      URL url = new URL(reqURL);
+		
+		      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		      conn.setRequestMethod("POST");
+		      conn.setRequestProperty("Authorization", "Bearer " + access_token);
+
+		      int responseCode = conn.getResponseCode();
+
+		      BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+		      String result = "";
+		      String line = "";
+		      
+		      while ((line = br.readLine()) != null) {
+		          result += line;
+		      }
+		      System.out.println(result);
+		  } catch (IOException e) {
+		      e.printStackTrace();
+		  }		
+	}
+
+	@Override
+	public void deleteUser(HashMap<String, Object> userInfo) {
+		userDAO.deleteUser((Long)userInfo.get("user_code"));
+	}
+	
 
 	
 }

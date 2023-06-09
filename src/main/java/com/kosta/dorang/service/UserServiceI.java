@@ -15,4 +15,6 @@ public interface UserServiceI {
 	public void deleteNicknameLocal(HashMap<String, Object> userInfo) throws Exception;
 	public void deletePicLocal(HashMap<String, Object> userInfo) throws Exception;
 	
+	public void disconnectKakao(String access_token);
+	public void deleteUser(HashMap<String, Object> userInfo);
 }
