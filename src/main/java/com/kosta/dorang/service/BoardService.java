@@ -1,6 +1,7 @@
 package com.kosta.dorang.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,20 +9,37 @@ import org.springframework.stereotype.Service;
 import com.kosta.dorang.dao.BoardDAOI;
 import com.kosta.dorang.dto.Board;
 import com.kosta.dorang.dto.BoardComments;
+import com.kosta.dorang.dto.BoardCriteria;
 import com.kosta.dorang.dto.BoardLike;
+import com.kosta.dorang.dto.User;
 
 @Service
 public class BoardService implements BoardServiceI {
 
 	@Autowired
-	private BoardDAOI boardDaoI; //BoardDAOI로?
+	private BoardDAOI boardDaoI;
 
 	@Override
 	public List<Board> selectBoardList() {
 		
 		return boardDaoI.selectBoardList();
 	}
-
+	
+	@Override
+	public List<Map<String, Object>> selectBoardPageList(BoardCriteria cri) {
+		return boardDaoI.selectBoardPageList(cri);
+	}
+	
+	@Override
+	public int countBoardListTotal() {
+		return boardDaoI.countBoardListTotal();
+	}
+	
+	@Override
+	public int countBoardSearchListTotal(String boardSearch) {
+		return boardDaoI.countBoardSearchListTotal(boardSearch);
+	}
+	
 	@Override
 	public int insertBoard(Board board) {
 		
@@ -78,4 +96,41 @@ public class BoardService implements BoardServiceI {
 		return boardDaoI.selectBoardCommentsList(no);
 	}
 
+	
+	//삭제
+	@Override
+	public int deleteBoardComment(int commentNo, int boardId) {
+
+		return boardDaoI.deleteBoardComment(commentNo, boardId);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectBoardSearchPageList(BoardCriteria cri) {
+		
+		return boardDaoI.selectBoardSearchPageList(cri);
+	}
+
+	@Override
+	public User selectUser(long userCode) {
+		
+		return boardDaoI.selectUser(userCode);
+	}
+
+	@Override
+	public int countBoardUserListTotal(long userCode) {
+		
+		return boardDaoI.countBoardUserListTotal(userCode);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectBoardUserPageList(BoardCriteria cri) {
+		
+		return boardDaoI.selectBoardUserPageList(cri);
+	}
+
+	@Override
+	public int deleteBoardComment(int commentNo) {
+		
+		return boardDaoI.deleteBoardComment(commentNo);
+	}
 }

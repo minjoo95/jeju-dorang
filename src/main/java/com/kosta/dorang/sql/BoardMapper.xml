@@ -20,6 +20,42 @@
        ]]>
 	</select>
 	
+	<select id = "selectBoardPageList" resultType = "hashmap" parameterType= "hashmap">
+		<![CDATA[
+        	select * from board order by board_id desc limit #{pageStart}, #{perPageNum}
+       ]]>
+	</select>
+	
+	<select id = "selectBoardSearchPageList" resultType = "hashmap" parameterType= "hashmap">
+		<![CDATA[
+        	select * from board where board_title like concat('%',#{search},'%') order by board_id desc limit #{pageStart}, #{perPageNum}
+       ]]>
+	</select>
+	
+	<select id = "selectBoardUserPageList" resultType = "hashmap" parameterType= "hashmap">
+		<![CDATA[
+        	select * from board where user_code=#{userCode} order by board_id desc limit #{pageStart}, #{perPageNum}
+       ]]>
+	</select>
+	
+	<select id = "countBoardListTotal" resultType = "Integer" >
+		<![CDATA[
+			select count(*) from board
+		]]>
+	</select>
+	
+	<select id = "countBoardSearchListTotal" resultType = "Integer" >
+		<![CDATA[
+			select count(*) from board where board_title = #{boardSearch}
+		]]>
+	</select>
+	
+	<select id = "countBoardUserListTotal" resultType = "Integer" >
+		<![CDATA[
+			select count(*) from board where user_code = #{userCode}
+		]]>
+	</select>
+	
 	<select id = "selectOneBoard" resultType = "com.kosta.dorang.dto.Board" >
 		<![CDATA[
 			select * from board where board_id = #{no}
@@ -34,9 +70,16 @@
 	
 	<select id = "selectBoardCommentsList" resultType = "com.kosta.dorang.dto.BoardComments">
 		<![CDATA[
-        	select * from board_comment_temp where board_id = #{no}
+        	select * from board_comment where board_id = #{no}
        ]]>
 	</select>
+	
+	<select id = "selectUser" resultType = "com.kosta.dorang.dto.User">
+		<![CDATA[
+        	select * from user where user_code = #{userCode}
+       ]]>
+	</select>
+	
 	
 	<insert id="insertBoard" parameterType="com.kosta.dorang.dto.Board">
 		<![CDATA[
@@ -56,6 +99,13 @@
 		<![CDATA[
 			insert into board_comment_temp (user_code, board_id, comment_content, parent_comment_no)
 			values (#{user_code}, #{board_id}, #{comment_content}, #{parent_comment_no})
+		]]>
+	</insert>
+	
+	<insert id="insertBoardCommentsWithSequence" parameterType="com.kosta.dorang.dto.BoardComments">
+		<![CDATA[
+			insert into board_comment (comment_no, user_code, board_id, comment_content, parent_comment_no, comment_group_order)
+			values ((nextval('num')), #{user_code}, #{board_id}, #{comment_content}, #{parent_comment_no}, #{comment_group_order})
 		]]>
 	</insert>
 	
@@ -81,6 +131,13 @@
 			
 		]]>	
 	
+	</delete>
+	
+	<delete id="deleteBoardComment">
+		<![CDATA[
+			delete from board_comment where comment_no = #{commentNo}
+			
+		]]>	
 	</delete>
 
 </mapper>
