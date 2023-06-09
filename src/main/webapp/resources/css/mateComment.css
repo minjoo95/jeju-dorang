@@ -156,6 +156,7 @@
 	width: 60%;	
 	height: 70%;
 	resize: none;
+	color: #D9D9D9;
 	border: 1px solid #E3E3E3;
 }
 .comment_txt:focus {
@@ -165,7 +166,7 @@
 .mate_reply_btn_container{
 	width: 54%;
 	display: flex;
-	margin-top:-2%;
+	margin-top: -1.5%;
 	flex-direction:row-reverse;
 }
 
@@ -182,4 +183,25 @@
 	color: white;
 	font-weight: bold;
 	background-color: #696969;
+}
+
+
+/* 댓글 수정 */
+#mate_reply_modify_input{
+	width: 90%;
+	border:none;
+}
+#mate_reply_modify_input:focus{
+	outline:none;
+	border-bottom:1px solid #D9D9D9;
+}
+
+#mate_reply_modify_confirm_btn{
+	width: 50px;
+	border:none;
+	color: #696969;
+	margin-top: -1%;
+	margin-left: 2.5%;
+	position: absolute;
+	background-color:white;
 }

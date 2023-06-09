@@ -17,14 +17,14 @@
 </head>
 
 <body>
-	<jsp:include page="/WEB-INF/views/header.jsp" />
-	<jsp:include page="/WEB-INF/views/myPageTab.jsp"/>
+	<jsp:include page="/WEB-INF/views/NewFile.jsp" />
+ 	<jsp:include page="/WEB-INF/views/myPageTab.jsp"/>
 	
-  <div id="myPageContentWrapper">
+ <%-- <div id="myPageContentWrapper">
     <jsp:include page="${myPageContentPage }"/>
   </div>
 
-	<jsp:include page="/WEB-INF/views/footer.jsp" />
+	<jsp:include page="/WEB-INF/views/footer.jsp" /> --%>
 </body>
 
 </html>
