@@ -27,10 +27,10 @@
 	  	font-size: 15px;
 	  	color: #ffffff;
 	  	background-color: #3CB728;
-	  	display: block;
-	  	margin-left:15px;
-	  	padding: 5px;
-	  	border-radius: 5px;
+	    margin-left :10px;
+	  }
+	  .matecommunityMove:hover{
+	  background-color: #FB7A51;
 	  }
 	 .card-body-right{
 	  display: flex;
@@ -98,7 +98,7 @@
 		      },
 		    dataType : "json",
 		    success:function(data) {
-		        displayMateList(data.myPageListSortby,sortBy); 
+		        displayMateList(data.myPageListSortby,sortBy,data.applyResult); 
 		        var pm = data.pm;
 		        var endPage = pm.endPage;
 		        var startPage = pm.startPage;
@@ -106,7 +106,7 @@
 		        var hasNext = pm.next;
 		        updatePagination(endPage, sortBy, startPage, currentPage, hasNext); 
 		       
-		      
+		       
 		      },
 		    error: function() {
 		      console.log("데이터 요청 실패");
@@ -114,7 +114,7 @@
 		  }); 
  }//sortMateList
   
-  function displayMateList(data,sortBy) {
+  function displayMateList(data,sortBy,applyResult) {
 	    
 	     $("#viewContent").empty();
 	     
@@ -135,12 +135,16 @@
 			   itemHtml += "</div>"
 			   itemHtml += "<div class='card-body card-body-right' style='width: 40%;'>"
 			   if (sortBy === "acceptedList") {
-				  itemHtml += "<div class='card-text statu'>신청완료</div>";
+				  itemHtml += "<div class='card-text status'>"+applyResult+"</div>";  //mate테이블이 아니라 mateApply테이블의 result값을 받아야함 
 					} else {
-				  itemHtml += "<div class='card-text statu'>"+mt.join_count+"&nbsp;명 참여중</div>";
+				  itemHtml += "<div class='card-text status'>"+mt.join_count+"&nbsp;명 참여중</div>";
 					}  
-			   itemHtml += "</div>"
-			   itemHtml += "<button id='"+mt.mate_code+"' class='card-link matecommunityMove' >커뮤니티방 go!</button>"
+			   itemHtml += "<button id='"+mt.mate_code+"' class='btn card-link matecommunityMove' ";
+			   if (applyResult === "수락거절") {
+			       itemHtml += "disabled style='background-color: #D9D9D9'";
+			   }
+			   itemHtml += ">커뮤니티방 go!</button>"; 
+			   itemHtml += "</div>"	  
 			   itemHtml += "</div>"
 			   itemHtml += "</div>"
 			   itemHtml += "</div>"
@@ -211,13 +215,12 @@
 				      },
 				    dataType : "json",
 				    success:function(data) {
-				        displayMateList(data.myPageListSortby); 
+				    	displayMateList(data.myPageListSortby, sortBy, data.applyResult);
 				        var pm = data.pm;
 				        var endPage = pm.endPage;
 				        var startPage = pm.startPage;
 				        var currentPage = pm.cri.page;
 				        var hasNext = pm.next;
-
 				        updatePagination(endPage, sortBy, startPage, currentPage, hasNext); 
 				        $("#page").val(currentPage);
 				      

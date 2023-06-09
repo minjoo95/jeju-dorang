@@ -96,6 +96,10 @@ public class MateService implements MateServiceI {
 	public void deleteMateCommListByMateCode(int mate_code) throws Exception {
 		mateDAO.deleteMateCommListByMateCode(mate_code);
 	}
+	@Override
+	public String selectApplyMateResult(Long user_code) throws Exception {
+		return mateDAO.selectApplyMateResult(user_code);
+	}
 
   //응심이 댓글 select
   @Override
@@ -142,7 +146,6 @@ public class MateService implements MateServiceI {
 	public List<Notice> selectNoticeByUserCode(long user_code,int lastNotificationID) throws Exception {
 		return mateDaoI.selectNoticeByUserCode(user_code,lastNotificationID);
 	}
-
 	
 
 }

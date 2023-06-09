@@ -113,7 +113,7 @@ public class MateController {
 	 	pm.setCri(cri);
 	 	pm.setTotalCount(mateService.totalmyCount(user_code,cri));
 	 	m.addAttribute("pm", pm);
-
+	 
 	    return "/mate/mateMypage";
 	}
 	
@@ -136,12 +136,14 @@ public class MateController {
 			 MatePageMaker pm = new MatePageMaker();
 			 pm.setCri(cri);
 			 pm.setTotalCount(mateService.totalmyCount(user_code,cri));
+			 String applyResult = mateService.selectApplyMateResult(user_code);
 			 
 			 Map<String, Object> response = new HashMap<>();
 			 response.put("myPageListSortby", myPageListSortby);	 
 			 response.put("pm",pm);
+			 response.put("applyResult",applyResult);
 			
-			 System.out.println(pm.getCri().getPage());
+			 System.out.println(applyResult);
 			
 			 
 	        return response;
@@ -340,8 +342,9 @@ public class MateController {
 		
 		int mate_code = mp.getMate_code();
         long user_code = mp.getUser_code();
-	  
-		   
+        
+           System.out.println("mate_code" + mate_code);
+		   System.out.println("user_code" + user_code);
 	    try {
 	        MateApply mpResult = mateService.selectMateApply(mate_code, user_code);
 	       
@@ -352,7 +355,6 @@ public class MateController {
 	        	 mateService.insertMateApply(mp);
 	 	         return "success"; 
 	        }
-	        
 
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -528,30 +530,5 @@ public class MateController {
 		}
 	
 		
-		//응심이 알림 SELECT
-		@RequestMapping(value="/notice",method=RequestMethod.POST)
-		@ResponseBody
-		public List<Notice> selectNotice(@RequestParam int lastNotificationID) {
-			System.out.println("알림 컨트롤러");
-			System.out.println("lastNotificationID : "+lastNotificationID);
-			List<Notice> noticeList=null;
-			
-			try {
-				
-				long user_code=(long) session.getAttribute("user");
-				noticeList=mateServiceI.selectNoticeByUserCode(user_code,lastNotificationID);
-				if(noticeList!=null) {
-					for(Notice a:noticeList) {
-						System.out.println(a.getComment_code());
-					}
-				}else {
-					System.out.println("새로운 값이 없습니다");
-				}
-			        
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return noticeList;
-		}
 		
 }

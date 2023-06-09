@@ -65,7 +65,13 @@
   </choose>
   LIMIT #{pageStart}, #{perPageNum}
 </select>
-
+<select id="selectApplyMateResult" parameterType="Long" resultType="String">
+   <![CDATA[ 
+      SELECT ma.result  
+      FROM mate m
+      JOIN MateApply ma ON m.mate_code = ma.mate_code AND ma.user_code = #{user_code};
+    ]]>
+</select>
 <!-- 신청테이블 -->
 <insert id="insertApplyMate" parameterType="com.kosta.dorang.dto.MateApply">
      <![CDATA[
@@ -159,18 +165,18 @@
 		where comment_code=#{comment_code}
 		]]>
 	</update>
-	<insert id="insertMateReplyNotice" parameterType="com.kosta.dorang.dto.MateComments">
+	<!--  <insert id="insertMateReplyNotice" parameterType="com.kosta.dorang.dto.MateComments">
 		<![CDATA[
 		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, comment_code)
 		VALUES (notice_nextval('num'), #{user_code}, 4, NOW(), #{content}, #{comment_code})
 		]]>
-	</insert>
-	<select id="selectNoticeByUserCode" parameterType="map" resultType="com.kosta.dorang.dto.Notice">
+	</insert>-->
+	<!--  <select id="selectNoticeByUserCode" parameterType="map" resultType="com.kosta.dorang.dto.Notice">
 		<![CDATA[
 		select *
 		from notice
 		where user_code=#{user_code}
 		and ntc_code>#{ntc_code}
 		]]>
-	</select>
+	</select>-->
 </mapper>

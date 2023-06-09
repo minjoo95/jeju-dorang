@@ -118,6 +118,10 @@ public class MateDAO implements MateDAOI {
 	public void deleteMateCommListByMateCode(int mate_code) throws Exception {
 		sqlSession.delete("MateMapper.deleteMateCommListByMateCode",mate_code);
 	}
+	@Override
+	public String selectApplyMateResult(Long user_code) throws Exception {
+		 return sqlSession.selectOne("MateMapper.selectApplyMateResult",user_code);
+	}
 	
   //응심이 
 	@Override
@@ -166,7 +170,4 @@ public class MateDAO implements MateDAOI {
 		noticeList.put("ntc_code", lastNotificationID);
 		return sqlSession.selectList("MateMapper.selectNoticeByUserCode", noticeList);
 	}
-
-	
-
 }
