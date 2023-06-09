@@ -168,6 +168,7 @@
 		<![CDATA[
 			insert into board_comment_temp (user_code, board_id, comment_content, parent_comment_no, comment_depth, comment_group_order)
 			values (#{user_code}, #{board_id}, #{comment_content}, #{parent_comment_no}, #{comment_depth}, #{comment_group_order})
+
 		]]>
 	</insert>
 	

@@ -4,6 +4,7 @@ $(document).ready(function(){
 	//바로 list 보여주기
 	getReplyList();
 		
+	// -------------------------------------------------------	
 	 var tags=$("#tags_strings").html();
 	 var tagList = tags.split('/');
 	 var tags_label = $("#tags_list label"); 
@@ -46,7 +47,8 @@ $(document).ready(function(){
 				type:"POST",
 				data:{
 					mate_code:mateCode,
-					mateReplyContent:$(".comment_txt").val()
+					mateReplyContent:$(".comment_txt").val(),
+					mateTitle:$("#mate_title").val()
 				},
 				success:function(){
 					console.log("댓글 달기 성공!");
