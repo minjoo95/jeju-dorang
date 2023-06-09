@@ -17,7 +17,7 @@
 			</div>
 			<!-- 헤더 카테고리 -->
 			<div class="header-category">
-				<div class="navi-item">
+				<div class="navi-item navi-items">
 					<a class="navi-link navi-link-travel" href="${contextPath }/travel/list">여행</a>
 				</div>
 				<div class="navi-item">

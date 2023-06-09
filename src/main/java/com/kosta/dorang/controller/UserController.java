@@ -39,9 +39,6 @@ public class UserController {
 		// 얻어온 토큰으로 카카오서버에 있는 사용자 정보에 접근해서 User객체로 가져오기
 		user = userService.getUserInfo(access_tok);
 		
-		// HttpSession session에 "user" : (Long) user_code
-		System.out.println("*********************************************"+user.getUser_pic());
-		
 		HashMap<String, Object> userInfo = new HashMap<>();
 		userInfo.put("user_code", user.getUser_code());
 		userInfo.put("user_id", user.getUser_id());
