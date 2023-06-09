@@ -95,13 +95,25 @@
 	
 	<select id = "selectOneBoardComment" resultType = "com.kosta.dorang.dto.BoardComments" >
 		<![CDATA[
+			select * from board_comment where comment_no = #{parent_comment_no}
+		]]>
+	</select>
+	
+	<select id = "selectOneBoardCommentTemp" resultType = "com.kosta.dorang.dto.BoardComments" >
+		<![CDATA[
 			select * from board_comment_temp where comment_no = #{parent_comment_no}
 		]]>
 	</select>
 	
 	<select id = "selectBoardCommentsList" resultType = "com.kosta.dorang.dto.BoardCommentsWithNickname">
 		<![CDATA[
-        	select board_comment_temp.*, user.user_nickname from board_comment_temp left join user on board_comment_temp.user_code = user.user_code where board_comment_temp.board_id = #{no} order by board_comment_temp.parent_comment_no desc, board_comment_temp.comment_group_order desc
+        	select board_comment.*, user.user_nickname from board_comment left join user on board_comment.user_code = user.user_code where board_comment.board_id = #{no} order by board_comment.parent_comment_no asc, board_comment.comment_group_order desc
+       ]]>
+	</select>
+	
+	<select id = "selectBoardCommentsListTemp" resultType = "com.kosta.dorang.dto.BoardCommentsWithNickname">
+		<![CDATA[
+        	select board_comment_temp.*, user.user_nickname from board_comment_temp left join user on board_comment_temp.user_code = user.user_code where board_comment_temp.board_id = #{no} order by board_comment_temp.parent_comment_no asc, board_comment_temp.comment_group_order desc
        ]]>
 	</select>
 	
@@ -134,12 +146,26 @@
 	
 	<insert id="insertBoardComments" parameterType="com.kosta.dorang.dto.BoardComments">
 		<![CDATA[
+			insert into board_comment (user_code, board_id, comment_content, parent_comment_no, comment_depth, comment_group_order)
+			values (#{user_code}, #{board_id}, #{comment_content}, #{parent_comment_no}, #{comment_depth}, #{comment_group_order})
+		]]>
+	</insert>
+	
+	<insert id="insertBoardCommentsTemp" parameterType="com.kosta.dorang.dto.BoardComments">
+		<![CDATA[
 			insert into board_comment_temp (user_code, board_id, comment_content, parent_comment_no, comment_depth, comment_group_order)
 			values (#{user_code}, #{board_id}, #{comment_content}, #{parent_comment_no}, #{comment_depth}, #{comment_group_order})
 		]]>
 	</insert>
 	
 	<insert id="insertBoardCommentsReturnNo" parameterType="com.kosta.dorang.dto.BoardComments" useGeneratedKeys="true" keyProperty="comment_no">
+		<![CDATA[
+			insert into board_comment (user_code, board_id, comment_content, parent_comment_no, comment_depth, comment_group_order)
+			values (#{user_code}, #{board_id}, #{comment_content}, #{parent_comment_no}, #{comment_depth}, #{comment_group_order})
+		]]>
+	</insert>
+	
+	<insert id="insertBoardCommentsReturnNoTemp" parameterType="com.kosta.dorang.dto.BoardComments" useGeneratedKeys="true" keyProperty="comment_no">
 		<![CDATA[
 			insert into board_comment_temp (user_code, board_id, comment_content, parent_comment_no, comment_depth, comment_group_order)
 			values (#{user_code}, #{board_id}, #{comment_content}, #{parent_comment_no}, #{comment_depth}, #{comment_group_order})
@@ -171,6 +197,14 @@
 	
 	<update id="updateParentCommentNo" parameterType="com.kosta.dorang.dto.BoardComments">
 		<![CDATA[
+			update board_comment
+			set parent_comment_no = #{comment_no}
+			where comment_no = #{comment_no}
+		]]>	
+	</update>
+	
+	<update id="updateParentCommentNoTemp" parameterType="com.kosta.dorang.dto.BoardComments">
+		<![CDATA[
 			update board_comment_temp
 			set parent_comment_no = #{comment_no}
 			where comment_no = #{comment_no}
@@ -178,6 +212,14 @@
 	</update>
 	
 	<update id="updateCommentGroupOrder" parameterType="com.kosta.dorang.dto.BoardComments">
+		<![CDATA[
+			update board_comment
+			set comment_group_order = comment_group_order + 1
+			where parent_comment_no = #{parent_comment_no} and comment_group_order > #{comment_group_order}
+		]]>	
+	</update>
+	
+	<update id="updateCommentGroupOrderTemp" parameterType="com.kosta.dorang.dto.BoardComments">
 		<![CDATA[
 			update board_comment_temp
 			set comment_group_order = comment_group_order + 1
@@ -194,6 +236,13 @@
 	</delete>
 	
 	<delete id="deleteBoardComment">
+		<![CDATA[
+			delete from board_comment where comment_no = #{commentNo}
+			
+		]]>	
+	</delete>
+	
+	<delete id="deleteBoardCommentTemp">
 		<![CDATA[
 			delete from board_comment_temp where comment_no = #{commentNo}
 			
