@@ -1,0 +1,185 @@
+@charset "UTF-8";
+
+.mate_reply_whole_box{
+	width: 100%;
+	
+}
+
+
+/* 댓글 리스트 */
+.mate_reply_list_table_box{
+	width: 80%;
+	height: 100%;
+}
+
+#rtb{
+	width: 70%;
+	height: 100%;
+	border:none;
+	border-bottom:1px solid #E3E3E3;
+}
+
+
+/* 댓글목록 title */
+#rCount_head{
+	font-size: 0.8em;
+	height:35px;
+	width: 100%;
+	border-bottom: 1px solid #E3E3E3;
+}
+
+.mate_reply_tr{
+	z-index:5;
+	width:100%;
+	height:100%;
+}
+
+
+
+/* 댓글 박스 위쪽 */
+#mate_reply_body{
+	width: 44%;
+	height:100%;
+}
+.mate_reply_top{
+	font-size: 0.8em;
+}
+
+#mate-reply-profile-pic{
+	width:50px;
+	height:50px;
+	border-radius: 70px;
+	margin: 3% 13px 2% 15px;
+}
+
+#mate-reply-profile-writer{
+	font-weight: bold;
+	margin: -2% 10px 0 3px;	
+}
+
+#mate-reply-profile-date{
+	margin-left: 1%;
+}
+
+
+/* 댓글 박스 아래쪽 (댓글내용) */
+.contentID{
+	width: 80%;
+	height: 30px;
+	margin-top:-3%;
+	margin-left:80px;
+	font-size: 0.6em;
+	margin-bottom: 3%;
+}
+
+
+/* 드롭다운 버튼 */
+.mate_reply_bttn{
+	width: 38%;
+	height: 25px;
+	border: none;
+	color: #D9D9D9;
+	font-size: 1em;
+	margin-right:0;
+	margin-top:25px;
+	position: absolute;
+}
+
+.mate_reply_menu_icon{
+	margin-left:100%;
+}
+.mate_reply_menu_icon:hover{
+	color:#696969;
+	cursor:pointer;
+}
+
+
+/* 드롭다운 내용 */
+.reply_dropdown_background{
+	width: 98%;
+	height: 60px;
+	margin-top: -16px;
+	position:absolute;
+}
+.reply_dropdown_content{
+	z-index:1;
+	width:60px;
+	height:40px;
+	display:flex;
+	display:none;
+	margin-right: 0;
+	position:relatvie;
+	flex-direction:column;
+	border: 1px solid #D9D9D9;
+}
+
+.reply_dropdown_btns{
+	width: 100%;
+	height: 50%;
+	border:none;
+	display:flex;
+	color:  #696969;
+	font-size:0.5em;
+	align-items: center;
+	justify-content:center;
+	background-color: white;
+}
+
+#reply_dropdown_modifyBtn, #reply_dropdown_deleteBtn{
+	border-bottom:1px solid #D9D9D9;
+}
+
+
+/* 댓글 입력창 */
+.mate_reply_wrap{
+	width: 100%;
+	height: 100%;
+	margin-top: 2%;
+	margin-bottom: 5%;
+}
+
+.mate_reply_box{
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.mate_reply_container{
+	width: 90%;
+	height: 120px;
+	display: flex;
+	justify-content: center;
+}
+
+.comment_txt{
+	width: 60%;	
+	height: 70%;
+	resize: none;
+	border: 1px solid #E3E3E3;
+}
+.comment_txt:focus {
+	outline: none;
+}
+
+.mate_reply_btn_container{
+	width: 54%;
+	display: flex;
+	margin-top:-2%;
+	flex-direction:row-reverse;
+}
+
+.mate_reply_btn{
+	width: 80px;
+	height: 25px;
+	border: none;
+	color: white;
+	font-size: 0.7em;
+	border-radius: 10px;
+	background-color: #D9D9D9;
+}
+.mate_reply_btn:hover {
+	color: white;
+	font-weight: bold;
+	background-color: #696969;
+}

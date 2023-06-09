@@ -9,6 +9,7 @@
 <div class="wrap">
 	<nav class="header-nav">
 		<div class="header-wrap">
+		<input type="hidden" name="user_cdoe" id="user_code" value="<c:out value='${user_code}'/>"/>
 			<!-- 헤더 로고 -->
 			<div class="header-logo">
 				<a href="${contextPath }/"> 
@@ -17,7 +18,7 @@
 			</div>
 			<!-- 헤더 카테고리 -->
 			<div class="header-category">
-				<div class="navi-item">
+				<div class="navi-item navi-items">
 					<a class="navi-link navi-link-travel" href="${contextPath }/travel/list">여행</a>
 				</div>
 				<div class="navi-item">
@@ -47,7 +48,7 @@
 									</button>
 								</div>
 								<!-- 알람 모달 -->
-								<div class="alarm-modal-container">
+								<%-- <div class="alarm-modal-container">
 									<div class="alarm_modal_content">
 										<strong class="alarm_modal_title">알림</strong> 
 										<span class="alram_view_status">최근 30일간 저장내역 노출</span>
@@ -68,7 +69,60 @@
 											</div>
 										</div>
 									</div>
-								</div>
+								</div> --%>
+								<!--새 알람 모달 -->
+                         <div class="alarm-modal-container">
+                           <div class="alarm_modal_content">
+                              <!-- --------동행신청알람 앞단 예시 alarm_area가 한쌍--------- -->
+                              <div class="alarm_area"> 
+                              <div class="empty_list alarm_area">
+                                      <div class="alram_view_status">new</div>
+                                      <div class="sub_title"> <!-- 타이틀 -->
+                                         <span>내가 작성한 [</span>
+                                         <span class="sub_title_mate_title">
+                                           동행게시판타이틀동행게시판타이틀동행게시판 타이틀 
+                                         </span>
+                                         <span>]에</span>
+                                         <span class="sub_title_user_id">동행 신청 유저아이디</span>
+                                         <span>님이 동행을 신청했습니다.</span>
+                                      </div>
+                                    <div class="empty_alarm_txt"><!-- 내용 -->
+                                     <div class="first_ask">
+                                           <span>Q . 이 구역 맛잘알 이신가요?</span>
+                                           <div class="answer">그게 바로 나예요^^</div>
+                                     </div>
+                                    </div>
+                                    <div class="alarm_apply_btn">
+                                      <button type="button" class="mate_out">거절</button>
+                                      <button type="button" class="mate_call">수락</button>
+                                    </div>
+                                 </div>
+                              </div>
+                              <!-- --------댓글앞단 예시 alarm_area가 한쌍----------->
+                                <div class="alarm_area"> 
+                              <div class="empty_list alarm_area">
+                                  <div class="alarm_area-comment-top">
+                                      <div class="alram_view_status">new</div> 
+                                      <button  type="button" class="comment_alarm_close">&times;</button>
+                                  </div>    
+                                      <div class="sub_title"> <!-- 타이틀 -->
+                                         <span>내가 작성한 [</span>
+                                         <span class="sub_title_mate_title">
+                                           동행게시판타이틀동행게시판타이틀동행게시판 타이틀 
+                                         </span>
+                                         <span>]에</span>
+                                         <span class="sub_title_user_id">동행 신청 유저아이디</span>
+                                         <span>님이 댓글을 달았습니다.</span>
+                                      </div>
+                                    <div class="empty_alarm_txt"><!-- 내용 -->
+                                     <div class="first_ask">
+                                           <span>댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용</span>
+                                     </div>
+                                    </div>
+                                 </div>
+                              </div>         
+                           </div>
+                        </div>
 							</div>
 							<!-- 마이페이지 -->
 							<div class=" myPage_container">

@@ -4,6 +4,7 @@ $(document).ready(function(){
 	//바로 list 보여주기
 	getReplyList();
 		
+	// -------------------------------------------------------	
 	 var tags=$("#tags_strings").html();
 	 var tagList = tags.split('/');
 	 var tags_label = $("#tags_list label"); 
@@ -33,9 +34,10 @@ $(document).ready(function(){
 			  formData.attr("action", "/dorang/mate/delete");
 			  formData.submit(); 
 		}
- 		
- 		
- 		
+
+			formData.attr("action", "/dorang/mate/delete");
+		 	formData.submit(); 
+		
  	});    
  	//-------------------------------------------------------------------------------------------------
 	
@@ -50,7 +52,8 @@ $(document).ready(function(){
 				type:"POST",
 				data:{
 					mate_code:mateCode,
-					mateReplyContent:$(".comment_txt").val()
+					mateReplyContent:$(".comment_txt").val(),
+					mateTitle:$("#mate_title").val()
 				},
 				success:function(){
 					console.log("댓글 달기 성공!");
@@ -84,29 +87,28 @@ $(document).ready(function(){
 						console.log(result);
 						for(var i in result){
 						(function(i){
-						var tr=$("<tr>");
-						var Writer=$("<td width='100'>").text(result[i].user_nickname);
-						var Content=$("<td id='contentID"+ result[i].comment_code +"'>").text(result[i].content);
-						var CreateDate=$("<td width='100'>").text(new Date(result[i].createAt).toLocaleDateString());
-						var btnArea = $("<td width='80'>");
-						var input=$("<input type='hidden' name='result[i].comment_code' id='comment_id' value=''>");
+						var tr=$("<tr id='mate_reply_tr'>");
+						if(result[i].user_pic.indexOf('kakao') > -1) {
+							var Pic = $("<span class='mate_reply_top'><td>").append("<img src=" + result[i].user_pic + " id='mate-reply-profile-pic'>");
+						} else {
+							var Pic = $("<span class='mate_reply_top'><td>").append("<img src=/dorang/resources/uploadProfilePic/" + result[i].user_pic + " id='mate-reply-profile-pic'>");
+						}
+						var Writer=$("<span class='mate_reply_top' id='mate-reply-profile-writer'><td>").text(result[i].user_nickname);
+						var Content=$("<div class='contentID'><td id='contentID"+ result[i].comment_code +"'>").text(result[i].content);
+						var CreateDate=$("<span class='mate_reply_top' id='mate-reply-profile-date'><td>").text(new Date(result[i].createAt).toLocaleDateString());
+						var btnArea = $("<span class='mate_reply_top mate_reply_bttn'><td><div class='mate_reply_dropdown'> <i id='mate_reply_menu_icon' class='mate_reply_menu_icon fa-solid fa-ellipsis-vertical' onclick='dropdown(event)'></i>");
+						var input=$("<div><input type='hidden' name='result[i].comment_code' id='comment_id' value=''>");
 						
-						var modifyLinkBtn=$("<button>수정</button>");
-						modifyLinkBtn.click(function(){
-							modifyLink(result[i].comment_code);
-						});//modifyLinkBtn
+						// 드롭다운 영역 한꺼번에 추가( 컨테이너{수정버튼+삭제버튼) }
+						var modify_dropdown_contents = $("<div class='reply_dropdown_background'><div class='reply_dropdown_content'><button class='reply_dropdown_btns' id='reply_dropdown_modifyBtn' onclick='modifyMateReplyFunction(event)'>수정</button><button class='reply_dropdown_btns' id='reply_dropdown_deleteBtn' onclick='deleteMateReplyFunction(event)'>삭제</button><input type='hidden' id='hiddenMateReplyCode' value='" + result[i].comment_code + "'></div></div>");
 						
-						var deleteLinkBtn=$("<button>삭제</button>");
-						deleteLinkBtn.click(function(){
-							deleteLink(result[i].comment_code);
-						});//deleteLink
-						
-						btnArea.append(modifyLinkBtn).append(deleteLinkBtn);
+						btnArea.append(modify_dropdown_contents);
 							
+							tr.append(Pic);
 							tr.append(Writer);
-							tr.append(Content);
 							tr.append(CreateDate);
 							tr.append(btnArea);
+							tr.append(Content);
 							tableBody.append(tr);
 							})(i);
 						}//for
@@ -118,10 +120,47 @@ $(document).ready(function(){
 		})//ajax
 		
 		};//getReplyList함수
+		
+		
+		// 댓글 수정
+		function modifyMateReplyFunction(e) {
+			console.log($(e.target).closest('.reply_dropdown_content').find('#hiddenMateReplyCode').val());
+			var hiddenReplyCommentCode = $(e.target).closest('.reply_dropdown_content').find('#hiddenMateReplyCode').val();
+			modifyLink(hiddenReplyCommentCode);
+		}
+		
+		// 댓글 삭제
+		function deleteMateReplyFunction(e) {
+			console.log($(e.target).closest('.reply_dropdown_content').find('#hiddenMateReplyCode').val());
+			var hiddenReplyCommentCode = $(e.target).closest('.reply_dropdown_content').find('#hiddenMateReplyCode').val();
+			deleteLink(hiddenReplyCommentCode);
+		}
+		
+		// dropdown open
+		function dropdown(e) {
+			event.stopPropagation();
+			if ($(e.target).closest('.mate_reply_top').find('.reply_dropdown_content').is(':visible')) {
+				$(e.target).closest('.mate_reply_top').find('.reply_dropdown_content').hide();
+			} else {
+				$(e.target).closest('.mate_reply_top').find('.reply_dropdown_content').show();
+			}
+		}
+		
+		// dropdown close
+		$(document).click(function(e) {
+			var targetE = e.target;
+			if(!$(targetE).closest('.reply_dropdown_content').length && !$(targetE).hasClass('reply_dropdown_content')) {
+				$('.reply_dropdown_content').hide();
+			}
+		});
+		
 
 		//수정 할 댓글 하나 가져오기
 		function modifyLink(comment_code) {
-		//	alert("댓글 수정 시작");
+
+			//alert("댓글 수정 시작");
+			$('.reply_dropdown_content').hide();
+
 			console.log("댓글 수정 시작 : "+comment_code);
 			var contentElement=$('#contentID'+comment_code);
 			var originalContent=contentElement.text().trim();
@@ -167,7 +206,10 @@ $(document).ready(function(){
 		//댓글 삭제
 		function deleteLink(comment_code){
 			//alert("delete 들어오기 성공");
-		//	alert("찐으로 삭제");
+
+			//alert("찐으로 삭제");
+			$('.reply_dropdown_content').hide();
+
 			console.log(comment_code);
 			$.ajax({
 				url:"/dorang/mate/mateReplyDelete",

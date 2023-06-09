@@ -12,6 +12,7 @@ import com.kosta.dorang.dto.MateApply;
 import com.kosta.dorang.dto.MateComments;
 import com.kosta.dorang.dto.MateCommentsUser;
 import com.kosta.dorang.dto.MateCriteria;
+import com.kosta.dorang.dto.Notice;
 
 @Service
 public class MateService implements MateServiceI {
@@ -95,32 +96,53 @@ public class MateService implements MateServiceI {
 	public void deleteMateCommListByMateCode(int mate_code) throws Exception {
 		mateDAO.deleteMateCommListByMateCode(mate_code);
 	}
+
   //응심이 댓글 select
   @Override
 	public List<MateCommentsUser> selectMateReplyListByMateCode(int mate_code) throws Exception {
 		return mateDaoI.selectMateReplyListByMateCode(mate_code);
 	}
-  //응심이 댓글 insert
+  
+  	//댓글 insert
 	@Override
-	public void insertMateReply(MateComments mateComments) {
-		mateDaoI.insertMateReply(mateComments);
+	public int insertMateReply(MateComments mateComments) {
+		int insertCheck=mateDaoI.insertMateReply(mateComments);
+		return insertCheck;
 		
 	}
-	 //응심이 댓글 delete
+	 //댓글 delete
 	@Override
 	public void deleteMateReply(int comment_code) throws Exception {
 		mateDaoI.deleteMateReply(comment_code);
 		
 	}
 
+	//수정 할 댓글 하나 select
 	@Override
 	public MateCommentsUser selectOneMateReply(int comment_code) throws Exception {
 		return mateDaoI.selectOneMateReply(comment_code);
 	}
 
+	//댓글 update
 	@Override
 	public void updateMateReply(MateComments mateComments) throws Exception {
 		mateDaoI.updateMateReply(mateComments);
 	}
+
+	
+	//댓글 알림 insert
+	@Override
+	public void insertMateReplyNotice(MateComments mateComments) throws Exception {
+		mateDaoI.insertMateReplyNotice(mateComments);
+		
+	}
+	
+	//알림 select
+	@Override
+	public List<Notice> selectNoticeByUserCode(long user_code,int lastNotificationID) throws Exception {
+		return mateDaoI.selectNoticeByUserCode(user_code,lastNotificationID);
+	}
+
+	
 
 }

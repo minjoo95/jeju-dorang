@@ -127,6 +127,7 @@ public class MainController{
                 System.out.println(a);
             }
             model.addAttribute("mateB",mateList);
+            model.addAttribute("user_code",user_code);
 
         } catch (Exception e) {
             e.printStackTrace();

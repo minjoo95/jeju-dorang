@@ -5,6 +5,9 @@
 <!doctype html>
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/common.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/mate.css"/>">
+<link rel="stylesheet" type="text/css"  href="<c:url value="/resources/css/mateComment.css"/>">
+<script src="https://kit.fontawesome.com/5c78b43849.js" crossorigin="anonymous"></script>
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -104,6 +107,7 @@
           <div class="row">
 	          <div class="col-md-6  container_1" >
 		 			 <div class="mb-5" >
+		 			 <input type="hidden" name="mate_title" id="mate_title" value="${mt.title}"/>
 					    <label  class="form-label" style="color: #FB7A51;">${mt.title}</label>
 		  			 </div> 
 		  			  <!-- 이미지 --> 
@@ -162,6 +166,7 @@
     </div>
    
    
+<<<<<<< HEAD
    
     <!--댓글쓰기  -->
    <table align="center" width="500" border="1" id="rtb">
@@ -182,6 +187,37 @@
     	</div>
     </div>
    <jsp:include page="../footer.jsp"></jsp:include>
+=======
+   <div class = "mate_reply_whole_box">
+    
+	    <!--댓글쓰기  -->
+	   <div class="mate_reply_list_table_box">
+	   	   <table align="center" width="500" border="1" id="rtb">
+				<thead id="rCount_head">
+					<td colspan="4"><b id="rCount">댓글목록</b></td>
+				</thead>
+				<tbody id="mate_reply_body">
+				</tbody>
+			</table>
+	   </div>
+	   
+	   <input type="hidden" name="mate_code" id="mate_code" value="${mate_code}"/>
+	    <div class="mate_reply_wrap">
+			<div class="mate_reply_box">
+		    	<div class="mate_reply_container">
+		    		<textarea class="comment_txt" name="comment_txt" placeholder="댓글 입력..."></textarea>
+		    	</div>
+		    	<div class="mate_reply_btn_container">
+		    		<button class="mate_reply_btn">입력</button>
+		    	</div>
+	    	</div>
+	    </div>
+    
+    </div>
+   	<p>${commentCode }</p>
+  
+<jsp:include page="/WEB-INF/views/footer.jsp" />
+>>>>>>> dev
   </body>
 </html>
 
