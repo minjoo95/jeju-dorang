@@ -60,7 +60,7 @@ function changeCateBtnName(ths){
 						<option onchange="showWriterInfo(${board.user_code})">프로필보기
 						<option onchange="">작성글보기
 					</select> --%>
-					<a onclick="showWriterInfo(this)">${board.user_code}</a>
+					<a onclick="showWriterInfo(${board.user_code})">${board.user_nickname }</a>
 				</td>
 				
 				<td>
@@ -122,7 +122,7 @@ function changeCateBtnName(ths){
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-body">
-						<div class="userPic">
+						<div class="userPic" id="userPic">
 							<!-- <img id="userImg" class="profile"> -->
 						</div>
 						<form name="userBoardForm" id="userBoardForm" action="${pageContext.request.contextPath}/board/userBoard" method="post">
@@ -172,7 +172,8 @@ function changeCateBtnName(ths){
 function showWriterInfo(ths){
 	
 	console.log(ths);
-	var user_code = $(ths).text();
+	var user_code = ths;
+	console.log("user_code : " + user_code);
 
 	const userInfoModalEl = new bootstrap.Modal(document.querySelector("#userInfoModal"));
 
@@ -188,18 +189,29 @@ function showWriterInfo(ths){
 			console.log(user.user_id);
 			console.log(user.user_code);
 				
+			$("#userPic").empty();
 			$('#userAge').empty();
 			$('#userGender').empty();
 			$('#userNickname').empty();
 			$('#userTag').empty();
-					
 			
-			//이미지 수정
-			let img = $("<img>").attr({'src':user.user_pic});
+			//이미지		
+			let img;
+			
+			if((user.user_pic).indexOf('kakaocdn') == -1){
+				
+				img = $("<img>").attr({'src':"${contextPath }/resources/uploadProfilePic/${sessionScope.userInfo.user_pic }"});
+				
+			} else{
+				
+				img = $("<img>").attr({'src':user.user_pic});
+				
+			}
+			
+			
+			console.log("img : " + img.src);
 
-			$("userPic").append(img);
-			//$("#userImg").append(user.user_pic);
-
+			$("#userPic").append(img);
 			$('#userAge').append(user.user_age_range);
 			$('#userGender').append(user.user_gender);
 			$('#userNickname').append(user.user_nickname);

@@ -27,6 +27,7 @@ import com.kosta.dorang.dto.BoardComments;
 import com.kosta.dorang.dto.BoardCriteria;
 import com.kosta.dorang.dto.BoardLike;
 import com.kosta.dorang.dto.BoardPageMaker;
+import com.kosta.dorang.dto.BoardWithNickname;
 import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.BoardServiceI;
 
@@ -233,13 +234,15 @@ public class BoardController {
 		
 		try {
 			
-			Board board = boardServiceI.selectOneBoard(no);
+//			Board board = boardServiceI.selectOneBoard(no);
+			BoardWithNickname board = boardServiceI.selectOneBoard(no);
 			
+			System.out.println("boardSelectOne : " + board);
 			System.out.println("boardDetail : " + board.getBoard_title());
 			System.out.println("boardDetail : " + board.getBoard_content());
 			
 			List<BoardComments> commentsList = boardServiceI.selectBoardCommentsList(no);
-			System.out.println("commentsList : " + commentsList);
+			System.out.println("boardSelectOne commentsList : " + commentsList);
 			
 			
 			model.addAttribute("board", board);
@@ -343,8 +346,55 @@ public class BoardController {
 			
 			System.out.println(boardComments);
 			
-			int result = boardServiceI.insertBoardComments(boardComments);
-			System.out.println("댓글 등록 갔다 옴");
+			//
+			if(boardComments.getParent_comment_no() != 0) {
+				
+				//댓글이 달릴 댓글
+				BoardComments bc =  boardServiceI.selectOneBoardComment(boardComments.getParent_comment_no());
+				
+				System.out.println("bc : " + bc);
+				
+				//아래 안 먹힘..
+				int result2 = boardServiceI.updateCommentGroupOrder(bc);
+				
+				System.out.println("resut2 : " + result2);
+				
+				
+				boardComments.setParent_comment_no(bc.getParent_comment_no());
+				boardComments.setComment_order(bc.getComment_group_order() + 1);
+				boardComments.setComment_depth(bc.getComment_depth() + 1);
+				
+				boardServiceI.insertBoardComments(boardComments);
+				
+				
+			} else {
+				int result = boardServiceI.insertBoardComments(boardComments);
+				int result2 = boardServiceI.updateParentCommentNo(boardComments.getComment_no());
+			}
+			
+			
+			
+			//useGeneratedKeys, keyProperty 옵션 추가된 insertBoardComments()
+			//int result = boardServiceI.insertBoardComments(boardComments);
+			
+//			System.out.println("comment no : " + boardComments.getComment_no());
+//			
+//			
+//			//댓글인 경우
+//			if(boardComments.getParent_comment_no() == 0) {
+//				
+//				//parent_comment_no를 나로
+//				int result2 = boardServiceI.updateParentCommentNo(boardComments.getComment_no());
+//				
+//			} else {
+//				
+//			}
+//			
+			
+			//대댓글인 경우
+			
+//			int result = boardServiceI.insertBoardComments(boardComments);
+//			System.out.println("댓글 등록 갔다 옴");
 //			model.addAttribute("");
 			
 		} catch(Exception e) {
