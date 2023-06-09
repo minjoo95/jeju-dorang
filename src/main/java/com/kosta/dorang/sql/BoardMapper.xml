@@ -97,7 +97,7 @@
 	
 	<insert id="insertBoardComments" parameterType="com.kosta.dorang.dto.BoardComments">
 		<![CDATA[
-			insert into board_comment (user_code, board_id, comment_content, parent_comment_no)
+			insert into board_comment_temp (user_code, board_id, comment_content, parent_comment_no)
 			values (#{user_code}, #{board_id}, #{comment_content}, #{parent_comment_no})
 		]]>
 	</insert>
