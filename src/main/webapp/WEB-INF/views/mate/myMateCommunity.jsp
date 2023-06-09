@@ -102,6 +102,7 @@
           <div class="row">
 	          <div class="col-md-6  container_1" >
 		 			 <div class="mb-5" >
+		 			 <input type="hidden" name="mate_title" id="mate_title" value="${mt.title}"/>
 					    <label  class="form-label" style="color: #FB7A51;">${mt.title}</label>
 		  			 </div> 
 		  			  <!-- 이미지 --> 
@@ -179,7 +180,7 @@
     		<button class="mate_reply_btn">입력</button>
     	</div>
     </div>
-    
+   	<p>${commentCode }</p>
     <div style="height: 100px; background-color: orange;">푸터</div>
 
   </body>

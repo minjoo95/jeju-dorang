@@ -1,9 +1,10 @@
 $(document).ready(function(){
-	alert("js에 들옹기 성공");
+	//alert("js에 들옹기 성공");
 	
 	//바로 list 보여주기
 	getReplyList();
 		
+	// -------------------------------------------------------	
 	 var tags=$("#tags_strings").html();
 	 var tagList = tags.split('/');
 	 var tags_label = $("#tags_list label"); 
@@ -28,17 +29,17 @@ $(document).ready(function(){
 			formData.attr("action", "/dorang/mate/writelist");
 		}else if(btn=='delete'){
 			  formData.attr("action", "/dorang/mate/delete");
+ 			  formData.submit(); 
 		}
  		
  		
- 		formData.submit(); 
  	});    
  	//-------------------------------------------------------------------------------------------------
 	
 
 	//댓글 insert
 	$(".mate_reply_btn").click(function(){
-		alert("insert 들어오기 성공");
+		//alert("insert 들어오기 성공");
 		var mateCode=$("#mate_code").val();
 		console.log(mateCode);
 			$.ajax({
@@ -46,7 +47,8 @@ $(document).ready(function(){
 				type:"POST",
 				data:{
 					mate_code:mateCode,
-					mateReplyContent:$(".comment_txt").val()
+					mateReplyContent:$(".comment_txt").val(),
+					mateTitle:$("#mate_title").val()
 				},
 				success:function(){
 					console.log("댓글 달기 성공!");
@@ -64,7 +66,7 @@ $(document).ready(function(){
 
 	//댓글 목록 select
 	function getReplyList(){
-		alert("select 들어오기 성공");
+		//alert("select 들어오기 성공");
 		var mateCode=$("#mate_code").val();
 		$.ajax({
 			url:"/dorang/mate/mateReplySelect",

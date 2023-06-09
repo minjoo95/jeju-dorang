@@ -56,12 +56,10 @@
        SELECT * FROM MateApply WHERE mate_code = #{mate_code} and user_code = #{user_code}
     ]]>
 </select>
-	<insert id="insertMateReply" parameterType="com.kosta.dorang.dto.MateComments">
+	<insert id="insertMateReply" parameterType="com.kosta.dorang.dto.MateComments" useGeneratedKeys="true" keyProperty="comment_code">
 		<![CDATA[
-			insert into matecomment (comment_code, mate_code, user_code, content, createAt, updateAt) 
-			values (
-				(nextval('num')),#{mate_code},#{user_code},#{content},now(),now()
-        		)
+			insert into matecomment (mate_code, user_code, content, createAt, updateAt) 
+			values (#{mate_code},#{user_code},#{content},now(),now())
 		]]>
 	</insert>
 	<select id="selectMateReplyListByMateCode" parameterType="Int" resultType="com.kosta.dorang.dto.MateCommentsUser">
@@ -109,5 +107,18 @@
 		where comment_code=#{comment_code}
 		]]>
 	</update>
-	
+	<insert id="insertMateReplyNotice" parameterType="com.kosta.dorang.dto.MateComments">
+		<![CDATA[
+		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, comment_code)
+		VALUES (notice_nextval('num'), #{user_code}, 4, NOW(), #{content}, #{comment_code})
+		]]>
+	</insert>
+	<select id="selectNoticeByUserCode" parameterType="map" resultType="com.kosta.dorang.dto.Notice">
+		<![CDATA[
+		select *
+		from notice
+		where user_code=#{user_code}
+		and ntc_code>#{ntc_code}
+		]]>
+	</select>
 </mapper>
