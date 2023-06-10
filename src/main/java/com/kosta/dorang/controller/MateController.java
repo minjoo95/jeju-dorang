@@ -21,6 +21,7 @@ import java.io.Console;
 import java.io.File;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 
 import com.kosta.dorang.dto.Mate;
@@ -29,6 +30,7 @@ import com.kosta.dorang.dto.MateComments;
 import com.kosta.dorang.dto.MateCommentsUser;
 import com.kosta.dorang.dto.MateCriteria;
 import com.kosta.dorang.dto.MatePageMaker;
+import com.kosta.dorang.dto.Notice;
 import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.MateService;
 import com.kosta.dorang.service.MateServiceI;
@@ -354,24 +356,40 @@ public class MateController {
 	//응심이 INSERT
 	@RequestMapping(value="/mateReplyInsert", method=RequestMethod.POST)
 	@ResponseBody
-	public void mateReplyInsert(@RequestParam("mate_code") int mate_code,@RequestParam("mateReplyContent") String mateReplyContent) throws Exception{
+	public void mateReplyInsert(@RequestParam("mate_code") int mate_code,@RequestParam("mateReplyContent") String mateReplyContent, @RequestParam String mateTitle) throws Exception{
 		System.out.println("댓글 insert 컨트롤러 들어오기 성공");
-//		User user=(User) session.getAttribute("userInfo");
 		long user_code=(long) session.getAttribute("user");
 		System.out.println("mate_code : "+mate_code);
 		System.out.println("user_code : "+user_code);
+		System.out.println("mate_title : "+mateTitle);
 		MateComments mateComments=new MateComments();
 		mateComments.setContent(mateReplyContent);
 		mateComments.setMate_code(mate_code);
 		mateComments.setUser_code(user_code);
 		System.out.println(mateComments.getContent());
+		
+		String noticeContent=mateTitle+";"+user_code+";"+mateReplyContent;
+		System.out.println(noticeContent);
+		
+		int insertCheck=0;
 		try {
-			mateServiceI.insertMateReply(mateComments);
-			System.out.println("insert 다음");
-//			mateServiceI.selectMateReplyList(mate_code);
+			insertCheck=mateServiceI.insertMateReply(mateComments);
+			//System.out.println("comment_code : "+commentCode);
+			System.out.println("controller insertCheck : "+insertCheck);
+			System.out.println("comment_code : "+mateComments.getComment_code());
+			if(insertCheck==1) {
+				//댓글 쓴 유저 
+				//댓글 내용
+				//댓글 달린 게시판 제목
+				mateComments.setContent(noticeContent);
+				mateServiceI.insertMateReplyNotice(mateComments);
+				System.out.println("notice 성공");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		
 	}
 	
 	//응심이 SELECT
@@ -379,13 +397,7 @@ public class MateController {
 	@ResponseBody
 	public List<MateCommentsUser> mateReplySelect(@RequestParam("mate_code") int mate_code) throws Exception{
 		System.out.println("댓글 select 컨트롤러 들어오기 성공");
-//		User user=(User) session.getAttribute("userInfo");
 		System.out.println("mate_code : "+mate_code);
-//		MateComments mateComments=new MateComments();
-//		mateComments.setContent(mateReplyContent);
-//		mateComments.setMate_code(mate_code);
-//		mateComments.setUser_code(user.getUser_code());
-//		System.out.println(mateComments.getContent());
 		List<MateCommentsUser> mateComments=null;
 		try {
 			mateComments=mateServiceI.selectMateReplyListByMateCode(mate_code);
@@ -415,7 +427,7 @@ public class MateController {
 			System.out.println("댓글 select 컨트롤러 들어오기 성공");
 			System.out.println("comment_code : "+comment_code);
 			MateCommentsUser mateCommentUser=null;
-			JSONObject jsonObj=new JSONObject();
+			//JSONObject jsonObj=new JSONObject();
 			try {
 				mateCommentUser=mateServiceI.selectOneMateReply(comment_code);
 				System.out.println("reply content : "+mateCommentUser.getContent());
@@ -460,4 +472,31 @@ public class MateController {
 			}
 		}
 	
+		
+		//응심이 알림 SELECT
+		@RequestMapping(value="/notice",method=RequestMethod.POST)
+		@ResponseBody
+		public List<Notice> selectNotice(@RequestParam int lastNotificationID) {
+			System.out.println("알림 컨트롤러");
+			System.out.println("lastNotificationID : "+lastNotificationID);
+			List<Notice> noticeList=null;
+			
+			try {
+				
+				long user_code=(long) session.getAttribute("user");
+				noticeList=mateServiceI.selectNoticeByUserCode(user_code,lastNotificationID);
+				if(noticeList!=null) {
+					for(Notice a:noticeList) {
+						System.out.println(a.getComment_code());
+					}
+				}else {
+					System.out.println("새로운 값이 없습니다");
+				}
+			        
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return noticeList;
+		}
+		
 }

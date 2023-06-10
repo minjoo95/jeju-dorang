@@ -12,6 +12,7 @@ import com.kosta.dorang.dto.MateApply;
 import com.kosta.dorang.dto.MateComments;
 import com.kosta.dorang.dto.MateCommentsUser;
 import com.kosta.dorang.dto.MateCriteria;
+import com.kosta.dorang.dto.Notice;
 
 
 @Repository
@@ -46,7 +47,6 @@ public class MateDAO implements MateDAOI {
 
 	@Override
 	public List<Mate> getMateListViewSort(MateCriteria cri) throws Exception {
-		// TODO Auto-generated method stub
 		return sqlSession.selectList("MateMapper.getMateListViewSort",cri);
 	}
 
@@ -93,8 +93,15 @@ public class MateDAO implements MateDAOI {
 	}
 
 	@Override
-	public void insertMateReply(MateComments mateComments) {
-		sqlSession.insert("MateMapper.insertMateReply",mateComments);
+	public int insertMateReply(MateComments mateComments) {
+		int insertCheck=0;
+		try {
+			insertCheck = sqlSession.insert("MateMapper.insertMateReply",mateComments);
+			System.out.println("DAO insertCheck : "+insertCheck);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return insertCheck;
 	}
 
 	@Override
@@ -111,6 +118,19 @@ public class MateDAO implements MateDAOI {
 	@Override
 	public void updateMateReply(MateComments mateComments) throws Exception {
 		sqlSession.update("MateMapper.updateMateReply",mateComments);
+	}
+
+	@Override
+	public void insertMateReplyNotice(MateComments mateComments) throws Exception {
+		sqlSession.insert("MateMapper.insertMateReplyNotice", mateComments);
+	}
+
+	@Override
+	public List<Notice> selectNoticeByUserCode(long user_code, int lastNotificationID) throws Exception {
+		Map<String, Object> noticeList = new HashMap<>();
+		noticeList.put("user_code", user_code);
+		noticeList.put("ntc_code", lastNotificationID);
+		return sqlSession.selectList("MateMapper.selectNoticeByUserCode", noticeList);
 	}
 
 	

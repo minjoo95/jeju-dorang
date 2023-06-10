@@ -105,6 +105,7 @@
           <div class="row">
 	          <div class="col-md-6  container_1" >
 		 			 <div class="mb-5" >
+		 			 <input type="hidden" name="mate_title" id="mate_title" value="${mt.title}"/>
 					    <label  class="form-label" style="color: #FB7A51;">${mt.title}</label>
 		  			 </div> 
 		  			  <!-- 이미지 --> 
@@ -189,10 +190,9 @@
 	    </div>
     
     </div>
-    
+   	<p>${commentCode }</p>
+  
 <jsp:include page="/WEB-INF/views/footer.jsp" />
-    <!-- <div style="height: 100px; background-color: orange;">푸터</div> -->
-
   </body>
 </html>
 

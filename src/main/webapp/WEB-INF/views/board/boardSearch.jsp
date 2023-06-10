@@ -52,7 +52,7 @@ function changeCateBtnName(ths){
 			<tr no = "${board.board_id}">
 				<td>${board.board_category}</td>
 				<td><a href="${pageContext.request.contextPath}/board/boardDetail?no=${board.board_id}">${board.board_title}</a></td>
-				<td>${board.user_code}</td>
+				<td>${board.user_nickname}</td>
 				<td>
 					<%-- <fmt:parseDate value="${board.board_reg_date}" var="parsedDateTime" pattern = "yyyy-mm-ddThh:mm:ss"/>
 					<fmt:formatDate value="${parsedDateTime}" pattern="yy-MM-dd"/> --%>
