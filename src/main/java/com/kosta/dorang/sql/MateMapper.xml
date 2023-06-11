@@ -73,7 +73,7 @@
     ]]>
 </select>
 <!-- 신청테이블 -->
-<insert id="insertApplyMate" parameterType="com.kosta.dorang.dto.MateApply">
+<insert id="insertApplyMate" parameterType="com.kosta.dorang.dto.MateApply" useGeneratedKeys="true" keyProperty="mateApply_code">
      <![CDATA[
          INSERT INTO MateApply(mate_code,user_code,frist_answer,second_answer,third_answer,createdAt)
          VALUES (#{mate_code},#{user_code},#{frist_answer},#{second_answer},#{third_answer},NOW())       
@@ -165,18 +165,16 @@
 		where comment_code=#{comment_code}
 		]]>
 	</update>
-	<!--  <insert id="insertMateReplyNotice" parameterType="com.kosta.dorang.dto.MateComments">
+	<insert id="insertMateReplyNotice" parameterType="map">
 		<![CDATA[
 		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, comment_code)
-		VALUES (notice_nextval('num'), #{user_code}, 4, NOW(), #{content}, #{comment_code})
+		VALUES (notice_nextval('num'), #{mateWriter}, 4, NOW(), #{noticeContent}, #{comment_code})
 		]]>
-	</insert>-->
-	<!--  <select id="selectNoticeByUserCode" parameterType="map" resultType="com.kosta.dorang.dto.Notice">
+	</insert>
+	<insert id="insertMateApplyNotice" parameterType="map">
 		<![CDATA[
-		select *
-		from notice
-		where user_code=#{user_code}
-		and ntc_code>#{ntc_code}
+		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, mate_application_code)
+		VALUES (notice_nextval('num'), #{mate_writer}, 1, NOW(), #{mateApplyContent}, #{mate_Application_code})
 		]]>
-	</select>-->
+	</insert>
 </mapper>

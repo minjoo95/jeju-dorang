@@ -52,8 +52,9 @@ public class MateService implements MateServiceI {
 	}
 
 	@Override
-	public void insertMateApply(MateApply mp) throws Exception {
-		mateDAO.insertApplyMate(mp);
+	public int insertMateApply(MateApply mp) throws Exception {
+		int insertCheck=mateDAO.insertApplyMate(mp);
+		return insertCheck;
 		
 	}
 
@@ -136,15 +137,16 @@ public class MateService implements MateServiceI {
 	
 	//댓글 알림 insert
 	@Override
-	public void insertMateReplyNotice(MateComments mateComments) throws Exception {
-		mateDaoI.insertMateReplyNotice(mateComments);
+	public void insertMateReplyNotice(long mateWriter,String noticeContent, int comment_code) throws Exception {
+		mateDaoI.insertMateReplyNotice(mateWriter,noticeContent,comment_code);
 		
 	}
-	
-	//알림 select
+
 	@Override
-	public List<Notice> selectNoticeByUserCode(long user_code,int lastNotificationID) throws Exception {
-		return mateDaoI.selectNoticeByUserCode(user_code,lastNotificationID);
+	public void insertMateApplyNotice(long mate_writer, String mateApplyContent, int mate_Application_code)
+			throws Exception {
+		mateDaoI.insertMateApplyNotice(mate_writer,mateApplyContent,mate_Application_code);
+		
 	}
 	
 

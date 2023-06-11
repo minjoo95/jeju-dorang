@@ -71,7 +71,6 @@
   	width: 259px;
   	box-sizing: border-box;
   }
-  
   .btn-close{
   	cursor: pointer;
   }

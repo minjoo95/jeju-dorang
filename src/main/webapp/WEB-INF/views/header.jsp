@@ -11,6 +11,8 @@
 <script src="<c:url value="/resources/js/notice.js"/>"></script>
 
 <div class="wrap">
+<h2>${sessionScope.userInfo.user_code}</h2>
+<input type="hidden" name="user_code" id="user_code" value="${sessionScope.userInfo.user_code}"/>
 	<nav class="header-nav">
 		<div class="header-wrap">
 			<!-- 헤더 로고 -->
@@ -77,15 +79,68 @@
 											</div>
 										</div>
 									</div>
-								</div>
-								<!-- 마이페이지 -->
-								<div class=" myPage_container">
-									<!-- 마이페이지 버튼 -->
-									<div class="myPage_btn_container">
-										<a class="navi-link navi-link-mypage" href="${contextPath }/user/mypage">
-											<div class="myPage_btn">
-												<div class="myPage_img_container">
-													<img class="myPage_img" alt="에러" src="<c:url value="/resources/img/person_outline.png"/>">
+
+								</div> --%>
+								<!--새 알람 모달 -->
+                         <div class="alarm-modal-container">
+                           <div class="alarm_modal_content">
+                              <!-- --------동행신청알람 앞단 예시 alarm_area가 한쌍--------- -->
+                              <div class="alarm_area"> 
+                              <div class="empty_list alarm_area mateApply_area">
+                                     <!-- <div class="alram_view_status">new</div> -->
+                                      <!-- <div class="sub_title"> 타이틀
+                                         <span>내가 작성한 [</span>
+                                         <span class="sub_title_mate_title">
+                                           동행게시판타이틀동행게시판타이틀동행게시판 타이틀 
+                                         </span>
+                                         <span>]에</span>
+                                         <span class="sub_title_user_id">동행 신청 유저아이디</span>
+                                         <span>님이 동행을 신청했습니다.</span>
+                                      </div>
+                                     <div class="first_ask">
+                                           <span>Q . 이 구역 맛잘알 이신가요?</span>
+                                           <div class="answer">그게 바로 나예요^^</div>
+                                     </div> -->
+                                    <!-- <div class="alarm_apply_btn">
+                                      <button type="button" class="mate_out">거절</button>
+                                      <button type="button" class="mate_call">수락</button>
+                                    </div> -->
+                                 </div>
+                              </div>
+                              <!-- --------댓글앞단 예시 alarm_area가 한쌍----------->
+                                <div class="alarm_area"> 
+                              <div class="empty_list alarm_area reply_area">
+                                  <div class="alarm_area-comment-top">
+                                     <!--  <div class="alram_view_status">new</div>  -->
+                                  </div>
+                                     <!--  <button  type="button" class="comment_alarm_close">&times;</button> -->
+                                     <!--  <div class="sub_title"> 타이틀
+                                         <span>내가 작성한 [</span>
+                                         <span class="sub_title_mate_title">
+                                           동행게시판타이틀동행게시판타이틀동행게시판 타이틀 
+                                         </span>
+                                         <span>]에</span>
+                                         <span class="sub_title_user_id">동행 신청 유저아이디</span>
+                                         <span>님이 댓글을 달았습니다.</span>
+                                      </div>
+                                    <div class="reply_txt_container">내용
+                                     <div class="first_ask">
+                                           <span class="reply_txt">댓글내용댓글내용댓글내용댓글내용댓글내용댓글내용</span>
+                                     </div>
+                                    </div> -->
+                                 </div>
+                              </div>         
+                           </div>
+                        </div>
+							</div>
+							<!-- 마이페이지 -->
+							<div class=" myPage_container">
+								<!-- 마이페이지 버튼 -->
+								<div class="myPage_btn_container">
+									<a class="navi-link navi-link-mypage" href="${contextPath }/user/mypage">
+										<div class="myPage_btn">
+											<div class="myPage_img_container">
+												<img class="myPage_img" alt="에러" src="<c:url value="/resources/img/person_outline.png"/>">
 												</div>
 												<div class="myPage_name">
 													<div class="user_nickname">${sessionScope.userInfo.user_nickname}</div>
@@ -98,6 +153,7 @@
 										<div class="myPage_List">
 											<div class="myPage_item">
 												<a href="${contextPath }/user/mypage">프로필 수정</a>
+
 											</div>
 											<div class="myPage_item">
 												<a href="">찜한 여행지</a>

@@ -329,4 +329,16 @@
 		display: block;
 	}
 
+.alarm_area-comment-top{
+   display: flex;
+   justify-content: space-between;
+}
+.comment_alarm_close{
+   border: none;
+   background : none;
+   cursor: pointer;
+}
+
+.askSpan{
+	color: #FB7A51;
 }
