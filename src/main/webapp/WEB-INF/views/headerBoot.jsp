@@ -3,8 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <script src="https://kit.fontawesome.com/5c78b43849.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/test1.css"/>">
-<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/common.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/headerBoot.css"/>">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="<c:url value="/resources/js/notice.js"/>"></script>
 
