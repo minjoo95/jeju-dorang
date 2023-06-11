@@ -79,7 +79,6 @@
   <jsp:include page="../header.jsp"></jsp:include>
   <script src="<c:url value="/resources/js/mateDetail.js"/>"></script>
   <body>
-  <h2>${sessionScope.userInfo.user_code}</h2>
     <form id="frm"  method="get">                                  
           <input type="hidden" name="mate_code" id="mate_code" value="<c:out value='${mt.mate_code}'/>"/>
           <input type="hidden" name="user_code" id="user_code" value="<c:out value='${sessionScope.userInfo.user_code}'/>"/>
