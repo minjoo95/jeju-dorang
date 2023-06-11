@@ -1,4 +1,9 @@
 @charset "UTF-8";
+
+*{
+	margin:0 auto;
+	padding:0;
+}
 .main_wrap{
 	margin-left:130px;
 	margin-right: 130px;

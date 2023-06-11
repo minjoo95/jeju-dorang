@@ -4,11 +4,11 @@ $(document).ready(function(){
 	$(".alarm-btn").click(function(event){
 		event.stopPropagation();
 		
-		if ($(".alarm-modal-container").is(":visible")) {
-	    	$(".alarm-modal-container").hide();
+		if ($(".alarm_modal_content").is(":visible")) {
+	    	$(".alarm_modal_content").hide();
 	    	
 	  	} else {
-	    	$(".alarm-modal-container").show();
+	    	$(".alarm_modal_content").show();
 	  	}
 	});
 		
@@ -17,23 +17,23 @@ $(document).ready(function(){
 		var targetElement=event.target;
 		
 		if(!$(targetElement).closest(".alarm-modal-container").length && !$(targetElement).hasClass("alarm-modal-container")){
-			$(".alarm-modal-container").hide();
+			$(".alarm_modal_content").hide();
 		}
 	});
 	
 	//마이페이지 모달 열기
-	$(".myPage-btn").mouseenter(function(event){
+	$(".myPage_btn").mouseenter(function(event){
 	  event.stopPropagation();
-	  if($(".alarm-modal-container").is(":visible")){
-	  	$(".myPage-modal-container").hide();
+	  if($(".alarm_modal_content").is(":visible")){
+	  	$(".myPage_modal_container").hide();
 	  } else {
-	  	$(".myPage-modal-container").show();
+	  	$(".myPage_modal_container").show();
 	  }
 	});
 	
-	$(".myPage-modal-container").mouseenter(function(event){
+	$(".myPage_modal_container").mouseenter(function(event){
 	  event.stopPropagation();
-	   if($(".alarm-modal-container").is(":visible")){
+	   if($(".alarm_modal_content").is(":visible")){
 	  	$(this).hide();
 	  } else {
 	  	$(this).show();
@@ -41,12 +41,12 @@ $(document).ready(function(){
 	});
 	
 	//마이페이지 모달 닫기
-	$(".myPage-btn").mouseleave(function(event){
+	$(".myPage_btn").mouseleave(function(event){
 	  event.stopPropagation();
-	  $(".myPage-modal-container").hide();
+	  $(".myPage_modal_container").hide();
 	});
 	
-	$(".myPage-modal-container").mouseleave(function(event){
+	$(".myPage_modal_container").mouseleave(function(event){
 	  event.stopPropagation();
 	  $(this).hide();
 	});
@@ -81,15 +81,25 @@ $(document).ready(function(){
 	//});
 	
 	
+	
+	// 반응형 헤더바 햄버거 메뉴 열고닫기
+	const burgerBtn = document.querySelector('#hidden-burger-menu');
+	const burgerMenu = document.querySelector('.header-category');
+	
+	burgerBtn.addEventListener('click', () => {
+		burgerMenu.classList.toggle('active');
+		
+		if(burgerMenu.classList.contains('active') == true) {
+			document.addEventListener('click', (e) => {
+				const targetE = e.target;
+				if(!targetE.closest('.header-wrap')){
+					burgerMenu.classList.remove('active');
+				}
+			});
+		}
+	});
+	
+	
 });
-
-
-
-
-
-
-
-
-
 
 

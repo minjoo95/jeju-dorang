@@ -81,6 +81,23 @@ $(document).ready(function(){
 	//});
 	
 	
+	// 반응형 헤더바 햄버거 메뉴 열고닫기
+	const burgerBtn = document.querySelector('#hidden-burger-menu');
+	const burgerMenu = document.querySelector('.header-category');
+	
+	burgerBtn.addEventListener('click', () => {
+		burgerMenu.classList.toggle('active');
+		
+		if(burgerMenu.classList.contains('active') == true) {
+			document.addEventListener('click', (e) => {
+				const targetE = e.target;
+				if(!targetE.closest('.header-wrap')){
+					burgerMenu.classList.remove('active');
+				}
+			});
+		}
+	});
+	
 });
 
 

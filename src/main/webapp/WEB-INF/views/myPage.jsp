@@ -12,19 +12,29 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 	<title>제주도랑 - 마이페이지</title>
 </head>
 
 <body>
-	<jsp:include page="/WEB-INF/views/NewFile.jsp" />
- 	<jsp:include page="/WEB-INF/views/myPageTab.jsp"/>
+		<div id="myPageHeaderWrapper">
+			<jsp:include page="/WEB-INF/views/header.jsp" />
+		</div>
+		
+		<div id="myPageTabWrapper">
+		 	<jsp:include page="/WEB-INF/views/myPageTab.jsp"/>
+		</div>
 	
- <%-- <div id="myPageContentWrapper">
-    <jsp:include page="${myPageContentPage }"/>
-  </div>
-
-	<jsp:include page="/WEB-INF/views/footer.jsp" /> --%>
+		<div id="myPageContentWrapper">
+			<jsp:include page="${myPageContentPage }"/>
+		</div>
+	
+		<div id="myPageFooterWrapper">
+			<jsp:include page="/WEB-INF/views/footer.jsp" />
+		</div>
+		<div id="myPageBackground">
+	</div>
 </body>
 
 </html>
