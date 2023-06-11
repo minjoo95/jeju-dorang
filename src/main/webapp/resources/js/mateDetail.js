@@ -1,6 +1,4 @@
  $(function(){
-
-		alert("mateDetail.js");
 		 var tags=$("#tags_strings").html();
 		 var tagList = tags.split('/');
 		 var tags_label = $("#tags_list label"); 

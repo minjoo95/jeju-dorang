@@ -31,9 +31,9 @@
 		
 		  var textarea = $('#content');
 		  var inputCount =$('.inputCount');
+		  var maxLength = 150;
 
 		  textarea.on('input', function() {
-		    var maxLength = 150;
 		    var remainingChars = maxLength - textarea.val().length;  
 
 		    if (remainingChars <= 0) {
