@@ -7,29 +7,12 @@
     font-weight: normal;
     font-style: normal;
 }
-/* 김정철 고딕 */
-@font-face {
-    font-family: 'KimjungchulGothic-Bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/KimjungchulGothic-Bold.woff2') format('woff2');
-    font-weight: 10;
-    font-style: normal;
-}
-/* 김정철 명조 */
-@font-face {
-    font-family: 'KimjungchulMyungjo-Bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/KimjungchulMyungjo-Bold.woff2') format('woff2');
-    font-weight: 10;
-    font-style: normal;
-}
 
-.strong {
-	font-weight: bold;
-}
-a{
-	text-decoration: none;
-	color: #3F3D3A;
-}
 
+*{
+	margin: 0 auto;
+	padding: 0;
+}
 
 /* 레이아웃 */
 .header-nav{
