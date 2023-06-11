@@ -15,15 +15,15 @@
 	 		var btn=$(this).data("btn"); // data-btn="list"
 	 		
 	 		if(btn=='update'){
-	 			formData.attr("action", "${contextPath}/mate/updateForm");
+	 			formData.attr("action", "/dorang/mate/updateForm");
 	 			formData.submit(); 
 	 		}else if (btn=='list') {
 	 			formData.find("#mate_code").remove();
 	 			formData.find("#user_code").remove();
-				formData.attr("action", "${contextPath}/mate/list");
+				formData.attr("action", "/dorang/mate/list");
 				formData.submit(); 
 			}else if(btn=='delete'){
-				  formData.attr("action", "${contextPath}/mate/delete");
+				  formData.attr("action", "/dorang/mate/delete");
 				  formData.submit(); 
 			}
 	 		
