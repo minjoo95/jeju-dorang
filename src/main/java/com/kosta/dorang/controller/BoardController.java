@@ -88,6 +88,15 @@ public class BoardController {
 		return "board/boardMain";
 	}
 	
+//	boardUserSearch
+	/*
+	 * @RequestMapping(value= "/boardSearch", method=RequestMethod.GET) public void
+	 * boardUserSearchList(Model model, BoardCriteria cri, @RequestParam String
+	 * boardSearch) {
+	 * 
+	 * }
+	 */
+	
 	//제목 검색만
 	@RequestMapping(value= "/boardSearch", method=RequestMethod.GET)
 	public void boardSearchList(Model model, BoardCriteria cri, @RequestParam String boardSearch) {
@@ -438,6 +447,116 @@ public class BoardController {
 		
 		//return 1;
 		return user;
+	}
+	
+	
+	@RequestMapping(value= "/myBoardList", method=RequestMethod.GET)
+	public String myBoardList(Model model, BoardCriteria cri, HttpSession session, String user) {
+		
+		System.out.println("uuuu : " + user);
+		
+		long userCode = Long.parseLong(user);
+		User me = writerInfo(user);
+		
+		BoardPageMaker pageMaker = new BoardPageMaker();
+
+		cri.setUserCode(userCode);
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(boardServiceI.countBoardUserListTotal(userCode));
+		
+		List<Map<String, Object>> list = boardServiceI.selectBoardUserPageList(cri);
+		
+		System.out.println("boardUserList : " + list);
+		System.out.println("boardUserList Size : " + list.size());
+		
+		for(int i=0; i < list.size(); i ++) {
+			System.out.println(list.get(i));
+			System.out.println(list.get(i).get("board_reg_date"));
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			//LocalDateTime -> Date
+			//이렇게까지...?
+			LocalDateTime ldt = (LocalDateTime) list.get(i).get("board_reg_date");
+			Instant instant = ldt.atZone(ZoneId.systemDefault()).toInstant();
+			Date regDate = Date.from(instant);
+			
+			System.out.println("regDate : " + regDate);
+			System.out.println("sdf : " + sdf.format(regDate));
+			
+			list.get(i).replace("board_reg_date", sdf.format(regDate));
+			
+			System.out.println("after list : " + list.get(i));
+		}
+		
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pageMaker", pageMaker);	
+		model.addAttribute("user", me);
+		
+		if(session.getAttribute("user") == null) {
+			System.out.println("null일때");
+			//jsp에 로그인 하라는 창 추가하기
+			return "redirect:/board/list";
+		}
+
+		return "board/myBoardList";
+		
+	}
+	
+	@RequestMapping(value= "/myCommentList", method=RequestMethod.GET)
+	public String myCommentList(Model model, BoardCriteria cri, HttpSession session, String user) {
+		
+		System.out.println("uuuu : " + user);
+		
+		long userCode = Long.parseLong(user);
+		User me = writerInfo(user);
+		
+		BoardPageMaker pageMaker = new BoardPageMaker();
+
+		cri.setUserCode(userCode);
+		pageMaker.setCri(cri);
+		//pageMaker.setTotalCount(boardServiceI.countBoardUserListTotal(userCode));
+		pageMaker.setTotalCount(boardServiceI.countCommentUserListTotal(userCode));
+
+		List<Map<String, Object>> list = boardServiceI.selectCommentUserPageList(cri);
+		
+		System.out.println("boardUserList222 : " + list);
+		System.out.println("boardUserList Size222 : " + list.size());
+		
+		for(int i=0; i < list.size(); i ++) {
+			System.out.println(list.get(i));
+			System.out.println(list.get(i).get("board_reg_date"));
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			//LocalDateTime -> Date
+			//이렇게까지...?
+			LocalDateTime ldt = (LocalDateTime) list.get(i).get("board_reg_date");
+			Instant instant = ldt.atZone(ZoneId.systemDefault()).toInstant();
+			Date regDate = Date.from(instant);
+			
+			System.out.println("regDate : " + regDate);
+			System.out.println("sdf : " + sdf.format(regDate));
+			
+			list.get(i).replace("board_reg_date", sdf.format(regDate));
+			
+			System.out.println("after list : " + list.get(i));
+		}
+		
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pageMaker", pageMaker);	
+		model.addAttribute("user", me);
+		
+		if(session.getAttribute("user") == null) {
+			System.out.println("null일때");
+			//jsp에 로그인 하라는 창 추가하기
+			return "redirect:/board/list";
+		}
+
+		return "board/myBoardList";
+		
 	}
 	
 	@RequestMapping(value = "/userBoard", method = RequestMethod.POST)
