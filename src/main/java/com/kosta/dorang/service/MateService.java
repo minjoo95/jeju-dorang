@@ -148,17 +148,6 @@ public class MateService implements MateServiceI {
 		mateDaoI.insertMateApplyNotice(mate_writer,mateApplyContent,mate_Application_code);
 		
 	}
-	
-<<<<<<< HEAD
-	
 
-=======
-	//알림 select
-	@Override
-	public List<Notice> selectNoticeByUserCode(long user_code,int lastNotificationID) throws Exception {
-		return mateDaoI.selectNoticeByUserCode(user_code,lastNotificationID);
-	}
->>>>>>> dev
-	
 
 }

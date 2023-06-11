@@ -178,11 +178,5 @@ public class MateDAO implements MateDAOI {
 		sqlSession.insert("MateMapper.insertMateApplyNotice",mateApplyNotice);
 		
 	}
-<<<<<<< HEAD
 
-	
-
-	
-=======
->>>>>>> dev
 }

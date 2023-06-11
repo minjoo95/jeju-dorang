@@ -164,6 +164,7 @@
 		 </div> 
           </div> 
     </div>
+<<<<<<< HEAD
  
     <!--댓글쓰기  -->
    <table align="center" width="500" border="1" id="rtb">
@@ -176,6 +177,8 @@
    
 <<<<<<< HEAD
    
+=======
+>>>>>>> 97018970c9a9940c43f7fa61b01e5b2ef0c09f84
    <div class = "mate_reply_whole_box">
     
 	    <!--댓글쓰기  -->
@@ -200,10 +203,9 @@
 		    	</div>
 	    	</div>
 	    </div>
-    
     </div>
-   	<p>${commentCode }</p>
 <jsp:include page="/WEB-INF/views/footer.jsp" />
+<<<<<<< HEAD
 =======
    <input type="hidden" name="mate_code" id="mate_code" value="${mate_code}"/>
     <div class="mate_reply_wrap">
@@ -216,6 +218,8 @@
     </div>
    <jsp:include page="../footer.jsp"></jsp:include>
 >>>>>>> dev
+=======
+>>>>>>> 97018970c9a9940c43f7fa61b01e5b2ef0c09f84
   </body>
 </html>
 

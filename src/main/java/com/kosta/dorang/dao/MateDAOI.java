@@ -12,17 +12,10 @@ import com.kosta.dorang.dto.Notice;
 public interface MateDAOI {
 	public void insertMate(Mate m) throws Exception; 
 	public List<Mate> getMateListViewSort(MateCriteria cri) throws Exception;//목록
-<<<<<<< HEAD
 	public Mate selectMate(int mate_code)throws Exception; //조회
 	public void updateMate(Mate m)throws Exception;//수정
 	public void deleteMate(int mate_code)throws Exception;//삭제
 	public int insertApplyMate(MateApply mp)throws Exception; //신청
-=======
-	public Mate selectMate(int mate_code)throws Exception; 
-	public void updateMate(Mate m)throws Exception;
-	public void deleteMate(int mate_code)throws Exception;
-	public void insertApplyMate(MateApply mp)throws Exception; 
->>>>>>> dev
 	public MateApply selectApplyMate(int mate_code,Long user_code) throws Exception; 
 	public MateApply selectApplyMateByMateCode(int mate_code) throws Exception; 
 	public void deleteApplyMate(int mate_code)throws Exception;

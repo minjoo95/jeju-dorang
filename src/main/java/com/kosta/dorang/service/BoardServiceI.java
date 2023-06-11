@@ -54,9 +54,8 @@ public interface BoardServiceI {
 
 	int deleteBoardComment(int commentNo);
 
-<<<<<<< HEAD
 	void insertBoardReplyNotice(long baordUserCode, String noticeContent, int comment_no);
-=======
+
 	int updateParentCommentNo(int comment_no);
 
 	int updateCommentGroupOrder(List<BoardComments> commentsList);
@@ -69,6 +68,6 @@ public interface BoardServiceI {
 	int countCommentUserListTotal(long userCode);
 
 	List<Map<String, Object>> selectCommentUserPageList(BoardCriteria cri);
->>>>>>> dev
+
 
 }

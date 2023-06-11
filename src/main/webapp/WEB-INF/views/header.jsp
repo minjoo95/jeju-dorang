@@ -56,31 +56,6 @@
 											<img class="alarm-img" src="<c:url value="/resources/img/notifications.png"/>">
 										</button>
 									</div>
-									<!-- 알람 모달 -->
-									<div class="alarm-modal-container">
-										<div class="alarm_modal_content">
-											<strong class="alarm_modal_title">알림</strong> 
-											<span class="alram_view_status">최근 30일간 저장내역 노출</span>
-											<div class="alarm_area">
-												<strong class="sub_title">동행 신청</strong>
-												<div class="empty_list alarm_area"><!-- 클래스 수정 -->
-													<img src="<c:url value="/resources/img/gyul.png"/>">
-													<div class="empty_alarm_txt">
-														<strong>주요 일정이 없습니다</strong>
-													</div>
-												</div>
-												<strong class="su_title">나의 활동</strong>
-												<div class="empty_list alarm_area"><!-- 클래스 수정 -->
-													<img src="<c:url value="/resources/img/gyul.png"/>">
-													<div class="empty_alarm_txt">
-														<strong>활동이 없습니다</strong>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-<<<<<<< HEAD
-								</div> --%>
 								<!--새 알람 모달 -->
                          <div class="alarm-modal-container">
                            <div class="alarm_modal_content">
@@ -141,23 +116,6 @@
 										<div class="myPage_btn">
 											<div class="myPage_img_container">
 												<img class="myPage_img" alt="에러" src="<c:url value="/resources/img/person_outline.png"/>">
-											</div>
-											<div class="myPage_name">
-												<div class="user_nickname">${sessionScope.userInfo.user_nickname}</div>
-											</div>
-										</div>
-									</a>
-=======
->>>>>>> dev
-								</div>
-								<!-- 마이페이지 -->
-								<div class=" myPage_container">
-									<!-- 마이페이지 버튼 -->
-									<div class="myPage_btn_container">
-										<a class="navi-link navi-link-mypage" href="${contextPath }/user/mypage">
-											<div class="myPage_btn">
-												<div class="myPage_img_container">
-													<img class="myPage_img" alt="에러" src="<c:url value="/resources/img/person_outline.png"/>">
 												</div>
 												<div class="myPage_name">
 													<div class="user_nickname">${sessionScope.userInfo.user_nickname}</div>
@@ -170,6 +128,7 @@
 										<div class="myPage_List">
 											<div class="myPage_item">
 												<a href="${contextPath }/user/mypage">프로필 수정</a>
+
 											</div>
 											<div class="myPage_item">
 												<a href="">찜한 여행지</a>

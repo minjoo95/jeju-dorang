@@ -342,7 +342,7 @@ public class MateController {
 		
 		int mate_code = mp.getMate_code();
         long user_code = mp.getUser_code();
-<<<<<<< HEAD
+
         //int insertCheck=0;
         String first_answer=mp.getFrist_answer();
         String second_anwser=mp.getSecond_answer();
@@ -374,20 +374,7 @@ public class MateController {
 	        	
 	        	}
 	 	         return "success"; // 성공적으로 처리되었음을 알리는 응답 반환
-=======
-        
-           System.out.println("mate_code" + mate_code);
-		   System.out.println("user_code" + user_code);
-	    try {
-	        MateApply mpResult = mateService.selectMateApply(mate_code, user_code);
-	       
 
-	        if (mpResult != null) { 
-	            return "already";
-	        }else {
-	        	 mateService.insertMateApply(mp);
-	 	         return "success"; 
->>>>>>> dev
 	        }
 
 	    } catch (Exception e) {

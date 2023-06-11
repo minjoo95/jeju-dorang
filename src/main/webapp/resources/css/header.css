@@ -330,6 +330,7 @@
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 .alarm_modal_content {
    position: absolute;
    display: none;
@@ -500,6 +501,8 @@
    border: 1px solid #FB7A51;
 }
 
+=======
+>>>>>>> 97018970c9a9940c43f7fa61b01e5b2ef0c09f84
 .alarm_area-comment-top{
    display: flex;
    justify-content: space-between;
@@ -512,6 +515,9 @@
 
 .askSpan{
 	color: #FB7A51;
+<<<<<<< HEAD
 =======
 >>>>>>> dev
+=======
+>>>>>>> 97018970c9a9940c43f7fa61b01e5b2ef0c09f84
 }

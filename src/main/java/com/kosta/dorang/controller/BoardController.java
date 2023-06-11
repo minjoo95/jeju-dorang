@@ -355,7 +355,7 @@ public class BoardController {
 			
 			System.out.println(boardComments);
 			
-<<<<<<< HEAD
+
 			int board_id=boardComments.getBoard_id();
 			Board board=boardServiceI.selectOneBoard(board_id);
 			String boardTitle=board.getBoard_title();
@@ -367,9 +367,9 @@ public class BoardController {
 			String noticeContent=boardTitle+";"+user_code+";"+comment_content;
 			
 			
-			int result = boardServiceI.insertBoardComments(boardComments);
+			
 			System.out.println("댓글 등록 갔다 옴");
-=======
+
 			//
 			if(boardComments.getParent_comment_no() != 0) {
 				
@@ -419,7 +419,7 @@ public class BoardController {
 			
 //			int result = boardServiceI.insertBoardComments(boardComments);
 //			System.out.println("댓글 등록 갔다 옴");
->>>>>>> dev
+
 //			model.addAttribute("");
 			int comment_no=boardComments.getComment_no();
 			
