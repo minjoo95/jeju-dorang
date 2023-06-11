@@ -89,7 +89,7 @@ $(document).ready(function(){
 							var Pic = $("<span class='mate_reply_top'><td>").append("<img src=/dorang/resources/uploadProfilePic/" + result[i].user_pic + " id='mate-reply-profile-pic'>");
 						}
 						var Writer=$("<span class='mate_reply_top' id='mate-reply-profile-writer'><td>").text(result[i].user_nickname);
-						var Content=$("<div class='contentID'><td id='contentID"+ result[i].comment_code +"'>").text(result[i].content);
+						var Content=$("<div class='contentID' id='contentID"+ result[i].comment_code +"'><td id='contentID"+ result[i].comment_code +"'>").text(result[i].content);
 						var CreateDate=$("<span class='mate_reply_top' id='mate-reply-profile-date'><td>").text(new Date(result[i].createAt).toLocaleDateString());
 						var btnArea = $("<span class='mate_reply_top mate_reply_bttn'><td><div class='mate_reply_dropdown'> <i id='mate_reply_menu_icon' class='mate_reply_menu_icon fa-solid fa-ellipsis-vertical' onclick='dropdown(event)'></i>");
 						var input=$("<div><input type='hidden' name='result[i].comment_code' id='comment_id' value=''>");
@@ -119,14 +119,12 @@ $(document).ready(function(){
 		
 		// 댓글 수정
 		function modifyMateReplyFunction(e) {
-			console.log($(e.target).closest('.reply_dropdown_content').find('#hiddenMateReplyCode').val());
 			var hiddenReplyCommentCode = $(e.target).closest('.reply_dropdown_content').find('#hiddenMateReplyCode').val();
 			modifyLink(hiddenReplyCommentCode);
 		}
 		
 		// 댓글 삭제
 		function deleteMateReplyFunction(e) {
-			console.log($(e.target).closest('.reply_dropdown_content').find('#hiddenMateReplyCode').val());
 			var hiddenReplyCommentCode = $(e.target).closest('.reply_dropdown_content').find('#hiddenMateReplyCode').val();
 			deleteLink(hiddenReplyCommentCode);
 		}
@@ -149,30 +147,26 @@ $(document).ready(function(){
 			}
 		});
 		
+		
 
 		//수정 할 댓글 하나 가져오기
 		function modifyLink(comment_code) {
 			//alert("댓글 수정 시작");
-			$('.reply_dropdown_content').hide();
+			$('.reply_dropdown_background').hide();
 			
 			console.log("댓글 수정 시작 : "+comment_code);
 			var contentElement=$('#contentID'+comment_code);
 			var originalContent=contentElement.text().trim();
-			var inputField=$("<input type='text'>");
+			var inputField=$("<input type='text' id='mate_reply_modify_input'>");
 			inputField.val(originalContent);
-			console.log(inputField);
 			
-			var saveButton=$("<button>저장</button>");
+			var saveButton=$("<button id='mate_reply_modify_confirm_btn'>저장</button>");
 			saveButton.click(function(){
-				var newContent=inputField.val().trim();
-				if(newContent!=originalContent){
-					modifyDo(comment_code,newContent);
-				}else{
-					console.log("업데이트 실패");
-				}
-				});
-				contentElement.empty();
-				contentElement.append(inputField).append(saveButton);
+				var newContent=inputField.val().trim(); 
+				modifyDo(comment_code,newContent);
+			});
+			contentElement.empty();
+			contentElement.append(inputField).append(saveButton);
 		}//modifyLink 함수
 		
 		//댓글 수정

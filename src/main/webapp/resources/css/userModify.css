@@ -118,6 +118,7 @@
 .modifyingNickname:focus {
 	outline: none;
 	border-bottom: 1px solid red;
+	transition: all 0.3s ease-out;
 }
 .checkRestriction {
 	width: 100%;
@@ -147,6 +148,7 @@
 	cursor: pointer;
 	font-weight: bold;
 	background-color: #FB7A51;
+	transition: all 0.3s ease-out;
 }
 #nickCancleBtn {
 	color: white;
@@ -157,6 +159,7 @@
 	color: #FFFFFF;
 	cursor: pointer;
 	background-color: #696969;
+	transition: all 0.3s ease-out;
 }
 .deleteUserBtn {
 	width: 77%;
@@ -246,6 +249,7 @@
 }
 .cameraIcon:hover {
 	opacity: 100%;
+	transition: all 0.3s ease-out;
 }
 .profilePicBtnBox {
 	width: 100%;
@@ -443,8 +447,9 @@
 	background-color: #D9D9D9;
 }
 .eachTag:hover {
-	background-color: #FB7A51;
 	cursor: pointer;
+	background-color: #FB7A51;
+	transition: all 0.3s ease-out;
 }
 .selectedTag {
 	background-color: #FB7A51;
@@ -459,17 +464,17 @@
 	width: 95%;
 	display: flex;
 	margin-top: 10px;
-	justify-content: center;
 	align-items: center;
+	justify-content: center;
 }
 
 .profileBottomBtns {
-	color: #FFFFFF;
+	border: none;
 	width: 170px;
 	height: 40px;
+	color: #FFFFFF;
 	font-size: 0.8em;
 	margin: 20px 15px;
-	border: none;
 	border-radius: 8px;
 	background-color: #D9D9D9;
 }
@@ -481,9 +486,11 @@
 #profileModifyInsertBtn:hover {
 	cursor: pointer;
 	font-weight: bold;
+	transition: all 0.3s ease-out;
 }
 
 #profileModifyCancleBtn:hover {
 	cursor: pointer;
 	background-color: #696969;
+	transition: all 0.3s ease-out;
 }

@@ -23,8 +23,8 @@
 				<img class="leaf" style="display:none;" src="<c:url value="/resources/img/icon_menuLeaf.png"/>" alt="leaf" />
 			</li>
 			<li class = "tabList">
-				<a class="myTab" id="myMate" href="#" onclick="menuClick(event);"><i class="tabIcon fa-solid fa-user-group"></i>MY 동행</a>
-				<img class="leaf" style="display:none;" src="<c:url value="/resources/img/icon_menuLeaf.png"/>" alt="leaf" />
+				<a class="myTab" id="mateMypage" href="#" onclick="menuClick(event);"><i class="tabIcon fa-solid fa-user-group"></i>MY 동행</a>
+				<img class="leaf" style="display:none; margin-left:154px;" src="<c:url value="/resources/img/icon_menuLeaf.png"/>" alt="leaf" />
 			</li>
 			<li class = "tabList">
 				<a class="myTab" id="myBoard" href="#" onclick="menuClick(event);"><i class="tabIcon fa-regular fa-pen-to-square"></i>작성글 목록</a>
@@ -79,6 +79,18 @@ $(document).ready(function() {
 		clicked.style.fontWeight = 'bold';
 		clickedImage.style.display = 'inline-block';
 		clickedImage.classList.add('visible');
+		
+		// My동행은 컨트롤러 거쳐서 jsp로 반환 필요 ajax
+ 		if(lastClicked.indexOf('mateMypage') > -1) {
+			$.ajax({
+				url : "${contextPath}/mate/writelist",
+				type : "GET",
+				// 반환되는 data가 html문서이므로, page를 감싼 태그의 html에 통째로 넣어주기
+				success : function(data){
+				      $('#myPageContentWrapper').html(data);
+				}
+			}); 
+		}
 
 	}
 

@@ -1,8 +1,7 @@
 @charset "UTF-8";
-*{
-	margin: 0 auto;
-	padding: 0;
-}
+
+
+
 /* 김정철 고딕 */
 @font-face {
     font-family: 'KimjungchulGothic-Bold';
@@ -17,6 +16,7 @@
     font-weight: 10;
     font-style: normal;
 }
+
 .strong {
 	font-weight: bold;
 }
