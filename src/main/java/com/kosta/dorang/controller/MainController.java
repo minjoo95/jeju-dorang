@@ -9,9 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kosta.dorang.dto.Mate;
 import com.kosta.dorang.dto.MateUser;
+import com.kosta.dorang.dto.Notice;
+import com.kosta.dorang.dto.NoticeUser;
 import com.kosta.dorang.dto.Trip;
 import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.MainServiceI;
@@ -21,76 +25,11 @@ public class MainController{
 
 	@Autowired
 	HttpSession session;
-		
-	/* SqlSessionTemplate sqlSession; */
-	
-	//@RequestMapping(value = "/", method = RequestMethod.GET)
-//	public String home(Locale locale, Model model) throws Exception {
-//		try {
-//			Article article1 = sqlSession.selectOne("mapper.board.selectBoard", 3);
-//			Article article2 = sqlSession.selectOne("mapper.board.selectBoard", 2);
-//			System.out.println(article1);
-//			System.out.println(article2);
-//			model.addAttribute("data", article1);	
-//			model.addAttribute("data2", article2);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return "home";
-//	}
 	
 	@Autowired
-	private MainServiceI mainServiceI;
+	MainServiceI mainServiceI;
 	
-	
-//	@RequestMapping(value = "/", method=RequestMethod.GET)
-//	public String main(Model model) throws Exception{
-//
-//		List<Trip> tripList=null;
-//		List<MateUser> mateList=null;
-//
-//		try {
-//			tripList = mainServiceI.selectBestTripList();
-//			for(Trip a:tripList) {
-//				System.out.println(a);
-//			}
-//			model.addAttribute("place",tripList);
-//			
-////			if(session!=null) {
-////				User user=(User) session.getAttribute("userInfo");
-////				if(user!=null) {
-////				System.out.println(user.getUser_nickname());
-////				model.addAttribute(user);
-////				}else {
-////					System.out.println("로그인 필요");
-////				}
-////			}
-//			
-//			//HOT 동행
-//			mateList = mainServiceI.selectHotMateList();
-//			for(Mate a:mateList) {
-//				System.out.println(a);
-//			}
-//			model.addAttribute("mateA",mateList);
-//			
-//			//MY 동행
-////			User userInfo=(User) session.getAttribute("userInfo");
-//			User user=(User) session.getAttribute("user");
-//			System.out.println("user_code="+user.getUser_code());
-//			mateList = mainServiceI.selectMyMateList(user.getUser_code());
-//			System.out.println("왜 my 동행 안나와");
-//			for(Mate a:mateList) {
-//				System.out.println(a);
-//			}
-//			model.addAttribute("mateB",mateList);
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return "main";
-//	}
-	
+
 	@RequestMapping(value = "/", method=RequestMethod.GET)
     public String main(Model model) throws Exception{
 
@@ -99,39 +38,68 @@ public class MainController{
 
         try {
             tripList = mainServiceI.selectBestTripList();
-            for(Trip a:tripList) {
-                System.out.println(a);
-            }
             model.addAttribute("place",tripList);
 
-//            if(session!=null) {
-//                User user=(User) session.getAttribute("userInfo");
-//                if(user!=null) {
-//                System.out.println(user.getUser_nickname());
-//                model.addAttribute(user);
-//                }else {
-//                    System.out.println("로그인 필요");
-//                }
-//            }
-
             mateList = mainServiceI.selectHotMateList();
-            for(Mate a:mateList) {
-                System.out.println(a);
-            }
             model.addAttribute("mateA",mateList);
 
             long user_code =  (long) session.getAttribute("user");
-            System.out.println("user_code="+user_code);
             mateList = mainServiceI.selectMyMateList(user_code);
-            for(Mate a:mateList) {
-                System.out.println(a);
-            }
             model.addAttribute("mateB",mateList);
-            model.addAttribute("user_code",user_code);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return "main";
     }
+	
+	@RequestMapping(value = "/getSession", method=RequestMethod.POST)
+	@ResponseBody
+	public long getSession() {
+		System.out.println("메인 컨트롤러에 들어오기 성공");
+		long user_code=(long) session.getAttribute("user");
+		System.out.println("getSession : "+user_code);
+		return user_code;
+		
+	}
+
+	@RequestMapping(value="/notice",method=RequestMethod.POST)
+	@ResponseBody
+	public List<NoticeUser> selectNotice(@RequestParam int lastNtcCode) {
+		System.out.println("알림 컨트롤러");
+		List<NoticeUser> noticeList=null;
+		//List<Notice> noticeList=null;
+		long user_code =  (long) session.getAttribute("user");
+		System.out.println(user_code);
+		
+		
+		
+		try {
+			noticeList=mainServiceI.selectNoticeByUserCode(user_code,lastNtcCode);
+			if(noticeList!=null) { 
+				for(Notice a:noticeList) {
+					System.out.println("noticeList : "+a.getNtc_code());
+				}
+			}else {
+				System.out.println("새로운 데이터가 없습니다.");
+			}
+		        
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return noticeList;
+	}
+	
+	
+		@RequestMapping(value="/deletenotice",method=RequestMethod.POST)
+		@ResponseBody
+		public void deleteNotice(@RequestParam int ntc_code) {
+			System.out.println("알림 삭제 컨트롤러");
+			System.out.println("ntc_code : "+ntc_code);
+			
+			try {
+				mainServiceI.deleteNoticeByNtcCode(ntc_code);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 }

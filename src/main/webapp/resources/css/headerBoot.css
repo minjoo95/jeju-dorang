@@ -1,5 +1,29 @@
 @charset "UTF-8";
 
+/* 김정철 고딕 */
+@font-face {
+    font-family: 'KimjungchulGothic-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/KimjungchulGothic-Bold.woff2') format('woff2');
+    font-weight: 10;
+    font-style: normal;
+}
+/* 김정철 명조 */
+@font-face {
+    font-family: 'KimjungchulMyungjo-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/KimjungchulMyungjo-Bold.woff2') format('woff2');
+    font-weight: 10;
+    font-style: normal;
+}
+
+.strong {
+	font-weight: bold;
+}
+a{
+	text-decoration: none;
+	color: #3F3D3A;
+}
+
+
 /* gmarket */
 @font-face {
     font-family: 'GmarketSansMedium';
@@ -11,14 +35,16 @@
 /* 레이아웃 */
 .header-nav{
 	width:100%;
+	height:100px;
 	display:flex;
-	margin-top: 20px;
 }
 
 .header-wrap{
 	width: 90%;
  	display:flex;
-	align-items: flex-end;
+	align-items: center;
+	justify-content:space-between;
+	margin:0 auto;
 }
 
 
@@ -26,6 +52,7 @@
 .header-logo{
 	width:90px;
 	display:flex;
+	margin-left:10px;
 	align-items: center;
 	justify-content:center;
 }
@@ -34,10 +61,11 @@
 /* 헤더 카테고리 */
 .header-category{
 	width: 50%;
-	height: 38%;
+	height: 100%;
 	display: flex;
-	align-items: center;
-	justify-content: flex-end;
+	align-items: flex-end;
+	justify-content:space-around;
+	margin-left:10%;
 }
 .navi-link{
 	font-size: 20px;
@@ -52,18 +80,25 @@
 
 .navi-item{
 	display:flex;
-	margin-right:-2%;
 }
 
 .header-alarm-myPage-Container{
 	flex:none;
 	width:100%;
-	height: 100%;
+	height: 100px;
 	display:flex;
+	margin-right: 10px;
+	margin-bottom: 5%;
 }
 .login-container{
-	height:100%;
+	width: 50%;
+	height: 50px;
+	display: flex;
+	margin-bottom: -2%;
+	align-items: center;	
+	justify-content: space-between;
 }
+
 
 .navi-link:hover{
 	color:#FB7A51;
@@ -73,7 +108,6 @@
 }
 .alarm-btn-container{
 	margin-right: 5px;
-	margin-bottom: -2%;
 }
 .alarm-container{
 	position: relative;
@@ -275,16 +309,18 @@
 		width: 100%;
 	}
 	.header-logo-area {
-		margin-top:1%;
-		margin-left:2%;
+		margin-right:auto;
 	}
 	
 	.header-category{
 		width: 100%;
-		height: 100%;
+		height: 300px;
+		margin-left:0;
 		display: none;
 		padding-left: 0;
 		flex-direction: column;
+		background-color: white;
+		z-index:2;	
 	}
 	.header-modal-category{
 		display: none;
@@ -294,12 +330,12 @@
 		position: absolute;
 		align-items: center;
 		justify-content: center;
+		margin-left: 86%;
 	}
 	#hidden-burger-menu{
 		padding: 27px;
 		color: #696969;
 		font-size: 34px;
-		margin-right: 0;
 		margin-top:2%;
 	}
 	.navi-item {
@@ -317,7 +353,7 @@
 	}
 	
 	#hidden-navi-item {
-		z-index: 6;
+		z-index: 3;
 		display: block;
 	}
 

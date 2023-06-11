@@ -1,5 +1,6 @@
 package com.kosta.dorang.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -130,6 +131,15 @@ public class BoardDAO implements BoardDAOI {
 	}
 
 	@Override
+	public void insertBoardReplyNotice(long baordUserCode, String noticeContent, int comment_no) {
+		Map<String, Object> boardReplyNotice = new HashMap<>();
+		boardReplyNotice.put("baordUserCode", baordUserCode);
+		boardReplyNotice.put("noticeContent", noticeContent);
+		boardReplyNotice.put("comment_no", comment_no);
+		sqlSession.insert("BoardMapper.insertBoardReplyNotice", boardReplyNotice);
+		
+	}
+
 	public int updateParentCommentNo(int comment_no) {
 		
 		return sqlSession.update("BoardMapper.updateParentCommentNo", comment_no);
@@ -148,7 +158,7 @@ public class BoardDAO implements BoardDAOI {
 		return sqlSession.selectOne("BoardMapper.selectOneBoardComment", parent_comment_no);
 	}
 
-	@Override
+
 	public int updateCommentGroupOrder(BoardComments bc) {
 		
 		return sqlSession.update("BoardMapper.updateCommentGroupOrder", bc);
@@ -165,6 +175,7 @@ public class BoardDAO implements BoardDAOI {
 		
 		return sqlSession.selectList("BoardMapper.selectCommentUserPageList", cri);
 	}
+
 
 //	@Override
 //	public List<Board> selectBoardPaging() {
