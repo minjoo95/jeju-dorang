@@ -19,6 +19,7 @@
 		background-position:center;
 		background-size:cover;
 		height:856px;
+		overflow : hidden;
 	}
 	
 	.travel-detail-left{
@@ -57,7 +58,7 @@
 	
 	a{
 		text-decoration : none;
-		color:white;
+		
 	}
 	
 	.travel-detail-like a:hover {

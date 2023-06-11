@@ -59,29 +59,58 @@
 <script src="<c:url value="/resources/js/index.js"/>"></script> --%>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
-
 <!-- js -->
 <script>
 
 	let hashtag = "${place.getHashtag()}";
 	const tags = hashtag.split(",");
-	
 	console.log(hashtag);
+	
+	let user_id = 1;
+	let trip_id = "${place.getTrip_id()}";
 	function bookmark(){
 		//let isLike = false; //default false
-		
-		
 		//ajax -> controller 호출 -> 조회 있음? 삭제하고 업데이트, 없음? 추가하고 업데이트 -> 리턴 boolean
 		//option : null(찜한적 없음) = false, !null(이미찜함) = true;
+		const heart = document.getElementById("heart");
+		//console.log(heart);
+		console.log(">>> org src");
+		console.log(heart.src);
+		$.ajax({
+			type:"POST",
+			url : "/travel/bookmark",
+			data : {"user_id":user_id, "trip_id":trip_id},
+			dataType : "text",
+			success : function(response){
+				console.log(response);
+				if(response == "true"){
+					console.log(">>> true src");
+					heart.src = "<c:url value='/resources/img/icon-like.png'/>";
+				} else {
+					//$("#heart").attr("src", "<c:url value='/resources/img/icon-unlike.png'/>");
+					heart.src ="<c:url value='/resources/img/icon-unlike.png'/>";
+					
+		              
+				}
+			},
+			error : function(request, status, err){
+				console.log(err);
+			}
+
+		});
+	
 		
 		
 		
 	}
 
 	$(function(){
-		console.log("왜 안찍어줘");
+		/* console.log("왜 안찍어줘");
 		console.log(hashtag);
 		console.log(tags);
+		const heart = document.getElementById("bookmark-icon");
+		console.log(heart);
+		console.log($("#bookmark.icon")); */
 		
 	})
 </script>
@@ -158,9 +187,9 @@
 	</div>
 	
 	<div class="travel-detail-right">
-		<div class="travel-detail-like" onclick="bookmark()">
+		<div class="travel-detail-like" onclick="bookmark()" >
 			<a>
-				<c:choose>
+				<%-- <c:choose>
 					<c:when test="${isLike eq false }">
 						<img src="<c:url value="/resources/img/icon-unlike.png"/>" alt="bookmark"/>
 					</c:when>
@@ -170,7 +199,8 @@
 					<c:otherwise>
 						<img src="<c:url value="/resources/img/icon-unlike.png"/>" alt="bookmark"/>
 					</c:otherwise>
-				</c:choose> 
+				</c:choose>  --%>
+				<img src="<c:url value="/resources/img/icon-unlike.png"/>" alt="" id="heart"/>
 				LIKE
 			</a>
 		</div>
