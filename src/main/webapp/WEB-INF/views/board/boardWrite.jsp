@@ -80,8 +80,81 @@
 	} */
 </script>
 
+<style>
+div.board-write-header {
+	height : 100px;
+	border-bottom-style: solid;
+	border-width: 1px;
+	/* background-color: red; */
+}
+
+p.header-text {
+	/* background-color: yellow; */
+	display: inline-block;
+	/* border: solid 1px; */
+	margin-top: 4%;
+	margin-left: 3%;
+/* 	margin-bottom: 1% solid 1px; */
+	font-size: 200%;
+}
+
+.board_content_div{
+	background-color: red;
+	
+}
+
+#board_category{
+	border: none;
+	text-align: center;
+	width: 10%;
+	height: 45px;
+    margin-right: 2%;
+}
+
+#board_title{
+	border: none;
+	border-bottom: 1px solid #BEB9B9;
+	width: 87%;
+	
+}
+
+.board_write_btn{
+	height: 50px;
+	text-align: center;
+}
+
+#board_write_submit{
+	background-color:#FB7A51;
+	/* width: 10%; */
+	width: 135px;
+	height: 35px;
+	margin-right: 80px;
+	margin-top: 0.5%;
+	
+}
+
+#board_wrtie_cancel{
+	border-color:#FB7A51;
+	color:#FB7A51;
+	/* width: 10%; */
+	width: 135px;
+	height: 35px;
+	margin-top: 0.5%;
+
+}
+
+</style>
+
 </head>
 <body>
+
+<!-- <div class = "container" id = "board-main-container">
+	<div class="board-main-header">
+		<p class="header-text">후기</p>
+		<p class="board-main-btn">
+			<button type="button" class="btn text-white" onclick="goBoardWrite()">후기 작성</button>
+		</p>
+	</div> -->
 <div class = "container" id="board-write-container">
 
 	<%--
@@ -91,13 +164,12 @@
 	<form name="boardWriteForm" id="boardWriteForm" action="" method="post">
 		<!-- <form name="boardWriteForm" id="boardWriteForm" action="" method="post" onsubmit="return chkSum()"> -->
 	
-			<div class="boardWriteHeader">
-				<h2>후기</h2>
+			<div class="board-write-header">
+				<p class="header-text">후기</p>
 			</div>
 			
 			<input type="hidden" name="user_code" value="${userInfo.user_code}"/>
-			<h2>${userInfo.user_code}</h2>
-			
+
 			<%-- <input type="hidden" name="user_nickname" value="${userInfo.user_nickname}"/> --%>
 			<%-- <h2>${userInfo.user_nickname }</h2> --%>
 		
@@ -109,7 +181,7 @@
 						<option value="동행후기">동행후기</option>
 						<option value="여행후기">여행후기</option>
 					</select>
-					<input type="text" id="title" name="board_title" placeholder="제목"/>
+					<input type="text" id="board_title" name="board_title" placeholder="제목"/>
 				</div>
 				
 				<div class="board_content_div">
@@ -120,7 +192,7 @@
 						  el: document.querySelector("#editor"),
 						  height: "500px",
 						  initialEditType: "wysiwyg",
-						  placeholder: "내용을 입력해주세요",
+						/*   placeholder: "내용을 입력해주세요", */
 						  hooks: {
 						    addImageBlobHook: function (blob, callback) {
 						      const formData = new FormData();
@@ -162,8 +234,10 @@
 				
 				<div class="board_write_btn">
 					<!-- <input type="submit" value="등록"> -->
-					<button onclick="boardSubmit()">등록2</button>
-					<button type="button" onclick="goBack()">취소</button>
+					<!-- <button type="button" id="board_write_submit" class="btn text-white" style="background-color:#FB7A51;" onclick="boardSubmit()">등록</button>
+					<button type="button" id="board_wrtie_cancel" class="btn btn-outline-primary" style="border-color:#FB7A51; color:#FB7A51;" onclick="goBack()">취소</button> -->
+					<button type="button" id="board_write_submit" class="btn text-white" onclick="boardSubmit()">등록</button>
+					<button type="button" id="board_wrtie_cancel" class="btn btn-outline-primary" onclick="goBack()">취소</button>
 				</div>
 			
 			
@@ -174,4 +248,5 @@
 		--%>
 </div>
 </body>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </html>

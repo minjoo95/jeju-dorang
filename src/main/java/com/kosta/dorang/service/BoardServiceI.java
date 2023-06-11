@@ -63,4 +63,8 @@ public interface BoardServiceI {
 
 	int updateCommentGroupOrder(BoardComments bc);
 
+	int countCommentUserListTotal(long userCode);
+
+	List<Map<String, Object>> selectCommentUserPageList(BoardCriteria cri);
+
 }

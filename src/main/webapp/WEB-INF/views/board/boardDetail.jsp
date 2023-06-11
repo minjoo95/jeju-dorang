@@ -133,30 +133,117 @@ document.getElementById("viewer-content").innerHTML = content; */
 
 </script>
 
+<style>
+div.board-header {
+	height : 100px;
+	border-bottom-style: solid;
+	border-width: 1px;
+	/* background-color: red; */
+}
+
+p.header-text {
+	display: inline-block;
+	font-size: 200%;
+	padding-top: 4%;
+    padding-left: 3%;
+}
+
+.board-header-detail{
+	border-bottom-style: solid;
+	border-width: 1px;
+	margin-left: 4%;
+	margin-right: 4%;
+	/* display: inline-block; */
+
+}
+#board-detail-category{
+	align: left;
+	/* width: 129px; */
+/* 	height: 29.34px; */
+	font-size: 25px;
+	color: #FB7A51;
+	/* margin-left: 4%; */
+}
+
+#board-detail-title{
+	font-size: 41.56px;
+	/* margin-left: 4%; */
+}
+
+.board-detail-etc {
+	font-size: 20px;
+	color: #696969;
+}
+
+#viewer {
+	margin-left: 4%;
+	height: 880px;
+}
+
+.board-detail-btn-top{
+	width: 88px;
+    height: 35px;
+    margin-bottom: 10px;
+    margin-right: 3px;
+}
+
+
+</style>
+
 </head>
 
 <body>
 
-<h2>후기</h2>
+<div class = "container" id = "board-detail-container">
 
-<div>
-	
-	<!-- header를 꼭 포함해야 함 -->
 	<c:set var="currentUserCode" value="${sessionScope.userInfo.user_code}"/>
 	<c:set var="writerCode" value="${board.user_code}"/>
+<%-- 	${userInfo.user_code}
+	${board.user_code} --%>
 	
+	<div class="board-header">
+		<p class="header-text">후기</p>
+	</div>
+			
+	<!-- <br> -->
+	<div class="board-header-detail">
+		<p id="board-detail-category">${board.board_category}</p>
+		<p id="board-detail-title">${board.board_title}</p>
+		<span class="board-detail-etc" >작성자 ${board.user_nickname} | </span>
+		<span class="board-detail-etc">작성일 ${board.board_reg_date} | </span>
+		<span class='board-detail-etc like_count'>추천수 ${board.board_like}</span>
+		
+		<!-- 작성자만 보이게 -->
+		<%
+			//header를 꼭 포함해야 함  - 아닌듯..?
+			//Long currentUserCode = (Long)pageContext.getAttribute("currentUserCode");
+			//Long writerCode = (Long)pageContext.getAttribute("writerCode");
+			currentUserCode = (Long)pageContext.getAttribute("currentUserCode");
+			writerCode = (Long)pageContext.getAttribute("writerCode");
+			
+			System.out.println("currentUserCode : " + currentUserCode);
+			System.out.println("writerCode : " + writerCode);
+			
+			if(currentUserCode != null && currentUserCode.equals(writerCode)) {
+			
+		%>
+		<!-- margin-left 수정필요 -->
+	 	<button type="button" class="btn text-white board-detail-btn-top" style="background-color:#D9D9D9; margin-left: 450px" onclick="updateBoard()">수정</button>
+		<button type="button" class="btn text-white board-detail-btn-top" style="background-color:#FB7A51;" onclick="deleteBoard(${board.board_id})">삭제</button>
+		<%		
+			}
+		%>
+		
+	</div>
 	
-	${userInfo.user_code}
-	${board.user_code}
-	
-	${board.board_category}
-	<br>
-	${board.board_title}
-	<br>
-	작성자 ${board.user_nickname} | 작성일 ${board.board_reg_date} | <span class='like_count'>추천수 ${board.board_like}</span> </p>
+	<!-- <br> -->
+	<%-- <div>
+		<p id="board-detail-writer">작성자 ${board.user_nickname} | </p> <p> 작성일 ${board.board_reg_date} | </p> <span class='like_count'>추천수 ${board.board_like}</span> </p>
+	</div>
+	<p id="board-detail-writer">작성자 ${board.user_nickname} | 작성일 ${board.board_reg_date} | <span class='like_count'>추천수 ${board.board_like}</span> </p> --%>
 	
 	<!-- 작성자만 보이게 -->
-	<%
+	<%-- <%
 		//header를 꼭 포함해야 함  - 아닌듯..?
 		//Long currentUserCode = (Long)pageContext.getAttribute("currentUserCode");
 		//Long writerCode = (Long)pageContext.getAttribute("writerCode");
@@ -173,11 +260,10 @@ document.getElementById("viewer-content").innerHTML = content; */
 	<button type="button" class="btn text-white" style="background-color:#FB7A51;" onclick="deleteBoard(${board.board_id})">삭제</button>
 	<%		
 		}
-	%>
+	%> --%>
 	
 	<!-- <button type="button" class="btn "></button> -->
 
-</div>
 
 	<div id="viewer">
 		${board.getBoard_content()}
@@ -224,60 +310,52 @@ document.getElementById("viewer-content").innerHTML = content; */
 	%>
 		
 		<table>
-			<!-- 대댓글 처리 어떻게... -->
-			<c:forEach items="${commentsList}" var="comments">
-			
+		<c:forEach items="${commentsList}" var="comments">	
 			<%-- 이렇게 해서 작성자한테만 삭제 버튼 보여주고 싶었는데 계속 null이 담김ㅜ
 			<c:set var="commentWriter" value="${comments.user_code}"/>
 			<c:set var="commentWriter2" value="${comments.comment_content}"/> --%>
-			
-				<tr class="comments_">
-					<td><span><a onclick="showWriterInfo(${comments.user_code})">${comments.user_nickname}</a></span> <span>${comments.comment_reg_date}</span>
-						<br />
-						<p>${comments.comment_content}
-						<p></td>
-					<td>
-						<%
-							System.out.println("댓글 currentUserCode : " + currentUserCode);
-							System.out.println("댓글 writerCode : " + writerCode);
+			<tr class="comments_">
+				<td><span><a onclick="showWriterInfo(${comments.user_code})">${comments.user_nickname}</a></span> <span>${comments.comment_reg_date}</span>
+					<br />
+					<p>${comments.comment_content}
+					<p></td>
+				<td>
+					<%
+						System.out.println("댓글 currentUserCode : " + currentUserCode);
+						System.out.println("댓글 writerCode : " + writerCode);
 							
-/* 							Long commentWriter = (Long)pageContext.getAttribute("commentWrtier");
-							String commentWriter2 = (String)pageContext.getAttribute("commentWrtier2");
+/* 						Long commentWriter = (Long)pageContext.getAttribute("commentWrtier");
+						String commentWriter2 = (String)pageContext.getAttribute("commentWrtier2");
 							
-							System.out.println("commentWriter : " + commentWriter);
-							System.out.println("commentWriter2 : " + commentWriter2); */
+						System.out.println("commentWriter : " + commentWriter);
+						System.out.println("commentWriter2 : " + commentWriter2); */
 								
-							if(currentUserCode != null) {
+						if(currentUserCode != null) {
 		
-						%>
+					%>
 						
-						<button class="btn-reply" value="${comments.comment_no}">대댓글 쓰기</button>
+					<button class="btn-reply" value="${comments.comment_no}">대댓글 쓰기</button>
 						
-						<%
-							}
+					<%
+						}
 							
-							//else {
-						%>
-						
-						
+						//else {
+					%>
 						<button class="btn-delete" value="${comments.comment_no}" onclick="commentDelete(${comments.comment_no}, ${comments.user_code})">댓글 삭제</button>
 						
 <%-- 						<%
 							}
 						%> --%>
-					</td>
-				</tr>
-			</c:forEach>
-
+				</td>
+			</tr>
+		</c:forEach>
 		</table>
 		
 		<form name="boardDeleteCommentForm" action="${pageContext.request.contextPath}/board/boardDeleteComment" method="post">
 			<input type="hidden" name="comment_no"/>
 			<input type="hidden" name="board_id" value="${board.board_id}"/>
 		</form>
-		
-		
-		
+	
 	
 <%-- 삭제		<textarea> </textarea>
 		<button type="button" onClick="addComment(${board.board_id})">
@@ -380,6 +458,7 @@ document.getElementById("viewer-content").innerHTML = content; */
 
 		<button type="button" class="btn text-white" style="background-color:#FB7A51;" onclick="location.href='${pageContext.request.contextPath}/board/list'">목록</button>
 	</div>
+</div>
 <script>
 function commentDelete(comment_no, user_code){
 	
@@ -587,4 +666,5 @@ function showWriterInfo(ths){
 
 </script>
 </body>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </html>

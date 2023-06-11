@@ -159,4 +159,16 @@ public class BoardService implements BoardServiceI {
 		
 		return boardDaoI.updateCommentGroupOrder(bc);
 	}
+
+	@Override
+	public int countCommentUserListTotal(long userCode) {
+		
+		return boardDaoI.countCommentUserListTotal(userCode);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectCommentUserPageList(BoardCriteria cri) {
+		
+		return boardDaoI.selectCommentUserPageList(cri);
+	}
 }

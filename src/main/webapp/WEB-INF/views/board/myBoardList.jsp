@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <title>커뮤니티</title>
 <%@ include file="/WEB-INF/views/header.jsp"%>
+<jsp:include page="/WEB-INF/views/myPageTab.jsp" flush="false"/>
 
 <!-- bootstrap-->
 <!-- CSS only -->
@@ -32,11 +33,17 @@ function changeCateBtnName(ths){
 </script>
 
 <style>
+
+#board-my-container {
+	height: 60%;
+}
+
 div.board-header {
 	height : 100px;
 	border-bottom-style: solid;
 	border-width: 1px;
 	/* background-color: red; */
+	vertical-align: middle;
 }
 
 p.header-text {
@@ -45,25 +52,22 @@ p.header-text {
 	padding-top: 4%;
     padding-left: 3%;
 }
+
+#table-text{
+	color: #FB7A51;
+}
 #table-category{
-	width: 10%;	
+	width: 20%;	
 }
 	
 #table-title{
 	width: 50%;
-}
-	
-#table-writer {
-	width: 20%;
-}
+}	
 	
 #table-date {
-	width: 10%;
+	width: 20%;
 }
-	
-#table-like {
-	witdh: 10%;
-}
+
 	
 #boardSearch{
     margin: 0 auto;
@@ -84,25 +88,47 @@ p.header-text {
 	height: 35px;
 }
 
+.go-btn:hover,
+.go-btn:actiove{
+	background-color: red;
+	color: white;
+}
+.go-btn:visited {
+	background: yellow;
+	color: whitel
+}
 
-	
 </style>
+
+<script>
+function change_btn(e){
+	var btns = document.querySelectorAll(".go-btn");
+	btns.forEach(function (btn, i){
+		if(e.currentTarget == btn){
+			btn.classList.add("active");
+		} else{
+			btn.classList.remove("active");
+		}
+
+	});
+
+	console.log(e.currentTarget);
+	
+}
+</script>
 </head>
-
 <body>
-
-<div class = "container" id = "board-user-container">
+<div class = "container" id = "board-my-container">
 	<div class="board-header">
-		<p class="header-text"><span style="color: #FB7A51;">${user.user_nickname}</span> 님의 작성글</p>
+		<button type="button" class="go-btn" onclick="change_btn(event); location.href='${contextPath }/board/myBoardList?user=${sessionScope.userInfo.user_code }'">내가 작성한 글</button>
+		<button type="button" class="go-btn" onclick="change_btn(event); location.href='${contextPath }/board/myCommentList?user=${sessionScope.userInfo.user_code }'">내가 작성한 댓글</button>
 	</div>
 	<table class="table table-hover">
 		<thead>
 		    <tr class="text-center align-self-center" id="table-text">
 		      <th scope="col" id="table-category">분류</th>
 		      <th scope="col" id="table-title">제목</th>
-		      <th scope="col" id="table-writer">작성자</th>
 		      <th scope="col" id="table-date">날짜</th>
-		      <th scope="col" id="table-like">추천</th>
 		    </tr>
 		</thead>
 		<tbody>
@@ -110,35 +136,28 @@ p.header-text {
 			<tr class="text-center" no = "${board.board_id}">
 				<td>${board.board_category}</td>
 				<td><a href="${pageContext.request.contextPath}/board/boardDetail?no=${board.board_id}">${board.board_title}</a></td>
-				<td style="color: #FB7A51;">${board.user_nickname}</td>
 				<td>
-					<%-- <fmt:parseDate value="${board.board_reg_date}" var="parsedDateTime" pattern = "yyyy-mm-ddThh:mm:ss"/>
-					<fmt:formatDate value="${parsedDateTime}" pattern="yy-MM-dd"/> --%>
 					${board.board_reg_date}
 				</td>
-				<td>${board.board_like}</td>
 			</tr>
 		</c:forEach>
 		</tbody>
 	</table>
-
-	<div>
-		<button type="button" class="btn text-white go-list-btn" onclick="location.href='${pageContext.request.contextPath}/board/list'">목록</button>	
-		
+	
 	<nav aria-label="Page navigation example">
 		<ul class="btn-group pagination">
 		<%-- ${pageMaker.prev } --%>
 			<c:choose>
 				<c:when test="${pageMaker.startPage-1 == 0}">
 					<li class="page-item">
-						<a class="page-link" href="<c:url value='/board/list?page=1'/>" aria-label="Previous">
+						<a class="page-link" href="" aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
 						</a>
 					</li>
 				</c:when>
 				<c:otherwise>
 					<li class="page-item">
-						<a class="page-link" href="<c:url value='/board/list?page=${pageMaker.startPage-1 }'/>" aria-label="Previous">
+						<a class="page-link" href="<c:url value='/board/myBoardList?user=${user.user_code}&page=${pageMaker.startPage-1 }'/>" aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
 						</a>
 					</li>
@@ -146,20 +165,20 @@ p.header-text {
 			</c:choose>			
 			<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
 			<li class="page-item">
-				<a class="page-link" href="<c:url value='/board/list?page=${pageNum }'/>">${pageNum }</a>
+				<a class="page-link" href="<c:url value='/board/myBoardList?user=${user.user_code}&page=${pageNum }'/>">${pageNum }</a>
 			</li>
 			</c:forEach>		
 			<c:choose>
 				<c:when test="${pageMaker.next && pageMaker.endPage >0 }">
 					<li class="page-item">
-						<a class="page-link" href="<c:url value='/board/list?page=${pageMaker.endPage+1 }'/>" aria-label="Next">
+						<a class="page-link" href="<c:url value='/board/myBoardList?user=${user.user_code}&page=${pageMaker.endPage+1 }'/>" aria-label="Next">
 						<span aria-hidden="true">&raquo;</span>
 						</a>
 					</li>
 				</c:when>
 				<c:otherwise>
 				<li class="page-item">
-					<a class="page-link" href="<c:url value='/board/list?page=${pageMaker.endPage}'/>" aria-label="Next">
+					<a class="page-link" href="" aria-label="Next">
 					<span aria-hidden="true">&raquo;</span>
 					</a>
 				</li>
@@ -167,17 +186,9 @@ p.header-text {
 			</c:choose>
 		</ul>
 	</nav>
-	</div>
-
-	<form name="boardSearchFrom" id="boardSearchFrom" class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/board/boardUserSearch">
-		<div class="boardFooter">
-			<!-- 일단은 제목만 검색하게 -->
-			<input class="form-control" type="text" id="boardSearch" name="boardSearch" placeholder="${user.user_nickname}님 글 제목 검색" aria-label="Search">
-			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-		</div>
-	</form>
-
 </div>
+
+
 </body>
 <jsp:include page="/WEB-INF/views/footer.jsp" />
 </html>
