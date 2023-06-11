@@ -153,7 +153,7 @@ document.getElementById("viewer-content").innerHTML = content; */
 	<br>
 	${board.board_title}
 	<br>
-	작성자 ${board.user_code} | 작성일 ${board.board_reg_date} | <span class='like_count'>추천수 ${board.board_like}</span> </p>
+	작성자 ${board.user_nickname} | 작성일 ${board.board_reg_date} | <span class='like_count'>추천수 ${board.board_like}</span> </p>
 	
 	<!-- 작성자만 보이게 -->
 	<%
@@ -232,7 +232,7 @@ document.getElementById("viewer-content").innerHTML = content; */
 			<c:set var="commentWriter2" value="${comments.comment_content}"/> --%>
 			
 				<tr class="comments_">
-					<td><span>${comments.user_code}</span> <span>${comments.comment_reg_date}</span>
+					<td><span><a onclick="showWriterInfo(${comments.user_code})">${comments.user_nickname}</a></span> <span>${comments.comment_reg_date}</span>
 						<br />
 						<p>${comments.comment_content}
 						<p></td>
@@ -276,6 +276,8 @@ document.getElementById("viewer-content").innerHTML = content; */
 			<input type="hidden" name="board_id" value="${board.board_id}"/>
 		</form>
 		
+		
+		
 	
 <%-- 삭제		<textarea> </textarea>
 		<button type="button" onClick="addComment(${board.board_id})">
@@ -303,6 +305,38 @@ document.getElementById("viewer-content").innerHTML = content; */
 		</c:forEach>
 		
 	</div>
+	
+		<!-- Modal -->
+		<div class="modal fade" id="userInfoModal" tabindex="-1"
+			aria-labelledby="userInfoModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body">
+						<div class="userPic" id="userPic">
+							<!-- <img id="userImg" class="profile"> -->
+						</div>
+						<form name="userBoardForm" id="userBoardForm" action="${pageContext.request.contextPath}/board/userBoard" method="post">
+						<div>
+							<!-- 이름 통일... -->
+							<span id="userAge"></span>
+							<span id="userGender"></span>
+							<p id="userNickname"></p>
+							<p id="userTag"></p>
+							<input type="hidden" id="user_code" name="user_code" value=""/>
+						</div>
+						
+							<button type="button" class="btn btn-secondary" name="goWriterPage" data-bs-dismiss="modal" onclick="">작성글보기</button>
+							<button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">(form)작성글보기</button>
+						</form>
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+						
+				
+					</div>
+	
+				</div>
+			</div>
+		</div>
+		
 	<div id="footer-btn-div">
 		<button type="button" class="btn" style="border-color:#FB7A51; color:#FB7A51;">댓글작성</button>
 
@@ -487,6 +521,69 @@ $(".btn_comment_delete").click(function(){
 	
 
 });
+
+</script>
+<script>
+function showWriterInfo(ths){
+	
+	console.log(ths);
+	var user_code = ths;
+	console.log("user_code : " + user_code);
+
+	const userInfoModalEl = new bootstrap.Modal(document.querySelector("#userInfoModal"));
+
+	$.ajax({ 
+		type: "post",
+		url: "${pageContext.request.contextPath}/board/writerInfo",
+		data:{
+			user_code
+		},
+		success: function(user) {
+
+			console.log("user : " + user);
+			console.log(user.user_id);
+			console.log(user.user_code);
+				
+			$("#userPic").empty();
+			$('#userAge').empty();
+			$('#userGender').empty();
+			$('#userNickname').empty();
+			$('#userTag').empty();
+			
+			//이미지		
+			let img;
+			
+			if((user.user_pic).indexOf('kakaocdn') == -1){
+				
+				img = $("<img>").attr({'src':"${contextPath }/resources/uploadProfilePic/${sessionScope.userInfo.user_pic }"});
+				
+			} else{
+				
+				img = $("<img>").attr({'src':user.user_pic});
+				
+			}
+			
+			
+			console.log("img : " + img.src);
+
+			$("#userPic").append(img);
+			$('#userAge').append(user.user_age_range);
+			$('#userGender').append(user.user_gender);
+			$('#userNickname').append(user.user_nickname);
+			$('#userTag').append(user.user_tag);
+
+			$('input[name=user_code]').attr('value', user.user_code);
+
+			//음..굳이?
+			$('button[name=goWriterPage]').attr('onclick', "goWriterPage("+ user.user_code + ")");
+
+			//$('#btn').append('<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="goWriterPage(' + user.user_code + ')">작성글보기</button>')
+			
+			userInfoModalEl.show();
+
+		}
+	});
+}
 
 </script>
 </body>

@@ -2,11 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-
-<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/header.css"/>">
-<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/common.css"/>">
-
 <script src="https://kit.fontawesome.com/5c78b43849.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/test1.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/common.css"/>">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="<c:url value="/resources/js/notice.js"/>"></script>
 
@@ -41,7 +39,7 @@
 							<c:when test="${sessionScope.user eq null }">
 								<div class="login-container">
 									<img src="<c:url value="/resources/img/gyul.png"/>">
-									<a class="navi-link login-icon-gyul" href="https://kauth.kakao.com/oauth/authorize?client_id=a62a2c16a4182ec20a1185a3f707c2b1&redirect_uri=http://localhost:8080/dorang/user/kakaoCallback&response_type=code&prompt=login">로그인</a>
+									<a class="navi-link" href="https://kauth.kakao.com/oauth/authorize?client_id=a62a2c16a4182ec20a1185a3f707c2b1&redirect_uri=http://localhost:8080/dorang/user/kakaoCallback&response_type=code&prompt=login">로그인</a>
 								</div>
 							</c:when>
 							<c:otherwise>

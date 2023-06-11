@@ -52,58 +52,34 @@ $(document).ready(function(){
 	});
 	
 	
-	//-----------------------------------------------------
-	
-	//알림분류 :
-	//1 - 동행신청
-	//2- 여행 후기 댓글
-	//3- 동행 후기 댓글
-	//4- 마이 동행 게시글 댓글
-	
-	//동행 댓글이 달렸을 때 
+	function getNotice(){
+	//동행 댓글이 달렸을 때
 	//후기 댓글이 달렸을 때
-	//동행 신청이 왔을 때 
+	//동행 신청이 왔을 때
 	//동행 신청이 거절 됐을 때
 	//동행 신청이 수락 됐을 때
-	var user_code=$("#user_code").val();
-	console.log(user_code);
-	if(user_code != null){
-		var lastNotificationID=0;  // 마지막으로 받은 알림의 id
-        var timer;
-	    timer=setInterval(mateReplyNewDataCheck,5000);
-		
-		function mateReplyNewDataCheck(){
-			console.log("동행 댓글 새로운 데이터 확인 시작");
-			
-			
-            $.ajax({
-                url:"/dorang/mate/notice",
-				type:"POST",
-				data:{
-					lastNotificationID:lastNotificationID
-				},
-				success:function(result){
-					console.log("마지막 알림 식별 번호 가져오기 성공");
-					console.log(JSON.stringify(result));
-					//showNotice(result);
-					
-					//var mateTitle=result.
-					
-					
-					
-					
-			        if (result.length > 0) {
-						var lastIndex = result.length - 1;
-			            var lastNotice = result[lastIndex];
-			            lastNotificationID = lastNotice.ntc_code;
-			        }
-				},
-				error:function(){
-					console.log("알림 불러오기 실패");
-				}
-			});//ajax
-		};
-	};
+	
+	
+		console.log("알림 함수 들어왔다~");	
+	}
+	//setInteval(getNotice,5000);
+	
+	//var currentUrl=window.location.href;
+	//$(".navi-link").click(function(e){
+	//	if(currentUrl==="http://localhost:8080/dorang/travel/list"){
+	//		$(".navi-link-travel").style.color="#FB7A51";
+	//	}else if(currentUrl==="http://localhost:8080/dorang/mate/list"){
+	//		alert("나와~!~!~");
+	//		$(".navi-link-mate").style.color="#FB7A51";
+	//	}else if(currentUrl==="http://localhost:8080/dorang/board/list"){
+	//		$(".navi-link-community").style.color="#FB7A51";
+	//	}else if(currentUrl==="http://localhost:8080/dorang/user/mypage"){
+	//		$(".navi-link-mypage").style.color="#FB7A51";
+	//	}else{
+	//		$(".navi-link").style.color="#3F3D3A";
+	//	}
+	//});
+	
 	
 	
 	// 반응형 헤더바 햄버거 메뉴 열고닫기
@@ -123,18 +99,7 @@ $(document).ready(function(){
 		}
 	});
 	
+	
 });
-
-	
-function showNotice(){
-	
-};
-
-
-
-
-
-
-
 
 
