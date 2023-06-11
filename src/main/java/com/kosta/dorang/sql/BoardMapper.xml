@@ -95,9 +95,9 @@
 		]]>
 	</insert>
 	
-	<insert id="insertBoardComments" parameterType="com.kosta.dorang.dto.BoardComments">
+	<insert id="insertBoardComments" parameterType="com.kosta.dorang.dto.BoardComments" useGeneratedKeys="true" keyProperty="comment_no">
 		<![CDATA[
-			insert into board_comment_temp (user_code, board_id, comment_content, parent_comment_no)
+			insert into board_comment (user_code, board_id, comment_content, parent_comment_no)
 			values (#{user_code}, #{board_id}, #{comment_content}, #{parent_comment_no})
 		]]>
 	</insert>
@@ -139,5 +139,11 @@
 			
 		]]>	
 	</delete>
-
+	
+	<insert id="insertBoardReplyNotice" parameterType="map">
+		<![CDATA[
+		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, comment_no)
+		VALUES (notice_nextval('num'), #{baordUserCode}, 2, NOW(), #{noticeContent}, #{comment_no})
+		]]>	
+	</insert>
 </mapper>

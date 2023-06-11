@@ -177,7 +177,7 @@
 			</table>
 	   </div>
 	   
-	   <input type="hidden" name="mate_code" id="mate_code" value="${mate_code}"/>
+	   <%-- <input type="hidden" name="mate_code" id="mate_code" value="${mt.mate_code}"/> --%>
 	    <div class="mate_reply_wrap">
 			<div class="mate_reply_box">
 		    	<div class="mate_reply_container">

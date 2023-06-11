@@ -48,6 +48,7 @@ public interface BoardDAOI {
 	List<Map<String, Object>> selectBoardUserPageList(BoardCriteria cri);
 	
 	int deleteBoardComment(int commentNo);
+	void insertBoardReplyNotice(long baordUserCode, String noticeContent, int comment_no);
 	
 //	List<Board> selectBoardPaging();
 

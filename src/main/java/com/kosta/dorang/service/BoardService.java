@@ -133,4 +133,10 @@ public class BoardService implements BoardServiceI {
 		
 		return boardDaoI.deleteBoardComment(commentNo);
 	}
+
+	@Override
+	public void insertBoardReplyNotice(long baordUserCode, String noticeContent, int comment_no) {
+		boardDaoI.insertBoardReplyNotice(baordUserCode,noticeContent,comment_no);
+		
+	}
 }

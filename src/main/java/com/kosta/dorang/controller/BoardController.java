@@ -343,9 +343,29 @@ public class BoardController {
 			
 			System.out.println(boardComments);
 			
+			int board_id=boardComments.getBoard_id();
+			Board board=boardServiceI.selectOneBoard(board_id);
+			String boardTitle=board.getBoard_title();
+			long baordUserCode=board.getUser_code();
+			
+			long user_code=boardComments.getUser_code();
+			String comment_content=boardComments.getComment_content();
+			
+			String noticeContent=boardTitle+";"+user_code+";"+comment_content;
+			
+			
 			int result = boardServiceI.insertBoardComments(boardComments);
 			System.out.println("댓글 등록 갔다 옴");
 //			model.addAttribute("");
+			int comment_no=boardComments.getComment_no();
+			
+			System.out.println();
+			//if(result==1) {
+				System.out.println(comment_no);
+				System.out.println(baordUserCode);
+				System.out.println(noticeContent);
+				boardServiceI.insertBoardReplyNotice(baordUserCode,noticeContent,comment_no);
+			//}
 			
 		} catch(Exception e) {
 			System.out.println("게시글 등록 오류");

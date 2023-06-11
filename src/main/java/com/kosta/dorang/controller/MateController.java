@@ -161,7 +161,7 @@ public class MateController {
 			e.printStackTrace();
 		}
 		m.addAttribute("mt",mt);
-		m.addAttribute("mate_code",mate_code);
+		//m.addAttribute("mate_code",mate_code);
 		m.addAttribute("mateReplyList", mateCommentsUser);
 		return "/mate/myMateCommunity";
 	}
@@ -304,16 +304,36 @@ public class MateController {
 		
 		int mate_code = mp.getMate_code();
         long user_code = mp.getUser_code();
-	  
+        //int insertCheck=0;
+        String first_answer=mp.getFrist_answer();
+        String second_anwser=mp.getSecond_answer();
+        String third_anwser=mp.getThird_answer();
+        
+        Mate mate=mateServiceI.selectMate(mate_code);
+        long mate_writer=mate.getUser_code();
+        String mate_Title=mate.getTitle();
+        String first_ask=mate.getFirst_ask();
+        String second_ask=mate.getSecond_ask();
+        String third_ask=mate.getThird_ask();
+        
+        String mateApplyContent=mate_Title+";"+user_code+";"+first_ask+";"+first_answer
+        	+";"+second_ask+";"+second_anwser+";"+third_ask+";"+third_anwser;
+        
 		   
 	    try {
 	        MateApply mpResult = mateService.selectMateApply(mate_code, user_code);
 	        System.out.println(mpResult);
-
+	        
 	        if (mpResult != null) { // 이미 신청된 게시글인 경우
 	            return "already";
 	        }else {
-	        	 mateService.insertMateApply(mp);
+	        	int insertCheck=mateService.insertMateApply(mp);
+	        	System.out.println("comment_code : "+mp.getMateApply_code());
+	        	int mate_Application_code=mp.getMateApply_code();
+	        	if(insertCheck==1) {
+	        		mateServiceI.insertMateApplyNotice(mate_writer,mateApplyContent,mate_Application_code);
+	        	
+	        	}
 	 	         return "success"; // 성공적으로 처리되었음을 알리는 응답 반환
 	        }
 	        
@@ -371,18 +391,18 @@ public class MateController {
 		String noticeContent=mateTitle+";"+user_code+";"+mateReplyContent;
 		System.out.println(noticeContent);
 		
+		Mate mate=mateServiceI.selectMate(mate_code);
+		long mateWriter=mate.getUser_code();
+		
 		int insertCheck=0;
 		try {
 			insertCheck=mateServiceI.insertMateReply(mateComments);
-			//System.out.println("comment_code : "+commentCode);
-			System.out.println("controller insertCheck : "+insertCheck);
-			System.out.println("comment_code : "+mateComments.getComment_code());
+			int comment_code=mateComments.getComment_code();
 			if(insertCheck==1) {
 				//댓글 쓴 유저 
 				//댓글 내용
 				//댓글 달린 게시판 제목
-				mateComments.setContent(noticeContent);
-				mateServiceI.insertMateReplyNotice(mateComments);
+				mateServiceI.insertMateReplyNotice(mateWriter,noticeContent,comment_code);
 				System.out.println("notice 성공");
 			}
 		} catch (Exception e) {
@@ -473,30 +493,5 @@ public class MateController {
 		}
 	
 		
-		//응심이 알림 SELECT
-		@RequestMapping(value="/notice",method=RequestMethod.POST)
-		@ResponseBody
-		public List<Notice> selectNotice(@RequestParam int lastNotificationID) {
-			System.out.println("알림 컨트롤러");
-			System.out.println("lastNotificationID : "+lastNotificationID);
-			List<Notice> noticeList=null;
-			
-			try {
-				
-				long user_code=(long) session.getAttribute("user");
-				noticeList=mateServiceI.selectNoticeByUserCode(user_code,lastNotificationID);
-				if(noticeList!=null) {
-					for(Notice a:noticeList) {
-						System.out.println(a.getComment_code());
-					}
-				}else {
-					System.out.println("새로운 값이 없습니다");
-				}
-			        
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return noticeList;
-		}
 		
 }

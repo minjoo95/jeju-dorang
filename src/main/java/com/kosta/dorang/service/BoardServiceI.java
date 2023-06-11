@@ -52,4 +52,6 @@ public interface BoardServiceI {
 
 	int deleteBoardComment(int commentNo);
 
+	void insertBoardReplyNotice(long baordUserCode, String noticeContent, int comment_no);
+
 }

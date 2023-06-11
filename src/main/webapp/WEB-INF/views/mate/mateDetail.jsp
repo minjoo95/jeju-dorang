@@ -94,17 +94,20 @@
  		
  		if(btn=='update'){
  			formData.attr("action", "${contextPath}/mate/updateForm");
+ 			formData.submit(); 
  		}else if (btn=='list') {
  			formData.find("#mate_code").remove();
  			formData.find("#user_code").remove();
 			formData.attr("action", "${contextPath}/mate/list");
-		}else if(btn=='delete'){
+			formData.submit(); 
+ 		}else if(btn=='delete'){
 			 
 			  formData.attr("action", "${contextPath}/mate/delete");
+			  formData.submit(); 
 		}
  		
  		
- 		formData.submit(); 
+ 		
  	});    	
 	 
 
