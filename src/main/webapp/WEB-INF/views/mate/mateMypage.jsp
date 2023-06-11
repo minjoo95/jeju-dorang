@@ -134,8 +134,8 @@
 			   itemHtml += "</div>"
 			   itemHtml += "<div class='card-body card-body-right' style='width: 40%;'>"
 			   if (sortBy === "acceptedList") {
+				   itemHtml += "<div class='card-text status' class='btn card-link matecommunityMove'>"+applyResult+"</div>";  //mate테이블이 아니라 mateApply테이블의 result값을 받아야함 
 				   if(applyResult === "수락거절")
-				  itemHtml += "<div class='card-text status'>"+applyResult+"</div>";  //mate테이블이 아니라 mateApply테이블의 result값을 받아야함 
 				  itemHtml += "<button disabled id='"+mt.mate_code+"' class='btn card-link matecommunityMove'  style='background-color: #D9D9D9'";	   
 			   } else {
 				  itemHtml += "<div class='card-text status'>"+mt.join_count+"&nbsp;명 참여중</div>";
