@@ -59,6 +59,10 @@ public interface BoardDAOI {
 	BoardComments selectOneBoardComment(int parent_comment_no);
 	int updateCommentGroupOrder(BoardComments bc);
 	
+	int countCommentUserListTotal(long userCode);
+	
+	List<Map<String, Object>> selectCommentUserPageList(BoardCriteria cri);
+	
 //	List<Board> selectBoardPaging();
 
 

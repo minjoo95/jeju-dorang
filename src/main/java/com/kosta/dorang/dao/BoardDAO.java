@@ -126,8 +126,7 @@ public class BoardDAO implements BoardDAOI {
 	@Override
 	public int deleteBoardComment(int commentNo) {
 		
-		return sqlSession.delete("BoardMapper.deleteBoardComment", commentNo);
-		
+		return sqlSession.delete("BoardMapper.deleteBoardComment", commentNo);		
 	}
 
 	@Override
@@ -135,8 +134,7 @@ public class BoardDAO implements BoardDAOI {
 		
 		return sqlSession.update("BoardMapper.updateParentCommentNo", comment_no);
 	}
-	
-	
+		
 	//mapper 없음
 	@Override
 	public int updateCommentGroupOrder(List<BoardComments> commentsList) {
@@ -155,8 +153,19 @@ public class BoardDAO implements BoardDAOI {
 		
 		return sqlSession.update("BoardMapper.updateCommentGroupOrder", bc);
 	}
-	
-	
+
+	@Override
+	public int countCommentUserListTotal(long userCode) {
+		
+		return sqlSession.selectOne("BoardMapper.countCommentUserListTotal", userCode);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectCommentUserPageList(BoardCriteria cri) {
+		
+		return sqlSession.selectList("BoardMapper.selectCommentUserPageList", cri);
+	}
+
 //	@Override
 //	public List<Board> selectBoardPaging() {
 //		// TODO Auto-generated method stub

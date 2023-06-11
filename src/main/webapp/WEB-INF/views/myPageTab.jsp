@@ -27,7 +27,7 @@
 				<img class="leaf" style="display:none;" src="<c:url value="/resources/img/icon_menuLeaf.png"/>" alt="leaf" />
 			</li>
 			<li class = "tabList">
-				<a class="myTab" id="myBoard" href="#" onclick="menuClick(event);"><i class="tabIcon fa-regular fa-pen-to-square"></i>작성글 목록</a>
+				<a class="myTab" id="myBoard" href="${contextPath }/board/myBoardList?user=${sessionScope.userInfo.user_code }" onclick="menuClick(event);"><i class="tabIcon fa-regular fa-pen-to-square"></i>작성글 목록</a>
 				<img class="leaf" style="display:none;" src="<c:url value="/resources/img/icon_menuLeaf.png"/>" alt="leaf" />
 			</li>
 		</ul>

@@ -42,10 +42,10 @@ public class BoardPageMaker {
 		}
 		
 		//이전 버튼 생성 여부
-		prev = startPage == 1 ? false : true;
+		//prev = startPage == 1 ? false : true;
 		
 		//다음 버튼 생성 여부
-		next = endPage * cri.getPerPageNum() < totalCount ? true : false;
+		//next = endPage * cri.getPerPageNum() < totalCount ? true : false;
 	}
 
 	public int getStartPage() {

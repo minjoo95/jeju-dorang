@@ -30,16 +30,56 @@ function changeCateBtnName(ths){
 	btnElement.innerText = text;
 }
 </script>
+<style>
 
+#board-search-container{
+	height: 800px;
+}
+div.board-header {
+	height : 100px;
+	border-bottom-style: solid;
+	border-width: 1px;
+	/* background-color: red; */
+}
+
+p.header-text {
+	display: inline-block;
+	font-size: 200%;
+	padding-top: 4%;
+    padding-left: 3%;
+}
+
+#boardSearch{
+    margin: 0 auto;
+    width: 50%;
+/*  border: none;
+    border-bottom: 1px solid black; */
+}
+
+.go-list{
+	float: right;
+	width: 135px;
+	height: 35px;
+}
+.search-table {
+	height: 55%;
+}
+</style>
 </head>
 <body>
-<div class = "container" id = "board-container">
+
+<div class = "container" id = "board-search-container">
+	<div class="board-header">
+		<p class="header-text">후기</p>
+<!-- 		<p class="board-main-btn">
+			<button type="button" class="btn text-white" onclick="goBoardWrite()">후기 작성</button>
+		</p> -->
+	</div>
 	
-	<span>후기</span>
-		
+	<div class=search-table>
 	<table class="table table-hover">
 		<thead>
-		    <tr>
+		    <tr class="text-center">
 		      <th scope="col">분류</th>
 		      <th scope="col">제목</th>
 		      <th scope="col">작성자</th>
@@ -49,7 +89,7 @@ function changeCateBtnName(ths){
 		</thead>
 		<tbody>
 		<c:forEach items = "${list}" var="board">
-			<tr no = "${board.board_id}">
+			<tr class="text-center" no = "${board.board_id}">
 				<td>${board.board_category}</td>
 				<td><a href="${pageContext.request.contextPath}/board/boardDetail?no=${board.board_id}">${board.board_title}</a></td>
 				<td>${board.user_nickname}</td>
@@ -63,8 +103,9 @@ function changeCateBtnName(ths){
 		</c:forEach>
 		</tbody>
 	</table>
+	</div>
 	
-	<button type="button" class="btn text-white" style="background-color:#FB7A51;" onclick="location.href="${pageContext.request.contextPath}/board/list">목록</button>
+	<button type="button" class="btn text-white go-list" style="background-color:#FB7A51;" onclick="location.href="${pageContext.request.contextPath}/board/list">목록</button>
 	
 	<nav aria-label="Page navigation example">
 		<ul class="btn-group pagination">
@@ -89,24 +130,17 @@ function changeCateBtnName(ths){
 			</c:if>
 		</ul>
 	</nav>
-	
-	<!-- display: inline;
-    width: 30%; -->
-	<form name="boardSearchFrom" id="boardSearchFrom" class="form-inline my-2 my-lg-0">
+
+	<form name="boardSearchFrom" id="boardSearchFrom" class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/board/boardSearch">
 		<div class="boardFooter">
-			<button type="button" class="btn text-white dropdown-toggle" id="srcCateBtn" style="background-color:#FB7A51;" 
-				data-bs-toggle="dropdown" aria-expanded="false" name="board_category">전체</button>
-			<ul class="dropdown-menu">
-				<li><a class="dropdown-item" onclick="changeCateBtnName(this)">동행후기</a></li>
-				<li><a class="dropdown-item" onClick="changeCateBtnName(this)">여행후기</a></li>
-			</ul>
-			<!-- <input class="form-control" type="search" placeholder="Search" aria-label="Search"> -->
-			<input class="form-control" type="text" name="board_search" placeholder="Search for something..." aria-label="Search">
-			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-		</div>			
+			<!-- 일단은 제목만 검색하게 -->
+			<input class="form-control" type="text" id="boardSearch" name="boardSearch" placeholder="글 제목 검색" aria-label="Search">
+			<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+		</div>
 	</form>
 
 
 </div>
 </body>
+<jsp:include page="/WEB-INF/views/footer.jsp" />
 </html>

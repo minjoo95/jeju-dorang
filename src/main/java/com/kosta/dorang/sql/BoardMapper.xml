@@ -74,6 +74,12 @@
 		]]>
 	</select>
 	
+	<select id = "countCommentUserListTotal" resultType = "Integer" >
+		<![CDATA[
+			select count(*) from board_comment where user_code=#{userCode}
+		]]>
+	</select>
+	
 	<select id = "selectOneBoard" resultType = "com.kosta.dorang.dto.BoardWithNickname" >
 		<![CDATA[
 			select board.*, user.user_nickname from board left join user on board.user_code = user.user_code where board_id = #{no};
@@ -126,6 +132,13 @@
 	<select id = "selectUser" resultType = "com.kosta.dorang.dto.User">
 		<![CDATA[
         	select * from user where user_code = #{userCode}
+       ]]>
+	</select>
+	
+	<select id = "selectCommentUserPageList" resultType = "hashmap" parameterType= "hashmap">
+		<![CDATA[
+       		select b.*, u.user_nickname from board_comment bc left join board b on bc.board_id = b.board_id left join user u on b.user_code = u.user_code where bc.user_code=#{userCode} order by board_id desc limit #{pageStart}, #{perPageNum}
+       
        ]]>
 	</select>
 	
