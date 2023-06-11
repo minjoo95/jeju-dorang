@@ -73,7 +73,7 @@
 	function movePage(div){
 		//console.log(div);
 		let param = div.id;
-		let url = "${pageContext.request.contextPath}"+"/travel/list/" + param;
+		let url = "${pageContext.request.contextPath}"+"/travel/list/id/" + param;
 		//console.log(url);
 		window.location.href=url;
 	}
@@ -81,6 +81,9 @@
 </head>
 
 <body>
+<div class="travelTab">
+	<jsp:include page="/WEB-INF/views/tripTab.jsp"/>
+</div>
 
 <div class="container px-4">
 	<div class="row row-cols-4 gx-5 gy-5">

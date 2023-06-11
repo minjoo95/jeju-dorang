@@ -27,8 +27,7 @@ public class TripService implements TripServiceI {
 
 	@Override
 	public List<Trip> getPlaceListByTheme(String category) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getPlaceListByTheme(category);
 	}
 
 	@Override

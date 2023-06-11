@@ -33,8 +33,7 @@ public class TripDAO implements TripDAOI {
 
 	@Override
 	public List<Trip> getPlaceListByTheme(String category) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectList("TripMapper.selectPlaceListByTheme", category);
 	}
 
 	@Override

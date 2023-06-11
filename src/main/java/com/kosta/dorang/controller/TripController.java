@@ -15,12 +15,15 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.aop.aspectj.annotation.LazySingletonAspectInstanceFactoryDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kosta.dorang.dto.Bookmark;
 import com.kosta.dorang.dto.Trip;
@@ -171,13 +174,34 @@ public class TripController {
 		return "tripMain";
 	}
 	
+	@RequestMapping(value = "/list/{theme}", method=RequestMethod.GET)
+	public String travelMainByTheme(Model model, @PathVariable String theme) {
+		try {
+			String category = "";
+			switch (theme) {
+			case "tour": category = "c1";
+				break;
+			case "shop": category = "c2";
+				break;
+			case "food": category = "c4";
+				break;
+			}
+			System.out.println(">>>> controller category :" + category);
+			List<Trip> list = tripService.getPlaceListByTheme(category);
+			model.addAttribute("list", list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "tripMain";
+	}
+	
 	/**
 	 * 여행 페이지 상세
 	 * @param model
 	 * @param trip_id
 	 * @return
 	 */
-	@RequestMapping(value = "/list/{trip_id}", method=RequestMethod.GET)
+	@RequestMapping(value = "/list/id/{trip_id}", method=RequestMethod.GET)
 	public String travelDetail(Model model, @PathVariable Integer trip_id) {
 		//세션 유저 정보 필요
 		//String user = (String) session.getAttribute("user");
@@ -189,12 +213,12 @@ public class TripController {
 			Bookmark bookmark = new Bookmark(1, trip_id); //user_code, trip_id
 			Boolean isLike;
 			Integer check = tripService.isMyBookmark(bookmark);
-			if(check == 0) {
+			if(check == 0) { //북마크 아님
 				isLike = false;
-			} else {
+			} else {	//북마크 됨
 				isLike = true;
 			}
-			System.out.println(">>> controller isLike : " + isLike);
+			System.out.println(">>> travelDetail controller isLike : " + isLike);
 			model.addAttribute("isLike", isLike);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -202,24 +226,32 @@ public class TripController {
 		return "tripDetail";
 	}
 	
-	
-	@RequestMapping(value = "/bookmark", method=RequestMethod.GET)
-	public void travelLike(Model model, Integer user_id, Integer trip_id) {
+	@ResponseBody
+	@RequestMapping(value = "/bookmark", method=RequestMethod.POST)
+	public String travelLike(Model model, @RequestParam("user_id") Integer user_id, @RequestParam("trip_id") Integer trip_id) {
 		//return data 필요
+		System.out.println(">>>>> 북마크 컨트롤러 호출");
+		String message = "";
+		System.out.println(user_id);
+		System.out.println(trip_id);
 		try {
-			Bookmark bookmark = new Bookmark(1, 999);
+			Bookmark bookmark = new Bookmark(user_id, trip_id);
 			Boolean isLike;
 			Integer check = tripService.isMyBookmark(bookmark);
-			if(check == 0) {
+			if(check == 0) { //북마크 아님 -> 북마크 처리 후 true
 				isLike = tripService.setBookmark(bookmark);	
-			} else {
+				message = ""+isLike; //true, 북마크 성공
+			} else {	//북마크임 -> 북마크 해제 후 false
 				isLike = tripService.cancelBookmark(bookmark);
+				message = ""+isLike; //false, 북마크 해제;
 			}
-			System.out.println(">>> controller isLike : " + isLike);
+			System.out.println(">>> travelLike controller isLike : " + isLike);
 			model.addAttribute("isLike", isLike);
+			System.out.println(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return message;
 	} 
 	
 }
