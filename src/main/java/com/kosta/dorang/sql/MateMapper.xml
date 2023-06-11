@@ -165,18 +165,4 @@
 		where comment_code=#{comment_code}
 		]]>
 	</update>
-	<!--  <insert id="insertMateReplyNotice" parameterType="com.kosta.dorang.dto.MateComments">
-		<![CDATA[
-		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, comment_code)
-		VALUES (notice_nextval('num'), #{user_code}, 4, NOW(), #{content}, #{comment_code})
-		]]>
-	</insert>-->
-	<!--  <select id="selectNoticeByUserCode" parameterType="map" resultType="com.kosta.dorang.dto.Notice">
-		<![CDATA[
-		select *
-		from notice
-		where user_code=#{user_code}
-		and ntc_code>#{ntc_code}
-		]]>
-	</select>-->
 </mapper>
