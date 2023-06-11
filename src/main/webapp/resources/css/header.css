@@ -292,6 +292,7 @@
 		height: 100%;
 		display: none;
 		padding-left: 0;
+		margin-left: -10px;
 		flex-direction: column;
 	}
 	.header-modal-category{
@@ -312,8 +313,8 @@
 	}
 	.navi-item {
 		width: 100%;
-		justify-content: center;
 		padding: 10px 0;
+		justify-content: center;
 	}
 	.navi-item:hover {
 		background-color: #FB7A51;
