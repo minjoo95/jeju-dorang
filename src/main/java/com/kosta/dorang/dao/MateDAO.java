@@ -50,6 +50,8 @@ public class MateDAO implements MateDAOI {
 		return sqlSession.selectList("MateMapper.getMateListViewSort",cri);
 	}
 
+	
+	
 	/*동행신청*/
 	
 	@Override
@@ -67,9 +69,29 @@ public class MateDAO implements MateDAOI {
 	}
   
 	@Override
+	public MateApply selectApplyMateByMateCode(int mate_code) throws Exception {
+		 return sqlSession.selectOne("MateMapper.selectApplyMateByMateCode", mate_code);
+	}
+	
+	
+	@Override
+	public void deleteApplyMate(int mate_code) throws Exception {
+		sqlSession.delete("MateMapper.deleteApplyMate",mate_code);
+	}
+	
+	
+	@Override
 	public int totalCount() {
 		return sqlSession.selectOne("MateMapper.totalCount");
 	}
+	@Override
+	public int totalmyCount(Long user_code, MateCriteria cri) {
+		 Map<String, Object> totalmyCountMap = new HashMap<>();
+		 totalmyCountMap.put("user_code", user_code);
+		 totalmyCountMap.put("sortBy", cri.getSortBy());
+		 return sqlSession.selectOne("MateMapper.totalmyCount",totalmyCountMap);
+	}
+
 
 	@Override
 	public void mateCount(int mate_code) throws Exception {
@@ -78,12 +100,27 @@ public class MateDAO implements MateDAOI {
 	}
 
 	@Override
-	public List<Mate> getmyMateWriteList(Long user_code, MateCriteria cri) throws Exception {
+	public List<Mate> getmyMateListViewSort(Long user_code, MateCriteria cri) throws Exception {
 			Map<String, Object> mylist = new HashMap<>();
 			mylist.put("user_code", user_code);
 			mylist.put("pageStart", cri.getPageStart());
 			mylist.put("perPageNum", cri.getPerPageNum());
-			return sqlSession.selectList("MateMapper.getmyMateWriteList",mylist);
+			mylist.put("sortBy", cri.getSortBy());
+			return sqlSession.selectList("MateMapper.getmyMateListViewSort",mylist);
+	}
+
+	@Override
+	public List<MateComments> selectMateCommListByMateCode(int mate_code) throws Exception {
+		return sqlSession.selectList("MateMapper.selectMateCommListByMateCode",mate_code);
+	}
+	
+	@Override
+	public void deleteMateCommListByMateCode(int mate_code) throws Exception {
+		sqlSession.delete("MateMapper.deleteMateCommListByMateCode",mate_code);
+	}
+	@Override
+	public String selectApplyMateResult(Long user_code) throws Exception {
+		 return sqlSession.selectOne("MateMapper.selectApplyMateResult",user_code);
 	}
 	
   //응심이 
@@ -120,6 +157,7 @@ public class MateDAO implements MateDAOI {
 		sqlSession.update("MateMapper.updateMateReply",mateComments);
 	}
 
+
 	@Override
 	public void insertMateReplyNotice(MateComments mateComments) throws Exception {
 		sqlSession.insert("MateMapper.insertMateReplyNotice", mateComments);
@@ -132,6 +170,4 @@ public class MateDAO implements MateDAOI {
 		noticeList.put("ntc_code", lastNotificationID);
 		return sqlSession.selectList("MateMapper.selectNoticeByUserCode", noticeList);
 	}
-
-	
 }

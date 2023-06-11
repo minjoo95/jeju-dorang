@@ -23,16 +23,21 @@ $(document).ready(function(){
  		
  		if(btn=='update'){
  			formData.attr("action", "/dorang/mate/updateForm");
+ 			formData.submit(); 
  		}else if (btn=='list') {
  			formData.find("#mate_code").remove();
  			formData.find("#user_code").remove();
+ 			formData.find("#backPageName").remove();
 			formData.attr("action", "/dorang/mate/writelist");
+			formData.submit(); 
 		}else if(btn=='delete'){
+			  formData.attr("action", "/dorang/mate/delete");
+			  formData.submit(); 
+		}
+
 			formData.attr("action", "/dorang/mate/delete");
 		 	formData.submit(); 
-		}
- 		
- 		
+		
  	});    
  	//-------------------------------------------------------------------------------------------------
 	
@@ -151,7 +156,9 @@ $(document).ready(function(){
 
 		//수정 할 댓글 하나 가져오기
 		function modifyLink(comment_code) {
+
 			//alert("댓글 수정 시작");
+
 			$('.reply_dropdown_background').hide();
 			
 			console.log("댓글 수정 시작 : "+comment_code);
@@ -194,8 +201,10 @@ $(document).ready(function(){
 		//댓글 삭제
 		function deleteLink(comment_code){
 			//alert("delete 들어오기 성공");
+
 			//alert("찐으로 삭제");
 			$('.reply_dropdown_content').hide();
+
 			console.log(comment_code);
 			$.ajax({
 				url:"/dorang/mate/mateReplyDelete",

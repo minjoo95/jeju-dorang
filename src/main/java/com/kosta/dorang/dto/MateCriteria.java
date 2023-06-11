@@ -6,6 +6,15 @@ public class MateCriteria {
 	   private int page; 
 	   private int perPageNum;
 	   private String sortBy;
+	
+	   
+	  public MateCriteria() {
+			   
+	 }
+	  public int getPageStart() {
+		return (page-1)*perPageNum;                                    
+	 }
+
 	   
 	   public int getPage() {
 	    return page;
@@ -28,13 +37,9 @@ public class MateCriteria {
 	        this.sortBy = sortBy;
 	    }
 		
+	  
 		
-		public MateCriteria() {
-			   
-		 }
-		public int getPageStart() {
-			   return (page-1)*perPageNum;                                    
-		   }
-
+		
+	
     
 }
