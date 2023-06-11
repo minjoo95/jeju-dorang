@@ -1,6 +1,7 @@
 package com.kosta.dorang.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kosta.dorang.dao.TripDAO;
 import com.kosta.dorang.dto.Bookmark;
 import com.kosta.dorang.dto.Trip;
+import com.kosta.dorang.dto.TripCriteria;
 
 @Service
 public class TripService implements TripServiceI {
@@ -16,8 +18,8 @@ public class TripService implements TripServiceI {
 	TripDAO dao;
 
 	@Override
-	public List<Trip> getPlaceList() throws Exception {
-		return dao.getPlaceList();
+	public List<Map<String, Trip>> getPlaceList(TripCriteria cri) throws Exception {
+		return dao.getPlaceList(cri);
 	}
 
 	@Override
@@ -26,8 +28,8 @@ public class TripService implements TripServiceI {
 	}
 
 	@Override
-	public List<Trip> getPlaceListByTheme(String category) throws Exception {
-		return dao.getPlaceListByTheme(category);
+	public List<Map<String, Trip>> getPlaceListByTheme(TripCriteria cri) throws Exception {
+		return dao.getPlaceListByTheme(cri);
 	}
 
 	@Override
@@ -45,6 +47,22 @@ public class TripService implements TripServiceI {
 		return dao.cancelBookmark(bookmark);
 	}
 
+	@Override
+	public Integer countTotalItem() throws Exception {
+		return dao.countTotalItem();
+	}
+
+	@Override
+	public Integer countTotalItemByTheme(String category) throws Exception {
+		return dao.countTotalItemByTheme(category);
+	}
+
+	@Override
+	public Integer countTotalSearchItem(String keyword) throws Exception {
+		return dao.countTotalSearchItem(keyword);
+	}
+
+	
 
 	
 	

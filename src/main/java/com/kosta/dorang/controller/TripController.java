@@ -5,7 +5,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,8 +20,10 @@ import org.json.simple.parser.JSONParser;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.aop.aspectj.annotation.LazySingletonAspectInstanceFactoryDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +32,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kosta.dorang.dto.Bookmark;
 import com.kosta.dorang.dto.Trip;
+import com.kosta.dorang.dto.TripCriteria;
+import com.kosta.dorang.dto.TripPageMaker;
 import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.TripServiceI;
 
@@ -161,13 +168,29 @@ public class TripController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method=RequestMethod.GET)
-	public String travelMain(Model model) {
+	public String travelMain(Model model, TripCriteria criteria, @RequestParam(required=false, defaultValue="1") Integer page) {
+		System.out.println(">>>> main page: "+page);
+		criteria.setCurrentPage(page);
+		
 		try {
-			List<Trip> list = tripService.getPlaceList();
-			model.addAttribute("list", list);
-//			for(Trip trip : list) {
-//				System.out.println(trip.toString());
+			//페이징
+			TripPageMaker pageMaker = new TripPageMaker();
+			pageMaker.setCriteria(criteria);
+			int cnt = tripService.countTotalItem();
+			System.out.println(">>> total item : "+ cnt);
+			pageMaker.setTotalCount(tripService.countTotalItem());
+			
+			List<Map<String, Trip>> list = tripService.getPlaceList(criteria);
+//			System.out.println(">>> hashmap test");
+//			for(Map<String, Trip> m : list) {
+//				for (String key : m.keySet()) {
+//					System.out.println("key:"+key+", value:"+m.get(key));
+//				}
 //			}
+			
+			model.addAttribute("list", list);
+			model.addAttribute("pageMaker", pageMaker);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -175,24 +198,35 @@ public class TripController {
 	}
 	
 	@RequestMapping(value = "/list/{theme}", method=RequestMethod.GET)
-	public String travelMainByTheme(Model model, @PathVariable String theme) {
+	public String travelMainByTheme(Model model, TripCriteria criteria, @PathVariable String theme, @RequestParam(required=false, defaultValue="1") Integer page) {
+		System.out.println(">>>> theme page: "+page);
+		criteria.setCurrentPage(page);
+		
 		try {
 			String category = "";
 			switch (theme) {
 			case "tour": category = "c1";
-				break;
+			break;
 			case "shop": category = "c2";
-				break;
+			break;
 			case "food": category = "c4";
-				break;
+			break;
 			}
-			System.out.println(">>>> controller category :" + category);
-			List<Trip> list = tripService.getPlaceListByTheme(category);
+			criteria.setSearch(category);
+			
+			//페이징
+			TripPageMaker pageMaker = new TripPageMaker();
+			pageMaker.setCriteria(criteria);
+			pageMaker.setTotalCount(tripService.countTotalItemByTheme(category));
+ 
+			List<Map<String, Trip>> list = tripService.getPlaceListByTheme(criteria);
 			model.addAttribute("list", list);
+			model.addAttribute("pageMaker", pageMaker);
+			model.addAttribute("category", theme);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "tripMain";
+		return "tripMain2";
 	}
 	
 	/**

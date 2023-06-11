@@ -129,7 +129,7 @@
 			<c:choose>
 				<c:when test="${pageMaker.startPage-1 == 0}">
 					<li class="page-item">
-						<a class="page-link" href="<c:url value='/travel/list?page=1'/>" aria-label="Previous">
+						<a class="page-link" href="<c:url value='/travel/list/${category }?page=1'/>" aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
 						</a>
 					</li>
@@ -137,7 +137,7 @@
 				
 				<c:otherwise>
 					<li class="page-item">
-						<a class="page-link" href="<c:url value='/travel/list?page=${pageMaker.startPage-1 }'/>" aria-label="Previous">
+						<a class="page-link" href="<c:url value='/travel/list/${category }?page=${pageMaker.startPage-1 }'/>" aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
 						</a>
 					</li>
@@ -146,21 +146,21 @@
 			
 			<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
 				<li class="page-item">
-					<a class="page-link" href="<c:url value='/travel/list?page=${pageNum }'/>">${pageNum }</a>
+					<a class="page-link" href="<c:url value='/travel/list/${category }?page=${pageNum }'/>">${pageNum }</a>
 				</li>
 			</c:forEach>	
 			
 			<c:choose>
 				<c:when test="${pageMaker.next && pageMaker.endPage > 0 }">
 					<li class="page-item">
-						<a class="page-link" href="<c:url value='/travel/list?page=${pageMaker.endPage+1 }'/>" aria-label="Next">
+						<a class="page-link" href="<c:url value='/travel/list/${category }?page=${pageMaker.endPage+1 }'/>" aria-label="Next">
 						<span aria-hidden="true">&raquo;</span>
 						</a>
 					</li>
 				</c:when>
 				<c:otherwise>
 				<li class="page-item">
-					<a class="page-link" href="<c:url value='/travel/list?page=${pageMaker.endPage}'/>" aria-label="Next">
+					<a class="page-link" href="<c:url value='/travel/list/${category }?page=${pageMaker.endPage}'/>" aria-label="Next">
 					<span aria-hidden="true">&raquo;</span>
 					</a>
 				</li>
