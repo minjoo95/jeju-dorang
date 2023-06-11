@@ -26,4 +26,20 @@
 		where m.user_code=#{user_code};
     	]]>
     </select>
+    <select id="selectNoticeByUserCode" parameterType="map" resultType="com.kosta.dorang.dto.NoticeUser">
+		<![CDATA[
+		select n.*, u.user_nickname
+		from notice n
+		left outer join user u
+		on n.user_code=u.user_code
+		where n.user_code=#{user_code}
+		and n.is_deleted=0
+		and n.ntc_code>#{lastNtcCode};
+		]]>
+	</select>
+	<update id="deleteNoticeByNtcCode" parameterType="int">
+		update notice
+		set  is_deleted=1
+		where ntc_code=#{ntc_code};
+	</update>
 </mapper>

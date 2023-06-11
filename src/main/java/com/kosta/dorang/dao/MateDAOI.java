@@ -12,10 +12,10 @@ import com.kosta.dorang.dto.Notice;
 public interface MateDAOI {
 	public void insertMate(Mate m) throws Exception; 
 	public List<Mate> getMateListViewSort(MateCriteria cri) throws Exception;//목록
-	public Mate selectMate(int mate_code)throws Exception; 
-	public void updateMate(Mate m)throws Exception;
-	public void deleteMate(int mate_code)throws Exception;
-	public void insertApplyMate(MateApply mp)throws Exception; 
+	public Mate selectMate(int mate_code)throws Exception; //조회
+	public void updateMate(Mate m)throws Exception;//수정
+	public void deleteMate(int mate_code)throws Exception;//삭제
+	public int insertApplyMate(MateApply mp)throws Exception; //신청
 	public MateApply selectApplyMate(int mate_code,Long user_code) throws Exception; 
 	public MateApply selectApplyMateByMateCode(int mate_code) throws Exception; 
 	public void deleteApplyMate(int mate_code)throws Exception;
@@ -31,7 +31,7 @@ public interface MateDAOI {
 	public void deleteMateReply(int comment_code) throws Exception; //응심이거
 	public MateCommentsUser selectOneMateReply(int comment_code) throws Exception; //응심이꺼
 	public void updateMateReply(MateComments mateComments) throws Exception; //응심이꺼
-	public void insertMateReplyNotice(MateComments mateComments) throws Exception; //응심이꺼
-	public List<Notice> selectNoticeByUserCode(long user_code, int lastNotificationID) throws Exception; //응심이꺼
+	public void insertMateReplyNotice(long mateWriter,String noticeContent, int comment_code) throws Exception; //응심이꺼
+	public void insertMateApplyNotice(long mate_writer, String mateApplyContent, int mate_Application_code) throws Exception;
 
 }

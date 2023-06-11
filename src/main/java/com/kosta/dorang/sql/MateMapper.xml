@@ -73,7 +73,7 @@
     ]]>
 </select>
 <!-- 신청테이블 -->
-<insert id="insertApplyMate" parameterType="com.kosta.dorang.dto.MateApply">
+<insert id="insertApplyMate" parameterType="com.kosta.dorang.dto.MateApply" useGeneratedKeys="true" keyProperty="mateApply_code">
      <![CDATA[
          INSERT INTO MateApply(mate_code,user_code,frist_answer,second_answer,third_answer,createdAt)
          VALUES (#{mate_code},#{user_code},#{frist_answer},#{second_answer},#{third_answer},NOW())       

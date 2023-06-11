@@ -55,8 +55,9 @@ public class MateDAO implements MateDAOI {
 	/*동행신청*/
 	
 	@Override
-	public void insertApplyMate(MateApply mp) throws Exception {
-		sqlSession.insert("MateMapper.insertApplyMate",mp);
+	public int insertApplyMate(MateApply mp) throws Exception {
+		int insertCheck=sqlSession.insert("MateMapper.insertApplyMate",mp);
+		return insertCheck;
 		
 	}
 
@@ -159,15 +160,23 @@ public class MateDAO implements MateDAOI {
 
 
 	@Override
-	public void insertMateReplyNotice(MateComments mateComments) throws Exception {
-		sqlSession.insert("MateMapper.insertMateReplyNotice", mateComments);
+	public void insertMateReplyNotice(long mateWriter,String noticeContent, int comment_code) throws Exception {
+		Map<String, Object> mateReplyNotice = new HashMap<>();
+		mateReplyNotice.put("mateWriter", mateWriter);
+		mateReplyNotice.put("noticeContent", noticeContent);
+		mateReplyNotice.put("comment_code", comment_code);
+		sqlSession.insert("MateMapper.insertMateReplyNotice", mateReplyNotice);
 	}
 
 	@Override
-	public List<Notice> selectNoticeByUserCode(long user_code, int lastNotificationID) throws Exception {
-		Map<String, Object> noticeList = new HashMap<>();
-		noticeList.put("user_code", user_code);
-		noticeList.put("ntc_code", lastNotificationID);
-		return sqlSession.selectList("MateMapper.selectNoticeByUserCode", noticeList);
+	public void insertMateApplyNotice(long mate_writer, String mateApplyContent, int mate_Application_code)
+			throws Exception {
+		Map<String, Object> mateApplyNotice = new HashMap<>();
+		mateApplyNotice.put("mate_writer", mate_writer);
+		mateApplyNotice.put("mateApplyContent", mateApplyContent);
+		mateApplyNotice.put("mate_Application_code", mate_Application_code);
+		sqlSession.insert("MateMapper.insertMateApplyNotice",mateApplyNotice);
+		
 	}
+
 }
