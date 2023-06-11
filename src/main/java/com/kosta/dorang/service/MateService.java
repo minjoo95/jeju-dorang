@@ -62,10 +62,22 @@ public class MateService implements MateServiceI {
 	public MateApply selectMateApply(int mate_code, Long user_code) throws Exception {
 		return mateDAO.selectApplyMate(mate_code, user_code);
 	}
-  
+	@Override
+	public MateApply selectApplyMateByMateCode(int mate_code) throws Exception {
+		return mateDAO.selectApplyMateByMateCode(mate_code);
+	}
+	@Override
+	public void deleteApplyMate(int mate_code) throws Exception {
+		mateDAO.deleteApplyMate(mate_code);
+		
+	}
 	@Override
 	public int totalCount() throws Exception {
 		return mateDAO.totalCount();
+	}
+	@Override
+	public int totalmyCount(Long user_code, MateCriteria cri) throws Exception {
+		return mateDAO.totalmyCount(user_code,cri);
 	}
 
 	@Override
@@ -74,11 +86,23 @@ public class MateService implements MateServiceI {
 	}
 	
 	@Override
-	public List<Mate> getmyMateWriteList(Long user_code,MateCriteria cri) throws Exception {
-		return mateDAO.getmyMateWriteList(user_code,cri);
+	public List<Mate> getmyMateListViewSort(Long user_code,MateCriteria cri) throws Exception {
+		return mateDAO.getmyMateListViewSort(user_code,cri);
+	}
+	@Override
+	public List<MateComments> selectMateCommListByMateCode(int mate_code) throws Exception {
+		return mateDAO.selectMateCommListByMateCode(mate_code);
+	}
+	@Override
+	public void deleteMateCommListByMateCode(int mate_code) throws Exception {
+		mateDAO.deleteMateCommListByMateCode(mate_code);
+	}
+	@Override
+	public String selectApplyMateResult(Long user_code) throws Exception {
+		return mateDAO.selectApplyMateResult(user_code);
 	}
 
-  //댓글 select
+  //응심이 댓글 select
   @Override
 	public List<MateCommentsUser> selectMateReplyListByMateCode(int mate_code) throws Exception {
 		return mateDaoI.selectMateReplyListByMateCode(mate_code);
@@ -109,6 +133,7 @@ public class MateService implements MateServiceI {
 	public void updateMateReply(MateComments mateComments) throws Exception {
 		mateDaoI.updateMateReply(mateComments);
 	}
+
 	
 	//댓글 알림 insert
 	@Override
@@ -124,7 +149,16 @@ public class MateService implements MateServiceI {
 		
 	}
 	
+<<<<<<< HEAD
 	
 
+=======
+	//알림 select
+	@Override
+	public List<Notice> selectNoticeByUserCode(long user_code,int lastNotificationID) throws Exception {
+		return mateDaoI.selectNoticeByUserCode(user_code,lastNotificationID);
+	}
+>>>>>>> dev
 	
+
 }

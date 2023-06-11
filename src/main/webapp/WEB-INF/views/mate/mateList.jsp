@@ -45,11 +45,9 @@
 
 $(document).ready(function(){
 	
-	var activeBtn = $(".sort-btn-group button.active");
-	var currentSortBy = activeBtn.data("btn");
-    sortMateList(currentSortBy);
-   
 
+	sortMateList($("#sortBy").val(),${pm.cri.page});
+	
     $(".tags_strings").each(function() {
       var tags = $(this).html();
       var tagList = tags.split('/');
@@ -63,42 +61,28 @@ $(document).ready(function(){
     $(".sort-btn-group button").on("click",function(e){
     
     	e.preventDefault(); 
-   
     	 $(".sort-btn-group button").removeClass("active");
     	 $(this).addClass("active");
-    	 currentSortBy = $(this).data("btn");
-         sortMateList(currentSortBy);
+    	 sortBy = $(this).data("btn");
+    	 $("#sortBy").val(sortBy);
+    	 var page = $("#page").val();
+    	 
+    	 if (sortBy === "sortByCount") { 
+ 	        page = ${pm.startPage};
+ 	        $("#page").val(page);
+ 	    }
+    	 
+    	 sortMateList(sortBy, page);
 
     });
     
  
-
-    $(".paginate_button a").on("click",function(e){
-    	e.preventDefault(); 
-    	var pageFrm = $("#pageFrm");	 	
-     	var page=$(this).attr("href");	
-    	var perPageNum=$(this).attr("href");
-    	var sortBy = $(".sort-btn-group button.active").data("btn");
-
-    	$("#page").val(page);
-    	$("#sortBy").val(sortBy)
-    	
-    	
-	     pageFrm.submit();
-	     
-	      
-    	
-    });
-    
  
   });
     var contextPath = "${pageContext.request.contextPath}";
     
-    function sortMateList(sortBy) {
-    
-        var page = $("#page").val();
-        
-        
+    function sortMateList(sortBy,page) {
+
 	    $.ajax({
 		    url: "${contextPath}/mate/listSort",
 		    method: "GET",
@@ -108,7 +92,13 @@ $(document).ready(function(){
 		      },
 		    dataType : "json",
 		    success:function(data) {
-		        displayMateList(data);     
+		        displayMateList(data.mateList);   
+		        var pm = data.pm;
+		        var endPage = pm.endPage;
+		        var startPage = pm.startPage;
+		        var currentPage = pm.cri.page;
+		        var hasNext = pm.next;
+		        updatePagination(endPage, sortBy, startPage, currentPage, hasNext); 
 		      },
 		    error: function() {
 		      console.log("데이터 요청 실패");
@@ -158,9 +148,92 @@ $(document).ready(function(){
 	
 	   }); 
 		$("#viewContent").append(itemHtml);
+		
   
 
    }//displayMateList
+   
+   
+    function updatePagination(endPage, sortBy, startPage, currentPage, hasNext) {
+		//console.log("sortBy" +sortBy);
+		//console.log("currentPage" +currentPage);
+		
+		
+		 var pageButtonsContainer = $(".pagination");
+
+		   
+		   var pageButtonsHtml = "";
+		
+
+		   // 이전 페이지 버튼
+		   if (${pm.startPage} > 1) {
+		     pageButtonsHtml += "<li class='page-item paginate_button'>";
+		     pageButtonsHtml += "<a  class='page-link' id='" + (startPage - 1) + "' aria-label='Previous'>";
+		     pageButtonsHtml += "<span aria-hidden='true'>&laquo;</span>";
+		     pageButtonsHtml += "</a>";
+		    pageButtonsHtml += "</li>";
+		   }
+		   // 페이지 번호 버튼
+		   for (var pageNum = startPage; pageNum <= endPage; pageNum++) {
+			   
+		     if (pageNum == currentPage) {
+		      pageButtonsHtml += "<li class='page-item active paginate_button'>";
+		     } else {
+		       pageButtonsHtml += "<li class='page-item paginate_button'>";
+		     }
+		     pageButtonsHtml += "<a  class='page-link' id='"+pageNum+"'>" + pageNum + "</a>";
+		     pageButtonsHtml += "</li>";
+		   }
+
+		   //다음 페이지 버튼
+		   if (hasNext) {
+		     pageButtonsHtml += "<li class='page-item paginate_button'>";
+		     pageButtonsHtml += "<a  class='page-link' id='" + (endPage + 1) + "' aria-label='Next' >";
+		     pageButtonsHtml += "<span aria-hidden='true'>&raquo;</span>";
+		     pageButtonsHtml += "</a>";
+		     pageButtonsHtml += "</li>";
+		   }
+
+		   // 페이지 버튼을 갱신
+		   pageButtonsContainer.html(pageButtonsHtml);
+		
+		   $(".paginate_button a").on("click",function(e){
+		    	e.preventDefault(); 
+		    	
+		    	
+		    	var page = $(this).attr("id");
+		        var sortBy = $("#sortBy").val();
+
+		        $.ajax({
+				    url: "${contextPath}/mate/listSort",
+				    method: "GET",
+				    data:{
+				        sortBy: sortBy,
+				        page: page,
+				      },
+				    dataType : "json",
+				    success:function(data) {
+				        displayMateList(data.mateList); 
+				        var pm = data.pm;
+				        var endPage = pm.endPage;
+				        var startPage = pm.startPage;
+				        var currentPage = pm.cri.page;
+				        var hasNext = pm.next;
+
+				        updatePagination(endPage, sortBy, startPage, currentPage, hasNext); 
+				        $("#page").val(currentPage);
+				      
+				      },
+				    error: function() {
+				      console.log("데이터 요청 실패");
+				    }
+				  }); 
+		    	
+		   
+		    	
+		    });
+		   
+	}
    
     
     
@@ -168,7 +241,6 @@ $(document).ready(function(){
     	 var pageFrm = $("#pageFrm");
 		 var tag="<input type='hidden' name='mate_code' value='"+mate_code+"'/>";
 	     pageFrm.append(tag);
-	     pageFrm.attr("action","${contextPath}/mate/select");
 	     pageFrm.submit();
 	     
 	         $.ajax({
@@ -199,7 +271,7 @@ $(document).ready(function(){
  	<h3 style="padding:50px 0px">동행 목록</h3>
  		<div class="container-top d-flex justify-content-between mb-5">
 	 		<div class="sort-btn-group">
-	 			<button type="button" class="btn btn-warning active" data-btn="sortByDate">날짜순</button>
+	 			<button type="button" class="btn btn-warning" data-btn="sortByDate">날짜순</button>
                 <button type="button" class="btn btn-warning" data-btn="sortByCount">조회순</button>
 	 		</div>
 	 		<div class="insertMate-btn d-flex align-items-center">
@@ -229,9 +301,9 @@ $(document).ready(function(){
  <div class="container d-flex justify-content-center">
   <div style="text-align: center;">
 	 <nav aria-label="Page navigation example">
-	  <ul class="pagination" id="pm">
+	  <ul class="pagination" >
 	
-	  <c:if test="${pm.prev}">
+	  <!--<c:if test="${pm.prev}">
 	    <li class="page-item paginate_button">
 	      <a class="page-link" href="${pm.startPage-1}" aria-label="Previous">
 	        <span aria-hidden="true">
@@ -264,20 +336,19 @@ $(document).ready(function(){
 		        </span>
 		      </a>
 		    </li>
-	  </c:if>
+	  </c:if>-->
 	  </ul>
 	</nav>
   </div>
   </div>
   <!-- end -->
 
-  <form id="pageFrm" action="${contextPath}/mate/list"  method="get">
+  <form id="pageFrm" action="${contextPath}/mate/select"  method="get">
   		<input type="hidden" id="page" name="page" value="${pm.cri.page}" />
   		<input type="hidden" id="perPageNum"  name="perPageNum" value="${pm.cri.perPageNum}" />
  		<input type="hidden" id="sortBy" name="sortBy" value="${pm.cri.sortBy}" />
   </form>
-  
  </div>
- 
+  <jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

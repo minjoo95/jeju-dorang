@@ -7,25 +7,25 @@
 }
 
 .myPageTabListBox{
-	margin-top:3%;
 	width: 1512px;
+	margin-top:3%;
 }
 
 .myPageTabList {
 	width: 90%;
-	border-top: 1px solid #D9D9D9;
-	border-bottom:1px solid #D9D9D9;
 	height:60px;
 	display:flex;
 	align-items: center;
 	justify-content: center;
+	border-top: 1px solid #D9D9D9;
+	border-bottom:1px solid #D9D9D9;
 }
 
 .tabList {
-	display:flex;
 	width: 200px; 
 	height: 100%;
 	margin: 0 5%;
+	display:flex;
 	font-size: 17px;
 	list-style: none;
 	align-items:center;	
@@ -47,10 +47,9 @@
 }
 
 .leaf {
-	position:absolute;
 	width:15px;
 	height:15px;
 	margin-left:162px;
+	position:absolute;
 	margin-bottom:23px;
 }
-
