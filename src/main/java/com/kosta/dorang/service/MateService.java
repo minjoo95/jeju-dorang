@@ -148,6 +148,6 @@ public class MateService implements MateServiceI {
 		mateDaoI.insertMateApplyNotice(mate_writer,mateApplyContent,mate_Application_code);
 		
 	}
-	
+
 
 }

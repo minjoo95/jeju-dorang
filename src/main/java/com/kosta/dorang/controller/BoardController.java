@@ -367,7 +367,7 @@ public class BoardController {
 			String noticeContent=boardTitle+";"+user_code+";"+comment_content;
 			
 			
-			int result = boardServiceI.insertBoardComments(boardComments);
+			
 			System.out.println("댓글 등록 갔다 옴");
 
 			//

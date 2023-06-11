@@ -330,6 +330,180 @@
 		display: block;
 	}
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+.alarm_modal_content {
+   position: absolute;
+   display: none;
+   overflow: hidden;
+   right: -153px;
+   /*padding-top: 23px;*/
+   /*width: 376px;*/
+   border:1px solid #d7dce5;
+   border-radius: 16px;
+   box-sizing: border-box;
+   letter-spacing: -1px;
+   background-color: #fff;
+   box-shadow: 2px 6px 16px 0 rgba(17,42,128,0.08);
+   /*padding: 30px;*/
+   padding: 10px 10px 0px 10px;
+   z-index: 3;
+   font-family: KimjungchulMyungjo-Bold;
+}
+.alarm_modal_content>.alarm_modal_title{
+   display: block;
+   margin-bottom: 24px;
+   color: #3F3D3A;
+   font-size: 20px;
+   line-height: 28px;
+}
+
+.empty_alarm_txt{
+   color: #707070;
+    font-weight: 300;
+    font-size: 13px;
+    padding-top: 10px;
+    display: block;
+}
+
+.empty_alarm_txt .answer {
+    color: #000000;
+}
+.alram_view_status{
+   color: #FB7A51;
+   font-size: 10px;
+   padding-bottom: 10px;
+   /*display: block;*/
+   /*position: absolute;*/
+   /*top: 27px;*/
+   /*right: 31px;*/
+   /*letter-spacing: -0.5px;*/
+   /*line-height: 20px;*/
+}
+.alarm_modal_content .empty_list.alarm_area.default{
+   margin: 0 32px;
+   padding-top: 168px;
+   height: 608px;
+   
+}
+.alarm_modal_content .empty_list.alarm_area{
+   /*padding: 42px 0;*/
+   padding: 5px 10px;
+   width: 310px;
+   border-radius: 8px;
+   box-sizing: border-box;
+   background-color: #f4f6fa;
+   /*margin: 0 auto;*/
+   margin-bottom: 10px;
+}
+.alarm_modal_content .empty_list{
+   /*padding-top: 110px;*/
+   letter-spacing: -1px;
+   /*text-align: center;*/
+}
+.alarm_modal_content .empty_listimg{
+   display: block;
+   margin: 0 auto;
+   border: 0;
+   overflow-clip-margin: content-box;
+   overflow: clip;
+}
+.myPage_img{
+   width: 30px;
+}
+.myPage_btn{
+   display: flex;
+   padding: 8.5px;
+}
+.myPage_name{
+    display: flex;
+    align-items: center;
+}
+.myPage_List{
+   display: block;
+   margin: 0 auto;
+   border: 0;
+   overflow-clip-margin: content-box;
+   overflow: clip;
+   letter-spacing: -1px;
+   
+}
+.myPage_modal_container{
+   position: relative;
+   display: none;
+}
+.myPage_List{
+   position: absolute;
+   overflow: hidden;
+   width: 130px;
+     left: -20px;
+   text-align: center;
+   padding-top: 23px;
+   border:1px solid #d7dce5;
+   border-radius: 16px;
+   box-sizing: border-box;
+   background-color: #fff;
+   box-shadow: 2px 6px 16px 0 rgba(17,42,128,0.08);
+   padding: 13px;
+   z-index: 1;
+   font-family: KimjungchulMyungjo-Bold;
+}
+.myPage_List{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+}
+.myPage_item{
+   margin-bottom: 5px;
+}
+
+
+/*민주수정*/
+
+.sub_title{
+   font-size: 14px;
+}
+
+.sub_title_mate_title,.sub_title_user_id {
+   color: #FB7A51;
+}
+
+.sub_title_mate_title{
+   width: 130px;
+   display:inline-block;
+   overflow: hidden;
+   text-overflow:ellipsis;
+   white-space: nowrap;
+   
+}
+
+.alarm_apply_btn{
+   margin-top: 10px;
+   display: flex;
+   justify-content: space-around;
+}
+
+.alarm_apply_btn> button {
+   border: none;
+   background : none;
+   padding: 5px 40px;
+   border-radius: 10px;
+   cursor: pointer;
+}
+.alarm_apply_btn>.mate_out {
+   color :#FB7A51;
+   background: #ffffff;
+   border: 1px solid #FB7A51;
+   
+}
+.alarm_apply_btn>.mate_call{
+   color :#ffffff;
+   background: #FB7A51;
+   border: 1px solid #FB7A51;
+}
+
+=======
+>>>>>>> 97018970c9a9940c43f7fa61b01e5b2ef0c09f84
 .alarm_area-comment-top{
    display: flex;
    justify-content: space-between;
@@ -342,4 +516,9 @@
 
 .askSpan{
 	color: #FB7A51;
+<<<<<<< HEAD
+=======
+>>>>>>> dev
+=======
+>>>>>>> 97018970c9a9940c43f7fa61b01e5b2ef0c09f84
 }

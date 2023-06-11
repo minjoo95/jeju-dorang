@@ -56,31 +56,6 @@
 											<img class="alarm-img" src="<c:url value="/resources/img/notifications.png"/>">
 										</button>
 									</div>
-									<!-- 알람 모달 -->
-									<div class="alarm-modal-container">
-										<div class="alarm_modal_content">
-											<strong class="alarm_modal_title">알림</strong> 
-											<span class="alram_view_status">최근 30일간 저장내역 노출</span>
-											<div class="alarm_area">
-												<strong class="sub_title">동행 신청</strong>
-												<div class="empty_list alarm_area"><!-- 클래스 수정 -->
-													<img src="<c:url value="/resources/img/gyul.png"/>">
-													<div class="empty_alarm_txt">
-														<strong>주요 일정이 없습니다</strong>
-													</div>
-												</div>
-												<strong class="su_title">나의 활동</strong>
-												<div class="empty_list alarm_area"><!-- 클래스 수정 -->
-													<img src="<c:url value="/resources/img/gyul.png"/>">
-													<div class="empty_alarm_txt">
-														<strong>활동이 없습니다</strong>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-
-								</div> --%>
 								<!--새 알람 모달 -->
                          <div class="alarm-modal-container">
                            <div class="alarm_modal_content">

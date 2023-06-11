@@ -136,9 +136,10 @@ public class BoardService implements BoardServiceI {
 	}
 
 	@Override
-
 	public void insertBoardReplyNotice(long baordUserCode, String noticeContent, int comment_no) {
 		boardDaoI.insertBoardReplyNotice(baordUserCode,noticeContent,comment_no);
+		
+	}
 
 	public int updateParentCommentNo(int comment_no) {
 		
@@ -175,4 +176,5 @@ public class BoardService implements BoardServiceI {
 		
 		return boardDaoI.selectCommentUserPageList(cri);
 	}
+
 }

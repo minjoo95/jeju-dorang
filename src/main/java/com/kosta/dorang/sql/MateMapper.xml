@@ -165,16 +165,4 @@
 		where comment_code=#{comment_code}
 		]]>
 	</update>
-	<insert id="insertMateReplyNotice" parameterType="map">
-		<![CDATA[
-		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, comment_code)
-		VALUES (notice_nextval('num'), #{mateWriter}, 4, NOW(), #{noticeContent}, #{comment_code})
-		]]>
-	</insert>
-	<insert id="insertMateApplyNotice" parameterType="map">
-		<![CDATA[
-		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, mate_application_code)
-		VALUES (notice_nextval('num'), #{mate_writer}, 1, NOW(), #{mateApplyContent}, #{mate_Application_code})
-		]]>
-	</insert>
 </mapper>

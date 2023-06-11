@@ -75,6 +75,7 @@
   	cursor: pointer;
   }
   </style>
+  <body>
   <jsp:include page="../header.jsp"></jsp:include>
   <script src="<c:url value="/resources/js/mateDetail.js"/>"></script>
   <body>

@@ -375,19 +375,6 @@ public class MateController {
 	        	}
 	 	         return "success"; // 성공적으로 처리되었음을 알리는 응답 반환
 
-        
-           System.out.println("mate_code" + mate_code);
-		   System.out.println("user_code" + user_code);
-	    try {
-	        MateApply mpResult = mateService.selectMateApply(mate_code, user_code);
-	       
-
-	        if (mpResult != null) { 
-	            return "already";
-	        }else {
-	        	 mateService.insertMateApply(mp);
-	 	         return "success"; 
-
 	        }
 
 	    } catch (Exception e) {

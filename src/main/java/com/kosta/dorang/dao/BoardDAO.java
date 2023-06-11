@@ -131,6 +131,15 @@ public class BoardDAO implements BoardDAOI {
 	}
 
 	@Override
+	public void insertBoardReplyNotice(long baordUserCode, String noticeContent, int comment_no) {
+		Map<String, Object> boardReplyNotice = new HashMap<>();
+		boardReplyNotice.put("baordUserCode", baordUserCode);
+		boardReplyNotice.put("noticeContent", noticeContent);
+		boardReplyNotice.put("comment_no", comment_no);
+		sqlSession.insert("BoardMapper.insertBoardReplyNotice", boardReplyNotice);
+		
+	}
+
 	public int updateParentCommentNo(int comment_no) {
 		
 		return sqlSession.update("BoardMapper.updateParentCommentNo", comment_no);
@@ -147,16 +156,6 @@ public class BoardDAO implements BoardDAOI {
 	public BoardComments selectOneBoardComment(int parent_comment_no) {
 		
 		return sqlSession.selectOne("BoardMapper.selectOneBoardComment", parent_comment_no);
-	}
-
-	@Override
-	public void insertBoardReplyNotice(long baordUserCode, String noticeContent, int comment_no) {
-		Map<String, Object> boardReplyNotice = new HashMap<>();
-		boardReplyNotice.put("baordUserCode", baordUserCode);
-		boardReplyNotice.put("noticeContent", noticeContent);
-		boardReplyNotice.put("comment_no", comment_no);
-		sqlSession.insert("BoardMapper.insertBoardReplyNotice", boardReplyNotice);
-		
 	}
 
 
