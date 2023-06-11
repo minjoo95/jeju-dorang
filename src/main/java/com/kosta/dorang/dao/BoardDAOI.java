@@ -7,6 +7,7 @@ import com.kosta.dorang.dto.Board;
 import com.kosta.dorang.dto.BoardComments;
 import com.kosta.dorang.dto.BoardCriteria;
 import com.kosta.dorang.dto.BoardLike;
+import com.kosta.dorang.dto.BoardWithNickname;
 import com.kosta.dorang.dto.User;
 
 public interface BoardDAOI {
@@ -19,7 +20,8 @@ public interface BoardDAOI {
 	
 	int insertBoard(Board board);
 
-	Board selectOneBoard(int no);
+	BoardWithNickname selectOneBoard(int no);
+//	Board selectOneBoard(int no);
 
 	int updateBoard(Board board);
 
@@ -49,6 +51,18 @@ public interface BoardDAOI {
 	
 	int deleteBoardComment(int commentNo);
 	void insertBoardReplyNotice(long baordUserCode, String noticeContent, int comment_no);
+	
+	int updateParentCommentNo(int comment_no);
+	
+	int updateCommentGroupOrder(List<BoardComments> commentsList);
+	
+	//댓글 + 대댓글
+	BoardComments selectOneBoardComment(int parent_comment_no);
+	int updateCommentGroupOrder(BoardComments bc);
+	
+	int countCommentUserListTotal(long userCode);
+	
+	List<Map<String, Object>> selectCommentUserPageList(BoardCriteria cri);
 	
 //	List<Board> selectBoardPaging();
 

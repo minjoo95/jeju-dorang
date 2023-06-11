@@ -12,6 +12,7 @@ import com.kosta.dorang.dto.Board;
 import com.kosta.dorang.dto.BoardComments;
 import com.kosta.dorang.dto.BoardCriteria;
 import com.kosta.dorang.dto.BoardLike;
+import com.kosta.dorang.dto.BoardWithNickname;
 import com.kosta.dorang.dto.User;
 
 @Repository
@@ -46,7 +47,8 @@ public class BoardDAO implements BoardDAOI {
 	}
 
 	@Override
-	public Board selectOneBoard(int no) {
+//	public Board selectOneBoard(int no) {
+	public BoardWithNickname selectOneBoard(int no) {
 		return sqlSession.selectOne("BoardMapper.selectOneBoard", no);
 	}
 
@@ -81,7 +83,8 @@ public class BoardDAO implements BoardDAOI {
 	@Override
 	public int insertBoardComments(BoardComments boardComments) {
 		
-		return sqlSession.insert("BoardMapper.insertBoardComments", boardComments);
+//		return sqlSession.insert("BoardMapper.insertBoardComments", boardComments);
+		return sqlSession.insert("BoardMapper.insertBoardCommentsReturnNo", boardComments);
 	}
 
 	@Override
@@ -124,8 +127,26 @@ public class BoardDAO implements BoardDAOI {
 	@Override
 	public int deleteBoardComment(int commentNo) {
 		
-		return sqlSession.delete("BoardMapper.deleteBoardComment", commentNo);
+		return sqlSession.delete("BoardMapper.deleteBoardComment", commentNo);		
+	}
+
+	@Override
+	public int updateParentCommentNo(int comment_no) {
 		
+		return sqlSession.update("BoardMapper.updateParentCommentNo", comment_no);
+	}
+		
+	//mapper 없음
+	@Override
+	public int updateCommentGroupOrder(List<BoardComments> commentsList) {
+		
+		return sqlSession.update("BoardMapper.updateCommentGroupOrder", commentsList);
+	}
+
+	@Override
+	public BoardComments selectOneBoardComment(int parent_comment_no) {
+		
+		return sqlSession.selectOne("BoardMapper.selectOneBoardComment", parent_comment_no);
 	}
 
 	@Override
@@ -136,6 +157,24 @@ public class BoardDAO implements BoardDAOI {
 		boardReplyNotice.put("comment_no", comment_no);
 		sqlSession.insert("BoardMapper.insertBoardReplyNotice", boardReplyNotice);
 		
+	}
+
+
+	public int updateCommentGroupOrder(BoardComments bc) {
+		
+		return sqlSession.update("BoardMapper.updateCommentGroupOrder", bc);
+	}
+
+	@Override
+	public int countCommentUserListTotal(long userCode) {
+		
+		return sqlSession.selectOne("BoardMapper.countCommentUserListTotal", userCode);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectCommentUserPageList(BoardCriteria cri) {
+		
+		return sqlSession.selectList("BoardMapper.selectCommentUserPageList", cri);
 	}
 
 

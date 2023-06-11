@@ -83,6 +83,8 @@
           <input type="hidden" name="mate_code" id="mate_code" value="<c:out value='${mt.mate_code}'/>"/>
           <input type="hidden" name="page" id="page" value="<c:out value='${cri.page}'/>"/>
           <input type="hidden" name="perPageNum" id="perPageNum" value="<c:out value='${cri.perPageNum}'/>"/>
+          <input type="hidden" name="sortBy" id="sortBy" value="<c:out value='${cri.sortBy}'/>"/>
+          <input type="hidden" name="backPageName" id="backPageName" value="myMateCommunity"/>
     </form>
     <div class="container" style="padding:50px 0px" >
      <div class="d-flex" >
@@ -162,8 +164,6 @@
 		 </div> 
           </div> 
     </div>
-   
-   
    <div class = "mate_reply_whole_box">
     
 	    <!--댓글쓰기  -->
@@ -188,9 +188,7 @@
 		    	</div>
 	    	</div>
 	    </div>
-    
     </div>
-   	<p>${commentCode }</p>
 <jsp:include page="/WEB-INF/views/footer.jsp" />
   </body>
 </html>

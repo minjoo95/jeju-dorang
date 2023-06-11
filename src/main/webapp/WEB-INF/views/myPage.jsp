@@ -12,22 +12,45 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 	<title>제주도랑 - 마이페이지</title>
 </head>
 
 <body>
-	<jsp:include page="/WEB-INF/views/header.jsp" />
-	<jsp:include page="/WEB-INF/views/myPageTab.jsp" flush="false"/>
+		<div id="myPageHeaderWrapper">
+			<jsp:include page="/WEB-INF/views/header.jsp" />
+		</div>
+		
+		<div id="myPageTabWrapper">
+		 	<jsp:include page="/WEB-INF/views/myPageTab.jsp"/>
+		</div>
 	
-	<jsp:include page="${myPageContentPage }" flush="false"/>
+		<div id="myPageContentWrapper">
+			<jsp:include page="${myPageContentPage }"/>
+		</div>
 	
-	<jsp:include page="/WEB-INF/views/footer.jsp" />
+		<div id="myPageFooterWrapper">
+			<jsp:include page="/WEB-INF/views/footer.jsp" />
+		</div>
+		<div id="myPageBackground">
+	</div>
 </body>
 
 </html>
 
 <script>
-	/* 메뉴 선택 초기화 */
-	localStorage.setItem('lastClicked', 'userModify');
+	/* 메뉴 선택 초기화, 고정 */
+	if(location.href.indexOf('userModify') > -1) {
+		localStorage.setItem('lastClicked', 'userModify');
+	} else if (location.href.indexOf('likedMyTrip') > -1) {
+		localStorage.setItem('lastClicked', 'likedMyTrip');
+	} else if (location.href.indexOf('mateMypage') > -1) {
+		localStorage.setItem('lastClicked', 'mateMypage');
+	} else if (location.href.indexOf('myBoard') > -1) {
+		localStorage.setItem('lastClicked', 'myBoard');
+	} else {
+		localStorage.setItem('lastClicked', 'userModify');
+	}
+	
 </script>

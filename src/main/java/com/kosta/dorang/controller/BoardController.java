@@ -27,6 +27,7 @@ import com.kosta.dorang.dto.BoardComments;
 import com.kosta.dorang.dto.BoardCriteria;
 import com.kosta.dorang.dto.BoardLike;
 import com.kosta.dorang.dto.BoardPageMaker;
+import com.kosta.dorang.dto.BoardWithNickname;
 import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.BoardServiceI;
 
@@ -86,6 +87,15 @@ public class BoardController {
 		
 		return "board/boardMain";
 	}
+	
+//	boardUserSearch
+	/*
+	 * @RequestMapping(value= "/boardSearch", method=RequestMethod.GET) public void
+	 * boardUserSearchList(Model model, BoardCriteria cri, @RequestParam String
+	 * boardSearch) {
+	 * 
+	 * }
+	 */
 	
 	//제목 검색만
 	@RequestMapping(value= "/boardSearch", method=RequestMethod.GET)
@@ -233,13 +243,15 @@ public class BoardController {
 		
 		try {
 			
-			Board board = boardServiceI.selectOneBoard(no);
+//			Board board = boardServiceI.selectOneBoard(no);
+			BoardWithNickname board = boardServiceI.selectOneBoard(no);
 			
+			System.out.println("boardSelectOne : " + board);
 			System.out.println("boardDetail : " + board.getBoard_title());
 			System.out.println("boardDetail : " + board.getBoard_content());
 			
 			List<BoardComments> commentsList = boardServiceI.selectBoardCommentsList(no);
-			System.out.println("commentsList : " + commentsList);
+			System.out.println("boardSelectOne commentsList : " + commentsList);
 			
 			
 			model.addAttribute("board", board);
@@ -343,6 +355,7 @@ public class BoardController {
 			
 			System.out.println(boardComments);
 			
+
 			int board_id=boardComments.getBoard_id();
 			Board board=boardServiceI.selectOneBoard(board_id);
 			String boardTitle=board.getBoard_title();
@@ -356,6 +369,57 @@ public class BoardController {
 			
 			int result = boardServiceI.insertBoardComments(boardComments);
 			System.out.println("댓글 등록 갔다 옴");
+
+			//
+			if(boardComments.getParent_comment_no() != 0) {
+				
+				//댓글이 달릴 댓글
+				BoardComments bc =  boardServiceI.selectOneBoardComment(boardComments.getParent_comment_no());
+				
+				System.out.println("bc : " + bc);
+				
+				//아래 안 먹힘..
+				int result2 = boardServiceI.updateCommentGroupOrder(bc);
+				
+				System.out.println("resut2 : " + result2);
+				
+				
+				boardComments.setParent_comment_no(bc.getParent_comment_no());
+				boardComments.setComment_order(bc.getComment_group_order() + 1);
+				boardComments.setComment_depth(bc.getComment_depth() + 1);
+				
+				boardServiceI.insertBoardComments(boardComments);
+				
+				
+			} else {
+				int result = boardServiceI.insertBoardComments(boardComments);
+				int result2 = boardServiceI.updateParentCommentNo(boardComments.getComment_no());
+			}
+			
+			
+			
+			//useGeneratedKeys, keyProperty 옵션 추가된 insertBoardComments()
+			//int result = boardServiceI.insertBoardComments(boardComments);
+			
+//			System.out.println("comment no : " + boardComments.getComment_no());
+//			
+//			
+//			//댓글인 경우
+//			if(boardComments.getParent_comment_no() == 0) {
+//				
+//				//parent_comment_no를 나로
+//				int result2 = boardServiceI.updateParentCommentNo(boardComments.getComment_no());
+//				
+//			} else {
+//				
+//			}
+//			
+			
+			//대댓글인 경우
+			
+//			int result = boardServiceI.insertBoardComments(boardComments);
+//			System.out.println("댓글 등록 갔다 옴");
+
 //			model.addAttribute("");
 			int comment_no=boardComments.getComment_no();
 			
@@ -408,6 +472,116 @@ public class BoardController {
 		
 		//return 1;
 		return user;
+	}
+	
+	
+	@RequestMapping(value= "/myBoardList", method=RequestMethod.GET)
+	public String myBoardList(Model model, BoardCriteria cri, HttpSession session, String user) {
+		
+		System.out.println("uuuu : " + user);
+		
+		long userCode = Long.parseLong(user);
+		User me = writerInfo(user);
+		
+		BoardPageMaker pageMaker = new BoardPageMaker();
+
+		cri.setUserCode(userCode);
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(boardServiceI.countBoardUserListTotal(userCode));
+		
+		List<Map<String, Object>> list = boardServiceI.selectBoardUserPageList(cri);
+		
+		System.out.println("boardUserList : " + list);
+		System.out.println("boardUserList Size : " + list.size());
+		
+		for(int i=0; i < list.size(); i ++) {
+			System.out.println(list.get(i));
+			System.out.println(list.get(i).get("board_reg_date"));
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			//LocalDateTime -> Date
+			//이렇게까지...?
+			LocalDateTime ldt = (LocalDateTime) list.get(i).get("board_reg_date");
+			Instant instant = ldt.atZone(ZoneId.systemDefault()).toInstant();
+			Date regDate = Date.from(instant);
+			
+			System.out.println("regDate : " + regDate);
+			System.out.println("sdf : " + sdf.format(regDate));
+			
+			list.get(i).replace("board_reg_date", sdf.format(regDate));
+			
+			System.out.println("after list : " + list.get(i));
+		}
+		
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pageMaker", pageMaker);	
+		model.addAttribute("user", me);
+		
+		if(session.getAttribute("user") == null) {
+			System.out.println("null일때");
+			//jsp에 로그인 하라는 창 추가하기
+			return "redirect:/board/list";
+		}
+
+		return "board/myBoardList";
+		
+	}
+	
+	@RequestMapping(value= "/myCommentList", method=RequestMethod.GET)
+	public String myCommentList(Model model, BoardCriteria cri, HttpSession session, String user) {
+		
+		System.out.println("uuuu : " + user);
+		
+		long userCode = Long.parseLong(user);
+		User me = writerInfo(user);
+		
+		BoardPageMaker pageMaker = new BoardPageMaker();
+
+		cri.setUserCode(userCode);
+		pageMaker.setCri(cri);
+		//pageMaker.setTotalCount(boardServiceI.countBoardUserListTotal(userCode));
+		pageMaker.setTotalCount(boardServiceI.countCommentUserListTotal(userCode));
+
+		List<Map<String, Object>> list = boardServiceI.selectCommentUserPageList(cri);
+		
+		System.out.println("boardUserList222 : " + list);
+		System.out.println("boardUserList Size222 : " + list.size());
+		
+		for(int i=0; i < list.size(); i ++) {
+			System.out.println(list.get(i));
+			System.out.println(list.get(i).get("board_reg_date"));
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			//LocalDateTime -> Date
+			//이렇게까지...?
+			LocalDateTime ldt = (LocalDateTime) list.get(i).get("board_reg_date");
+			Instant instant = ldt.atZone(ZoneId.systemDefault()).toInstant();
+			Date regDate = Date.from(instant);
+			
+			System.out.println("regDate : " + regDate);
+			System.out.println("sdf : " + sdf.format(regDate));
+			
+			list.get(i).replace("board_reg_date", sdf.format(regDate));
+			
+			System.out.println("after list : " + list.get(i));
+		}
+		
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pageMaker", pageMaker);	
+		model.addAttribute("user", me);
+		
+		if(session.getAttribute("user") == null) {
+			System.out.println("null일때");
+			//jsp에 로그인 하라는 창 추가하기
+			return "redirect:/board/list";
+		}
+
+		return "board/myBoardList";
+		
 	}
 	
 	@RequestMapping(value = "/userBoard", method = RequestMethod.POST)

@@ -66,8 +66,12 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/mypage")
-	public String myPage() {
-		return "myPage";
+	public String myPage(HttpServletRequest request) {
+		if(request.getSession().getAttribute("userInfo") == null) {
+			return "redirect:https://kauth.kakao.com/oauth/authorize?client_id=a62a2c16a4182ec20a1185a3f707c2b1&redirect_uri=http://localhost:8080/dorang/user/kakaoCallback&response_type=code&prompt=login";
+		} else {
+			return "myPage";
+		}
 	}
 	
 	@RequestMapping(value="/kakaoAddition")

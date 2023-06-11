@@ -21,6 +21,9 @@
 	  .container, .container * {
 	    box-sizing: border-box !important;
 	  }
+	  .inputCountTxt{
+	    text-align: right;
+	  }
 	</style>
 	
 	<script>
@@ -28,9 +31,9 @@
 		
 		  var textarea = $('#content');
 		  var inputCount =$('.inputCount');
+		  var maxLength = 150;
 
 		  textarea.on('input', function() {
-		    var maxLength = 150;
 		    var remainingChars = maxLength - textarea.val().length;  
 
 		    if (remainingChars <= 0) {
@@ -54,7 +57,7 @@
 				  $(this).val($(this).val().substring(0, maxLength)); 
 			      remainingChars = 0;
 			    }
-			  $(this).next().text($(this).val().length);
+			  $(this).next().find('#inputCount').text($(this).val().length); 
 		  });
 		  
 		  
@@ -163,7 +166,9 @@ function goInsert() {
 				 		<div class="mb-4" >
 							<label for="title" class="form-label" style="color: #FB7A51;">제목</label>
 							<input type="text" class="form-control inputCount" id="title" name="title" placeholder="제목을 입력해주세요">
-							<span id="inputCount">0</span>/30
+							<div class="inputCountTxt">
+	   			 	       	 <span id="inputCount">0</span>/30
+	   			 	        </div>
 				  		</div> 
 						 <!-- 이미지 -->
 							 <div class="card mb-3">
@@ -307,7 +312,9 @@ function goInsert() {
 				    <div class="mb-3 ">
 					  	    <label for="content" class="form-label" style="color:  #FB7A51;">내용</label>
 						    <textarea class="form-control" placeholder="내용을 입력해주세요" id="content" name="content" style="height:150px; resize: none;"></textarea>
-			  		        <span id="charCount">0</span>/150
+						     <div class="inputCountTxt">
+	   			 	         	 <span id="charCount">0</span>/150
+	   			 	        </div>
 			  		</div>
 			   </div>
 			  <div class="container_ask">
@@ -318,19 +325,25 @@ function goInsert() {
 	  	    	 <div class="mb-3" >
 	  	    		<label for="first_ask" class="w-100">
 	   			 	    <input type="text" class="form-control inputCount" id="first_ask" name="first_ask" placeholder="질문1.">
-	   			 	    	<span id="inputCount">0</span>/30
+	   			 	        <div class="inputCountTxt">
+	   			 	       	 <span id="inputCount">0</span>/30
+	   			 	        </div>
 	    	    	</label>
 	             </div>
 	              <div class="mb-3">
 	                <label for="second_ask" class="w-100">
 	   			 	    <input type="text" class="form-control inputCount" id="second_ask" name="second_ask" placeholder="질문2." >
-	   			 	    	<span id="inputCount">0</span>/30
+	   			 	    	 <div class="inputCountTxt">
+	   			 	       		 <span id="inputCount">0</span>/30
+	   			 	         </div>
 	    	    	</label>
 	             </div>
 	              <div class="mb-5">
 	              	<label for="third_ask" class="w-100">
 	   			 	    <input type="text" class="form-control inputCount" id="third_ask" name="third_ask" placeholder="질문3.">
-	   			 	    	<span id="inputCount">0</span>/30
+	   			 	    	 <div class="inputCountTxt">
+	   			 	       		 <span id="inputCount">0</span>/30
+	   			 	        </div>
 	    	    	</label>
 	             </div>
 			  </div>

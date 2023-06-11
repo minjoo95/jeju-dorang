@@ -11,6 +11,7 @@ import com.kosta.dorang.dto.Board;
 import com.kosta.dorang.dto.BoardComments;
 import com.kosta.dorang.dto.BoardCriteria;
 import com.kosta.dorang.dto.BoardLike;
+import com.kosta.dorang.dto.BoardWithNickname;
 import com.kosta.dorang.dto.User;
 
 @Service
@@ -47,7 +48,8 @@ public class BoardService implements BoardServiceI {
 	}
 
 	@Override
-	public Board selectOneBoard(int no) {
+//	public Board selectOneBoard(int no) {
+	public BoardWithNickname selectOneBoard(int no)	{
 		
 		return boardDaoI.selectOneBoard(no);
 	}
@@ -80,8 +82,7 @@ public class BoardService implements BoardServiceI {
 	@Override
 	public int updateBoardLike(int no) {
 
-		return boardDaoI.updateBoardLike(no);
-		
+		return boardDaoI.updateBoardLike(no);		
 	}
 
 	@Override
@@ -135,8 +136,43 @@ public class BoardService implements BoardServiceI {
 	}
 
 	@Override
+
 	public void insertBoardReplyNotice(long baordUserCode, String noticeContent, int comment_no) {
 		boardDaoI.insertBoardReplyNotice(baordUserCode,noticeContent,comment_no);
+
+	public int updateParentCommentNo(int comment_no) {
 		
+		return boardDaoI.updateParentCommentNo(comment_no);
+	}
+
+	@Override
+	public int updateCommentGroupOrder(List<BoardComments> commentsList) {
+		
+		return boardDaoI.updateCommentGroupOrder(commentsList);
+		
+	}
+
+	@Override
+	public BoardComments selectOneBoardComment(int parent_comment_no) {
+		
+		return boardDaoI.selectOneBoardComment(parent_comment_no);
+	}
+
+	@Override
+	public int updateCommentGroupOrder(BoardComments bc) {
+		
+		return boardDaoI.updateCommentGroupOrder(bc);
+	}
+
+	@Override
+	public int countCommentUserListTotal(long userCode) {
+		
+		return boardDaoI.countCommentUserListTotal(userCode);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectCommentUserPageList(BoardCriteria cri) {
+		
+		return boardDaoI.selectCommentUserPageList(cri);
 	}
 }

@@ -22,17 +22,35 @@
 	
 	<select id = "selectBoardPageList" resultType = "hashmap" parameterType= "hashmap">
 		<![CDATA[
+        	select board.*, user.user_nickname from board left join user on board.user_code = user.user_code order by board_id desc limit #{pageStart}, #{perPageNum};
+       ]]>
+	</select>
+	
+	<select id = "selectBoardPageList2" resultType = "hashmap" parameterType= "hashmap">
+		<![CDATA[
         	select * from board order by board_id desc limit #{pageStart}, #{perPageNum}
        ]]>
 	</select>
 	
 	<select id = "selectBoardSearchPageList" resultType = "hashmap" parameterType= "hashmap">
 		<![CDATA[
+        	select board.*, user.user_nickname from board left join user on board.user_code = user.user_code where board_title like concat('%',#{search},'%') order by board_id desc limit #{pageStart}, #{perPageNum}
+       ]]>
+	</select>
+	
+	<select id = "selectBoardSearchPageList2" resultType = "hashmap" parameterType= "hashmap">
+		<![CDATA[
         	select * from board where board_title like concat('%',#{search},'%') order by board_id desc limit #{pageStart}, #{perPageNum}
        ]]>
 	</select>
 	
 	<select id = "selectBoardUserPageList" resultType = "hashmap" parameterType= "hashmap">
+		<![CDATA[
+        	select board.*, user.user_nickname from board left join user on board.user_code = user.user_code where board.user_code=#{userCode} order by board_id desc limit #{pageStart}, #{perPageNum}
+       ]]>
+	</select>
+	
+	<select id = "selectBoardUserPageList2" resultType = "hashmap" parameterType= "hashmap">
 		<![CDATA[
         	select * from board where user_code=#{userCode} order by board_id desc limit #{pageStart}, #{perPageNum}
        ]]>
@@ -56,11 +74,24 @@
 		]]>
 	</select>
 	
-	<select id = "selectOneBoard" resultType = "com.kosta.dorang.dto.Board" >
+	<select id = "countCommentUserListTotal" resultType = "Integer" >
+		<![CDATA[
+			select count(*) from board_comment where user_code=#{userCode}
+		]]>
+	</select>
+	
+	<select id = "selectOneBoard" resultType = "com.kosta.dorang.dto.BoardWithNickname" >
+		<![CDATA[
+			select board.*, user.user_nickname from board left join user on board.user_code = user.user_code where board_id = #{no};
+		]]>
+	</select>
+	
+	<select id = "selectOneBoard2" resultType = "com.kosta.dorang.dto.Board" >
 		<![CDATA[
 			select * from board where board_id = #{no}
 		]]>
 	</select>
+
 	
 	<select id = "selectOneBoardLike" resultType = "com.kosta.dorang.dto.BoardLike" parameterType="com.kosta.dorang.dto.BoardLike">
 		<![CDATA[
@@ -68,9 +99,33 @@
 		]]>
 	</select>
 	
-	<select id = "selectBoardCommentsList" resultType = "com.kosta.dorang.dto.BoardComments">
+	<select id = "selectOneBoardComment" resultType = "com.kosta.dorang.dto.BoardComments" >
 		<![CDATA[
-        	select * from board_comment where board_id = #{no}
+			select * from board_comment where comment_no = #{parent_comment_no}
+		]]>
+	</select>
+	
+	<select id = "selectOneBoardCommentTemp" resultType = "com.kosta.dorang.dto.BoardComments" >
+		<![CDATA[
+			select * from board_comment_temp where comment_no = #{parent_comment_no}
+		]]>
+	</select>
+	
+	<select id = "selectBoardCommentsList" resultType = "com.kosta.dorang.dto.BoardCommentsWithNickname">
+		<![CDATA[
+        	select board_comment.*, user.user_nickname from board_comment left join user on board_comment.user_code = user.user_code where board_comment.board_id = #{no} order by board_comment.parent_comment_no asc, board_comment.comment_group_order desc
+       ]]>
+	</select>
+	
+	<select id = "selectBoardCommentsListTemp" resultType = "com.kosta.dorang.dto.BoardCommentsWithNickname">
+		<![CDATA[
+        	select board_comment_temp.*, user.user_nickname from board_comment_temp left join user on board_comment_temp.user_code = user.user_code where board_comment_temp.board_id = #{no} order by board_comment_temp.parent_comment_no asc, board_comment_temp.comment_group_order desc
+       ]]>
+	</select>
+	
+	<select id = "selectBoardCommentsList2" resultType = "com.kosta.dorang.dto.BoardComments">
+		<![CDATA[
+        	select * from board_comment_temp where board_id = #{no} order by parent_comment_no asc, comment_group_order desc
        ]]>
 	</select>
 	
@@ -80,6 +135,12 @@
        ]]>
 	</select>
 	
+	<select id = "selectCommentUserPageList" resultType = "hashmap" parameterType= "hashmap">
+		<![CDATA[
+       		select b.*, u.user_nickname from board_comment bc left join board b on bc.board_id = b.board_id left join user u on b.user_code = u.user_code where bc.user_code=#{userCode} order by board_id desc limit #{pageStart}, #{perPageNum}
+       
+       ]]>
+	</select>
 	
 	<insert id="insertBoard" parameterType="com.kosta.dorang.dto.Board">
 		<![CDATA[
@@ -97,8 +158,29 @@
 	
 	<insert id="insertBoardComments" parameterType="com.kosta.dorang.dto.BoardComments" useGeneratedKeys="true" keyProperty="comment_no">
 		<![CDATA[
-			insert into board_comment (user_code, board_id, comment_content, parent_comment_no)
-			values (#{user_code}, #{board_id}, #{comment_content}, #{parent_comment_no})
+			insert into board_comment (user_code, board_id, comment_content, parent_comment_no, comment_depth, comment_group_order)
+			values (#{user_code}, #{board_id}, #{comment_content}, #{parent_comment_no}, #{comment_depth}, #{comment_group_order})
+		]]>
+	</insert>
+	
+	<insert id="insertBoardCommentsTemp" parameterType="com.kosta.dorang.dto.BoardComments">
+		<![CDATA[
+			insert into board_comment_temp (user_code, board_id, comment_content, parent_comment_no, comment_depth, comment_group_order)
+			values (#{user_code}, #{board_id}, #{comment_content}, #{parent_comment_no}, #{comment_depth}, #{comment_group_order})
+		]]>
+	</insert>
+	
+	<insert id="insertBoardCommentsReturnNo" parameterType="com.kosta.dorang.dto.BoardComments" useGeneratedKeys="true" keyProperty="comment_no">
+		<![CDATA[
+			insert into board_comment (user_code, board_id, comment_content, parent_comment_no, comment_depth, comment_group_order)
+			values (#{user_code}, #{board_id}, #{comment_content}, #{parent_comment_no}, #{comment_depth}, #{comment_group_order})
+		]]>
+	</insert>
+	
+	<insert id="insertBoardCommentsReturnNoTemp" parameterType="com.kosta.dorang.dto.BoardComments" useGeneratedKeys="true" keyProperty="comment_no">
+		<![CDATA[
+			insert into board_comment_temp (user_code, board_id, comment_content, parent_comment_no, comment_depth, comment_group_order)
+			values (#{user_code}, #{board_id}, #{comment_content}, #{parent_comment_no}, #{comment_depth}, #{comment_group_order})
 		]]>
 	</insert>
 	
@@ -125,6 +207,38 @@
 		]]>	
 	</update>
 	
+	<update id="updateParentCommentNo" parameterType="com.kosta.dorang.dto.BoardComments">
+		<![CDATA[
+			update board_comment
+			set parent_comment_no = #{comment_no}
+			where comment_no = #{comment_no}
+		]]>	
+	</update>
+	
+	<update id="updateParentCommentNoTemp" parameterType="com.kosta.dorang.dto.BoardComments">
+		<![CDATA[
+			update board_comment_temp
+			set parent_comment_no = #{comment_no}
+			where comment_no = #{comment_no}
+		]]>	
+	</update>
+	
+	<update id="updateCommentGroupOrder" parameterType="com.kosta.dorang.dto.BoardComments">
+		<![CDATA[
+			update board_comment
+			set comment_group_order = comment_group_order + 1
+			where parent_comment_no = #{parent_comment_no} and comment_group_order > #{comment_group_order}
+		]]>	
+	</update>
+	
+	<update id="updateCommentGroupOrderTemp" parameterType="com.kosta.dorang.dto.BoardComments">
+		<![CDATA[
+			update board_comment_temp
+			set comment_group_order = comment_group_order + 1
+			where parent_comment_no = #{parent_comment_no} and comment_group_order > #{comment_group_order}
+		]]>	
+	</update>
+	
 	<delete id="deleteBoard">
 		<![CDATA[
 			delete from board where board_id = #{no}
@@ -139,11 +253,16 @@
 			
 		]]>	
 	</delete>
-	
 	<insert id="insertBoardReplyNotice" parameterType="map">
 		<![CDATA[
 		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, comment_no)
 		VALUES (notice_nextval('num'), #{baordUserCode}, 2, NOW(), #{noticeContent}, #{comment_no})
 		]]>	
 	</insert>
+	<delete id="deleteBoardCommentTemp">
+		<![CDATA[
+			delete from board_comment_temp where comment_no = #{commentNo}
+			
+		]]>	
+	</delete>
 </mapper>

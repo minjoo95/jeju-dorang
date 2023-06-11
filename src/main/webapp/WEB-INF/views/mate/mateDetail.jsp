@@ -11,9 +11,9 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>  
-  	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" defer></script>
+  	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
   </head>
   <style>
   	 *:not(html), .wrap, header {
@@ -65,129 +65,26 @@
   
   .applyAlert{
   	position: absolute;
-  	bottom: 32px;
+  	bottom: 7.5%;
   	left: 50%;
   	margin-left: calc(-258px / 2);
   	width: 259px;
   	box-sizing: border-box;
   }
+  .btn-close{
+  	cursor: pointer;
+  }
   </style>
-  <script type="text/javascript">
-
- $(document).ready(function(){
-	
-	
-	 var tags=$("#tags_strings").html();
-	 var tagList = tags.split('/');
-	 var tags_label = $("#tags_list label"); 
-	 
-	
-	 for(var i=0; i<tagList.length;i++){
-		tags_label.eq(i).text("#" + tagList[i]); 
-		console.log(tags_label.eq(i).text());
-	 }
-	 
-	 $("button").on("click", function(e){
- 		var formData=$("#frm");
- 		
- 		var btn=$(this).data("btn"); // data-btn="list"
- 		
- 		if(btn=='update'){
- 			formData.attr("action", "${contextPath}/mate/updateForm");
- 			formData.submit(); 
- 		}else if (btn=='list') {
- 			formData.find("#mate_code").remove();
- 			formData.find("#user_code").remove();
-			formData.attr("action", "${contextPath}/mate/list");
-			formData.submit(); 
- 		}else if(btn=='delete'){
-			 
-			  formData.attr("action", "${contextPath}/mate/delete");
-			  formData.submit(); 
-		}
- 		
- 		
- 		
- 	});    	
-	 
-
-	 
-  });//document끝
-  
-
-  
-  function mateApply() {
-		 
-		 var frist_answer = $('#frist_answer').val();
-	  	 var second_answer = $('#second_answer').val();
-	  	 var third_answer = $('#third_answer').val();
-	  	 var mate_code = $('#mate_code').val(); 
-	  	 var user_code =$('#user_code').val(); 
-	  	 
-	  	 
-	  	 
-	  	  var send_data = {
-	  			"mate_code": mate_code,
-	  			"user_code": user_code,
-	  	  		"frist_answer": frist_answer,
-	  	   		"second_answer": second_answer,
-	  	    	"third_answer": third_answer 			 
-	  	 };
-	  	  
-	  	 console.log(send_data);
-	  	 if( frist_answer == null || frist_answer.trim() === "" || 
-	  		 second_answer == null || second_answer.trim() === "" ||
-	  		 third_answer == null || third_answer.trim() === ""){
-	  		 
-	  		      alert("모든 내용을 입력해주세요");
-	  		      
-	  	 }else{
-	  		$.ajax({
-	  		    url: "/dorang/mate/apply",
-	  		    type: "POST",
-	  		    contentType:"application/json",
-	  		    data: JSON.stringify(send_data),//JSON문자열 생성
-	  		    dataType: "text",
-	  		    success: function(response) {
-	  		        if (response === "success") {
-	  		        	
-	  		            $("#liveAlert").css("display", "block");
-	  		            $("#liveAlertText").html("신청되었습니다! :)");
-	  		        }else if (response === "already") {
-	  		            $("#liveAlert").css("display", "block");
-	  		             $(".alert-warning").removeClass("alert-warning").addClass("alert-danger");
-	  		            $("#liveAlertText").html("이미 신청된 게시글입니다!");
-	  		        }else{
-	  		        	 $(".alert-warning").removeClass("alert-warning").addClass("alert-danger");
-	  		            $("#liveAlert").css("display", "block");
-			            $("#liveAlertText").html("오류가 발생했습니다.");
-	  		        }
-	  		    },
-	  		  error : function(xhr,status,error) {
-	  			console.log(status + ", " + error);
-	  		}
-	  		});
-	  	 }
-	  			 
-	  		
-	}   
-  
-  function alertClose() {
-	  $("#liveAlert").css("display", "none");
-	  
-	  
-}
- 
- 
-</script>
-  <body>
-
   <jsp:include page="../header.jsp"></jsp:include>
-    <form id="frm"  method="get">
+  <script src="<c:url value="/resources/js/mateDetail.js"/>"></script>
+  <body>
+    <form id="frm"  method="get">                                  
           <input type="hidden" name="mate_code" id="mate_code" value="<c:out value='${mt.mate_code}'/>"/>
           <input type="hidden" name="user_code" id="user_code" value="<c:out value='${sessionScope.userInfo.user_code}'/>"/>
           <input type="hidden" name="page" id="page" value="<c:out value='${cri.page}'/>"/>
+          <input type="hidden" name="sortBy" id="sortBy" value="<c:out value='${cri.sortBy}'/>"/>
           <input type="hidden" name="perPageNum" id="perPageNum" value="<c:out value='${cri.perPageNum}'/>"/>
+    	  <input type="hidden" name="backPageName" id="backPageName" value="mateDetail"/>
     </form>
     <div class="container" style="padding:50px 0px" >
      <div class="d-flex" >
@@ -289,7 +186,7 @@
           </div> 
 		   <div class="alert alert-warning alert-dismissible fade show applyAlert" style="display: none"  role="alert" id="liveAlert">
 			     <p id="liveAlertText"></p>
-			     <button type="button" class="btn-close"  onclick="alertClose()"></button>
+			     <a  class="btn-close"  onclick="alertClose()"></a>
 	       </div>
       <div class="form_btn mb-2" style="width: 100%;text-align: center;">
       		 <c:choose>
@@ -298,15 +195,15 @@
 			 		   <c:when test="${sessionUserCode ne boardUserCode}">
 			 		      <c:choose>
 			 		        <c:when test="${mt.status eq '모집완료'}">
-			 		       		 <button id="liveAlertBtn" type="button" disabled  class="btn btn-secondary px-5">동행신청</button>
+			 		       		 <a id="liveAlertBtn"  disabled  class="btn btn-secondary px-5">동행신청</a>
 			 		        </c:when>
-			 		        <c:otherwise>
-		                        <button id="liveAlertBtn" type="button" class="btn btn-primary px-5" onclick="mateApply()">동행신청</button>
+			 		        <c:otherwise>                          
+		                       <a id="liveAlertBtn" class="btn btn-primary px-5" onclick="mateApply(event)">동행신청</a>
 		                    </c:otherwise>
 			 		      </c:choose>
 			 		   </c:when>
 			 		   <c:otherwise>
-			 		        <button id="liveAlertBtn" type="button" disabled  class="btn btn-secondary px-5">동행신청</button>
+			 		        <a id="liveAlertBtn" type="button" disabled  class="btn btn-secondary px-5">동행신청</a>
 			 		     </c:otherwise>
 		 	    </c:choose>
 		 		</c:when>
@@ -314,11 +211,9 @@
 		 			<button type="button" class="btn btn-primary px-5" onclick="alert('로그인이 필요합니다'); window.location.href = 'https://kauth.kakao.com/oauth/authorize?client_id=a62a2c16a4182ec20a1185a3f707c2b1&redirect_uri=http://localhost:8080/dorang/user/kakaoCallback&response_type=code&prompt=login&state=${pageURL}';">동행신청</button>
 		 		</c:otherwise>
 	        </c:choose> 
-	 
       </div>
     </div>
-    <div style="height: 100px; background-color: orange;">푸터</div>
-
+     <jsp:include page="../footer.jsp"></jsp:include>
   </body>
 </html>
 
