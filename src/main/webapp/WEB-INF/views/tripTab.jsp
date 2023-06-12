@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 
 <!DOCTYPE unspecified PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<link rel="stylesheet" href="<c:url value="/resources/css/travel.css"/>">
 
 <c:set var="contextPath" value="<%=request.getContextPath() %>" />
 
@@ -33,7 +34,54 @@
 </div>
 
 <style>
-	 .travel-tab-container {
+	/* travel tab css */
+	.travel-tab-container {
+	    width: 100%;
+	   
+	    font-family: 'IBM Plex Sans KR', sans-serif;
+	}
+	
+	.travel-tab-list {
+	    margin: 0 auto;
+	    width: 90%;
+	    height:60px;
+	    display:flex;
+	    align-items: center;
+	    justify-content: center;
+	    /* border-top: 1px solid #D9D9D9;
+	    border-bottom:1px solid #D9D9D9; */
+	}
+	
+	.travel-tab-item {
+	    width: 200px; 
+	    height: 100%;
+	    margin: 0 5%;
+	    display:flex;
+	    font-size: 17px;
+	    list-style: none;
+	    align-items:center;	
+	}
+	
+	.travel-theme {
+	    color: #3F3D3A;
+	    text-decoration: none;
+	}
+	
+	.travel-theme:hover {
+	    color: #FB7A51;
+	    font-weight: bold;
+	}
+	
+	.leaf {
+	    width:15px;
+	    height:15px;
+	    margin-left:162px;
+	    position:absolute;
+	    margin-bottom:23px;
+	}
+</style>
+<!-- <style>
+	.travel-tab-container {
 		width: 100%;
 		height: 50px;
 		font-family: 'IBM Plex Sans KR', sans-serif;
@@ -82,7 +130,7 @@
 		margin-bottom:23px;
 	}
 </style>
-
+ -->
 <script>
 
 	$(document).ready(function() {

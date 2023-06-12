@@ -22,15 +22,20 @@
  	color : white;
  }
  
+ .white label {
+ 	font-weight:bold;
+ 	padding-right : 10px;
+ }
+ 
  .travel-text-title {
- 	font-size : 28pt;
+ 	font-size : 40px;
  	/* font-family: 'Noto Serif KR', serif; */
  	 font-family: 'Nanum Myeongjo', serif; 
  	font-weight :700;
  }
  
  .travel-text-address {
- 	font-size : 12pt;
+ 	font-size : 16px;
  	font-weight :400;
  }
  
@@ -40,6 +45,11 @@
  
  .travel-info-title{
  	color : var(--color-sub);
+ }
+ 
+  .travel-info-title span {
+ 	font-size : 18px;
+ 	font-weight :bold;
  }
  
  .title-icon {
@@ -149,7 +159,7 @@
 			
 			<div class="travel-info-tel white">
 				<label>
-					<img src="<c:url value="/resources/img/icon-tel.png"/>" alt="icon-tel" class="detail-icon"/> 전화번호
+					<img src="<c:url value="/resources/img/icon-tel.png"/>" alt="icon-tel" class="detail-icon"/> 전화번호.
 				</label>
 				<span> ${place.getTel() } </span>
 			</div>
@@ -157,12 +167,11 @@
 			<div class="travel-info-loc white">
 				<label>
 					<img src="<c:url value="/resources/img/icon-map.png"/>" alt="icon-map" class="detail-icon"/> 위도.
-					<span> ${place.getLatitude() } </span>
 				</label>
-				<label>
-					경도.
-					<span> ${place.getLongitude() } </span>
-				</label>
+				<span> ${place.getLatitude() } </span>
+				<br> &nbsp; &nbsp; &nbsp;
+				<label> 경도. </label>
+				<span> ${place.getLongitude() } </span>
 			</div>
 			
 			<div class="travel-info-etc white">
