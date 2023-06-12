@@ -10,7 +10,7 @@
 </head>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <body>
-	<jsp:include page="header.jsp"></jsp:include>
+	<jsp:include page="headerBoot.jsp"></jsp:include>
 	<div class="main_wrap">
 	<!-- BEST 여행 -->
 		<div class="main_category">
@@ -96,7 +96,7 @@
 								<hr
 									style="margin-bottom: 8px; opacity: 0.5; border-color: #EF5A31">
 								<i class="icon icon-view_count"></i>조회 ${mate.count } <i
-									class="icon icon-comments_count"></i>댓글 8개 <i class="reg_date">${mate.createdAt}</i>
+									class="icon icon-comments_count"></i>댓글<i class="reg_date">${mate.createdAt}</i>
 							</div>
 						</div>
 					</div>
@@ -104,5 +104,6 @@
 			</c:forEach>
 		</div>
 	</div>
+	<jsp:include page="footerBoot.jsp"></jsp:include>
 </body>
 </html>

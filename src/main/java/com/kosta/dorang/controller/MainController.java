@@ -51,16 +51,6 @@ public class MainController{
         }
         return "main";
     }
-	
-	@RequestMapping(value = "/getSession", method=RequestMethod.POST)
-	@ResponseBody
-	public long getSession() {
-		System.out.println("메인 컨트롤러에 들어오기 성공");
-		long user_code=(long) session.getAttribute("user");
-		System.out.println("getSession : "+user_code);
-		return user_code;
-		
-	}
 
 	@RequestMapping(value="/notice",method=RequestMethod.POST)
 	@ResponseBody
@@ -70,8 +60,6 @@ public class MainController{
 		//List<Notice> noticeList=null;
 		long user_code =  (long) session.getAttribute("user");
 		System.out.println(user_code);
-		
-		
 		
 		try {
 			noticeList=mainServiceI.selectNoticeByUserCode(user_code,lastNtcCode);

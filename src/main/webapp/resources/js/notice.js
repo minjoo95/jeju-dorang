@@ -130,11 +130,11 @@ $(document).ready(function(){
 								
 								var $btn_mate_all=$('<button>수락</button>');
 								$btn_mate_all.click(function(){
-									allLink(result[i].ntc_code);
+									allLink(result[i].mate_application_code);
 								});
 								var $btn_mate_out=$('<button>거절</button>');
 								$btn_mate_out.click(function(){
-									outLink(result[i].ntc_code);
+									outLink(result[i].mate_application_code);
 								});
 								
 								$alarm_apply_btn.append($btn_mate_all).append($btn_mate_out);
@@ -160,9 +160,46 @@ $(document).ready(function(){
 									
 								$(".mateApply_area").append($alarmStatus).append($subTitle);
 								
-							}else{
-						   		
+							}else if(result[i].ntc_cat==5){
+							
+								
+							
 						   		//var $alarmTop=$('<div class="alarm_area-comment-top"');
+								var input=$("<div><input type='hidden' name='ntc_code' id='ntc_code' value=''>");
+						   		var $alarmStatus=$('<div class="alram_view_status">').text('NEW');
+								
+								var $alarm_close=$('<button>x</button>');
+								$alarm_close.click(function(){
+									closeLink(result[i].ntc_code);
+								})
+								
+								var $subTitle=$('<div class="sub_title" id="ntc_content">');
+								var $subTitleOpenSpan=$('<span>').text('신청하신 [');
+								var $MateTitleSpan=$('<span class="sub_title_mate_title">').text(contentSplit[0]);
+								
+								console.log(result[i].mateApply_result);
+								if(result[i].mateApply_result=="수락완료"){
+									var $subTitleCloseSpan=$('<sapn>').text('] 동행에 수락되었습니다.');
+								}else{
+									var $subTitleCloseSpan=$('<sapn>').text('] 동행에 거절되었습니다.');
+								}
+								
+								
+								$subTitle.append(
+									$subTitleOpenSpan,
+									$MateTitleSpan,
+									$subTitleCloseSpan
+								);
+								
+								$(".reply_area").append($alarmStatus).append($alarm_close).append($subTitle);
+								
+								
+								
+						   		
+								
+							}else{
+							
+								//var $alarmTop=$('<div class="alarm_area-comment-top"');
 								var input=$("<div><input type='hidden' name='ntc_code' id='ntc_code' value=''>");
 						   		var $alarmStatus=$('<div class="alram_view_status">').text('NEW');
 								
@@ -191,33 +228,41 @@ $(document).ready(function(){
 								);
 								
 								$(".reply_area").append($alarmStatus).append($alarm_close).append($subTitle);
-								
-								
-								$('#comment_alarm_close').click(function(ntc_code){
-									//var ntc_code=$(this).data("ntc_code");
-									console.log(ntc_code);
-									
-									$.ajax({
-								        url:"/dorang/deletenotice",
-										type:"POST",
-										data:{
-											ntc_code:ntc_code
-										},
-										success:function(){
-											console.log("알림 삭제 성공");
-											$("#ntc_"+ntc_code).addClass("hidden");
-										},
-										error:function(){
-											console.log("알림 삭제 실패");
-										}
-									});//ajax
-								})
-								
+							
 							}//else
 							
 						})(i); 
 					}//for
-				}//if
+				}else{
+					
+					var $alarm_area=$('<div class="alarm_area">');
+					var $sub_title1=$('<strong class="sub_title1">').text('동행신청');
+					var $empty_list1=$('<div class="empty_list alarm_area">');
+					var $empty_img1=$('<img src="<c:url value="/resources/img/gyul.png"/>">');
+					var $empty_alarm_txt1=$('<div class="empty_alarm_txt1">');
+					var $empty_alarm_txt_strong1=$('<strong>주요 일정이 없습니다</strong>');
+					var $sub_title2=$('<strong class="sub_title2">').text('나의 활동');
+					var $empty_list2=$('<div class="empty_list alarm_area">');
+					var $empty_img2=$('<img src="<c:url value="/resources/img/gyul.png"/>">');
+					var $empty_alarm_txt2=$('<div class="empty_alarm_txt2">');
+					var $empty_alarm_txt_strong2=$('<strong>활동이 없습니다</strong>');
+					
+					$alarm_area.append(
+									$sub_title1,
+									$empty_list1,
+									$empty_img1,
+									$empty_alarm_txt1,
+									$empty_alarm_txt_strong1,
+									$sub_title2,
+									$empty_list2,
+									$empty_img2,
+									$empty_alarm_txt2,
+									$empty_alarm_txt_strong2
+								);
+								
+					(".alarm_modal_content").append($alarm_area);
+					
+				}
   					
   					if (result.length > 0) {
                		var lastIndex = result.length - 1;
@@ -253,20 +298,47 @@ $(document).ready(function(){
 	
 });
 
-function allLink(ntc_code){
-	console.log("allLink : "+ntc_code);
+function allLink(mate_application_code){
+	console.log("allLink : "+mate_application_code);
 	
-	//mateapply 테이블에 update - result : 수락
-	//알림 테이블 insert
-	
-	$.ajajx({
-		url:"/dorang/",
+	$.ajax({
+		url:"/dorang/mate/applyaccept",
+		type:"POST",
+		data:{
+			mate_application_code:mate_application_code
+		},
+		success:function(){
+			console.log("수락완료 업데이트 성공");
+			console.log("notice isnert 성공");
+			mateReplyNewDataCheck();
+		},
+		error:function(){
+			console.log("수락완료 업데이트 실패");
+		}
 	}) 
 };
 
-function outLink(ntc_code){
-	console.log("outLink : "+ntc_code);
+function outLink(mate_application_code){
+	console.log("outLink : "+mate_application_code);
+	
+	$.ajax({
+		url:"/dorang/mate/applyrefuse",
+		type:"POST",
+		data:{
+			mate_application_code:mate_application_code
+		},
+		success:function(){
+			console.log("수락거절 업데이트 성공");
+			console.log("notice isnert 성공");
+			mateReplyNewDataCheck();
+		},
+		error:function(){
+			console.log("수락거절 업데이트 실패");
+		}
+	}) 
 };
+
+
 
 function closeLink(ntc_code){
 	console.log("closeLink : "+ntc_code);
@@ -283,13 +355,14 @@ function closeLink(ntc_code){
       		 $("#ntc_" + ntc_code).remove(); // 해당 알림 영역을 삭제
 			mateReplyNewDataCheck();
 			console.log("알림 삭제 성공");
-			
 		},
 		error:function(){
 			console.log("알림 삭제 실패");
 		}
 	});//ajax
 };
+
+
 
 
 function deleteAlarm(ntc_code){
@@ -312,13 +385,33 @@ function deleteAlarm(ntc_code){
 	
 };
 
-function createAlarmElement(result){
-	var $deleteBtn=$("<button>")
-		.text("X")
-		.click(function(){
-			var ntc_code=result[i].ntc_code;
-			deleteAlarm(ntc_code);
-		});
-}
+//function createAlarmElement(result){
+//	var $deleteBtn=$("<button>")
+//		.text("X")
+//		.click(function(){
+//			var ntc_code=result[i].ntc_code;
+//			deleteAlarm(ntc_code);
+//		});
+//}
+
+//$('#comment_alarm_close').click(function(ntc_code){
+//									//var ntc_code=$(this).data("ntc_code");
+//									console.log(ntc_code);
+//									
+//									$.ajax({
+//								        url:"/dorang/deletenotice",
+//										type:"POST",
+//										data:{
+//											ntc_code:ntc_code
+//										},
+//										success:function(){
+//											console.log("알림 삭제 성공");
+//											$("#ntc_"+ntc_code).addClass("hidden");
+//										},
+//										error:function(){
+//											console.log("알림 삭제 실패");
+//										}
+//									});//ajax
+//								})
 
 
