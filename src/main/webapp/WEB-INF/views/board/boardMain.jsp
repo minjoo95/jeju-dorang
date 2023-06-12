@@ -9,7 +9,8 @@
 <meta charset="UTF-8">
 <title>커뮤니티</title>
 <%-- <%@ include file="/WEB-INF/views/header.jsp"%> --%>
-<jsp:include page="/WEB-INF/views/header.jsp" />
+<%-- <jsp:include page="/WEB-INF/views/header.jsp" /> --%>
+<%-- <jsp:include page="/WEB-INF/views/headerBoot.jsp" /> --%>
 
 <!-- bootstrap-->
 <!-- CSS only -->
@@ -33,6 +34,15 @@ function changeCateBtnName(ths){
 </script>
 
 <style>
+
+/* not(html), .wrap, header {
+box-sizing: content-box !important;
+}
+.container, .container * {
+box-sizing: border-box !important;
+position: relative;
+}
+ */
 #board-main-header {
 	height: 800px;
 }
@@ -133,10 +143,123 @@ p.header-text2 {
 		float: none;
 		margin: 0 auto;
 	} */
+
+.pagination {
+	justify-content: center;
+}
+.user-div {
+	overflow:hidden;
+}
+#userAge {
+	margin: 0;
+    width: 60px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    justify-content: center;
+    border: 1px solid #FB7A51;
+}
+
+#userPic {
+	background-color: blue;
+	width: 150px;
+/*	width: 50%;*/
+    height: 150px; 
+    border-radius: 70%;
+    overflow: hidden;
+    float: left;
+    margin-left: 3%;
+}
+
+#userPic>img{
+	width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+
+.userInfoUpper{
+	display: flex;
+    align-items: center;
+
+}
+#userGender {
+	width: 30px;
+    height: 27px;
+    color: white;
+    display: flex;
+    margin-left: 5px;
+    border-radius: 10px;
+    background: #FB7A51;
+    align-items: center;
+    justify-content: center;
+}
+
+#userNickname {
+	font-size: 1.5em;
+    text-align: center;
+}
+
+#userInfo{
+	width: 50%;
+	height: 100%;
+	float: right;
+}
+
+#userTags>p{
+	width: 100%;
+    height: 100%;
+    display: flex;
+    color: #FFFFFF;
+    font-size: 1em;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    background-color: #FB7A51;
+}
+
+.userBtn{
+	background-color: white;
+	border-color:#FB7A51;
+	color:#FB7A51;
+}
+
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+
+.boardFooter {
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+.pg {
+	margin-top: 50px;
+}
+
 </style>
 
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/headerBoot.jsp" />
 <div class = "container" id = "board-main-container">
 	<div class="board-header">
 		<p class="header-text">후기</p>
@@ -174,7 +297,7 @@ p.header-text2 {
 	</table>
 
 	<nav aria-label="Page navigation example">
-		<ul class="btn-group pagination">
+		<ul class="btn-group pagination pg">
 		<%-- ${pageMaker.prev } --%>
 			<c:choose>
 				<c:when test="${pageMaker.startPage-1 == 0}">
@@ -216,8 +339,6 @@ p.header-text2 {
 		</ul>
 	</nav>
 	
-	<!-- display: inline;
-    width: 30%; -->
 	<form name="boardSearchFrom" id="boardSearchFrom" class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/board/boardSearch">
 		<div class="boardFooter">
 <!-- 			<button type="button" class="btn text-white dropdown-toggle" id="srcCateBtn" style="background-color:#FB7A51;" 
@@ -237,20 +358,28 @@ p.header-text2 {
 	<div class="modal fade" id="userInfoModal" tabindex="-1" aria-labelledby="userInfoModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
-				<div class="modal-body">
+				<div class="modal-body user-div">
 					<div class="userPic" id="userPic"></div>
 					<form name="userBoardForm" id="userBoardForm" action="${pageContext.request.contextPath}/board/userBoard" method="post">
-					<div>
+					<div class="userInfo" id="userInfo">
 						<!-- 이름 통일... -->
-						<span id="userAge"></span>
-						<span id="userGender"></span>
+						<div class = "userInfoUpper">
+							<span id="userAge"></span>
+							<span id="userGender"></span>
+						</div>
 						<p id="userNickname"></p>
-						<p id="userTag"></p>
+						
+						<div id="userTags">
+						</div>
+						
+						<!-- <p id="userTag"></p> -->
 						<input type="hidden" id="user_code" name="user_code" value=""/>
 					</div>
-						<button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">(form)작성글보기</button>
+					<div class="userBtn" id="userBtn">
+						<button type="submit" class="btn btn-outline-light userBtn" data-bs-dismiss="modal">작성글보기</button>
+						<button type="button" class="btn btn-outline-light userBtn" data-bs-dismiss="modal">닫기</button>	
+					</div>
 					</form>
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>						
 				</div>	
 			</div>
 		</div>
@@ -281,10 +410,13 @@ function showWriterInfo(ths){
 			$('#userAge').empty();
 			$('#userGender').empty();
 			$('#userNickname').empty();
-			$('#userTag').empty();
+			$('#userTags').empty();
+				
+			let img; //이미지
+			let age; //나이대
+			let gender; //성별
+			let tagArr; //태그
 			
-			//이미지		
-			let img;
 			
 			if((user.user_pic).indexOf('kakaocdn') == -1){
 				
@@ -294,16 +426,63 @@ function showWriterInfo(ths){
 				
 				img = $("<img>").attr({'src':user.user_pic});
 				
+			}	
+			console.log("img : " + img.src);			
+			
+			if ((user.user_age_range == '10~14') || (user.user_age_range == '15~19')){
+				age = '10대';
+			} else if(user.user_age_range == '20~29') {
+				age = '20대';				
+			} else if(user.user_age_range == '30~39') {
+				age = '30대';
+			} else if(user.user_age_range == '40~49'){
+				age = '40대';
+			} else if(user.user_age_range == '50~59') {
+				age = '50대';
+			} else if(user.user_age_range == '60~69') {
+				age = '60대';
+			} else if(user.user_age_range == '70~79') {
+				age = '70대';
+			} else if(user.user_age_range == '80~89') {
+				age = '80대';
+			} else if(user.user_age_range == '90~' ) {
+				age = '90대';
+			} else {
+				age = '-';
 			}
 			
+			if(user.user_gender == 'female'){
+				gender = '여';
+			} else {
+				gender = '남';
+			}
 			
-			console.log("img : " + img.src);
+			tagArr = (user.user_tag).split(",");
+			
+			let tagArea = document.getElementById('userTags');
+			for(let i = 0; i < tagArr.length; i++){
+				let new_pTage = document.createElement('p');
+				new_pTage.setAttribute("id", "userTag"+i);
+				tagArea.appendChild(new_pTage);
+				
+				$('#userTag'+i).append(tagArr[i]);
+				
+			}
+			
+/* 			
+ 			for(let i = 0; i < tagArr.length; i++){
+				console.log(tagArr[i]);
+				$('#userTag').append(tagArr[i]);
+				$('#userTag').append('<br/>');
+			} */
 
 			$("#userPic").append(img);
-			$('#userAge').append(user.user_age_range);
-			$('#userGender').append(user.user_gender);
+			//$('#userAge').append(user.user_age_range);
+			$('#userAge').append(age);
+			//$('#userGender').append(user.user_gender);
+			$('#userGender').append(gender);
 			$('#userNickname').append(user.user_nickname);
-			$('#userTag').append(user.user_tag);
+//			$('#userTag').append(user.user_tag);
 
 			$('input[name=user_code]').attr('value', user.user_code);
 
@@ -326,5 +505,6 @@ function goWriterPage(code){
 
 </div>
 </body>
-<jsp:include page="/WEB-INF/views/footer.jsp" />
+<%-- <jsp:include page="/WEB-INF/views/footer.jsp" /> --%>
+<jsp:include page="/WEB-INF/views/footerBoot.jsp" />
 </html>

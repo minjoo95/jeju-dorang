@@ -7,12 +7,14 @@
 	Long writerCode = null;
 %>
 <!DOCTYPE html>
+<link rel="stylesheet" type="text/css"  href="<c:url value="/resources/css/mateComment.css"/>">
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<%@ include file="/WEB-INF/views/header.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/header.jsp"%> --%>
+<jsp:include page="/WEB-INF/views/headerBoot.jsp" />
 
 <!-- bootstrap-->
 <!-- CSS only -->
@@ -181,13 +183,26 @@ p.header-text {
 }
 
 .board-detail-btn-top{
-	width: 88px;
-    height: 35px;
+ 	
     margin-bottom: 10px;
+    text-align: right;
     margin-right: 3px;
 }
 
+.btn-reply{
+	border: none;
+	background-color: white;
+	color: #FB7A51;
+}
 
+.btn-delete{
+	border: none;
+	background-color: white;
+}
+
+div>.comment_text{
+	background-color:red;
+}
 </style>
 
 </head>
@@ -228,8 +243,11 @@ p.header-text {
 			
 		%>
 		<!-- margin-left 수정필요 -->
-	 	<button type="button" class="btn text-white board-detail-btn-top" style="background-color:#D9D9D9; margin-left: 450px" onclick="updateBoard()">수정</button>
-		<button type="button" class="btn text-white board-detail-btn-top" style="background-color:#FB7A51;" onclick="deleteBoard(${board.board_id})">삭제</button>
+		<div class="board-detail-btn-top">
+		 	<button type="button" class="btn text-white" style="background-color:#D9D9D9; margin-left: 450px" onclick="updateBoard()">수정</button>
+			<button type="button" class="btn text-white" style="background-color:#FB7A51;" onclick="deleteBoard(${board.board_id})">삭제</button>
+		
+		</div>
 		<%		
 			}
 		%>
@@ -292,28 +310,13 @@ p.header-text {
 		
 	%>
 	
-		<div class="comment_container">		
-			<form name="boardCommentForm" action="${pageContext.request.contextPath}/board/boardCommentWrite" method="post">
-				<input type="hidden" name="board_id" value="${board.board_id }">
-				<!-- 로그인 처리 -->
-				<input type="hidden" name="user_code" value="${userInfo.user_code}">
-				<input type="hidden" name="comment_depth" value="0">
-				<input type="hidden" name="parent_comment_no" value="0">
-				<textarea name="comment_content"> </textarea>
-				<button type="submit" >
-					댓글등록
-				</button>
-			</form>	
-		</div>
-	<%		
-		}
-	%>
-		
-		<table>
+	<div class = "mate_reply_whole_box">
+	
+<%-- 	<table>
 		<c:forEach items="${commentsList}" var="comments">	
-			<%-- 이렇게 해서 작성자한테만 삭제 버튼 보여주고 싶었는데 계속 null이 담김ㅜ
+			이렇게 해서 작성자한테만 삭제 버튼 보여주고 싶었는데 계속 null이 담김ㅜ
 			<c:set var="commentWriter" value="${comments.user_code}"/>
-			<c:set var="commentWriter2" value="${comments.comment_content}"/> --%>
+			<c:set var="commentWriter2" value="${comments.comment_content}"/>
 			<tr class="comments_">
 				<td><span><a onclick="showWriterInfo(${comments.user_code})">${comments.user_nickname}</a></span> <span>${comments.comment_reg_date}</span>
 					<br />
@@ -343,45 +346,186 @@ p.header-text {
 					%>
 						<button class="btn-delete" value="${comments.comment_no}" onclick="commentDelete(${comments.comment_no}, ${comments.user_code})">댓글 삭제</button>
 						
-<%-- 						<%
+										<%
 							}
-						%> --%>
+						%>
 				</td>
 			</tr>
 		</c:forEach>
-		</table>
+		</table> --%>
+
+        <!--댓글쓰기  -->
+        <div class="board_reply_wrap">
+        	<form name="boardCommentForm" action="${pageContext.request.contextPath}/board/boardCommentWrite" method="post">
+                	<input type="hidden" name="board_id" value="${board.board_id }">
+					<!-- 로그인 처리 -->
+					<input type="hidden" name="user_code" value="${userInfo.user_code}">
+					<input type="hidden" name="comment_depth" value="0">
+					<input type="hidden" name="parent_comment_no" value="0">
+                    <textarea class="comment_txt" name="comment_content" placeholder="댓글 입력..."></textarea>
+                    <div class="mate_reply_btn_container">
+                    	<button type="submit" class="mate_reply_btn" >
+							입력
+						</button>
+					</div>
+              </form>
+        </div>
+        
+        <div class="mate_reply_wrap">
+            <div class="mate_reply_box">
+                <div class="mate_reply_container">
+                	<form name="boardCommentForm" action="${pageContext.request.contextPath}/board/boardCommentWrite" method="post">
+                		<input type="hidden" name="board_id" value="${board.board_id }">
+						<!-- 로그인 처리 -->
+						<input type="hidden" name="user_code" value="${userInfo.user_code}">
+						<input type="hidden" name="comment_depth" value="0">
+						<input type="hidden" name="parent_comment_no" value="0">
+                    	<textarea class="comment_txt" name="comment_content" placeholder="댓글 입력..."></textarea>
+                    	<div class="mate_reply_btn_container">
+                    		<button type="submit" class="mate_reply_btn" >
+							입력
+						</button>
+						</div>
+                    </form>
+                </div>
+                
+                <!-- <div class="mate_reply_btn_container">
+                    <button class="mate_reply_btn">입력2</button>
+                </div> -->
+            </div>
+        </div>
+       <div class="mate_reply_list_table_box">
+              <table align="center" width="500" border="1" id="rtb">
+	           		<thead id="rCount_head">
+	                    <td colspan="4"><b id="rCount">댓글목록</b></td>
+	                </thead>
+	                <c:forEach items="${commentsList}" var="comments">
+	                <tbody id="mate_reply_body">
+	                	<tr class="comments_">
+							<td><span><a onclick="showWriterInfo(${comments.user_code})">${comments.user_nickname}</a></span> <span>${comments.comment_reg_date}</span>
+							<br />
+							<p>${comments.comment_content}<p>
+							</td>
+							<td>
+							<%
+								System.out.println("댓글 currentUserCode : " + currentUserCode);
+								System.out.println("댓글 writerCode : " + writerCode);
+									
+		/* 						Long commentWriter = (Long)pageContext.getAttribute("commentWrtier");
+								String commentWriter2 = (String)pageContext.getAttribute("commentWrtier2");
+									
+								System.out.println("commentWriter : " + commentWriter);
+								System.out.println("commentWriter2 : " + commentWriter2); */
+										
+								if(currentUserCode != null) {
+				
+							%>
+								
+							<button class="btn-reply" value="${comments.comment_no}">대댓글 쓰기</button>
+								
+							<%
+								}
+									
+								//else {
+							%>
+								<button class="btn-delete" value="${comments.comment_no}" onclick="commentDelete(${comments.comment_no}, ${comments.user_code})">댓글 삭제</button>
+
+						</td>
+					</tr>
+				</c:forEach>
+	                </tbody>
+            </table>
+       </div>
+
+       <%-- <input type="hidden" name="mate_code" id="mate_code" value="${mt.mate_code}"/> --%>
+        <div class="mate_reply_wrap">
+            <div class="mate_reply_box">
+                <div class="mate_reply_container">
+                	<form name="boardCommentForm" action="${pageContext.request.contextPath}/board/boardCommentWrite" method="post">
+                		<input type="hidden" name="board_id" value="${board.board_id }">
+						<!-- 로그인 처리 -->
+						<input type="hidden" name="user_code" value="${userInfo.user_code}">
+						<input type="hidden" name="comment_depth" value="0">
+						<input type="hidden" name="parent_comment_no" value="0">
+                    	<textarea class="comment_txt" name="comment_content" placeholder="댓글 입력..."></textarea>
+                    	<div class="mate_reply_btn_container">
+                    		<button type="submit" class="mate_reply_btn" >
+							입력
+						</button>
+						</div>
+                    </form>
+                </div>
+                
+                <!-- <div class="mate_reply_btn_container">
+                    <button class="mate_reply_btn">입력2</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+	
+<%-- 		<div class="comment_container">		
+			<form name="boardCommentForm" action="${pageContext.request.contextPath}/board/boardCommentWrite" method="post">
+				<input type="hidden" name="board_id" value="${board.board_id }">
+				<!-- 로그인 처리 -->
+				<input type="hidden" name="user_code" value="${userInfo.user_code}">
+				<input type="hidden" name="comment_depth" value="0">
+				<input type="hidden" name="parent_comment_no" value="0">
+				<textarea name="comment_content"> </textarea>
+				<button type="submit" >
+					댓글등록
+				</button>
+			</form>	
+		</div> --%>
+	<%		
+		}
+	%>
+		
+<%-- 		<table>
+		<c:forEach items="${commentsList}" var="comments">	
+			이렇게 해서 작성자한테만 삭제 버튼 보여주고 싶었는데 계속 null이 담김ㅜ
+			<c:set var="commentWriter" value="${comments.user_code}"/>
+			<c:set var="commentWriter2" value="${comments.comment_content}"/>
+			<tr class="comments_">
+				<td><span><a onclick="showWriterInfo(${comments.user_code})">${comments.user_nickname}</a></span> <span>${comments.comment_reg_date}</span>
+					<br />
+					<p>${comments.comment_content}
+					<p></td>
+				<td>
+					<%
+						System.out.println("댓글 currentUserCode : " + currentUserCode);
+						System.out.println("댓글 writerCode : " + writerCode);
+							
+/* 						Long commentWriter = (Long)pageContext.getAttribute("commentWrtier");
+						String commentWriter2 = (String)pageContext.getAttribute("commentWrtier2");
+							
+						System.out.println("commentWriter : " + commentWriter);
+						System.out.println("commentWriter2 : " + commentWriter2); */
+								
+						if(currentUserCode != null) {
+		
+					%>
+						
+					<button class="btn-reply" value="${comments.comment_no}">대댓글 쓰기</button>
+						
+					<%
+						}
+							
+						//else {
+					%>
+						<button class="btn-delete" value="${comments.comment_no}" onclick="commentDelete(${comments.comment_no}, ${comments.user_code})">삭제</button>
+						
+						<%
+							}
+						%>
+				</td>
+			</tr>
+		</c:forEach>
+		</table> --%>
 		
 		<form name="boardDeleteCommentForm" action="${pageContext.request.contextPath}/board/boardDeleteComment" method="post">
 			<input type="hidden" name="comment_no"/>
 			<input type="hidden" name="board_id" value="${board.board_id}"/>
-		</form>
-	
-	
-<%-- 삭제		<textarea> </textarea>
-		<button type="button" onClick="addComment(${board.board_id})">
-			댓글등록
-		</button> --%>
-		
-		<c:forEach var="boardComments" items="${boardComments}" varStatus="status">
-			<div
-				style="border: 1px solid gray; width: 600px; padding: 5px; margin-top: 5px;
-          margin-left: <c:out value="${20*boardComments.comment_depth}"/>px; display: inline-block">
-				<c:out value="${boardComments.user_code}" />
-				<c:out value="${boardComments.comment_reg_date}" />
-				<a href="#"
-					onclick="fn_replyDelete('<c:out value="${boardComments.comment_no}"/>')">삭제</a>
-				<a href="#"
-					onclick="fn_replyUpdate('<c:out value="${boardComments.comment_no}"/>')">수정</a>
-				<a href="#"
-					onclick="fn_replyReply('<c:out value="${boardComments.comment_no}"/>')">댓글</a>
-				<br />
-				<div id="reply<c:out value="${boardComments.comment_no}"/>">
-					<c:out value="${boardComments.comment_content}" />
-				</div>
-			</div>
-			<br />
-		</c:forEach>
-		
+		</form>		
 	</div>
 	
 		<!-- Modal -->
@@ -665,6 +809,8 @@ function showWriterInfo(ths){
 }
 
 </script>
+
 </body>
-<jsp:include page="/WEB-INF/views/footer.jsp" />
+<jsp:include page="/WEB-INF/views/footerBoot.jsp" />
+<%-- <jsp:include page="/WEB-INF/views/footer.jsp" /> --%>
 </html>

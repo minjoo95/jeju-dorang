@@ -56,6 +56,12 @@
        ]]>
 	</select>
 	
+	<select id = "selectBoardUserSearchPageList" resultType = "hashmap" parameterType= "hashmap">
+		<![CDATA[
+       		select board.*, user.user_nickname from board left join user on board.user_code = user.user_code where board.user_code=#{userCode} and board.board_title like concat('%',#{search},'%') order by board_id desc limit #{pageStart}, #{perPageNum}
+       ]]>
+	</select>
+	
 	<select id = "countBoardListTotal" resultType = "Integer" >
 		<![CDATA[
 			select count(*) from board
@@ -77,6 +83,12 @@
 	<select id = "countCommentUserListTotal" resultType = "Integer" >
 		<![CDATA[
 			select count(*) from board_comment where user_code=#{userCode}
+		]]>
+	</select>
+	
+	<select id = "countBoardUserSearchListTotal"  parameterType = "Map" resultType = "Integer" >
+		<![CDATA[
+			select count(*) from board where user_code=#{userCode} and board_title like concat('%',#{boardSearch},'%')
 		]]>
 	</select>
 	

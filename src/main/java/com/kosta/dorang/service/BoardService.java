@@ -177,4 +177,16 @@ public class BoardService implements BoardServiceI {
 		return boardDaoI.selectCommentUserPageList(cri);
 	}
 
+	@Override
+	public int countBoardUserSearchListTotal(Map<String, Object> map) {
+		
+		return boardDaoI.countBoardUserSearchListTotal(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectBoardUserSearchPageList(BoardCriteria cri) {
+		
+		return boardDaoI.selectBoardUserSearchPageList(cri);
+	}
+
 }

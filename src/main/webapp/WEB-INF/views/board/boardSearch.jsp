@@ -30,6 +30,7 @@ function changeCateBtnName(ths){
 	btnElement.innerText = text;
 }
 </script>
+
 <style>
 
 #board-search-container{
@@ -49,6 +50,19 @@ p.header-text {
     padding-left: 3%;
 }
 
+p.board-search-btn {
+	display: inline-block;
+	float: right;
+	padding-top: 4%;
+	margin-right: 3%;
+}
+
+p.board-search-btn>button{
+	background-color: #FB7A51;
+	width: 195px;
+	margin-bottom: 0;
+}
+
 #boardSearch{
     margin: 0 auto;
     width: 50%;
@@ -64,16 +78,24 @@ p.header-text {
 .search-table {
 	height: 55%;
 }
+
+.pagination {
+	justify-content: center;
+}
+
 </style>
 </head>
 <body>
-
+<jsp:include page="/WEB-INF/views/headerBoot.jsp" />
 <div class = "container" id = "board-search-container">
+
 	<div class="board-header">
 		<p class="header-text">후기</p>
-<!-- 		<p class="board-main-btn">
-			<button type="button" class="btn text-white" onclick="goBoardWrite()">후기 작성</button>
-		</p> -->
+ 		<p class="board-search-btn">
+			<!-- <button type="button" class="btn text-white" onclick="goBoardWrite()">후기 작성</button> -->
+			<button type="button" class="btn text-white" onclick="location.href='${pageContext.request.contextPath}/board/list'">목록</button>
+			<%-- <button type="button" class="btn text-white go-list" style="background-color:#FB7A51;" onclick="location.href="${pageContext.request.contextPath}/board/list">목록</button> --%>
+		</p>
 	</div>
 	
 	<div class=search-table>
@@ -105,7 +127,7 @@ p.header-text {
 	</table>
 	</div>
 	
-	<button type="button" class="btn text-white go-list" style="background-color:#FB7A51;" onclick="location.href="${pageContext.request.contextPath}/board/list">목록</button>
+	<%-- <button type="button" class="btn text-white go-list" style="background-color:#FB7A51;" onclick="location.href="${pageContext.request.contextPath}/board/list">목록</button> --%>
 	
 	<nav aria-label="Page navigation example">
 		<ul class="btn-group pagination">
@@ -130,14 +152,23 @@ p.header-text {
 			</c:if>
 		</ul>
 	</nav>
-
+	
 	<form name="boardSearchFrom" id="boardSearchFrom" class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/board/boardSearch">
 		<div class="boardFooter">
 			<!-- 일단은 제목만 검색하게 -->
-			<input class="form-control" type="text" id="boardSearch" name="boardSearch" placeholder="글 제목 검색" aria-label="Search">
+			<input class="form-control" type="text" id="boardSearch" name="boardSearch" placeholder="${user.user_nickname}님 글 제목 검색" aria-label="Search">
 			<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
 		</div>
 	</form>
+
+<%-- 	<form name="boardSearchFrom" id="boardSearchFrom" class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/board/boardUserSearch">
+		<div class="boardFooter">
+			<!-- 일단은 제목만 검색하게 -->
+			<input type="hidden" id="user_code" name="user_code" value="${userInfo.user_code}"/>
+			<input class="form-control" type="text" id="boardSearch" name="boardSearch" placeholder="글 제목 검색" aria-label="Search">
+			<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+		</div>
+	</form> --%>
 
 
 </div>

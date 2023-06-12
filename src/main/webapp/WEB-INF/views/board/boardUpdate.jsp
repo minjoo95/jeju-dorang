@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<%@ include file="/WEB-INF/views/header.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/header.jsp"%> --%>
 
 <!-- Editor's Style -->
 <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
@@ -83,6 +83,7 @@ function boardUpdate(){
 
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/headerBoot.jsp" />
 <div id="board-write-container">
 	
 		<form name="boardWriteForm" id="boardWriteForm" action="" method="post">		
