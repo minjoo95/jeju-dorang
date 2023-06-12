@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -96,6 +97,60 @@ public class BoardController {
 	 * 
 	 * }
 	 */
+	
+	@RequestMapping(value= "/boardUserSearch", method=RequestMethod.GET)
+//	public void boardUserSearchList(Model model, BoardCriteria cri, @RequestParam String boardSearch, @RequestParam String user_code) {
+	public String boardUserSearchList(Model model, BoardCriteria cri, @RequestParam String boardSearch, @RequestParam String user_code) {
+		
+		System.out.println("boardSearch : " + boardSearch);
+		
+		System.out.println("uuuu : " + user_code);
+		long userCode = Long.parseLong(user_code);
+//		User me = writerInfo(user);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("userCode", userCode);
+		map.put("boardSearch", boardSearch);
+		
+		BoardPageMaker pageMaker = new BoardPageMaker();
+		cri.setUserCode(userCode);
+		cri.setSearch(boardSearch);
+		pageMaker.setCri(cri);
+		
+		pageMaker.setTotalCount(boardServiceI.countBoardUserSearchListTotal(map));		
+		
+		List<Map<String, Object>> list = boardServiceI.selectBoardUserSearchPageList(cri);
+		
+		System.out.println("boardSearchList : " + list);
+		System.out.println("boardSearchList Size : " + list.size());
+		
+		for(int i=0; i < list.size(); i ++) {
+			System.out.println(list.get(i));
+			System.out.println(list.get(i).get("board_reg_date"));
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			//LocalDateTime -> Date
+			//이렇게까지...?
+			LocalDateTime ldt = (LocalDateTime) list.get(i).get("board_reg_date");
+			Instant instant = ldt.atZone(ZoneId.systemDefault()).toInstant();
+			Date regDate = Date.from(instant);
+			
+			System.out.println("regDate : " + regDate);
+			System.out.println("sdf : " + sdf.format(regDate));
+			
+			list.get(i).replace("board_reg_date", sdf.format(regDate));
+			
+			System.out.println("after list : " + list.get(i));
+		}
+		
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return "board/userBoard";
+	}
 	
 	//제목 검색만
 	@RequestMapping(value= "/boardSearch", method=RequestMethod.GET)
@@ -588,8 +643,8 @@ public class BoardController {
 //	public int boardLike(String user_code) { //int board_id
 	public void userBoard(Model model, BoardCriteria cri, @RequestParam String user_code)  {
 		
-		User user = writerInfo(user_code);
-		System.out.println(user.getUser_nickname());
+		User user1 = writerInfo(user_code);
+		System.out.println(user1.getUser_nickname());
 		
 		long userCode = Long.parseLong(user_code);
 		System.out.println("userBoard userCode : " + userCode);
@@ -625,10 +680,11 @@ public class BoardController {
 			System.out.println("after list : " + list.get(i));
 		}
 		
+		System.out.println("user1 : " + user1);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("pageMaker", pageMaker);	
-		model.addAttribute("user", user);
+		model.addAttribute("user1", user1);
 		
 	}
 	

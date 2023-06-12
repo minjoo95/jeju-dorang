@@ -81,6 +81,12 @@
 </script>
 
 <style>
+
+/* a {
+	text-decoration: none;
+	color: #3F3D3A;
+} */
+
 div.board-write-header {
 	height : 100px;
 	border-bottom-style: solid;
@@ -147,7 +153,7 @@ p.header-text {
 
 </head>
 <body>
-
+<jsp:include page="/WEB-INF/views/headerBoot.jsp" />
 <!-- <div class = "container" id = "board-main-container">
 	<div class="board-main-header">
 		<p class="header-text">후기</p>
