@@ -194,7 +194,7 @@
 	</div>
 	
 	<nav aria-label="Page navigation" class="pagination-box my-5">
-		<ul class="pagination justify-content-center my-5 pagination-bar">
+		<ul class="pagination justify-content-center my-5 mx-auto pagination-bar">
 			<c:choose>
 				<c:when test="${pageMaker.startPage-1 == 0}">
 					<li class="page-item">
