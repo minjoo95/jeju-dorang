@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/5c78b43849.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
 
 <c:set var="contextPath" value="<%=request.getContextPath() %>" />
 
@@ -15,20 +17,19 @@
 	<div class = "myPageTabListBox">
 		<ul class = "myPageTabList">
 			<li class = "tabList">
-				<a class="myTab" id="userModify" href="${contextPath }/user/mypage?page=userModify.jsp" onclick="menuClick(event);"><i class="tabIcon fa-regular fa-circle-user"></i>프로필 수정</a>
+				<a class="myTab" id="userModify1" href="${contextPath }/user/mypage?page=userModify.jsp" onclick="menuClick(event);"><i class="tabIcon fa-regular fa-circle-user"></i>프로필 수정</a>
 				<img class="leaf" style="display:none;" src="<c:url value="/resources/img/icon_menuLeaf.png"/>" alt="leaf" />
 			</li>
 			<li class = "tabList">
-				<a class="myTab" id="likedMyTrip" href="#" onclick="menuClick(event);"><i class="tabIcon fa-solid fa-heart"></i>찜한 여행지</a>
+				<a class="myTab" id="likedMyTrip1" href="#"><i class="tabIcon fa-solid fa-heart"></i>찜한 여행지</a>
 				<img class="leaf" style="display:none;" src="<c:url value="/resources/img/icon_menuLeaf.png"/>" alt="leaf" />
 			</li>
 			<li class = "tabList">
-				<a class="myTab" id="writelist" href="#" onclick="menuClick(event);"><i class="tabIcon fa-solid fa-user-group"></i>MY 동행</a>
-				<img class="leaf" style="display:none; margin-left:105px;" src="<c:url value="/resources/img/icon_menuLeaf.png"/>" alt="leaf" />
+				<a class="myTab" id="writelist1" href="#" onclick="menuClick(event);"><i class="tabIcon fa-solid fa-user-group"></i>MY 동행</a>
+				<img class="leaf" id="leaf" style="display:none; margin-left:105px;" src="<c:url value="/resources/img/icon_menuLeaf.png"/>" alt="leaf" />
 			</li>
 			<li class = "tabList">
-			<a class="myTab" id="myBoard" href="#" onclick="menuClick(event);"><i class="tabIcon fa-regular fa-pen-to-square"></i>작성글 목록</a>
-				<%-- <a class="myTab" id="myBoard" href="${contextPath }/board/myBoardList?user=${sessionScope.userInfo.user_code }" onclick="menuClick(event);"><i class="tabIcon fa-regular fa-pen-to-square"></i>작성글 목록</a> --%>
+				<a class="myTab" id="myBoard1" href="#" onclick="menuClick(event);"><i class="tabIcon fa-regular fa-pen-to-square"></i>작성글 목록</a>
 				<img class="leaf" style="display:none;" src="<c:url value="/resources/img/icon_menuLeaf.png"/>" alt="leaf" />
 			</li>
 		</ul>
@@ -39,18 +40,20 @@
 
 $(document).ready(function() {
 
-	/* 마이페이지 모달에서 넘어오는 경우 */
-	var myModalClicked = localStorage.getItem('myModalClicked');
+	/*  마이페이지 모달에서 넘어오는 경우  */
+ 	var myModalClicked = sessionStorage.getItem('myModalClicked');
+	
 	if (myModalClicked !== null) {
-	  var myModalClickedMenu = document.querySelector('#' + myModalClicked);
-	  if (myModalClickedMenu !== null && myModalClicked.indexOf(myModalClickedMenu.id) > -1) {
+	  var myModalClickedMenu = document.querySelector('#' + myModalClicked +"1");
+	  
+ 	  if (myModalClickedMenu !== null) {
 	    myModalClickedMenu.click(); // 해당 메뉴 강제 클릭 발생
-	    localStorage.setItem('myModalClicked', null); // 선택했던 메뉴 초기화
-	  }
-	}
+	    sessionStorage.setItem('myModalClicked', null); // 선택했던 메뉴 초기화
+	  } 
+	} 
 	
 	/* 직전에 클릭했던 메뉴 id 로컬에서 가져와서 css 적용 */
-	let lastClicked = localStorage.getItem('lastClicked');
+	let lastClicked = localStorage.getItem('lastClicked')+"1";
 	if(lastClicked != null){
 		$("#"+lastClicked).css('color', '#FB7A51');
 		$("#"+lastClicked).css('font-weight', 'bold');
@@ -68,6 +71,7 @@ $(document).ready(function() {
 	function menuClick(event){
 		
 		let clicked = event.currentTarget; // 이벤트 발생한 태그
+		console.log(clicked);
 		let clickedImage = clicked.parentNode.querySelector('.leaf');
 		
 		// 클릭한 메뉴 id저장하고 로컬에 저장! - 페이지 이동하면서 변수까지 리셋되므로
