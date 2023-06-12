@@ -7,7 +7,10 @@
     font-weight: normal;
     font-style: normal;
 }
-
+*{
+	margin:0 auto;
+	padding:0;
+}
 /* 레이아웃 */
 .header-nav{
 	width:100%;

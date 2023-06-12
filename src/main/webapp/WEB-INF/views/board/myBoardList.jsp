@@ -8,8 +8,6 @@
 <head>
 <meta charset="UTF-8">
 <title>커뮤니티</title>
-<%@ include file="/WEB-INF/views/header.jsp"%>
-<jsp:include page="/WEB-INF/views/myPageTab.jsp" flush="false"/>
 
 <!-- bootstrap-->
 <!-- CSS only -->
@@ -190,5 +188,4 @@ function change_btn(e){
 
 
 </body>
-<jsp:include page="/WEB-INF/views/footer.jsp" />
 </html>
