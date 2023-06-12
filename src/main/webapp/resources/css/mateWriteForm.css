@@ -22,6 +22,9 @@
 .label_title{
 	 color:  #FB7A51;
 }
+#imageView{
+	 height: 370px;
+}
 #daterange {
 	 font-size: 13px; 
 	 padding: 5px 8px; 

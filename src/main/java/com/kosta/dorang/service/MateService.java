@@ -101,7 +101,11 @@ public class MateService implements MateServiceI {
 	public List<String> selectApplyMateResult(Long user_code) throws Exception {
 		return mateDAO.selectApplyMateResult(user_code);
 	}
-
+	@Override
+	public String selectMateNickName(int mate_code) throws Exception {
+		return mateDAO.selectMateNickName(mate_code);
+	}
+	
   //응심이 댓글 select
   @Override
 	public List<MateCommentsUser> selectMateReplyListByMateCode(int mate_code) throws Exception {
@@ -148,6 +152,5 @@ public class MateService implements MateServiceI {
 		mateDaoI.insertMateApplyNotice(mate_writer,mateApplyContent,mate_Application_code);
 		
 	}
-
 
 }

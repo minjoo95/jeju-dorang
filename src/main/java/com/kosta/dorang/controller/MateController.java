@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.http.HttpRequest;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,15 +79,21 @@ public class MateController {
 		cri.setPage(page);
 		cri.setPerPageNum(9);
 		cri.setSortBy(sortBy);
-
 		try {
 			 List<Mate>  matelistSortBy = mateServiceI.getMateListViewSort(cri);
 			 MatePageMaker pm = new MatePageMaker();
 			 pm.setCri(cri);
 			 pm.setTotalCount(mateServiceI.totalCount());
 			 
+			 List<String> userNickNames = new ArrayList<>();
+		        for (Mate mate : matelistSortBy) {
+		            String userNickName = mateServiceI.selectMateNickName(mate.getMate_code());
+		            userNickNames.add(userNickName);
+		        }
+			 
 			 Map<String, Object> response = new HashMap<>();
 			 response.put("mateList", matelistSortBy); 
+			 response.put("userNickNames", userNickNames);
 			 response.put("pm",pm);
 			 
 	        return response;
@@ -171,12 +178,16 @@ public class MateController {
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
 	public String select(Model m,@RequestParam("mate_code") int mate_code,@ModelAttribute("cri") MateCriteria cri) {
 		Mate mt = null;
+		String userNickName = null; 
 		try {
 		   mt = mateServiceI.selectMate(mate_code);
+		   userNickName = mateServiceI.selectMateNickName(mate_code);
+		   
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		m.addAttribute("mt",mt);
+		m.addAttribute("UserNickName",userNickName);
 			
 		return "/mate/mateDetail";
 	}

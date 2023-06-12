@@ -1,6 +1,5 @@
  $(function(){
-		  
-		  
+
 		  var textarea = $('#content');
 		  var inputCount =$('.inputCount');
 

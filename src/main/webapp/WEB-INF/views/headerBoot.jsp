@@ -8,6 +8,7 @@
 <script src="<c:url value="/resources/js/notice.js"/>"></script>
 
 <div class="wrap">
+<input type="hidden" name="user_code" id="user_code" value="${sessionScope.userInfo.user_code}"/>
 	<nav class="header-nav">
 		<div class="header-wrap">
 			<!-- 헤더 로고 -->

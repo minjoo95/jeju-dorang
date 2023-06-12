@@ -110,3 +110,14 @@
   .createdAt_Txt{
    font-size: 15px;
   }
+  .user_nickName_container{
+  	display: flex;
+  	justify-content:flex-end;
+  }
+  .user_nickName_container p{
+     font-size: 15px;
+     margin-bottom: 0px;
+  }
+  .nickName_txt{
+  	margin-right: 10px;
+  }
