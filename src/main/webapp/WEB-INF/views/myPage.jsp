@@ -19,7 +19,7 @@
 
 <body>
 		<div id="myPageHeaderWrapper">
-			<jsp:include page="/WEB-INF/views/header.jsp" />
+			<jsp:include page="/WEB-INF/views/headerBoot.jsp" />
 		</div>
 		
 		<div id="myPageTabWrapper">
@@ -31,7 +31,7 @@
 		</div>
 	
 		<div id="myPageFooterWrapper">
-			<jsp:include page="/WEB-INF/views/footer.jsp" />
+			<jsp:include page="/WEB-INF/views/footerBoot.jsp" />
 		</div>
 		<div id="myPageBackground">
 	</div>

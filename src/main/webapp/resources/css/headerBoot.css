@@ -42,9 +42,9 @@ a{
 .header-wrap{
 	width: 90%;
  	display:flex;
+	margin:0 auto;
 	align-items: center;
 	justify-content:space-between;
-	margin:0 auto;
 }
 
 
@@ -63,11 +63,13 @@ a{
 	width: 50%;
 	height: 100%;
 	display: flex;
+	margin-left:10%;
 	align-items: flex-end;
 	justify-content:space-around;
-	margin-left:10%;
 }
 .navi-link{
+		text-decoration: none;
+	color: #3F3D3A;
 	font-size: 20px;
 	font-family: KimjungchulMyungjo-Bold;
 }
@@ -80,15 +82,16 @@ a{
 
 .navi-item{
 	display:flex;
+	margin-bottom:15px;
 }
 
 .header-alarm-myPage-Container{
 	flex:none;
 	width:100%;
-	height: 100px;
 	display:flex;
-	margin-right: 10px;
+	height: 100px;
 	margin-bottom: 5%;
+	margin-right: 10px;
 }
 .login-container{
 	width: 50%;
@@ -333,15 +336,19 @@ a{
 		margin-left: 86%;
 	}
 	#hidden-burger-menu{
+		margin-top:2%;
 		padding: 27px;
 		color: #696969;
 		font-size: 34px;
-		margin-top:2%;
 	}
 	.navi-item {
 		width: 100%;
-		justify-content: center;
 		padding: 10px 0;
+		justify-content: center;
+	}
+	.myPage_item_a{
+		color: #3F3D3A;
+		text-decoration: none;
 	}
 	.navi-item:hover {
 		background-color: #FB7A51;
