@@ -43,6 +43,12 @@
         ]]>
     </select>
     
+    <select id="selectPlaceListBySearch" resultType="hashmap" parameterType="hashmap">
+        <![CDATA[
+         select * from trip where title like concat('%',#{search},'%') order by title, like_count desc limit #{pageStart}, #{perPage}
+        ]]>
+    </select>
+    
     <select id="selectPlace" parameterType="Integer" resultType="com.kosta.dorang.dto.Trip">
        <![CDATA[
         select * from trip where trip_id=#{trip_id}

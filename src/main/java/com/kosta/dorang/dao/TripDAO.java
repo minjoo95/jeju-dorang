@@ -24,8 +24,22 @@ public class TripDAO implements TripDAOI {
 	public List<Map<String, Trip>> getPlaceList(TripCriteria cri) throws Exception {
 		return sqlSession.selectList("TripMapper.selectPlaceList", cri);
 	}
+	
+	/**
+	 * 카테고리별 목록 가져오기
+	 */
+	@Override
+	public List<Map<String, Trip>> getPlaceListByTheme(TripCriteria cri) throws Exception {
+		return sqlSession.selectList("TripMapper.selectPlaceListByTheme", cri);
+	}
 
-
+	/** 
+	 * 검색 결과 목록 가져오기 
+	 */
+	@Override
+	public List<Map<String, Trip>> getPlaceListBySearch(TripCriteria cri) throws Exception {
+		return sqlSession.selectList("TripMapper.selectPlaceListBySearch", cri);
+	}
 
 	/**
 	 * 해당 여행지 가져오기
@@ -35,11 +49,10 @@ public class TripDAO implements TripDAOI {
 		return sqlSession.selectOne("TripMapper.selectPlace", trip_id);
 	}
 
-	@Override
-	public List<Map<String, Trip>> getPlaceListByTheme(TripCriteria cri) throws Exception {
-		return sqlSession.selectList("TripMapper.selectPlaceListByTheme", cri);
-	}
 
+	/**
+	 * 북마크 관련
+	 */
 	@Override
 	public Integer isMyBookmark(Bookmark bookmark) throws Exception {
 		Integer result = sqlSession.selectOne("TripMapper.selectIsBookmark", bookmark);

@@ -96,6 +96,12 @@
 	</form>
 </div>
 
+<div class="searchResult">
+	<div class="result-box">
+		<h3> ' ${keyword } ' (으)로 검색한 결과입니다. </h3>
+	</div>
+</div>
+
 <div class="container px-4">
 	<div class="row row-cols-4 gx-5 gy-5">
 		<!-- 카드 아이템 -->
@@ -136,7 +142,7 @@
 			<c:choose>
 				<c:when test="${pageMaker.startPage-1 == 0}">
 					<li class="page-item">
-						<a class="page-link" href="<c:url value='/travel/list?page=1'/>" aria-label="Previous">
+						<a class="page-link" href="<c:url value='/travel/list/search?keyword=${keyword }&?page=1'/>" aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
 						</a>
 					</li>
@@ -144,7 +150,7 @@
 				
 				<c:otherwise>
 					<li class="page-item">
-						<a class="page-link" href="<c:url value='/travel/list?page=${pageMaker.startPage-1 }'/>" aria-label="Previous">
+						<a class="page-link" href="<c:url value='/travel/list/search?keyword=${keyword }&?page=${pageMaker.startPage-1 }'/>" aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
 						</a>
 					</li>
@@ -153,14 +159,14 @@
 			
 			<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
 				<li class="page-item">
-					<a class="page-link" href="<c:url value='/travel/list?page=${pageNum }'/>">${pageNum }</a>
+					<a class="page-link" href="<c:url value='/travel/list/search?keyword=${keyword }&?page=${pageNum }'/>">${pageNum }</a>
 				</li>
 			</c:forEach>	
 			
 			<c:choose>
 				<c:when test="${pageMaker.next && pageMaker.endPage > 0 }">
 					<li class="page-item">
-						<a class="page-link" href="<c:url value='/travel/list?page=${pageMaker.endPage+1 }'/>" aria-label="Next">
+						<a class="page-link" href="<c:url value='/travel/list/search?keyword=${keyword }&?page=${pageMaker.endPage+1 }'/>" aria-label="Next">
 						<span aria-hidden="true">&raquo;</span>
 						</a>
 					</li>

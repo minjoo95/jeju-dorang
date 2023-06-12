@@ -31,6 +31,12 @@ public class TripService implements TripServiceI {
 	public List<Map<String, Trip>> getPlaceListByTheme(TripCriteria cri) throws Exception {
 		return dao.getPlaceListByTheme(cri);
 	}
+	
+	
+	@Override
+	public List<Map<String, Trip>> getPlaceListBySearch(TripCriteria cri) throws Exception {
+		return dao.getPlaceListBySearch(cri);
+	}
 
 	@Override
 	public Integer isMyBookmark(Bookmark bookmark) throws Exception {

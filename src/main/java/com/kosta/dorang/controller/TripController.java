@@ -229,6 +229,38 @@ public class TripController {
 		return "tripMain2";
 	}
 	
+	
+	/**
+	 * 검색 결과 조회
+	 * @param model
+	 * @param criteria
+	 * @param keyword
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(value = "/list/search", method=RequestMethod.GET)
+	public String travelSearchList(Model model, TripCriteria criteria, @RequestParam("keyword") String keyword, @RequestParam(required=false, defaultValue="1") Integer page) {
+		System.out.println(">>>> theme page: "+page);
+		criteria.setCurrentPage(page);
+		criteria.setSearch(keyword);
+		
+		try {
+			//페이징
+			TripPageMaker pageMaker = new TripPageMaker();
+			pageMaker.setCriteria(criteria);
+			pageMaker.setTotalCount(tripService.countTotalSearchItem(keyword));
+ 
+			List<Map<String, Trip>> list = tripService.getPlaceListBySearch(criteria);
+			model.addAttribute("list", list);
+			model.addAttribute("pageMaker", pageMaker);
+			model.addAttribute("keyword", keyword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "tripSearch";	
+	}
+	
+	
 	/**
 	 * 여행 페이지 상세
 	 * @param model
