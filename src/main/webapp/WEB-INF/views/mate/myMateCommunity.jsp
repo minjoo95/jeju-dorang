@@ -164,32 +164,32 @@
 		 </div> 
           </div> 
     </div>
-   <div class = "mate_reply_whole_box">
-    
-	    <!--댓글쓰기  -->
-	   <div class="mate_reply_list_table_box">
-	   	   <table align="center" width="500" border="1" id="rtb">
-				<thead id="rCount_head">
-					<td colspan="4"><b id="rCount">댓글목록</b></td>
-				</thead>
-				<tbody id="mate_reply_body">
-				</tbody>
-			</table>
-	   </div>
-	   
-	   <%-- <input type="hidden" name="mate_code" id="mate_code" value="${mt.mate_code}"/> --%>
-	    <div class="mate_reply_wrap">
-			<div class="mate_reply_box">
-		    	<div class="mate_reply_container">
-		    		<textarea class="comment_txt" name="comment_txt" placeholder="댓글 입력..."></textarea>
-		    	</div>
-		    	<div class="mate_reply_btn_container">
-		    		<button class="mate_reply_btn">입력</button>
-		    	</div>
-	    	</div>
-	    </div>
+<div class = "mate_reply_whole_box">
+
+        <!--댓글쓰기  -->
+       <div class="mate_reply_list_table_box">
+              <table align="center" width="500" border="1" id="rtb">
+                <thead id="rCount_head">
+                    <td colspan="4"><b id="rCount">댓글목록</b></td>
+                </thead>
+                <tbody id="mate_reply_body">
+                </tbody>
+            </table>
+       </div>
+
+       <%-- <input type="hidden" name="mate_code" id="mate_code" value="${mt.mate_code}"/> --%>
+        <div class="mate_reply_wrap">
+            <div class="mate_reply_box">
+                <div class="mate_reply_container">
+                    <textarea class="comment_txt" name="comment_txt" placeholder="댓글 입력..."></textarea>
+                </div>
+                <div class="mate_reply_btn_container">
+                    <button class="mate_reply_btn">입력</button>
+                </div>
+            </div>
+        </div>
     </div>
-<jsp:include page="/WEB-INF/views/footerBoot.jsp" />
+<jsp:include page="/WEB-INF/views/footer.jsp" />
   </body>
 </html>
 

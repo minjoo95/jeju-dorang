@@ -160,7 +160,7 @@
 	</select>
 	<update id="updateMateReply" parameterType="com.kosta.dorang.dto.MateComments">
 		<![CDATA[
-		update matecomment
+		update matecommentinsertMateApplyNotice
 		set content=#{content}
 		where comment_code=#{comment_code}
 		]]>
@@ -171,4 +171,10 @@
         VALUES (notice_nextval('num'), #{mateWriter}, 4, NOW(), #{noticeContent}, #{comment_code})
         ]]>
     </insert>
+	<insert id="insertMateApplyNotice" parameterType="map">
+		<![CDATA[
+		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, mate_application_code)
+		VALUES (notice_nextval('num'), #{mate_writer}, 1, NOW(), #{mateApplyContent}, #{mate_Application_code})
+		]]>
+	</insert>
 </mapper>
