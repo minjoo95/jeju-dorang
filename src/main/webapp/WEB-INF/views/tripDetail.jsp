@@ -62,6 +62,10 @@
  .travel-info-title img {
  	line-height : 34px;
  }
+ 
+ #bookmark-text {
+ 	color:white;
+ }
 </style>
 
 
@@ -114,8 +118,10 @@
 </script>
 
 </head>
-			<jsp:include page="/WEB-INF/views/headerBoot.jsp" />
 <body>
+<!-- header -->
+<jsp:include page="header.jsp"></jsp:include>
+
 <div class="travel-detail-container" style="background-image:url(${place.getImage() });">
 	<div class="travel-detail-left">
 		<div class="travel-detail-location">
@@ -185,7 +191,7 @@
 	
 	<div class="travel-detail-right">
 		<div class="travel-detail-like" onclick="bookmark()" >
-			<a>
+			<a id="bookmark-text">
 				<c:choose>
 					<c:when test="${isLike eq false }">
 						<img src="<c:url value="/resources/img/icon-unlike.png"/>" alt="bookmark" id="heart"/>
@@ -203,6 +209,9 @@
 		</div>
 	</div>
 </div>
-			<jsp:include page="/WEB-INF/views/footerBoot.jsp" />
+
+
+<!-- footer -->
+<jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>

@@ -53,18 +53,21 @@
 	}
 	
 	.travel-tab-item {
-	    width: 200px; 
+	    width: 100px; 
 	    height: 100%;
 	    margin: 0 5%;
 	    display:flex;
 	    font-size: 17px;
 	    list-style: none;
 	    align-items:center;	
+	    position:relative;
 	}
 	
 	.travel-theme {
 	    color: #3F3D3A;
 	    text-decoration: none;
+	    width:100%;
+	    text-align:center;
 	}
 	
 	.travel-theme:hover {
@@ -77,6 +80,8 @@
 	    height:15px;
 	    margin-left:162px;
 	    position:absolute;
+	    right:20px;
+	    top:10px;
 	    margin-bottom:23px;
 	}
 </style>
