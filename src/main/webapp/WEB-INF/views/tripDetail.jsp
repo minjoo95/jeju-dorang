@@ -22,15 +22,20 @@
  	color : white;
  }
  
+ .white label {
+ 	font-weight:bold;
+ 	padding-right : 10px;
+ }
+ 
  .travel-text-title {
- 	font-size : 28pt;
+ 	font-size : 40px;
  	/* font-family: 'Noto Serif KR', serif; */
  	 font-family: 'Nanum Myeongjo', serif; 
  	font-weight :700;
  }
  
  .travel-text-address {
- 	font-size : 12pt;
+ 	font-size : 16px;
  	font-weight :400;
  }
  
@@ -40,6 +45,11 @@
  
  .travel-info-title{
  	color : var(--color-sub);
+ }
+ 
+  .travel-info-title span {
+ 	font-size : 18px;
+ 	font-weight :bold;
  }
  
  .title-icon {
@@ -59,36 +69,53 @@
 <script src="<c:url value="/resources/js/index.js"/>"></script> --%>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
-
 <!-- js -->
 <script>
 
 	let hashtag = "${place.getHashtag()}";
 	const tags = hashtag.split(",");
-	
 	console.log(hashtag);
+	
+	let user_id = 1;
+	let trip_id = "${place.getTrip_id()}";
+	
 	function bookmark(){
 		//let isLike = false; //default false
-		
-		
 		//ajax -> controller 호출 -> 조회 있음? 삭제하고 업데이트, 없음? 추가하고 업데이트 -> 리턴 boolean
 		//option : null(찜한적 없음) = false, !null(이미찜함) = true;
-		
-		
-		
+		const heart = document.getElementById("heart");
+		//console.log(heart);
+		console.log(">>> org src");
+		console.log(heart.src);
+		$.ajax({
+			type:"POST",
+			url : "/travel/bookmark",
+			data : {"user_id":user_id, "trip_id":trip_id},
+			dataType : "text",
+			success : function(response){
+				console.log(response);
+				if(response == "true"){
+					console.log(">>> true src");
+					heart.src = "<c:url value='/resources/img/icon-like.png'/>";
+				} else {
+					//$("#heart").attr("src", "<c:url value='/resources/img/icon-unlike.png'/>");
+					heart.src ="<c:url value='/resources/img/icon-unlike.png'/>";
+				}
+			},
+			error : function(request, status, err){
+				console.log(err);
+			}
+		});
 	}
 
 	$(function(){
-		console.log("왜 안찍어줘");
-		console.log(hashtag);
-		console.log(tags);
 		
 	})
 </script>
 
 </head>
 <body>
-<%@ include file="/WEB-INF/views/header.jsp"%>
+
 <div class="travel-detail-container" style="background-image:url(${place.getImage() });">
 	<div class="travel-detail-left">
 		<div class="travel-detail-location">
@@ -132,7 +159,7 @@
 			
 			<div class="travel-info-tel white">
 				<label>
-					<img src="<c:url value="/resources/img/icon-tel.png"/>" alt="icon-tel" class="detail-icon"/> 전화번호
+					<img src="<c:url value="/resources/img/icon-tel.png"/>" alt="icon-tel" class="detail-icon"/> 전화번호.
 				</label>
 				<span> ${place.getTel() } </span>
 			</div>
@@ -140,12 +167,11 @@
 			<div class="travel-info-loc white">
 				<label>
 					<img src="<c:url value="/resources/img/icon-map.png"/>" alt="icon-map" class="detail-icon"/> 위도.
-					<span> ${place.getLatitude() } </span>
 				</label>
-				<label>
-					경도.
-					<span> ${place.getLongitude() } </span>
-				</label>
+				<span> ${place.getLatitude() } </span>
+				<br> &nbsp; &nbsp; &nbsp;
+				<label> 경도. </label>
+				<span> ${place.getLongitude() } </span>
 			</div>
 			
 			<div class="travel-info-etc white">
@@ -158,19 +184,20 @@
 	</div>
 	
 	<div class="travel-detail-right">
-		<div class="travel-detail-like" onclick="bookmark()">
+		<div class="travel-detail-like" onclick="bookmark()" >
 			<a>
 				<c:choose>
 					<c:when test="${isLike eq false }">
-						<img src="<c:url value="/resources/img/icon-unlike.png"/>" alt="bookmark"/>
+						<img src="<c:url value="/resources/img/icon-unlike.png"/>" alt="bookmark" id="heart"/>
 					</c:when>
 					<c:when test="${isLike eq true }">
-						<img src="<c:url value="/resources/img/icon-like.png"/>" alt="bookmark"/>
+						<img src="<c:url value="/resources/img/icon-like.png"/>" alt="bookmark" id="heart" />
 					</c:when>
 					<c:otherwise>
-						<img src="<c:url value="/resources/img/icon-unlike.png"/>" alt="bookmark"/>
+						<img src="<c:url value="/resources/img/icon-unlike.png"/>" alt="bookmark" id="heart"/>
 					</c:otherwise>
-				</c:choose> 
+				</c:choose>  
+				<%-- <img src="<c:url value="/resources/img/icon-unlike.png"/>" alt="" id="heart"/> --%>
 				LIKE
 			</a>
 		</div>

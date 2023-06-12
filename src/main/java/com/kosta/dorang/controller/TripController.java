@@ -5,7 +5,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,15 +18,22 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.aop.aspectj.annotation.LazySingletonAspectInstanceFactoryDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kosta.dorang.dto.Bookmark;
 import com.kosta.dorang.dto.Trip;
+import com.kosta.dorang.dto.TripCriteria;
+import com.kosta.dorang.dto.TripPageMaker;
 import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.TripServiceI;
 
@@ -158,18 +168,98 @@ public class TripController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method=RequestMethod.GET)
-	public String travelMain(Model model) {
+	public String travelMain(Model model, TripCriteria criteria, @RequestParam(required=false, defaultValue="1") Integer page) {
+		System.out.println(">>>> main page: "+page);
+		criteria.setCurrentPage(page);
+		
 		try {
-			List<Trip> list = tripService.getPlaceList();
-			model.addAttribute("list", list);
-//			for(Trip trip : list) {
-//				System.out.println(trip.toString());
+			//페이징
+			TripPageMaker pageMaker = new TripPageMaker();
+			pageMaker.setCriteria(criteria);
+			int cnt = tripService.countTotalItem();
+			System.out.println(">>> total item : "+ cnt);
+			pageMaker.setTotalCount(tripService.countTotalItem());
+			
+			List<Map<String, Trip>> list = tripService.getPlaceList(criteria);
+//			System.out.println(">>> hashmap test");
+//			for(Map<String, Trip> m : list) {
+//				for (String key : m.keySet()) {
+//					System.out.println("key:"+key+", value:"+m.get(key));
+//				}
 //			}
+			
+			model.addAttribute("list", list);
+			model.addAttribute("pageMaker", pageMaker);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "tripMain";
 	}
+	
+	@RequestMapping(value = "/list/{theme}", method=RequestMethod.GET)
+	public String travelMainByTheme(Model model, TripCriteria criteria, @PathVariable String theme, @RequestParam(required=false, defaultValue="1") Integer page) {
+		System.out.println(">>>> theme page: "+page);
+		criteria.setCurrentPage(page);
+		
+		try {
+			String category = "";
+			switch (theme) {
+			case "tour": category = "c1";
+			break;
+			case "shop": category = "c2";
+			break;
+			case "food": category = "c4";
+			break;
+			}
+			criteria.setSearch(category);
+			
+			//페이징
+			TripPageMaker pageMaker = new TripPageMaker();
+			pageMaker.setCriteria(criteria);
+			pageMaker.setTotalCount(tripService.countTotalItemByTheme(category));
+ 
+			List<Map<String, Trip>> list = tripService.getPlaceListByTheme(criteria);
+			model.addAttribute("list", list);
+			model.addAttribute("pageMaker", pageMaker);
+			model.addAttribute("category", theme);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "tripMain2";
+	}
+	
+	
+	/**
+	 * 검색 결과 조회
+	 * @param model
+	 * @param criteria
+	 * @param keyword
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(value = "/list/search", method=RequestMethod.GET)
+	public String travelSearchList(Model model, TripCriteria criteria, @RequestParam("keyword") String keyword, @RequestParam(required=false, defaultValue="1") Integer page) {
+		System.out.println(">>>> theme page: "+page);
+		criteria.setCurrentPage(page);
+		criteria.setSearch(keyword);
+		
+		try {
+			//페이징
+			TripPageMaker pageMaker = new TripPageMaker();
+			pageMaker.setCriteria(criteria);
+			pageMaker.setTotalCount(tripService.countTotalSearchItem(keyword));
+ 
+			List<Map<String, Trip>> list = tripService.getPlaceListBySearch(criteria);
+			model.addAttribute("list", list);
+			model.addAttribute("pageMaker", pageMaker);
+			model.addAttribute("keyword", keyword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "tripSearch";	
+	}
+	
 	
 	/**
 	 * 여행 페이지 상세
@@ -177,7 +267,7 @@ public class TripController {
 	 * @param trip_id
 	 * @return
 	 */
-	@RequestMapping(value = "/list/{trip_id}", method=RequestMethod.GET)
+	@RequestMapping(value = "/list/id/{trip_id}", method=RequestMethod.GET)
 	public String travelDetail(Model model, @PathVariable Integer trip_id) {
 		//세션 유저 정보 필요
 		//String user = (String) session.getAttribute("user");
@@ -189,12 +279,12 @@ public class TripController {
 			Bookmark bookmark = new Bookmark(1, trip_id); //user_code, trip_id
 			Boolean isLike;
 			Integer check = tripService.isMyBookmark(bookmark);
-			if(check == 0) {
+			if(check == 0) { //북마크 아님
 				isLike = false;
-			} else {
+			} else {	//북마크 됨
 				isLike = true;
 			}
-			System.out.println(">>> controller isLike : " + isLike);
+			System.out.println(">>> travelDetail controller isLike : " + isLike);
 			model.addAttribute("isLike", isLike);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -202,24 +292,32 @@ public class TripController {
 		return "tripDetail";
 	}
 	
-	
-	@RequestMapping(value = "/bookmark", method=RequestMethod.GET)
-	public void travelLike(Model model, Integer user_id, Integer trip_id) {
+	@ResponseBody
+	@RequestMapping(value = "/bookmark", method=RequestMethod.POST)
+	public String travelLike(Model model, @RequestParam("user_id") Integer user_id, @RequestParam("trip_id") Integer trip_id) {
 		//return data 필요
+		System.out.println(">>>>> 북마크 컨트롤러 호출");
+		String message = "";
+		System.out.println(user_id);
+		System.out.println(trip_id);
 		try {
-			Bookmark bookmark = new Bookmark(1, 999);
+			Bookmark bookmark = new Bookmark(user_id, trip_id);
 			Boolean isLike;
 			Integer check = tripService.isMyBookmark(bookmark);
-			if(check == 0) {
+			if(check == 0) { //북마크 아님 -> 북마크 처리 후 true
 				isLike = tripService.setBookmark(bookmark);	
-			} else {
+				message = ""+isLike; //true, 북마크 성공
+			} else {	//북마크임 -> 북마크 해제 후 false
 				isLike = tripService.cancelBookmark(bookmark);
+				message = ""+isLike; //false, 북마크 해제;
 			}
-			System.out.println(">>> controller isLike : " + isLike);
+			System.out.println(">>> travelLike controller isLike : " + isLike);
 			model.addAttribute("isLike", isLike);
+			System.out.println(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return message;
 	} 
 	
 }

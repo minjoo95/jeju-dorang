@@ -22,7 +22,7 @@ public interface MateDAOI {
 	public void deleteApplyMate(int mate_code)throws Exception;
 	public List<MateComments> selectMateCommListByMateCode(int mate_code) throws Exception;
 	public void deleteMateCommListByMateCode(int mate_code)throws Exception;
-	public String selectApplyMateResult(Long user_code) throws Exception; 
+	public List<String> selectApplyMateResult(Long user_code) throws Exception; 
 	public List<MateCommentsUser> selectMateReplyListByMateCode(int mate_code) throws Exception; //응심이꺼
 	public int insertMateReply(MateComments mateComments); //응심이꺼
 	public int totalCount();

@@ -99,7 +99,7 @@ public class MateService implements MateServiceI {
 		mateDAO.deleteMateCommListByMateCode(mate_code);
 	}
 	@Override
-	public String selectApplyMateResult(Long user_code) throws Exception {
+	public List<String> selectApplyMateResult(Long user_code) throws Exception {
 		return mateDAO.selectApplyMateResult(user_code);
 	}
 

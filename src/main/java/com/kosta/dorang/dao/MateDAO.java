@@ -121,9 +121,10 @@ public class MateDAO implements MateDAOI {
 		sqlSession.delete("MateMapper.deleteMateCommListByMateCode",mate_code);
 	}
 	@Override
-	public String selectApplyMateResult(Long user_code) throws Exception {
-		 return sqlSession.selectOne("MateMapper.selectApplyMateResult",user_code);
+	public List<String> selectApplyMateResult(Long user_code) throws Exception {
+		 return sqlSession.selectList("MateMapper.selectApplyMateResult",user_code);
 	}
+	
 	
   //응심이 
 	@Override

@@ -78,7 +78,7 @@
   }
   </style>
   <body>
-  <jsp:include page="../header.jsp"></jsp:include>
+  <jsp:include page="../headerBoot.jsp"></jsp:include>
     <form id="frm"  method="get">
           <input type="hidden" name="mate_code" id="mate_code" value="<c:out value='${mt.mate_code}'/>"/>
           <input type="hidden" name="page" id="page" value="<c:out value='${cri.page}'/>"/>

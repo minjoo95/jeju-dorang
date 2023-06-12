@@ -46,8 +46,7 @@ public class MateController {
 
 	@Autowired
 	MateServiceI mateServiceI;
-	@Autowired
-	MateService mateService;
+	
 	@Autowired
 	HttpSession session;
 	
@@ -63,7 +62,7 @@ public class MateController {
 	    
 	    MatePageMaker pm = new MatePageMaker();
 	    pm.setCri(cri);
-	    pm.setTotalCount(mateService.totalCount());
+	    pm.setTotalCount(mateServiceI.totalCount());
 	   
 	    m.addAttribute("pm",pm);
 
@@ -82,10 +81,10 @@ public class MateController {
 		cri.setSortBy(sortBy);
 
 		try {
-			 List<Mate>  matelistSortBy = mateService.getMateListViewSort(cri);
+			 List<Mate>  matelistSortBy = mateServiceI.getMateListViewSort(cri);
 			 MatePageMaker pm = new MatePageMaker();
 			 pm.setCri(cri);
-			 pm.setTotalCount(mateService.totalCount());
+			 pm.setTotalCount(mateServiceI.totalCount());
 			 
 			 Map<String, Object> response = new HashMap<>();
 			 response.put("mateList", matelistSortBy); 
@@ -112,7 +111,7 @@ public class MateController {
 	   
 	    MatePageMaker pm = new MatePageMaker();
 	 	pm.setCri(cri);
-	 	pm.setTotalCount(mateService.totalmyCount(user_code,cri));
+	 	pm.setTotalCount(mateServiceI.totalmyCount(user_code,cri));
 	 	m.addAttribute("pm", pm);
 	 
 	    return "/mate/mateMypage";
@@ -133,18 +132,24 @@ public class MateController {
 		
 
 		try {
-			 List<Mate> myPageListSortby = mateService.getmyMateListViewSort(user_code,cri);
+			 List<Mate> myPageListSortby = mateServiceI.getmyMateListViewSort(user_code,cri);
 			 MatePageMaker pm = new MatePageMaker();
 			 pm.setCri(cri);
-			 pm.setTotalCount(mateService.totalmyCount(user_code,cri));
-			 String applyResult = mateService.selectApplyMateResult(user_code);
+			 pm.setTotalCount(mateServiceI.totalmyCount(user_code,cri));
+			
 			 
 			 Map<String, Object> response = new HashMap<>();
 			 response.put("myPageListSortby", myPageListSortby);	 
 			 response.put("pm",pm);
-			 response.put("applyResult",applyResult);
+			 
 			
-			 System.out.println(applyResult);
+			 if (sortBy.equals("acceptedList")) {
+				   List<String> applyResult = mateServiceI.selectApplyMateResult(user_code);
+			
+			        response.put("applyResult", applyResult);
+			       
+			    }
+
 			
 			 
 	        return response;
@@ -168,7 +173,7 @@ public class MateController {
 	public String select(Model m,@RequestParam("mate_code") int mate_code,@ModelAttribute("cri") MateCriteria cri) {
 		Mate mt = null;
 		try {
-		   mt = mateService.selectMate(mate_code);
+		   mt = mateServiceI.selectMate(mate_code);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -184,7 +189,7 @@ public class MateController {
 		Mate mt = null;
 		List<MateCommentsUser> mateCommentsUser=null;
 		try {
-		   mt = mateService.selectMate(mate_code);
+		   mt = mateServiceI.selectMate(mate_code);
 		   mateCommentsUser=mateServiceI.selectMateReplyListByMateCode(mate_code);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -202,7 +207,7 @@ public class MateController {
 		Mate mt = null;
 		
 		try {
-			   mt = mateService.selectMate(mate_code);
+			   mt = mateServiceI.selectMate(mate_code);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -257,7 +262,7 @@ public class MateController {
 
 	    Mate m = new Mate(user_code, title, content, type, direction, number, age, gender, daterange, tags, status, image, first_ask, second_ask, third_ask, null);
 
-	    mateService.insertMate(m); // mate 테이블에 저장
+	    mateServiceI.insertMate(m); // mate 테이블에 저장
 
 	    return "redirect:/mate/list";
 	}
@@ -306,7 +311,7 @@ public class MateController {
 	    String image = null;
 
 	    if (!multi.isEmpty()) {
-	        String oldImage = mateService.selectMate(mate_code).getImage();
+	        String oldImage = mateServiceI.selectMate(mate_code).getImage();
 	        File oldImageFile = new File(directory + oldImage);
 	        if (oldImageFile.exists()) {
 	            oldImageFile.delete();
@@ -314,14 +319,14 @@ public class MateController {
 	     image = newFileName;
 	        
 	    } else {
-	        Mate originMate = mateService.selectMate(mate_code);
+	        Mate originMate = mateServiceI.selectMate(mate_code);
 	        if (originMate != null) {
 	            image = originMate.getImage();
 	        }
 	    }
 
 	    Mate m = new Mate(mate_code, title, content, type, direction, number, age, gender, daterange, tags, status, image, first_ask, second_ask, third_ask);
-	    mateService.updateMate(m);
+	    mateServiceI.updateMate(m);
 	    rttr.addAttribute("page",cri.getPage());
 	    rttr.addAttribute("sortBy",cri.getSortBy());
 	    rttr.addAttribute("perPageNum",cri.getPerPageNum());
@@ -361,13 +366,13 @@ public class MateController {
         
 		   
 	    try {
-	        MateApply mpResult = mateService.selectMateApply(mate_code, user_code);
+	        MateApply mpResult = mateServiceI.selectMateApply(mate_code, user_code);
 	        System.out.println(mpResult);
 	        
 	        if (mpResult != null) { // 이미 신청된 게시글인 경우
 	            return "already";
 	        }else {
-	        	int insertCheck=mateService.insertMateApply(mp);
+	        	int insertCheck=mateServiceI.insertMateApply(mp);
 	        	System.out.println("comment_code : "+mp.getMateApply_code());
 	        	int mate_Application_code=mp.getMateApply_code();
 	        	
@@ -454,19 +459,19 @@ public class MateController {
 		 int mate_code = Integer.parseInt(request.getParameter("mate_code"));
 		 
 		 try {
-			 MateApply mpResult =  mateService.selectApplyMateByMateCode(mate_code);
-			 List<MateComments> MateCommList =  mateService.selectMateCommListByMateCode(mate_code);
+			 MateApply mpResult =  mateServiceI.selectApplyMateByMateCode(mate_code);
+			 List<MateComments> MateCommList =  mateServiceI.selectMateCommListByMateCode(mate_code);
 			 if (mpResult != null) { 
-		           mateService.deleteApplyMate(mate_code);
+				 mateServiceI.deleteApplyMate(mate_code);
 		        }
 			 if(MateCommList!=null) {
-				  mateService.deleteMateCommListByMateCode(mate_code);
+				 mateServiceI.deleteMateCommListByMateCode(mate_code);
 			 }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		 mateService.deleteMate(mate_code); 
+		 mateServiceI.deleteMate(mate_code); 
 		 rttr.addAttribute("page",cri.getPage());
 		 rttr.addAttribute("perPageNum",cri.getPerPageNum());
 		
@@ -482,9 +487,9 @@ public class MateController {
 	@ResponseBody
 	public Mate updateMateCount(@RequestParam("mate_code") int mate_code) {
 	    try {
-	        mateService.mateCount(mate_code);
+	    	mateServiceI.mateCount(mate_code);
 	        
-	        Mate mt = mateService.selectMate(mate_code);
+	        Mate mt = mateServiceI.selectMate(mate_code);
 	        System.out.println(mt.getCount());
 	       
 	        return mt;

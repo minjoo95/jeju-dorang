@@ -14,6 +14,8 @@
   	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" defer></script>
+	<link rel="stylesheet" type="text/css"  href="<c:url value="/resources/css/mateWriteForm.css"/>">
+	<script src="<c:url value="/resources/js/mateWriteForm.js"/>"></script>
 	<style type="text/css">
 	  *:not(html), .wrap, header {
 	    box-sizing: content-box !important;
@@ -155,7 +157,7 @@ function goInsert() {
 
   </head>
   <body>
-  <jsp:include page="../header.jsp"></jsp:include>
+  <jsp:include page="../headerBoot.jsp"></jsp:include>
     <div class="container" >
      <h3 style="padding:50px 0px">작성해주세요 :)</h3>
         <form name="mateForm" id="mateForm" action="${contextPath}/mate/insert" method="post" enctype="multipart/form-data">
@@ -256,7 +258,7 @@ function goInsert() {
 							  	    <span style="color:  #FB7A51;">태그를 선택해주세요</span>
 							  	    <span style="font-size: 12px;display: block;">둘 중 하나만 선택해주세요</span>
 						  	    </label>
-							      <div class="btn-group" role="group" aria-label="Basic mixed styles example" style="padding-bottom: 10px; width: 100%">
+							      <div class="btn-group" role="group" aria-label="Basic mixed styles example">
 									 <input type="radio" class="btn-check tagSelector" name="tag_1" id="tag_1_left" autocomplete="off"  value="조율불가" checked>
 									 <label class="btn  btn-outline-warning" for="tag_1_left" style="font-size: 13px;margin-right: 10px; border-radius:15px; width: 50%;">조율불가</label>
 								     <input type="radio" class="btn-check tagSelector" name="tag_1" id="tag_1_right" autocomplete="off" value="조율가능">
@@ -356,8 +358,6 @@ function goInsert() {
         </form>
     </div>
  
-    
-    
-    <div style="height: 100px; background-color: orange;">푸터</div>
+    <jsp:include page="../footerBoot.jsp"></jsp:include>
   </body>
 </html>

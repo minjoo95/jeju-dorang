@@ -1,6 +1,7 @@
 package com.kosta.dorang.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kosta.dorang.dto.Bookmark;
 import com.kosta.dorang.dto.Trip;
+import com.kosta.dorang.dto.TripCriteria;
 
 @Repository
 public class TripDAO implements TripDAOI {
@@ -19,8 +21,24 @@ public class TripDAO implements TripDAOI {
 	 * 전체 목록 가져오기
 	 */
 	@Override
-	public List<Trip> getPlaceList() throws Exception {
-		return sqlSession.selectList("TripMapper.selectPlaceList");
+	public List<Map<String, Trip>> getPlaceList(TripCriteria cri) throws Exception {
+		return sqlSession.selectList("TripMapper.selectPlaceList", cri);
+	}
+	
+	/**
+	 * 카테고리별 목록 가져오기
+	 */
+	@Override
+	public List<Map<String, Trip>> getPlaceListByTheme(TripCriteria cri) throws Exception {
+		return sqlSession.selectList("TripMapper.selectPlaceListByTheme", cri);
+	}
+
+	/** 
+	 * 검색 결과 목록 가져오기 
+	 */
+	@Override
+	public List<Map<String, Trip>> getPlaceListBySearch(TripCriteria cri) throws Exception {
+		return sqlSession.selectList("TripMapper.selectPlaceListBySearch", cri);
 	}
 
 	/**
@@ -31,12 +49,10 @@ public class TripDAO implements TripDAOI {
 		return sqlSession.selectOne("TripMapper.selectPlace", trip_id);
 	}
 
-	@Override
-	public List<Trip> getPlaceListByTheme(String category) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
+	/**
+	 * 북마크 관련
+	 */
 	@Override
 	public Integer isMyBookmark(Bookmark bookmark) throws Exception {
 		Integer result = sqlSession.selectOne("TripMapper.selectIsBookmark", bookmark);
@@ -75,6 +91,22 @@ public class TripDAO implements TripDAOI {
 		sqlSession.update("TripMapper.updateBookmark", trip_id);
 		System.out.println(">>>>> 북마크 해체 : " + trip_id); 
 		return false;
+	}
+
+	
+	@Override
+	public Integer countTotalItem() throws Exception {
+		return sqlSession.selectOne("TripMapper.countPlaceList");
+	}
+
+	@Override
+	public Integer countTotalItemByTheme(String category) throws Exception {
+		return sqlSession.selectOne("TripMapper.countPlaceListByTheme", category);
+	}
+
+	@Override
+	public Integer countTotalSearchItem(String keyword) throws Exception {
+		return sqlSession.selectOne("TripMapper.countPlaceSearchList", keyword);
 	}
 	
 	
