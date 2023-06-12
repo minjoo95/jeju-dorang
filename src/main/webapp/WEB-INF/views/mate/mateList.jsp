@@ -133,7 +133,7 @@ $(document).ready(function(){
 		
 
 		   // 이전 페이지 버튼
-		   if (${pm.startPage} > 1) {
+		   if (startPage > 1) {
 		     pageButtonsHtml += "<li class='page-item paginate_button'>";
 		     pageButtonsHtml += "<a  class='page-link' id='" + (startPage - 1) + "' aria-label='Previous'>";
 		     pageButtonsHtml += "<span aria-hidden='true'>&laquo;</span>";
@@ -180,7 +180,7 @@ $(document).ready(function(){
 				      },
 				    dataType : "json",
 				    success:function(data) {
-				        displayMateList(data.mateList); 
+				    	displayMateList(data.mateList,data.userNickNames);
 				        var pm = data.pm;
 				        var endPage = pm.endPage;
 				        var startPage = pm.startPage;
