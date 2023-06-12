@@ -143,6 +143,7 @@
 </head>
 
 <body>
+<!-- header -->
 <jsp:include page="header.jsp"></jsp:include>
 
 <div class="travelTab">
@@ -234,5 +235,7 @@
 	</nav>
 </div>
 
+<!-- footer -->
+<jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>
