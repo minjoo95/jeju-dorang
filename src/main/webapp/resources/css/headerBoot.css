@@ -351,6 +351,12 @@
 		color: #3F3D3A;
 		text-decoration: none;
 	}
+	.myPage_item:hover{
+		cursor:pointer;
+	}
+	.myPage_item_a:hover{
+		cursor:pointer;
+	}
 	.navi-item:hover {
 		background-color: #FB7A51;
 		transition: all 0.6s ease-out;
