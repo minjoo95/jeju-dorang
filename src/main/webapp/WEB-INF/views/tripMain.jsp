@@ -20,8 +20,9 @@
 <style>
 	/* travel tab css */
 	.travelTab {
-	    height: 100px;
-	    margin: 50px auto;
+	    height: 80px;
+	    margin: 50px auto; 
+	    margin-bottom : 10px;
 	    display: flex;
 	    align-items: center;
 	    /* background-color: lightgray; */
@@ -29,12 +30,34 @@
 	
 	/* travel card css */
 	/*본문*/
+	.travel-card-container {
+	    /* border : solid 1px black; */
+	    display : inline-block;
+	    width : 285px;
+	    height : 250px;
+	    border-radius : 10px;
+	    overflow : hidden;
+	}
+	
 	.travel-card-top {
 	    position : relative;
 	    width : 100%;
-	    height : 158px;
+	    height : 200px;
 	    overflow : hidden;
 	    border-radius : 10px;
+	}
+	
+	.travel-card-img img{
+	    width : 100%;
+	    height : 200px;
+	    display : inline-block;
+	    filter: grayscale(0%);
+	}
+	
+	.travel-card-img img:hover {
+	    filter: grayscale(100%);
+	    transform : scale(1.3);
+	    transition: all ease-in-out 0.07s 0.07s;
 	}
 	
 	.travel-card-location {
@@ -73,34 +96,18 @@
 	    left: 30px;
 	}
 	
-	.travel-card-container {
-	    /* border : solid 1px black; */
-	    display : inline-block;
-	    width : 285px;
-	    height : 208px;
-	    border-radius : 10px;
-	    overflow : hidden;
-	}
-	
-	.travel-card-img img{
-	    width : 100%;
-	    height : 158px;
-	    display : inline-block;
-	    filter: grayscale(0%);
-	}
-	
-	.travel-card-img img:hover {
-	    filter: grayscale(100%);
-	    transform : scale(1.3);
-	    transition: all ease-in-out 0.07s 0.07s;
+	.travel-card-bottom {
+		height:50px;
 	}
 	
 	.travel-card-button {
+		height:100%;
 	    padding:20px;
 	    line-height: 0;
 	    background-color:transparent;
-	    color: gray;
+	    color: #3F3D3A;
 	    border: none;
+	    font-size:20px;
 	}
 	
 	.travel-card-button:hover {
@@ -117,6 +124,7 @@
 	/* search */
 	.searchBar {
 	    margin: 20px auto;
+	    margin-top : 10px;
 	    width: 1320px;
 	    height: 80px;
 	    /* background-color: black; */
@@ -148,7 +156,11 @@
 </head>
 
 <body>
-			<jsp:include page="/WEB-INF/views/headerBoot.jsp" />
+
+<!-- header -->
+<jsp:include page="header.jsp"></jsp:include>
+
+
 <div class="travelTab">
 	<jsp:include page="/WEB-INF/views/tripTab.jsp"/>
 </div>
@@ -238,6 +250,9 @@
 	</nav>
 </div>
 
-			<jsp:include page="/WEB-INF/views/footerBoot.jsp" />
+
+<!-- footer -->
+<jsp:include page="footer.jsp"></jsp:include>
+
 </body>
 </html>

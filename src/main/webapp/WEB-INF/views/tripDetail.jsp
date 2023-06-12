@@ -114,8 +114,10 @@
 </script>
 
 </head>
-			<jsp:include page="/WEB-INF/views/headerBoot.jsp" />
 <body>
+<!-- header -->
+<jsp:include page="header.jsp"></jsp:include>
+
 <div class="travel-detail-container" style="background-image:url(${place.getImage() });">
 	<div class="travel-detail-left">
 		<div class="travel-detail-location">
@@ -203,6 +205,9 @@
 		</div>
 	</div>
 </div>
-			<jsp:include page="/WEB-INF/views/footerBoot.jsp" />
+
+
+<!-- footer -->
+<jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>
