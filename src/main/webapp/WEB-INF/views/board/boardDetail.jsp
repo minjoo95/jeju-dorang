@@ -179,6 +179,7 @@ p.header-text {
 }
 
 #viewer {
+	margin-top: 2%;
 	margin-left: 4%;
 	height: 800px;
 }
@@ -219,7 +220,7 @@ p.header-text {
 	text-align: center;
 }
 div.board_reply_wrap textarea {
-	width: 80%;
+	width: 60%;
 	margin-top: 10px;
 }
 

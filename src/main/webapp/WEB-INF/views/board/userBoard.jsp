@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>커뮤니티</title>
-<%@ include file="/WEB-INF/views/header.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/header.jsp"%> --%>
 
 <!-- bootstrap-->
 <!-- CSS only -->
@@ -32,6 +32,9 @@ function changeCateBtnName(ths){
 </script>
 
 <style>
+a{
+ 	color: black;
+ }
 div.board-header {
 	height : 100px;
 	border-bottom-style: solid;
@@ -116,6 +119,7 @@ p.header-text {
 
 .pg {
 	margin-top: 50px;
+	width: 100%;
 }
 
 .comment_txt {
@@ -161,7 +165,9 @@ p.header-text {
 		</tbody>
 	</table>
 
-	<button type="button" class="btn text-white go-list-btn" onclick="location.href='${pageContext.request.contextPath}/board/list'">목록</button>
+	<div>
+		<button type="button" class="btn text-white go-list-btn" onclick="location.href='${pageContext.request.contextPath}/board/list'">목록</button>
+	</div>
 	<div>		
 		<nav aria-label="Page navigation example">
 			<ul class="btn-group pagination pg">
@@ -227,5 +233,5 @@ p.header-text {
 
 </div>
 </body>
-<jsp:include page="/WEB-INF/views/footer.jsp" />
+<jsp:include page="/WEB-INF/views/footerBoot.jsp" />
 </html>

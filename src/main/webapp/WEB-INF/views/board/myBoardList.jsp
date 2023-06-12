@@ -32,6 +32,11 @@ function changeCateBtnName(ths){
 
 <style>
 
+a {
+	text-decoration: none;
+ 	color: black;
+}
+ 
 #board-my-container {
 	height: 80%;
 }
@@ -112,6 +117,27 @@ p.header-text {
 
 .myPage_item_a {
 	text-decoration: none;
+}
+
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
 }
 
 </style>
