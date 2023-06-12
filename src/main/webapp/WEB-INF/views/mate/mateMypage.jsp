@@ -118,7 +118,7 @@
 		
 
 		   // 이전 페이지 버튼
-		   if (${pm.startPage} > 1) {
+		   if (startPage > 1) {
 		     pageButtonsHtml += "<li class='page-item paginate_button'>";
 		     pageButtonsHtml += "<a  class='page-link' id='" + (startPage - 1) + "' aria-label='Previous'>";
 		     pageButtonsHtml += "<span aria-hidden='true'>&laquo;</span>";
