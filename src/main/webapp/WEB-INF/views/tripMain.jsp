@@ -148,7 +148,7 @@
 </head>
 
 <body>
-<jsp:include page="headerBoot.jsp"></jsp:include>
+<jsp:include page="header.jsp"></jsp:include>
 
 <div class="travelTab">
 	<jsp:include page="/WEB-INF/views/tripTab.jsp"/>

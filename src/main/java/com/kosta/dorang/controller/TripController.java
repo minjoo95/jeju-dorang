@@ -270,13 +270,13 @@ public class TripController {
 	@RequestMapping(value = "/list/id/{trip_id}", method=RequestMethod.GET)
 	public String travelDetail(Model model, @PathVariable Integer trip_id) {
 		//세션 유저 정보 필요
-		//String user = (String) session.getAttribute("user");
+		Long user_code = 2805344051L; //테스트
 		
 		try {
 			Trip place = tripService.getPlace(trip_id);
 			model.addAttribute("place", place);
 			
-			Bookmark bookmark = new Bookmark((long) 1, trip_id); //user_code, trip_id
+			Bookmark bookmark = new Bookmark(user_code, trip_id); //user_code, trip_id
 			Boolean isLike;
 			Integer check = tripService.isMyBookmark(bookmark);
 			if(check == 0) { //북마크 아님
@@ -300,8 +300,10 @@ public class TripController {
 		String message = "";
 		System.out.println(user_id);
 		System.out.println(trip_id);
+		Long user_code = 2805344051L; //테스트
+		
 		try {
-			Bookmark bookmark = new Bookmark(user_id, trip_id);
+			Bookmark bookmark = new Bookmark(user_code, trip_id);
 			Boolean isLike;
 			Integer check = tripService.isMyBookmark(bookmark);
 			if(check == 0) { //북마크 아님 -> 북마크 처리 후 true
