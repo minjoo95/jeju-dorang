@@ -16,7 +16,6 @@
 <link rel="stylesheet" href="<c:url value="/resources/css/travel.css"/>">
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Jura&family=Lato&family=Nanum+Gothic:wght@400;700;800&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&family=Rajdhani&display=swap" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 <style>
 	/* travel tab css */
 	.travelTab {
@@ -112,7 +111,7 @@
 	    border-radius: 10px;
 	    transition: all ease-in-out 0.1s 0.1s;
 	}
-		
+	
 	
 	/* search */
 	.searchBar {
@@ -122,18 +121,6 @@
 	    /* background-color: black; */
 	    position: relative;
 	}
-	
-	/* pagenation */
-/* 	.pagination-box {
-		background-color: black;
-		margin: 0 auto;
-		text-align:center;
-	}
-	
-	.pagination-bar{
-		margin: 0 auto;
-		text-align:center;
-	} */
 </style>
 
 <script>
@@ -196,7 +183,7 @@
 			<c:choose>
 				<c:when test="${pageMaker.startPage-1 == 0}">
 					<li class="page-item">
-						<a class="page-link" href="<c:url value='/travel/list?page=1'/>" aria-label="Previous">
+						<a class="page-link" href="<c:url value='/travel/list/${category }?page=1'/>" aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
 						</a>
 					</li>
@@ -204,7 +191,7 @@
 				
 				<c:otherwise>
 					<li class="page-item">
-						<a class="page-link" href="<c:url value='/travel/list?page=${pageMaker.startPage-1 }'/>" aria-label="Previous">
+						<a class="page-link" href="<c:url value='/travel/list/${category }?page=${pageMaker.startPage-1 }'/>" aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
 						</a>
 					</li>
@@ -213,21 +200,21 @@
 			
 			<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
 				<li class="page-item">
-					<a class="page-link" href="<c:url value='/travel/list?page=${pageNum }'/>">${pageNum }</a>
+					<a class="page-link" href="<c:url value='/travel/list/${category }?page=${pageNum }'/>">${pageNum }</a>
 				</li>
 			</c:forEach>	
 			
 			<c:choose>
 				<c:when test="${pageMaker.next && pageMaker.endPage > 0 }">
 					<li class="page-item">
-						<a class="page-link" href="<c:url value='/travel/list?page=${pageMaker.endPage+1 }'/>" aria-label="Next">
+						<a class="page-link" href="<c:url value='/travel/list/${category }?page=${pageMaker.endPage+1 }'/>" aria-label="Next">
 						<span aria-hidden="true">&raquo;</span>
 						</a>
 					</li>
 				</c:when>
 				<c:otherwise>
 				<li class="page-item">
-					<a class="page-link" href="<c:url value='/travel/list?page=${pageMaker.endPage}'/>" aria-label="Next">
+					<a class="page-link" href="<c:url value='/travel/list/${category }?page=${pageMaker.endPage}'/>" aria-label="Next">
 					<span aria-hidden="true">&raquo;</span>
 					</a>
 				</li>

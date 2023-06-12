@@ -30,10 +30,22 @@
          values (#{place_id}, #{category}, #{theme}, #{title}, #{region_code}, #{city_code}, #{address}, #{postcode}, #{tel}, #{hashtag}, #{introduction}, #{thumbnail}, #{image}, #{latitude}, #{longitude}, #{info})
         ]]>
     </insert>
-
-    <select id="selectPlaceList" resultType="com.kosta.dorang.dto.Trip">
+    
+    <select id="selectPlaceList" resultType="hashmap" parameterType="hashmap">
         <![CDATA[
-         select * from trip order by category
+         select * from trip order by place_id limit #{pageStart}, #{perPage}
+        ]]>
+    </select>
+    
+    <select id="selectPlaceListByTheme" resultType="hashmap" parameterType="hashmap">
+        <![CDATA[
+         select * from trip where category=#{search} order by like_count desc, place_id limit #{pageStart}, #{perPage}
+        ]]>
+    </select>
+    
+    <select id="selectPlaceListBySearch" resultType="hashmap" parameterType="hashmap">
+        <![CDATA[
+         select * from trip where title like concat('%',#{search},'%') order by title, like_count desc limit #{pageStart}, #{perPage}
         ]]>
     </select>
     
@@ -47,6 +59,25 @@
        <![CDATA[
         select * from trip where trip_id=#{trip_id}
        ]]>
+    </select>
+    
+    <!-- 페이징 처리 -->
+    <select id="countPlaceList" resultType="Integer">
+        <![CDATA[
+         select count(*) from trip
+        ]]>
+    </select>
+    
+    <select id="countPlaceListByTheme" parameterType="String" resultType="Integer">
+        <![CDATA[
+         select count(*) from trip where category=#{category}
+        ]]>
+    </select>
+    
+   <select id="countPlaceSearchList" parameterType="String" resultType="Integer">
+        <![CDATA[
+         select count(*) from trip where title like concat('%',#{keyword},'%')
+        ]]>
     </select>
     
     
