@@ -35,7 +35,7 @@ a{
 /* 레이아웃 */
 .header-nav{
 	width:100%;
-	height:100px;
+	height:125px;
 	display:flex;
 }
 
@@ -54,6 +54,7 @@ a{
 	display:flex;
 	margin-left:10px;
 	align-items: center;
+	margin-bottom: -20px;
 	justify-content:center;
 }
 
@@ -64,13 +65,14 @@ a{
 	height: 100%;
 	display: flex;
 	margin-left:10%;
+	margin-bottom: -4px;
 	align-items: flex-end;
 	justify-content:space-around;
 }
 .navi-link{
-		text-decoration: none;
 	color: #3F3D3A;
 	font-size: 20px;
+	text-decoration: none;
 	font-family: KimjungchulMyungjo-Bold;
 }
 .header-modal-category{
@@ -110,6 +112,7 @@ a{
 	display: flex;
 }
 .alarm-btn-container{
+	margin-top:-20px;
 	margin-right: 5px;
 }
 .alarm-container{
@@ -124,8 +127,7 @@ a{
 	background: transparent;
 }
 .alarm-img{
-	width: 25px;
-	padding: 10px;
+	width: 30px;
 }
 
 
@@ -134,11 +136,11 @@ a{
 	display: flex;
 }
 .blind{
+	width:1px;
+	height: 1px;
 	overflow: hidden;
 	clip: rect(1px,1px,1px,1px);
 	position: absolute !important;
-	width:1px;
-	height: 1px;
 }
 
 .alarm-container button.alarm-btn.on+.alarm_modal_content{
@@ -219,13 +221,12 @@ a{
 /* 마이페이지 모달 */
 .myPage_btn_container{
 	width:100%;
-	height:150px
-	margin-bottom: -1%;
 }
 .myPage_img{	
 	width: 30px;
 	display: flex;
 	align-items: flex-end;
+	margin-bottom:-7px;
 }	
 .myPage_btn{
 	display: flex;
@@ -238,6 +239,7 @@ a{
     margin-left:5px;
     align-items: center;
     font-family: 'GmarketSansMedium';
+    	margin-bottom:-8px;
 }
 .user_nickname{
 	margin-left:0;
@@ -324,6 +326,8 @@ a{
 		flex-direction: column;
 		background-color: white;
 		z-index:2;	
+		margin-top: 30px;
+		
 	}
 	.header-modal-category{
 		display: none;

@@ -134,10 +134,10 @@
 												<a href="">찜한 여행지</a>
 											</div>
 											<div class="myPage_item">
-												<a href="${contextPath }/user/mypage?mate/writelist">마이 동행</a>
+												<a href="#" id="writelist" onclick="menuClick(event)">마이 동행</a>
 											</div>
-											<div class="myPage_item">
-												<a href="${contextPath }/user/mypage?board/myBoardList?user=${sessionScope.userInfo.user_code }#">작성글 목록</a>
+											<div class="myPage_item" >
+												<a href="#" id="myBoard" onclick="menuClick(event)">작성글 목록</a>
 											</div>
 											<div class="myPage_item">
 												<a href="${contextPath }/user/logout">로그아웃</a>

@@ -133,7 +133,7 @@
 	}
 </script>
 </head>
-
+			<jsp:include page="/WEB-INF/views/headerBoot.jsp" />
 <body>
 <div class="travelTab">
 	<jsp:include page="/WEB-INF/views/tripTab.jsp"/>
@@ -223,6 +223,6 @@
 		</ul>
 	</nav>
 </div>
-
+			<jsp:include page="/WEB-INF/views/footerBoot.jsp" />
 </body>
 </html>

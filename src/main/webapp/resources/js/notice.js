@@ -321,4 +321,15 @@ function createAlarmElement(result){
 		});
 }
 
+// 마이페이지 모달에서 넘어가는 함수 동2
+function menuClick(event){
+	let myModalClicked = event.currentTarget.id;
+	console.log('클릭'+myModalClicked);
+	localStorage.setItem('myModalClicked', myModalClicked);
+	
+	if(myModalClicked.indexOf('myBoard')>-1 || myModalClicked.indexOf('writelist')>-1) {
+		var link = 'user/mypage';
+		location.href=link;
+	}
+}
 
