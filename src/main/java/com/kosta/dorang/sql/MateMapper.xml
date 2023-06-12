@@ -65,6 +65,13 @@
   </choose>
   LIMIT #{pageStart}, #{perPageNum}
 </select>
+<select id="selectMateNickName" parameterType="Integer" resultType="String">
+   <![CDATA[ 
+      SELECT u.user_nickname_kakao
+      FROM user u
+      JOIN mate m ON u.user_code = m.user_code AND m.mate_code = #{mate_code};
+    ]]>
+</select>
 <select id="selectApplyMateResult" parameterType="Long" resultType="String">
    <![CDATA[ 
       SELECT ma.result  
@@ -166,15 +173,61 @@
 		]]>
 	</update>
 	<insert id="insertMateReplyNotice" parameterType="map">
-        <![CDATA[
-        INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, comment_code)
-        VALUES (notice_nextval('num'), #{mateWriter}, 4, NOW(), #{noticeContent}, #{comment_code})
-        ]]>
-    </insert>
-	<insert id="insertMateApplyNotice" parameterType="map">
 		<![CDATA[
-		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, mate_application_code)
-		VALUES (notice_nextval('num'), #{mate_writer}, 1, NOW(), #{mateApplyContent}, #{mate_Application_code})
+		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, comment_code)
+		VALUES (notice_nextval('num'), #{mateWriter}, 4, NOW(), #{noticeContent}, #{comment_code})
 		]]>
 	</insert>
+	<insert id="insertMateApplyNotice" parameterType="map">
+		<![CDATA[
+		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, mate_application_code,mateApply_result)
+		VALUES (notice_nextval('num'), #{mate_writer}, 1, NOW(), #{mateApplyContent}, #{mate_Application_code},#{result})
+		]]>
+	</insert>
+	<update id="updateWithMateApplyAccept" parameterType="int">
+		<![CDATA[
+		update MateApply
+		set result='수락완료'
+		where mateApply_code=#{mate_application_code}
+		]]>
+	</update>
+	<select id="selectMateApplyByMateApplyCode" parameterType="int" resultType="com.kosta.dorang.dto.MateJoinMateApply">
+		<![CDATA[
+		select m1.*, m2.title
+		from MateApply m1 left outer join mate m2
+		on m1.mate_code=m2.mate_code
+		where m1.mateApply_code=#{mate_application_code}
+		]]>
+	</select>
+	<insert id="insertWithMateApplyAcceptNotice" parameterType="map" useGeneratedKeys="true" keyProperty="ntc_code">
+		<![CDATA[
+		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, mate_application_code,mateApply_result)
+		VALUES (notice_nextval('num'), #{user_code}, 5, NOW(), #{content}, #{mate_application_code},#{result})
+		]]>
+	</insert>
+	<update id="updateNoticeBymateApplicationCode" parameterType="int">
+		<![CDATA[
+		update notice
+		set is_deleted=1
+		where mate_application_code=#{mate_application_code}
+		]]>
+	</update>
+	<update id="updateWithMateApplyRefuse" parameterType="int">
+		<![CDATA[
+		update MateApply
+		set result='수락거절'
+		where mateApply_code=#{mate_application_code}
+		]]>
+	</update>
+	<insert id="insertWithMateApplyRefuseNotice" parameterType="map" useGeneratedKeys="true" keyProperty="ntc_code">
+		<![CDATA[
+		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, mate_application_code,mateApply_result)
+		VALUES (notice_nextval('num'), #{user_code}, 5, NOW(), #{content}, #{mate_application_code},#{result})
+		]]>
+	</insert>
+	<update id="updateMateWithJoinCount" parameterType="int">
+		update mate
+		set join_count+=1
+		where mate_code=${mate_code}
+	</update>
 </mapper>

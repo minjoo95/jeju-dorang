@@ -43,6 +43,10 @@
 	    </div>
      </c:if>
        		<div class="container" >
+       		    <div class="user_nickName_container">
+       		        <p class="nickName_txt">작성자 : </p>
+       		        <p class="nickName_data">${UserNickName}</p>
+       		    </div>
 	       		<div class="mate-createdAt d-flex justify-content-end">
 					    	<p class="createdAt_Txt">작성일&nbsp;${mt.createdAt}</p>
 		        </div>
