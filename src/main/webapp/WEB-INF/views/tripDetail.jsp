@@ -118,11 +118,11 @@
 </script>
 
 </head>
-			<jsp:include page="/WEB-INF/views/headerBoot.jsp" />
+
 <body>
 
 <!-- header -->
-<jsp:include page="header.jsp"></jsp:include>
+<jsp:include page="headerBoot.jsp"></jsp:include>
 
 <div class="travel-detail-container" style="background-image:url(${place.getImage() });">
 	<div class="travel-detail-left">

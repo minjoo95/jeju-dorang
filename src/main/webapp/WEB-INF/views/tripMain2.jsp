@@ -145,10 +145,10 @@
 	}
 </script>
 </head>
-			<jsp:include page="/WEB-INF/views/headerBoot.jsp" />
+
 <body>
 <!-- header -->
-<jsp:include page="header.jsp"></jsp:include>
+<jsp:include page="headerBoot.jsp"></jsp:include>
 
 <div class="travelTab">
 	<jsp:include page="/WEB-INF/views/tripTab.jsp"/>
@@ -241,7 +241,7 @@
 
 
 <!-- footer -->
-<jsp:include page="footer.jsp"></jsp:include>
+<jsp:include page="footerBoot.jsp"></jsp:include>
 
 </body>
 </html>
