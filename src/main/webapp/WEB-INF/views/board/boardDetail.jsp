@@ -8,6 +8,7 @@
 %>
 <!DOCTYPE html>
 <link rel="stylesheet" type="text/css"  href="<c:url value="/resources/css/mateComment.css"/>">
+<script src="https://kit.fontawesome.com/5c78b43849.js" crossorigin="anonymous"></script>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -179,7 +180,17 @@ p.header-text {
 
 #viewer {
 	margin-left: 4%;
-	height: 880px;
+	height: 600px;
+}
+
+.mate_reply_whole_box{
+	margin-top: 25px;
+	width: 100%;
+}
+
+.mate_reply_list_table_box {
+    height: 100%;
+    width: 100%;
 }
 
 .board-detail-btn-top{
@@ -200,9 +211,74 @@ p.header-text {
 	background-color: white;
 }
 
-div>.comment_text{
+/* div>.comment_text{
 	background-color:red;
+} */
+
+.board_reply_wrap{
+	text-align: center;
 }
+div.board_reply_wrap textarea {
+	width: 80%;
+	margin-top: 10px;
+}
+
+.board_reply_btn{
+	background-color: red;
+}
+
+.board_reply_btn_container {
+	text-align: center;
+}
+
+.writer-btn{
+	text-align: right;
+}
+
+.middle-btn-div{
+	text-align: right;
+}
+
+.modal-content{
+	text-align: center;
+}
+
+h5{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.modal-btn{
+	width: 50%;
+}
+
+.board_reply_btn_container {
+    margin-bottom: 20px;
+}
+
+.comment_text{
+	width: 85%;
+    height: 70%;
+    resize: none;
+    color: #D9D9D9;
+    border: 1px solid #E3E3E3;
+}
+
+.board-comment-form{
+	display: flex;
+	align-items: center;
+}
+
+.newtd>.mate_reply_btn{
+	height:50px;
+	margin-left: 10px;
+}
+
+.comment-nickname{
+
+}
+
+
 </style>
 
 </head>
@@ -300,6 +376,44 @@ div>.comment_text{
 		
 	</script>
 	
+		<div class="middle-btn-div">
+		
+		<button type="button" id="likeBtn1" class="btn" style="border-color:#FB7A51; color:#FB7A51;" onclick="likeBoard(${board.board_id})">추천</button>
+		<button type="button" class="btn text-white" style="background-color:#FB7A51;" onclick="location.href='${pageContext.request.contextPath}/board/list'">목록</button>
+	</div>
+	
+	<!-- Modal -->
+		<div class="modal fade" id="likeModal" tabindex="-1"
+			aria-labelledby="likeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body">
+						<i class="fa-regular fa-face-grin-hearts fa-4x"></i>
+						<h5>추천 완료</h5>
+						<button type="button" class="btn btn-secondary modal-btn"
+							data-bs-dismiss="modal">확인</button>
+					</div>
+	
+				</div>
+			</div>
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="cancelLikeModal" tabindex="-1"
+			aria-labelledby="cancelLikeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body">
+						<i class="fa-regular fa-face-grin-beam-sweat fa-4x"></i>
+						<h5>이미 추천하셨습니다.</h5>
+						<button type="button" class="btn btn-secondary modal-btn"
+							data-bs-dismiss="modal">확인</button>
+					</div>
+	
+				</div>
+			</div>
+		</div>
+	
 	
 	<div id="comment_temp">
 	<%
@@ -355,7 +469,7 @@ div>.comment_text{
 		</table> --%>
 
         <!--댓글쓰기  -->
-        <div class="board_reply_wrap">
+  <%--       <div class="board_reply_wrap">
         	<form name="boardCommentForm" action="${pageContext.request.contextPath}/board/boardCommentWrite" method="post">
                 	<input type="hidden" name="board_id" value="${board.board_id }">
 					<!-- 로그인 처리 -->
@@ -363,15 +477,20 @@ div>.comment_text{
 					<input type="hidden" name="comment_depth" value="0">
 					<input type="hidden" name="parent_comment_no" value="0">
                     <textarea class="comment_txt" name="comment_content" placeholder="댓글 입력..."></textarea>
-                    <div class="mate_reply_btn_container">
+                    
+                    <button type="submit" class="board_reply_btn">
+							입력2222
+					</button>
+                    
+                    <!-- <div class="mate_reply_btn_container">
                     	<button type="submit" class="mate_reply_btn" >
 							입력
 						</button>
-					</div>
+					</div> -->
               </form>
-        </div>
+        </div> --%>
         
-        <div class="mate_reply_wrap">
+<%--         <div class="mate_reply_wrap">
             <div class="mate_reply_box">
                 <div class="mate_reply_container">
                 	<form name="boardCommentForm" action="${pageContext.request.contextPath}/board/boardCommentWrite" method="post">
@@ -393,7 +512,7 @@ div>.comment_text{
                     <button class="mate_reply_btn">입력2</button>
                 </div> -->
             </div>
-        </div>
+        </div> --%>
        <div class="mate_reply_list_table_box">
               <table align="center" width="500" border="1" id="rtb">
 	           		<thead id="rCount_head">
@@ -402,10 +521,26 @@ div>.comment_text{
 	                <c:forEach items="${commentsList}" var="comments">
 	                <tbody id="mate_reply_body">
 	                	<tr class="comments_">
-							<td><span><a onclick="showWriterInfo(${comments.user_code})">${comments.user_nickname}</a></span> <span>${comments.comment_reg_date}</span>
-							<br />
-							<p>${comments.comment_content}<p>
-							</td>
+							<td style="display:flex;">
+								<c:if test="${comments.comment_depth gt 0}">
+									<i class="fa-solid fa-arrow-right" style="margin-left:${comments.comment_depth * 20}px"></i>
+									<div style="display:flex; flex-direction:column; justify-contents:space-between; background-color:pink; width:100%; height:100%; margin-left:10px;">
+										<div><span class="comment-nickname"><a onclick="showWriterInfo(${comments.user_code})">${comments.user_nickname}</a></span> <span class="comment-reg-date">${comments.comment_reg_date}</span></div>
+										<p class="comment-content">${comments.comment_content}</p>
+									</div>
+									
+									<%-- <span><a onclick="showWriterInfo(${comments.user_code})">${comments.user_nickname}</a></span> <span>${comments.comment_reg_date}</span>
+									<br />
+									<p style="margin-left:${comments.comment_depth * 35}px">${comments.comment_content}<p> --%>
+								</c:if>
+								<c:if test="${comments.comment_depth eq 0}">
+								
+									<div style="display:flex; flex-direction:column; justify-contents:space-between; background-color:blue; width:100%; height:100%; margin-left:10px;">
+										<div><span class="comment-nickname"><a onclick="showWriterInfo(${comments.user_code})">${comments.user_nickname}</a></span> <span class="comment-reg-date">${comments.comment_reg_date}</span></div>
+										<p class="comment-content">${comments.comment_content}</p>
+									</div>
+								</c:if>
+								</td>
 							<td>
 							<%
 								System.out.println("댓글 currentUserCode : " + currentUserCode);
@@ -420,25 +555,50 @@ div>.comment_text{
 								if(currentUserCode != null) {
 				
 							%>
-								
-							<button class="btn-reply" value="${comments.comment_no}">대댓글 쓰기</button>
-								
+							<div class="writer-btn">
+								<button class="btn-reply" value="${comments.comment_no}">대댓글 쓰기</button>
+								<button class="btn-delete" value="${comments.comment_no}" onclick="commentDelete(${comments.comment_no}, ${comments.user_code})">댓글 삭제</button>	
+							
+							</div>
 							<%
 								}
 									
 								//else {
 							%>
-								<button class="btn-delete" value="${comments.comment_no}" onclick="commentDelete(${comments.comment_no}, ${comments.user_code})">댓글 삭제</button>
+								<%-- <button class="btn-delete" value="${comments.comment_no}" onclick="commentDelete(${comments.comment_no}, ${comments.user_code})">댓글 삭제</button> --%>
 
 						</td>
 					</tr>
 				</c:forEach>
-	                </tbody>
+	            </tbody>
             </table>
        </div>
+       
+              <!--댓글쓰기  -->
+        <div class="board_reply_wrap">
+        	<form name="boardCommentForm" action="${pageContext.request.contextPath}/board/boardCommentWrite" method="post">
+                	<input type="hidden" name="board_id" value="${board.board_id }">
+					<!-- 로그인 처리 -->
+					<input type="hidden" name="user_code" value="${userInfo.user_code}">
+					<input type="hidden" name="comment_depth" value="0">
+					<input type="hidden" name="parent_comment_no" value="0">
+                    <textarea class="comment_txt" name="comment_content" placeholder="댓글 입력..."></textarea>
+                    <div class="board_reply_btn_container">
+                    	<button type="submit" class="mate_reply_btn">
+							입력
+						</button>
+					</div>
+                    
+                    <!-- <div class="mate_reply_btn_container">
+                    	<button type="submit" class="mate_reply_btn" >
+							입력
+						</button>
+					</div> -->
+              </form>
+        </div>
 
        <%-- <input type="hidden" name="mate_code" id="mate_code" value="${mt.mate_code}"/> --%>
-        <div class="mate_reply_wrap">
+        <%-- <div class="mate_reply_wrap">
             <div class="mate_reply_box">
                 <div class="mate_reply_container">
                 	<form name="boardCommentForm" action="${pageContext.request.contextPath}/board/boardCommentWrite" method="post">
@@ -448,13 +608,14 @@ div>.comment_text{
 						<input type="hidden" name="comment_depth" value="0">
 						<input type="hidden" name="parent_comment_no" value="0">
                     	<textarea class="comment_txt" name="comment_content" placeholder="댓글 입력..."></textarea>
+                    				
                     	<div class="mate_reply_btn_container">
                     		<button type="submit" class="mate_reply_btn" >
 							입력
 						</button>
 						</div>
                     </form>
-                </div>
+                </div> --%>
                 
                 <!-- <div class="mate_reply_btn_container">
                     <button class="mate_reply_btn">입력2</button>
@@ -559,7 +720,7 @@ div>.comment_text{
 			</div>
 		</div>
 		
-	<div id="footer-btn-div">
+<%-- 	<div id="footer-btn-div">
 		<button type="button" class="btn" style="border-color:#FB7A51; color:#FB7A51;">댓글작성</button>
 
 		<button type="button" id="likeBtn1" class="btn" style="border-color:#FB7A51; color:#FB7A51;" onclick="likeBoard(${board.board_id})">추천</button>
@@ -601,7 +762,7 @@ div>.comment_text{
 		</div>
 
 		<button type="button" class="btn text-white" style="background-color:#FB7A51;" onclick="location.href='${pageContext.request.contextPath}/board/list'">목록</button>
-	</div>
+	</div> --%>
 </div>
 <script>
 function commentDelete(comment_no, user_code){
@@ -688,19 +849,22 @@ function likeBoard(board_id){
 $(".btn-reply").click(function(){
 	
 	var html = "<tr>";
-	html += "<td colspan='2' style='display:none; text-align:left;'>";
-	html += '<form name="boardCommentForm" action="${pageContext.request.contextPath}/board/boardCommentWrite" method="post">';
+	html += "<td colspan='4' style='display:none; text-align:left;'>";
+	html += '<form name="boardCommentForm" class="board-comment-form newtd" action="${pageContext.request.contextPath}/board/boardCommentWrite" method="post">';
 	html += '<input type="hidden" name="board_id" value="${board.board_id }"/>';
 	html += '<input type="hidden" name="user_code" value="${userInfo.user_code}"/>';
 	html += '<input type="hidden" name="comment_depth" value="1"/>';
 	html += '<input type="hidden" name="parent_comment_no" value="' + $(this).val() + '"/>';
-	html += '<textarea name="comment_content"> </textarea>';
-	html += '<button type="submit" >댓글등록</button>';
+	html += '<textarea class="comment_text" name="comment_content"> </textarea>';
+	html += '<button type="submit" class="mate_reply_btn">댓글등록</button>';
 	html += '</form>';
 	html += "</td>";
 	html += "</tr>";
 
-	var $reply_btn = $(this).parent().parent();
+	var $reply_btn = $(this).parent().parent().parent();
+	
+	console.log("$reply_btn : " + $reply_btn);
+	
 	$(html).insertAfter($reply_btn).children("td").slideDown(800);
 
 	$(this).off("click");
