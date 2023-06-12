@@ -7,6 +7,7 @@ import com.kosta.dorang.dto.MateApply;
 import com.kosta.dorang.dto.MateComments;
 import com.kosta.dorang.dto.MateCommentsUser;
 import com.kosta.dorang.dto.MateCriteria;
+import com.kosta.dorang.dto.MateJoinMateApply;
 import com.kosta.dorang.dto.Notice;
 
 public interface MateDAOI {
@@ -32,6 +33,13 @@ public interface MateDAOI {
 	public MateCommentsUser selectOneMateReply(int comment_code) throws Exception; //응심이꺼
 	public void updateMateReply(MateComments mateComments) throws Exception; //응심이꺼
 	public void insertMateReplyNotice(long mateWriter,String noticeContent, int comment_code) throws Exception; //응심이꺼
-	public void insertMateApplyNotice(long mate_writer, String mateApplyContent, int mate_Application_code) throws Exception;
+	public void insertMateApplyNotice(long mate_writer, String mateApplyContent, int mate_Application_code, String result) throws Exception;
+	public int updateWithMateApplyAccept(int mate_application_code) throws Exception;
+	public MateJoinMateApply selectMateApplyByMateApplyCode(int mate_application_code) throws Exception;
+	public void insertWithMateApplyAccept(long user_code, String content, int mate_application_code,String result) throws Exception;
+	public void updateNoticeBymateApplicationCode(int mate_application_code) throws Exception;
+	public int updateWithMateApplyRefuse(int mate_application_code) throws Exception;
+	public void insertWithMateApplyRefuse(long user_code, String content, int mate_application_code, String result) throws Exception;
+	public void updateMateWithJoinCount(int mate_code) throws Exception;
 
 }

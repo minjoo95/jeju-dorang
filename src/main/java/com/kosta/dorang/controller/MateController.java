@@ -31,6 +31,7 @@ import com.kosta.dorang.dto.MateApply;
 import com.kosta.dorang.dto.MateComments;
 import com.kosta.dorang.dto.MateCommentsUser;
 import com.kosta.dorang.dto.MateCriteria;
+import com.kosta.dorang.dto.MateJoinMateApply;
 import com.kosta.dorang.dto.MatePageMaker;
 import com.kosta.dorang.dto.Notice;
 import com.kosta.dorang.dto.User;
@@ -374,8 +375,11 @@ public class MateController {
 	        	int insertCheck=mateServiceI.insertMateApply(mp);
 	        	System.out.println("comment_code : "+mp.getMateApply_code());
 	        	int mate_Application_code=mp.getMateApply_code();
+	        	
+	        	MateJoinMateApply mateJoinMateApply=mateServiceI.selectMateApplyByMateApplyCode(mate_Application_code);
+	        	String result=mateJoinMateApply.getResult();
 	        	if(insertCheck==1) {
-	        		mateServiceI.insertMateApplyNotice(mate_writer,mateApplyContent,mate_Application_code);
+	        		mateServiceI.insertMateApplyNotice(mate_writer,mateApplyContent,mate_Application_code,result);
 	        	
 	        	}
 	 	         return "success"; // 성공적으로 처리되었음을 알리는 응답 반환
@@ -387,6 +391,66 @@ public class MateController {
 	        return "error";
 	    }
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value ="/applyaccept", method = RequestMethod.POST)
+	public void mateApplyAccept(@RequestParam int mate_application_code) throws Exception {
+		
+		System.out.println("동행신청 '수락' 업데이트 컨트롤러");
+		System.out.println("mate_application_code : "+mate_application_code);
+		
+		//동행 신청 '수락완료' 업데이트
+		int updateCheck=0;
+		updateCheck=mateServiceI.updateWithMateApplyAccept(mate_application_code);
+		
+		
+		
+		//동행 지원과 동행 조회 
+		MateJoinMateApply mateJoinMateApply=mateServiceI.selectMateApplyByMateApplyCode(mate_application_code);
+		long user_code=mateJoinMateApply.getUser_code();
+		String content=mateJoinMateApply.getTitle();
+		String result=mateJoinMateApply.getResult();
+		int mate_code=mateJoinMateApply.getMate_code();
+		
+		//동행 신청 '수락완료' 업데이트한 알림 'is_deleted=1' 업데이트
+		//동행 신청 '수락완료' 알림 삽입
+		if(updateCheck==1) {
+			mateServiceI.updateMateWithJoinCount(mate_code);
+			mateServiceI.updateNoticeBymateApplicationCode(mate_application_code);
+			mateServiceI.insertWithMateApplyAccept(user_code,content,mate_application_code,result);
+		}
+		
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value ="/applyrefuse", method = RequestMethod.POST)
+	public void mateApplyRefuse(@RequestParam int mate_application_code) throws Exception {
+		
+		System.out.println("동행신청 '거절' 업데이트 컨트롤러");
+		System.out.println("mate_application_code : "+mate_application_code);
+		
+		//동행 신청 '수락거절' 업데이트
+		int updateCheck=0;
+		updateCheck=mateServiceI.updateWithMateApplyRefuse(mate_application_code);
+		
+		//동행 지원과 동행 조회 
+		MateJoinMateApply mateJoinMateApply=mateServiceI.selectMateApplyByMateApplyCode(mate_application_code);
+		long user_code=mateJoinMateApply.getUser_code();
+		String content=mateJoinMateApply.getTitle();
+		String result=mateJoinMateApply.getResult();
+		
+		//동행 신청 '수락거절' 업데이트한 알림 'is_deleted=1' 업데이트
+		//동행 신청 '수락거절' 알림 삽입
+		if(updateCheck==1) {
+			mateServiceI.updateNoticeBymateApplicationCode(mate_application_code);
+			mateServiceI.insertWithMateApplyRefuse(user_code,content,mate_application_code,result);
+		}
+		
+		
+	}
+	
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public String deleteMate(HttpServletRequest request ,MateCriteria cri,RedirectAttributes rttr, @RequestParam("backPageName") String backPageName) throws Exception {

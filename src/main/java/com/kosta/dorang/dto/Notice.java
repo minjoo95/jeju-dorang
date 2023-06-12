@@ -10,7 +10,7 @@ public class Notice {
 	private Date ntc_date;
 	private String ntc_content;
 	private int mate_application_code;
-	private int mate_code;
+	private String mateApply_result;
 	private int comment_no;  //후기 댓글
 	private int comment_code;  //동행 댓글
 	private boolean is_deleted; //default 0
@@ -21,7 +21,7 @@ public class Notice {
 	}
 
 	public Notice(int ntc_code, long user_code, int ntc_cat, Date ntc_date, String ntc_content,
-			int mate_application_code, int mate_code, int comment_no, int comment_code, boolean is_deleted,
+			int mate_application_code, String mateApply_result, int comment_no, int comment_code, boolean is_deleted,
 			boolean is_confirm) {
 		this.ntc_code = ntc_code;
 		this.user_code = user_code;
@@ -29,7 +29,7 @@ public class Notice {
 		this.ntc_date = ntc_date;
 		this.ntc_content = ntc_content;
 		this.mate_application_code = mate_application_code;
-		this.mate_code = mate_code;
+		this.mateApply_result = mateApply_result;
 		this.comment_no = comment_no;
 		this.comment_code = comment_code;
 		this.is_deleted = is_deleted;
@@ -84,12 +84,12 @@ public class Notice {
 		this.mate_application_code = mate_application_code;
 	}
 
-	public int getMate_code() {
-		return mate_code;
+	public String getMateApply_result() {
+		return mateApply_result;
 	}
 
-	public void setMate_code(int mate_code) {
-		this.mate_code = mate_code;
+	public void setMateApply_result(String mateApply_result) {
+		this.mateApply_result = mateApply_result;
 	}
 
 	public int getComment_no() {
