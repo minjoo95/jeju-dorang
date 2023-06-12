@@ -141,7 +141,7 @@
 	}
 </script>
 </head>
-
+			<jsp:include page="/WEB-INF/views/headerBoot.jsp" />
 <body>
 <!-- header -->
 <jsp:include page="header.jsp"></jsp:include>
@@ -235,7 +235,9 @@
 	</nav>
 </div>
 
+
 <!-- footer -->
 <jsp:include page="footer.jsp"></jsp:include>
+
 </body>
 </html>
