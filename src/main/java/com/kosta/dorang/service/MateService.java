@@ -12,6 +12,7 @@ import com.kosta.dorang.dto.MateApply;
 import com.kosta.dorang.dto.MateComments;
 import com.kosta.dorang.dto.MateCommentsUser;
 import com.kosta.dorang.dto.MateCriteria;
+import com.kosta.dorang.dto.MateJoinMateApply;
 import com.kosta.dorang.dto.Notice;
 
 @Service
@@ -143,9 +144,49 @@ public class MateService implements MateServiceI {
 	}
 
 	@Override
-	public void insertMateApplyNotice(long mate_writer, String mateApplyContent, int mate_Application_code)
+	public void insertMateApplyNotice(long mate_writer, String mateApplyContent, int mate_Application_code,String result)
 			throws Exception {
-		mateDaoI.insertMateApplyNotice(mate_writer,mateApplyContent,mate_Application_code);
+		mateDaoI.insertMateApplyNotice(mate_writer,mateApplyContent,mate_Application_code,result);
+		
+	}
+
+	@Override
+	public int updateWithMateApplyAccept(int mate_application_code) throws Exception {
+		int updateCheck=mateDaoI.updateWithMateApplyAccept(mate_application_code);
+		return updateCheck;
+	}
+
+	@Override
+	public MateJoinMateApply selectMateApplyByMateApplyCode(int mate_application_code) throws Exception {
+		return mateDaoI.selectMateApplyByMateApplyCode(mate_application_code);
+	}
+
+	@Override
+	public void insertWithMateApplyAccept(long user_code, String content, int mate_application_code,String result) throws Exception {
+		mateDaoI.insertWithMateApplyAccept(user_code,content,mate_application_code,result);
+		
+	}
+
+	@Override
+	public void updateNoticeBymateApplicationCode(int mate_application_code) throws Exception {
+		mateDaoI.updateNoticeBymateApplicationCode(mate_application_code);
+	}
+
+	@Override
+	public int updateWithMateApplyRefuse(int mate_application_code) throws Exception {
+		int updateCheck=mateDaoI.updateWithMateApplyRefuse(mate_application_code);
+		return updateCheck;
+	}
+
+	@Override
+	public void insertWithMateApplyRefuse(long user_code, String content, int mate_application_code,String result) throws Exception {
+		mateDaoI.insertWithMateApplyRefuse(user_code,content,mate_application_code,result);
+		
+	}
+
+	@Override
+	public void updateMateWithJoinCount(int mate_code) throws Exception {
+		mateDaoI.updateMateWithJoinCount(mate_code);
 		
 	}
 
