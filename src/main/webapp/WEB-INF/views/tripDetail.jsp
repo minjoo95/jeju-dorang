@@ -62,6 +62,10 @@
  .travel-info-title img {
  	line-height : 34px;
  }
+ 
+ #bookmark-text {
+ 	color:white;
+ }
 </style>
 
 
@@ -187,7 +191,7 @@
 	
 	<div class="travel-detail-right">
 		<div class="travel-detail-like" onclick="bookmark()" >
-			<a>
+			<a id="bookmark-text">
 				<c:choose>
 					<c:when test="${isLike eq false }">
 						<img src="<c:url value="/resources/img/icon-unlike.png"/>" alt="bookmark" id="heart"/>
