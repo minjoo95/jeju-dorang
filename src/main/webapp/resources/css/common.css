@@ -23,3 +23,7 @@
 a{
 	text-decoration: none;
 }
+
+.header-nav a {
+	color:#3F3D3A;
+}
