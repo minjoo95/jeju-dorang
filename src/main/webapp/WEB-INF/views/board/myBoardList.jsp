@@ -32,16 +32,24 @@ function changeCateBtnName(ths){
 
 <style>
 
+a {
+	text-decoration: none;
+ 	color: black;
+}
+ 
 #board-my-container {
-	height: 60%;
+	height: 80%;
 }
 
 div.board-header {
-	height : 100px;
+/* 	height : 100px;
 	border-bottom-style: solid;
-	border-width: 1px;
+	border-width: 1px; */
 	/* background-color: red; */
-	vertical-align: middle;
+/* 	vertical-align: middle; */
+	
+	text-align: left;
+	margin-bottom: 10px;
 }
 
 p.header-text {
@@ -86,20 +94,57 @@ p.header-text {
 	height: 35px;
 }
 
+.go-btn {
+	/* background: #D9D9D9; */
+	border-radius: 5px;
+}
 .go-btn:hover,
-.go-btn:actiove{
-	background-color: red;
+.go-btn:active{
+	background: #D9D9D9;
 	color: white;
 }
+
 .go-btn:visited {
-	background: yellow;
-	color: whitel
+  background: #7ea338;
+  color: white;
+}
+.go-btn {
+	border: 0;
+}
+.pagination {
+	justify-content: center;
+}
+
+.myPage_item_a {
+	text-decoration: none;
+}
+
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
 }
 
 </style>
 
 <script>
 function change_btn(e){
+	console.log("여기");
 	var btns = document.querySelectorAll(".go-btn");
 	btns.forEach(function (btn, i){
 		if(e.currentTarget == btn){
@@ -117,9 +162,10 @@ function change_btn(e){
 </head>
 <body>
 <div class = "container" id = "board-my-container">
+	<h3>&nbsp;</h3>
 	<div class="board-header">
-		<button type="button" class="go-btn" onclick="change_btn(event); location.href='${contextPath }/board/myBoardList?user=${sessionScope.userInfo.user_code }'">내가 작성한 글</button>
-		<button type="button" class="go-btn" onclick="change_btn(event); location.href='${contextPath }/board/myCommentList?user=${sessionScope.userInfo.user_code }'">내가 작성한 댓글</button>
+		<button type="button" class="go-btn" onclick="change_btn(event); location.href='${contextPath }/dorang/board/myBoardList?user=${sessionScope.userInfo.user_code }'">내가 작성한 글</button>
+		<button type="button" class="go-btn" onclick="change_btn(event); location.href='${contextPath }/dorang/board/myCommentList?user=${sessionScope.userInfo.user_code }'">내가 작성한 댓글</button>
 	</div>
 	<table class="table table-hover">
 		<thead>

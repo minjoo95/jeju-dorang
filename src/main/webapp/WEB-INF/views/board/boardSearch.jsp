@@ -173,5 +173,5 @@ p.board-search-btn>button{
 
 </div>
 </body>
-<jsp:include page="/WEB-INF/views/footer.jsp" />
+<jsp:include page="/WEB-INF/views/footerBoot.jsp" />
 </html>

@@ -179,8 +179,9 @@ p.header-text {
 }
 
 #viewer {
+	margin-top: 2%;
 	margin-left: 4%;
-	height: 600px;
+	height: 800px;
 }
 
 .mate_reply_whole_box{
@@ -219,7 +220,7 @@ p.header-text {
 	text-align: center;
 }
 div.board_reply_wrap textarea {
-	width: 80%;
+	width: 60%;
 	margin-top: 10px;
 }
 
@@ -275,8 +276,24 @@ h5{
 }
 
 .comment-nickname{
-
+	
+	font-weight: bold;
+	font-size: 1.0em;
 }
+
+.comment-content{
+	
+}
+
+.comment-reg-date {
+	font-size: 0.9em;
+}
+
+.myPage_item_a {
+	text-decoration: none;
+}
+
+
 
 
 </style>
@@ -523,8 +540,8 @@ h5{
 	                	<tr class="comments_">
 							<td style="display:flex;">
 								<c:if test="${comments.comment_depth gt 0}">
-									<i class="fa-solid fa-arrow-right" style="margin-left:${comments.comment_depth * 20}px"></i>
-									<div style="display:flex; flex-direction:column; justify-contents:space-between; background-color:pink; width:100%; height:100%; margin-left:10px;">
+									<i class="fa-solid fa-arrow-right" style="margin-left:${comments.comment_depth * 25}px"></i>
+									<div style="display:flex; flex-direction:column; justify-contents:space-between; width:100%; height:100%; margin-left:10px;">
 										<div><span class="comment-nickname"><a onclick="showWriterInfo(${comments.user_code})">${comments.user_nickname}</a></span> <span class="comment-reg-date">${comments.comment_reg_date}</span></div>
 										<p class="comment-content">${comments.comment_content}</p>
 									</div>
@@ -535,7 +552,7 @@ h5{
 								</c:if>
 								<c:if test="${comments.comment_depth eq 0}">
 								
-									<div style="display:flex; flex-direction:column; justify-contents:space-between; background-color:blue; width:100%; height:100%; margin-left:10px;">
+									<div style="display:flex; flex-direction:column; justify-contents:space-between; width:100%; height:100%; margin-left:10px;">
 										<div><span class="comment-nickname"><a onclick="showWriterInfo(${comments.user_code})">${comments.user_nickname}</a></span> <span class="comment-reg-date">${comments.comment_reg_date}</span></div>
 										<p class="comment-content">${comments.comment_content}</p>
 									</div>

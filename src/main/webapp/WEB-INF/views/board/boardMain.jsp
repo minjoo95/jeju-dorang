@@ -43,6 +43,10 @@ box-sizing: border-box !important;
 position: relative;
 }
  */
+ 
+ a{
+ 	color: black;
+ }
 #board-main-header {
 	height: 800px;
 }
@@ -197,8 +201,10 @@ p.header-text2 {
 }
 
 #userNickname {
-	font-size: 1.5em;
-    text-align: center;
+	font-size: 2em;
+    text-align: left;
+    font-weight: 400;
+    margin-bottom: -1px;
 }
 
 #userInfo{
@@ -207,9 +213,13 @@ p.header-text2 {
 	float: right;
 }
 
+#userTags{
+	height: 150px;
+}
+
 #userTags>p{
 	width: 100%;
-    height: 100%;
+    height: 25px;
     display: flex;
     color: #FFFFFF;
     font-size: 1em;
@@ -223,6 +233,7 @@ p.header-text2 {
 	background-color: white;
 	border-color:#FB7A51;
 	color:#FB7A51;
+	width: 100%;
 }
 
 .page-link {
@@ -376,8 +387,13 @@ p.header-text2 {
 						<input type="hidden" id="user_code" name="user_code" value=""/>
 					</div>
 					<div class="userBtn" id="userBtn">
-						<button type="submit" class="btn btn-outline-light userBtn" data-bs-dismiss="modal">작성글보기</button>
-						<button type="button" class="btn btn-outline-light userBtn" data-bs-dismiss="modal">닫기</button>	
+						<!-- <p> -->
+						<button type="submit" class="btn userBtn" style="border-color:#FB7A51; color:#FB7A51;" data-bs-dismiss="modal">작성글보기</button>
+						<button type="submit" class="btn userBtn" style="border-color:#FB7A51; color:#FB7A51;" data-bs-dismiss="modal">닫기</button>
+						
+						<!-- <button type="submit" class="btn btn-outline-light userBtn" data-bs-dismiss="modal">작성글보기</button>
+						</p>
+						<button type="button" class="btn btn-outline-light userBtn" data-bs-dismiss="modal">닫기</button> -->	
 					</div>
 					</form>
 				</div>	
@@ -456,7 +472,8 @@ function showWriterInfo(ths){
 			} else {
 				gender = '남';
 			}
-			
+
+			if(user.user_tag != null){
 			tagArr = (user.user_tag).split(",");
 			
 			let tagArea = document.getElementById('userTags');
@@ -466,6 +483,8 @@ function showWriterInfo(ths){
 				tagArea.appendChild(new_pTage);
 				
 				$('#userTag'+i).append(tagArr[i]);
+
+				}
 				
 			}
 			
