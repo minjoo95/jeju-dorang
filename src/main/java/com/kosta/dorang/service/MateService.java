@@ -193,5 +193,4 @@ public class MateService implements MateServiceI {
 		mateDaoI.updateMateWithJoinCount(mate_code);
 		
 	}
-
 }

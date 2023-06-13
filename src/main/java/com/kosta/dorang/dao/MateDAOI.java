@@ -42,5 +42,5 @@ public interface MateDAOI {
 	public int updateWithMateApplyRefuse(int mate_application_code) throws Exception;
 	public void insertWithMateApplyRefuse(long user_code, String content, int mate_application_code, String result) throws Exception;
 	public void updateMateWithJoinCount(int mate_code) throws Exception;
-
+	
 }

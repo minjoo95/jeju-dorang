@@ -227,7 +227,8 @@
 	</insert>
 	<update id="updateMateWithJoinCount" parameterType="int">
 		update mate
-		set join_count+=1
-		where mate_code=${mate_code}
+		set join_count=(join_count+1)
+		where mate_code=#{mate_code}
 	</update>
+	
 </mapper>
