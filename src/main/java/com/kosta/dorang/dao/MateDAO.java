@@ -122,9 +122,8 @@ public class MateDAO implements MateDAOI {
 	}
 	@Override
 	public List<String> selectApplyMateResult(Long user_code) throws Exception {
-		 return sqlSession.selectList("MateMapper.selectApplyMateResult",user_code);
+		 return sqlSession.selectOne("MateMapper.selectApplyMateResult",user_code);
 	}
-	
 	
   //응심이 
 	@Override
@@ -232,4 +231,5 @@ public class MateDAO implements MateDAOI {
 		
 	}
 
+	
 }

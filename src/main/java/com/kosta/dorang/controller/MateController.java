@@ -33,6 +33,7 @@ import com.kosta.dorang.dto.MateCommentsUser;
 import com.kosta.dorang.dto.MateCriteria;
 import com.kosta.dorang.dto.MateJoinMateApply;
 import com.kosta.dorang.dto.MatePageMaker;
+import com.kosta.dorang.dto.MateUser;
 import com.kosta.dorang.dto.Notice;
 import com.kosta.dorang.dto.User;
 import com.kosta.dorang.service.MateService;
@@ -411,8 +412,10 @@ public class MateController {
 		long user_code=mateJoinMateApply.getUser_code();
 		String content=mateJoinMateApply.getTitle();
 		String result=mateJoinMateApply.getResult();
-		int mate_code=mateJoinMateApply.getMate_code();
 		
+		int mate_code=mateJoinMateApply.getMate_code();
+		System.out.println(mate_code);
+		//동행 신청 '수락완료' 업데이트한 알림 join_count+1 업데이트
 		//동행 신청 '수락완료' 업데이트한 알림 'is_deleted=1' 업데이트
 		//동행 신청 '수락완료' 알림 삽입
 		if(updateCheck==1) {
@@ -514,6 +517,7 @@ public class MateController {
 		mateComments.setMate_code(mate_code);
 		mateComments.setUser_code(user_code);
 		System.out.println(mateComments.getContent());
+		
 		
 		String noticeContent=mateTitle+";"+user_code+";"+mateReplyContent;
 		System.out.println(noticeContent);

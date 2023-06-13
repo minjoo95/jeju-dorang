@@ -8,6 +8,7 @@ import com.kosta.dorang.dto.MateComments;
 import com.kosta.dorang.dto.MateCommentsUser;
 import com.kosta.dorang.dto.MateCriteria;
 import com.kosta.dorang.dto.MateJoinMateApply;
+import com.kosta.dorang.dto.MateUser;
 import com.kosta.dorang.dto.Notice;
 
 public interface MateServiceI {
