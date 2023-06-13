@@ -4,8 +4,6 @@
     }
 	
 	body{
-		/*color:white;*/
-/* 		font-family: 'Noto Serif KR', serif; */
 		font-family: 'IBM Plex Sans KR';
 	}
 	
@@ -58,7 +56,6 @@
 	
 	a{
 		text-decoration : none;
-		
 	}
 	
 	.travel-detail-like a:hover {

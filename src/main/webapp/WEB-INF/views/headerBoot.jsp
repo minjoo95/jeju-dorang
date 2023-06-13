@@ -4,6 +4,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <script src="https://kit.fontawesome.com/5c78b43849.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/headerBoot.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/common.css"/>">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="<c:url value="/resources/js/notice.js"/>"></script>
 
@@ -159,19 +160,19 @@
 									<div class="myPage_modal_container">
 										<div class="myPage_List">
 											<div class="myPage_item">
-												<a href="${contextPath }/user/mypage">프로필 수정</a>
+												<a class="myPage_item_a" href="${contextPath }/user/mypage">프로필 수정</a>
 											</div>
 											<div class="myPage_item">
-												<a href="">찜한 여행지</a>
+												<a class="myPage_item_a" href="">찜한 여행지</a>
 											</div>
 											<div class="myPage_item">
-												<a href="${contextPath }/mate/writelist">마이 동행</a>
+												<a class="myPage_item_a" id="writelist" onclick="modalMenuClick(event)">마이 동행</a>
 											</div>
 											<div class="myPage_item">
-												<a href="">작성글 목록</a>
+												<a class="myPage_item_a" id="myBoard" onclick="modalMenuClick(event)">작성글 목록</a>
 											</div>
 											<div class="myPage_item">
-												<a href="${contextPath }/user/logout">로그아웃</a>
+												<a class="myPage_item_a" href="${contextPath }/user/logout">로그아웃</a>
 											</div>
 										</div>
 									</div>
@@ -185,3 +186,18 @@
 		</div>
 	</nav>
 </div>
+
+<script>
+//마이페이지 모달에서 넘어가는 함수 동2
+function modalMenuClick(event){
+	let myModalClicked = event.currentTarget.id;
+	console.log('클릭한 메뉴'+myModalClicked);
+	sessionStorage.setItem('myModalClicked', myModalClicked);
+	console.log(sessionStorage.getItem('myModalClicked'));
+	
+	if(myModalClicked.indexOf('myBoard')>-1 || myModalClicked.indexOf('writelist')>-1) {
+		var link = '${contextPath }/user/mypage';
+		location.href=link;
+	}
+}
+</script>

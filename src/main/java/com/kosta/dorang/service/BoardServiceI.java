@@ -69,5 +69,9 @@ public interface BoardServiceI {
 
 	List<Map<String, Object>> selectCommentUserPageList(BoardCriteria cri);
 
+	int countBoardUserSearchListTotal(Map<String, Object> map);
+
+	List<Map<String, Object>> selectBoardUserSearchPageList(BoardCriteria cri);
+
 
 }

@@ -9,6 +9,7 @@
 <%-- <%@ include file="/WEB-INF/views/header.jsp"%> --%>
 <%-- <jsp:include page="/WEB-INF/views/header.jsp" /> --%>
 
+
 <!-- bootstrap-->
 <!-- CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
@@ -81,6 +82,12 @@
 </script>
 
 <style>
+
+/* a {
+	text-decoration: none;
+	color: #3F3D3A;
+} */
+
 div.board-write-header {
 	height : 100px;
 	border-bottom-style: solid;
@@ -99,7 +106,7 @@ p.header-text {
 }
 
 .board_content_div{
-	background-color: red;
+
 	
 }
 
@@ -147,7 +154,7 @@ p.header-text {
 
 </head>
 <body>
-
+<jsp:include page="/WEB-INF/views/headerBoot.jsp" />
 <!-- <div class = "container" id = "board-main-container">
 	<div class="board-main-header">
 		<p class="header-text">후기</p>
@@ -248,5 +255,5 @@ p.header-text {
 		--%>
 </div>
 </body>
-<jsp:include page="/WEB-INF/views/footer.jsp" />
+<jsp:include page="/WEB-INF/views/footerBoot.jsp" />
 </html>

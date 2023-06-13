@@ -1,18 +1,18 @@
 package com.kosta.dorang.dto;
 
 public class Bookmark {
-	private Integer user_code;
+	private Long user_code;
 	private Integer trip_id;
 	
 	public Bookmark() {
 	}
 
-	public Bookmark(Integer user_code, Integer trip_id) {
+	public Bookmark(Long user_code, Integer trip_id) {
 		this.user_code = user_code;
 		this.trip_id = trip_id;
 	}
 
-	public Integer getUser_code() {
+	public Long getUser_code() {
 		return user_code;
 	}
 

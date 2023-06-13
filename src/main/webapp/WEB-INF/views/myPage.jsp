@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
 <c:set var="id" value="${sessionScope.user }" />
 <c:set var="user" value="${sessionScope.userInfo }" />
@@ -19,7 +20,7 @@
 
 <body>
 		<div id="myPageHeaderWrapper">
-			<jsp:include page="/WEB-INF/views/header.jsp" />
+			<jsp:include page="/WEB-INF/views/headerBoot.jsp" />
 		</div>
 		
 		<div id="myPageTabWrapper">
@@ -31,7 +32,7 @@
 		</div>
 	
 		<div id="myPageFooterWrapper">
-			<jsp:include page="/WEB-INF/views/footer.jsp" />
+			<jsp:include page="/WEB-INF/views/footerBoot.jsp" />
 		</div>
 		<div id="myPageBackground">
 	</div>

@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>커뮤니티</title>
-<%@ include file="/WEB-INF/views/header.jsp"%>
+<%-- <%@ include file="/WEB-INF/views/header.jsp"%> --%>
 
 <!-- bootstrap-->
 <!-- CSS only -->
@@ -32,6 +32,9 @@ function changeCateBtnName(ths){
 </script>
 
 <style>
+a{
+ 	color: black;
+ }
 div.board-header {
 	height : 100px;
 	border-bottom-style: solid;
@@ -84,16 +87,56 @@ p.header-text {
 	height: 35px;
 }
 
+.pagination {
+	justify-content: center;
+}
 
-	
+.page-link {
+  color: #000; 
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+
+.boardFooter {
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+.pg {
+	margin-top: 50px;
+	width: 100%;
+}
+
+.comment_txt {
+    width: 800px;
+    height: 70%;
+    resize: none;
+    color: #D9D9D9;
+    border: 1px solid #E3E3E3;
+}
 </style>
 </head>
 
 <body>
-
+<jsp:include page="/WEB-INF/views/headerBoot.jsp" />
 <div class = "container" id = "board-user-container">
 	<div class="board-header">
-		<p class="header-text"><span style="color: #FB7A51;">${user.user_nickname}</span> 님의 작성글</p>
+		<p class="header-text"><span style="color: #FB7A51;">${user1.user_nickname}</span> 님의 작성글</p>
 	</div>
 	<table class="table table-hover">
 		<thead>
@@ -123,61 +166,72 @@ p.header-text {
 	</table>
 
 	<div>
-		<button type="button" class="btn text-white go-list-btn" onclick="location.href='${pageContext.request.contextPath}/board/list'">목록</button>	
-		
-	<nav aria-label="Page navigation example">
-		<ul class="btn-group pagination">
-		<%-- ${pageMaker.prev } --%>
-			<c:choose>
-				<c:when test="${pageMaker.startPage-1 == 0}">
+		<button type="button" class="btn text-white go-list-btn" onclick="location.href='${pageContext.request.contextPath}/board/list'">목록</button>
+	</div>
+	<div>		
+		<nav aria-label="Page navigation example">
+			<ul class="btn-group pagination pg">
+			<%-- ${pageMaker.prev } --%>
+				<c:choose>
+					<c:when test="${pageMaker.startPage-1 == 0}">
+						<li class="page-item">
+							<a class="page-link" href="<c:url value='/board/list?page=1'/>" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item">
+							<a class="page-link" href="<c:url value='/board/list?page=${pageMaker.startPage-1 }'/>" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+					</c:otherwise>
+				</c:choose>			
+				<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
+				<li class="page-item">
+					<a class="page-link" href="<c:url value='/board/list?page=${pageNum }'/>">${pageNum }</a>
+				</li>
+				</c:forEach>		
+				<c:choose>
+					<c:when test="${pageMaker.next && pageMaker.endPage >0 }">
+						<li class="page-item">
+							<a class="page-link" href="<c:url value='/board/list?page=${pageMaker.endPage+1 }'/>" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+							</a>
+						</li>
+					</c:when>
+					<c:otherwise>
 					<li class="page-item">
-						<a class="page-link" href="<c:url value='/board/list?page=1'/>" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
-						</a>
-					</li>
-				</c:when>
-				<c:otherwise>
-					<li class="page-item">
-						<a class="page-link" href="<c:url value='/board/list?page=${pageMaker.startPage-1 }'/>" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
-						</a>
-					</li>
-				</c:otherwise>
-			</c:choose>			
-			<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
-			<li class="page-item">
-				<a class="page-link" href="<c:url value='/board/list?page=${pageNum }'/>">${pageNum }</a>
-			</li>
-			</c:forEach>		
-			<c:choose>
-				<c:when test="${pageMaker.next && pageMaker.endPage >0 }">
-					<li class="page-item">
-						<a class="page-link" href="<c:url value='/board/list?page=${pageMaker.endPage+1 }'/>" aria-label="Next">
+						<a class="page-link" href="<c:url value='/board/list?page=${pageMaker.endPage}'/>" aria-label="Next">
 						<span aria-hidden="true">&raquo;</span>
 						</a>
 					</li>
-				</c:when>
-				<c:otherwise>
-				<li class="page-item">
-					<a class="page-link" href="<c:url value='/board/list?page=${pageMaker.endPage}'/>" aria-label="Next">
-					<span aria-hidden="true">&raquo;</span>
-					</a>
-				</li>
-				</c:otherwise>
-			</c:choose>
-		</ul>
-	</nav>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		</nav>
 	</div>
-
+	
+<%-- 	<form name="boardSearchFrom" id="boardSearchFrom" class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/board/boardUserSearch">
+		<div class="boardFooter">
+			<!-- 일단은 제목만 검색하게 -->
+			<input type="hidden" id="user_code" name="user_code" value="${userInfo.user_code}"/>
+			<input class="form-control" type="text" id="boardSearch" name="boardSearch" placeholder="글 제목 검색" aria-label="Search">
+			<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+		</div>
+	</form> --%>
+	
 	<form name="boardSearchFrom" id="boardSearchFrom" class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/board/boardUserSearch">
 		<div class="boardFooter">
 			<!-- 일단은 제목만 검색하게 -->
-			<input class="form-control" type="text" id="boardSearch" name="boardSearch" placeholder="${user.user_nickname}님 글 제목 검색" aria-label="Search">
-			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			<input type="hidden" id="user_code" name="user_code" value="${user1.user_code}"/>
+			<input class="form-control" type="text" id="boardSearch" name="boardSearch" placeholder="${user1.user_nickname}님 글 제목 검색" aria-label="Search">
+			<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
 		</div>
 	</form>
 
 </div>
 </body>
-<jsp:include page="/WEB-INF/views/footer.jsp" />
+<jsp:include page="/WEB-INF/views/footerBoot.jsp" />
 </html>

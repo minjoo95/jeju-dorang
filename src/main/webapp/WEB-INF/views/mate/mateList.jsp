@@ -54,7 +54,7 @@ $(document).ready(function(){
 		      },
 		    dataType : "json",
 		    success:function(data) {
-		        displayMateList(data.mateList);   
+		        displayMateList(data.mateList,data.userNickNames);   
 		        var pm = data.pm;
 		        var endPage = pm.endPage;
 		        var startPage = pm.startPage;
@@ -70,7 +70,7 @@ $(document).ready(function(){
 		  }); 
    }//sortMateList
    
-    function displayMateList(data) {
+    function displayMateList(data,userNickNames) {
     
      $("#viewContent").empty();
      var itemHtml = ""; 
@@ -86,6 +86,7 @@ $(document).ready(function(){
 		   itemHtml +=  "</div>"
 		   itemHtml +=  "<div class='card h-100 shadow p-2'>"
 		   itemHtml +=  "<h5 class='card-title'>"+mt.title+"</h5>"
+		   itemHtml += "<p class='nick_name'>" + userNickNames[index] + "</p>";
 		   itemHtml +=  "<p class='createAt'>작성일&nbsp;"+formattedDate +"</p>"  	
 		   itemHtml +=  "<div class='card-top-tags justify-content-md-between mb-3'>"	
 		   itemHtml +=  "<label class='card-tags'>"+mt.type+"</label>"
@@ -132,7 +133,7 @@ $(document).ready(function(){
 		
 
 		   // 이전 페이지 버튼
-		   if (${pm.startPage} > 1) {
+		   if (startPage > 1) {
 		     pageButtonsHtml += "<li class='page-item paginate_button'>";
 		     pageButtonsHtml += "<a  class='page-link' id='" + (startPage - 1) + "' aria-label='Previous'>";
 		     pageButtonsHtml += "<span aria-hidden='true'>&laquo;</span>";
@@ -179,7 +180,7 @@ $(document).ready(function(){
 				      },
 				    dataType : "json",
 				    success:function(data) {
-				        displayMateList(data.mateList); 
+				    	displayMateList(data.mateList,data.userNickNames);
 				        var pm = data.pm;
 				        var endPage = pm.endPage;
 				        var startPage = pm.startPage;
@@ -234,8 +235,7 @@ $(document).ready(function(){
 
 <jsp:include page="../headerBoot.jsp"></jsp:include>
  <div class="container" >
-  <div class="content-title" style="background-color: #FB7A51; height: 200px;" > section 타이틀 제주도 여행 같이 가요! (미정)</div>
- 	<h3 style="padding:50px 0px">동행 목록</h3>
+ 	<h3>동행 목록</h3>
  		<div class="container-top d-flex justify-content-between mb-5">
 	 		<div class="sort-btn-group">
 	 			<button type="button" class="btn" data-btn="sortByDate">날짜순</button>

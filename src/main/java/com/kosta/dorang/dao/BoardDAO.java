@@ -176,6 +176,18 @@ public class BoardDAO implements BoardDAOI {
 		return sqlSession.selectList("BoardMapper.selectCommentUserPageList", cri);
 	}
 
+	@Override
+	public int countBoardUserSearchListTotal(Map<String, Object> map) {
+		
+		return sqlSession.selectOne("BoardMapper.countBoardUserSearchListTotal", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectBoardUserSearchPageList(BoardCriteria cri) {
+		
+		return sqlSession.selectList("BoardMapper.selectBoardUserSearchPageList", cri);
+	}
+	
 
 //	@Override
 //	public List<Board> selectBoardPaging() {

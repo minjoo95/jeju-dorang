@@ -65,6 +65,13 @@
   </choose>
   LIMIT #{pageStart}, #{perPageNum}
 </select>
+<select id="selectMateNickName" parameterType="Integer" resultType="String">
+   <![CDATA[ 
+      SELECT u.user_nickname_kakao
+      FROM user u
+      JOIN mate m ON u.user_code = m.user_code AND m.mate_code = #{mate_code};
+    ]]>
+</select>
 <select id="selectApplyMateResult" parameterType="Long" resultType="String">
    <![CDATA[ 
       SELECT ma.result  

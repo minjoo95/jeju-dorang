@@ -56,6 +56,12 @@
        ]]>
 	</select>
 	
+	<select id = "selectBoardUserSearchPageList" resultType = "hashmap" parameterType= "hashmap">
+		<![CDATA[
+       		select board.*, user.user_nickname from board left join user on board.user_code = user.user_code where board.user_code=#{userCode} and board.board_title like concat('%',#{search},'%') order by board_id desc limit #{pageStart}, #{perPageNum}
+       ]]>
+	</select>
+	
 	<select id = "countBoardListTotal" resultType = "Integer" >
 		<![CDATA[
 			select count(*) from board
@@ -77,6 +83,12 @@
 	<select id = "countCommentUserListTotal" resultType = "Integer" >
 		<![CDATA[
 			select count(*) from board_comment where user_code=#{userCode}
+		]]>
+	</select>
+	
+	<select id = "countBoardUserSearchListTotal"  parameterType = "Map" resultType = "Integer" >
+		<![CDATA[
+			select count(*) from board where user_code=#{userCode} and board_title like concat('%',#{boardSearch},'%')
 		]]>
 	</select>
 	
@@ -113,12 +125,13 @@
 	
 	<select id = "selectBoardCommentsList" resultType = "com.kosta.dorang.dto.BoardCommentsWithNickname">
 		<![CDATA[
-        	select board_comment.*, user.user_nickname from board_comment left join user on board_comment.user_code = user.user_code where board_comment.board_id = #{no} order by board_comment.parent_comment_no asc, board_comment.comment_group_order desc
+       		select board_comment.*, user.user_nickname from board_comment left join user on board_comment.user_code = user.user_code where board_comment.board_id = #{no} order by board_comment.parent_comment_no asc
        ]]>
 	</select>
 	
 	<select id = "selectBoardCommentsListTemp" resultType = "com.kosta.dorang.dto.BoardCommentsWithNickname">
 		<![CDATA[
+			select board_comment.*, user.user_nickname from board_comment left join user on board_comment.user_code = user.user_code where board_comment.board_id = #{no} order by board_comment.parent_comment_no asc, board_comment.comment_group_order asc, board_comment.comment_reg_date asc
         	select board_comment_temp.*, user.user_nickname from board_comment_temp left join user on board_comment_temp.user_code = user.user_code where board_comment_temp.board_id = #{no} order by board_comment_temp.parent_comment_no asc, board_comment_temp.comment_group_order desc
        ]]>
 	</select>
