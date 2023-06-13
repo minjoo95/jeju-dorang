@@ -3,6 +3,232 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="MateMapper">
+<insert id="insertMate" parameterType="com.kosta.dorang.dto.Mate">
+     <![CDATA[
+         INSERT INTO mate(user_code,title,content,type,direction,number,age,gender,daterange,tags,status,image,first_ask,second_ask,third_ask,createdAt)
+         VALUES (#{user_code},#{title},#{content},#{type},#{direction},#{number},#{age},#{gender},#{daterange},#{tags},#{status},#{image},#{first_ask},#{second_ask},#{third_ask},NOW())
+     ]]>
+</insert>
+<select id="selectMate" resultType="com.kosta.dorang.dto.Mate">
+   <![CDATA[ 
+       SELECT * FROM mate WHERE mate_code = #{mate_code}
+    ]]>
+</select>
+<select id="getMateListViewSort" parameterType="com.kosta.dorang.dto.MateCriteria" resultType="com.kosta.dorang.dto.Mate">
+  <choose>
+    <when test="sortBy == 'sortByDate'">
+      SELECT * FROM mate ORDER BY createdAt DESC 
+    </when>
+    <when test="sortBy == 'sortByCount'">
+      SELECT * FROM mate ORDER BY count DESC 
+    </when>
+    <otherwise>
+       SELECT * FROM mate ORDER BY createdAt DESC 
+    </otherwise>
+  </choose>
+   LIMIT #{pageStart}, #{perPageNum}
+</select>
+<update id="updateMate" parameterType="com.kosta.dorang.dto.Mate">
+     	 <![CDATA[
+        UPDATE mate
+        SET title = #{title}, content = #{content}, type = #{type}, direction = #{direction},
+            number = #{number}, age = #{age}, gender = #{gender}, daterange = #{daterange},
+            tags = #{tags}, status = #{status}, image = #{image},
+            first_ask = #{first_ask}, second_ask = #{second_ask}, third_ask = #{third_ask}
+        WHERE mate_code = #{mate_code}
+    ]]>
+</update>
+<delete id="deleteMate" parameterType="Integer">
+		   <![CDATA[
+		    DELETE FROM mate WHERE mate_code = #{mate_code}
+		   ]]>
+</delete>
 
+<select id="getmyMateListViewSort" parameterType="Map" resultType="com.kosta.dorang.dto.Mate">
+   <choose>
+    <when test="sortBy == 'getmyMateWriteList'">
+      SELECT * FROM mate
+      WHERE user_code = #{user_code}
+      ORDER BY createdAt DESC
+    </when>
+    <when test="sortBy == 'acceptedList'">
+      SELECT m.mate_code, m.user_code, m.image, m.daterange, m.title, m.status, m.createdAt, m.join_count, ma.result    
+      FROM mate m
+      JOIN MateApply ma ON m.mate_code = ma.mate_code AND ma.user_code = #{user_code}
+      ORDER BY ma.createdAt DESC
+    </when>
+    <otherwise>
+      SELECT * FROM mate
+      WHERE user_code = #{user_code}
+      ORDER BY createdAt DESC
+    </otherwise>
+  </choose>
+  LIMIT #{pageStart}, #{perPageNum}
+</select>
+<select id="selectMateNickName" parameterType="Integer" resultType="String">
+   <![CDATA[ 
+      SELECT u.user_nickname_kakao
+      FROM user u
+      JOIN mate m ON u.user_code = m.user_code AND m.mate_code = #{mate_code};
+    ]]>
+</select>
+<select id="selectApplyMateResult" parameterType="Long" resultType="String">
+   <![CDATA[ 
+      SELECT ma.result  
+      FROM mate m
+      JOIN MateApply ma ON m.mate_code = ma.mate_code AND ma.user_code = #{user_code};
+    ]]>
+</select>
+<!-- 신청테이블 -->
+<insert id="insertApplyMate" parameterType="com.kosta.dorang.dto.MateApply" useGeneratedKeys="true" keyProperty="mateApply_code">
+     <![CDATA[
+         INSERT INTO MateApply(mate_code,user_code,frist_answer,second_answer,third_answer,createdAt)
+         VALUES (#{mate_code},#{user_code},#{frist_answer},#{second_answer},#{third_answer},NOW())       
+     ]]>
+</insert>
+<select id="selectApplyMate" parameterType="Map" resultType="com.kosta.dorang.dto.MateApply">
+   <![CDATA[ 
+       SELECT * FROM MateApply WHERE mate_code = #{mate_code} and user_code = #{user_code}
+    ]]>
+</select>
+<select id="selectApplyMateByMateCode" parameterType="Integer" resultType="com.kosta.dorang.dto.MateApply">
+   <![CDATA[ 
+       SELECT * FROM MateApply WHERE mate_code = #{mate_code} 
+    ]]>
+</select>
+<delete id="deleteApplyMate" parameterType="Integer">
+		   <![CDATA[
+		    DELETE FROM MateApply WHERE mate_code = #{mate_code}
+		   ]]>
+</delete>
+<select id="totalCount" resultType="Integer">
+	    select count(*) from mate;
+</select>
+<select id="totalmyCount" parameterType="Map" resultType="Integer">
+	  <if test="sortBy == 'getmyMateWriteList'">
+	    select count(*) from mate WHERE user_code = #{user_code};
+	  </if>
+	  <if test="sortBy == 'acceptedList'">
+	    SELECT count(*)  
+	    FROM mate m
+	    JOIN MateApply ma ON m.mate_code = ma.mate_code AND ma.user_code = #{user_code}
+	  </if>
+</select>
+<select id="selectMateCommListByMateCode" parameterType="Integer" resultType="com.kosta.dorang.dto.MateComments">
+		<![CDATA[
+			select * from matecomment
+			where mate_code=#{mate_code}
+		]]>
+</select>
+<delete id="deleteMateCommListByMateCode" parameterType="Integer">
+		   <![CDATA[
+		    delete from matecomment where mate_code=#{mate_code}
+		   ]]>
+</delete>
 
+<!-- 응심이@@@ -->
+	
+	<insert id="insertMateReply" parameterType="com.kosta.dorang.dto.MateComments" useGeneratedKeys="true" keyProperty="comment_code">
+		<![CDATA[
+			insert into matecomment (mate_code, user_code, content, createAt, updateAt) 
+			values (#{mate_code},#{user_code},#{content},now(),now())
+		]]>
+	</insert>
+	<select id="selectMateReplyListByMateCode" parameterType="Int" resultType="com.kosta.dorang.dto.MateCommentsUser">
+		<![CDATA[
+			select m.*, u.user_nickname, u.user_pic
+			from matecomment m left outer join user u
+			on m.user_code=u.user_code
+			where m.mate_code=#{mate_code}
+		]]>
+	</select>
+
+	<update id="mateCount" parameterType="Integer">
+	   <![CDATA[
+		update mate set count=count+1 where mate_code=#{mate_code}
+	   ]]>
+	</update>
+	
+
+	<!-- 댓글 삭제 -->
+	<delete id="deleteMateReply" parameterType="int">
+		 <![CDATA[
+		 	delete from matecomment where comment_code=#{comment_code}
+		 ]]>
+	</delete>
+	<!-- 댓글 하나 불러오기 -->
+	<select id="selectOneMateReply" parameterType="int" resultType="com.kosta.dorang.dto.MateCommentsUser">
+		<![CDATA[
+			select m.*, u.user_nickname
+			from matecomment m left outer join user u
+			on m.user_code=u.user_code
+			where m.comment_code=#{comment_code}
+		]]>
+	</select>
+	<update id="updateMateReply" parameterType="com.kosta.dorang.dto.MateComments">
+		<![CDATA[
+		update matecommentinsertMateApplyNotice
+		set content=#{content}
+		where comment_code=#{comment_code}
+		]]>
+	</update>
+	<insert id="insertMateReplyNotice" parameterType="map">
+		<![CDATA[
+		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, comment_code)
+		VALUES (notice_nextval('num'), #{mateWriter}, 4, NOW(), #{noticeContent}, #{comment_code})
+		]]>
+	</insert>
+	<insert id="insertMateApplyNotice" parameterType="map">
+		<![CDATA[
+		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, mate_application_code,mateApply_result)
+		VALUES (notice_nextval('num'), #{mate_writer}, 1, NOW(), #{mateApplyContent}, #{mate_Application_code},#{result})
+		]]>
+	</insert>
+	<update id="updateWithMateApplyAccept" parameterType="int">
+		<![CDATA[
+		update MateApply
+		set result='수락완료'
+		where mateApply_code=#{mate_application_code}
+		]]>
+	</update>
+	<select id="selectMateApplyByMateApplyCode" parameterType="int" resultType="com.kosta.dorang.dto.MateJoinMateApply">
+		<![CDATA[
+		select m1.*, m2.title
+		from MateApply m1 left outer join mate m2
+		on m1.mate_code=m2.mate_code
+		where m1.mateApply_code=#{mate_application_code}
+		]]>
+	</select>
+	<insert id="insertWithMateApplyAcceptNotice" parameterType="map" useGeneratedKeys="true" keyProperty="ntc_code">
+		<![CDATA[
+		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, mate_application_code,mateApply_result)
+		VALUES (notice_nextval('num'), #{user_code}, 5, NOW(), #{content}, #{mate_application_code},#{result})
+		]]>
+	</insert>
+	<update id="updateNoticeBymateApplicationCode" parameterType="int">
+		<![CDATA[
+		update notice
+		set is_deleted=1
+		where mate_application_code=#{mate_application_code}
+		]]>
+	</update>
+	<update id="updateWithMateApplyRefuse" parameterType="int">
+		<![CDATA[
+		update MateApply
+		set result='수락거절'
+		where mateApply_code=#{mate_application_code}
+		]]>
+	</update>
+	<insert id="insertWithMateApplyRefuseNotice" parameterType="map" useGeneratedKeys="true" keyProperty="ntc_code">
+		<![CDATA[
+		INSERT INTO notice (ntc_code, user_code, ntc_cat, ntc_date, ntc_content, mate_application_code,mateApply_result)
+		VALUES (notice_nextval('num'), #{user_code}, 5, NOW(), #{content}, #{mate_application_code},#{result})
+		]]>
+	</insert>
+	<update id="updateMateWithJoinCount" parameterType="int">
+		update mate
+		set join_count=(join_count+1)
+		where mate_code=#{mate_code}
+	</update>
+	
 </mapper>

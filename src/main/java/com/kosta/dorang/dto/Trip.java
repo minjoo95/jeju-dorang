@@ -1,9 +1,6 @@
 package com.kosta.dorang.dto;
 
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
 public class Trip {
 	private Integer trip_id; 
 	private String place_id; 	//여행지 아이디 : contentsid
@@ -51,19 +48,89 @@ public class Trip {
 
 	@Override
 	public String toString() {
-		return "Trip [place_id=" + place_id + ", category=" + category + ", theme=" + theme + ", title=" + title
-				+ ", region_code=" + region_code + ", city_code=" + city_code + ", address=" + address + ", postcode="
-				+ postcode + ", tel=" + tel + ", hashtag=" + hashtag + ", introduction=" + introduction + ", thumbnail="
-				+ thumbnail + ", image=" + image + ", latitude=" + latitude + ", longitude=" + longitude + ", info="
-				+ info + ", bookmark_like=" + like_count + "]";
+		return "Trip [trip_id=" + trip_id + ", place_id=" + place_id + ", category=" + category + ", theme=" + theme
+				+ ", title=" + title + ", region_code=" + region_code + ", city_code=" + city_code + ", address="
+				+ address + ", postcode=" + postcode + ", tel=" + tel + ", hashtag=" + hashtag + ", introduction="
+				+ introduction + ", thumbnail=" + thumbnail + ", image=" + image + ", latitude=" + latitude
+				+ ", longitude=" + longitude + ", info=" + info + ", like_count=" + like_count + "]";
 	}
-	
-	
+
+	public Integer getTrip_id() {
+		return trip_id;
+	}
+
+	public String getPlace_id() {
+		return place_id;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public String getTheme() {
+		return theme;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public String getRegion_code() {
+		return region_code;
+	}
+
+	public String getCity_code() {
+		return city_code;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public String getPostcode() {
+		return postcode;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public String getHashtag() {
+		return hashtag;
+	}
+
+	public String getIntroduction() {
+		return introduction;
+	}
+
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public String getInfo() {
+		return info;
+	}
+
+	public Integer getLike_count() {
+		return like_count;
+	}
 
 	
 	
-	
-	
+
+
 	
 	
 }

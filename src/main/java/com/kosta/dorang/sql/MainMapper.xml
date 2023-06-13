@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MainMapper">
+    <select id="selectBestTripList" resultType="com.kosta.dorang.dto.Trip">
+    	<![CDATA[
+    	select * from trip order by like_count desc limit 3;
+    	]]>
+    </select>
+    <select id="selectHotMateList" resultType="com.kosta.dorang.dto.MateUser">
+    	<![CDATA[
+    	select m.*, u.user_nickname
+		from mate m
+		left outer join user u
+		on m.user_code=u.user_code
+    	order by count desc limit 3;
+    	]]>
+    </select>
+    <select id="selectMyMateList" parameterType="Long" resultType="com.kosta.dorang.dto.MateUser">
+    	<![CDATA[
+    	select m.*, u.user_nickname
+		from mate m
+		left outer join user u
+		on m.user_code=u.user_code
+		where m.user_code=#{user_code};
+    	]]>
+    </select>
+    <select id="selectNoticeByUserCode" parameterType="map" resultType="com.kosta.dorang.dto.NoticeUser">
+		<![CDATA[
+		select n.*, u.user_nickname
+		from notice n
+		left outer join user u
+		on n.user_code=u.user_code
+		where n.user_code=#{user_code}
+		and n.is_deleted=0
+		and n.ntc_code>#{lastNtcCode};
+		]]>
+	</select>
+	<update id="deleteNoticeByNtcCode" parameterType="int">
+		update notice
+		set  is_deleted=1
+		where ntc_code=#{ntc_code};
+	</update>
+</mapper>

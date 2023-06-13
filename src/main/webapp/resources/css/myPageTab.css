@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+.wholeContainer {
+	width: 100%;
+	height: 50px;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+}
+
+.myPageTabListBox{
+	width: 90%;
+	margin:3% auto 0 auto;
+}
+
+.myPageTabList {
+	width: 90%;
+	height:60px;
+	display:flex;
+	margin: 0 auto;
+	align-items: center;
+	justify-content: center;
+	border-top: 1px solid #D9D9D9;
+	border-bottom:1px solid #D9D9D9;
+}
+
+.tabList {
+	width: 200px; 
+	height: 100%;
+	margin: 0 5%;
+	display:flex;
+	font-size: 17px;
+	list-style: none;
+	align-items:center;	
+}
+
+.myTab {
+	color: #3F3D3A;
+	text-decoration: none;
+}
+
+.myTab:hover {
+	color: #FB7A51;
+	font-weight: bold;
+}
+
+.tabIcon {
+	font-size:20px;
+	margin-right: 20px;
+}
+
+.leaf {
+	width:15px;
+	height:15px;
+	margin-left:120px;
+	position:absolute;
+	margin-bottom:23px;
+}

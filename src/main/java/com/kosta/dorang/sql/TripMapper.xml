@@ -3,11 +3,110 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="TripMapper">
+	<resultMap id="TripDTO" type="com.kosta.dorang.dto.Trip">
+		<result property="trip_id" column="trip_id"/>
+		<result property="place_id" column="place_id"/>
+		<result property="category" column="category"/>
+		<result property="theme" column="theme"/>
+		<result property="title" column="title"/>
+		<result property="region_code" column="region_code"/>
+		<result property="city_code" column="city_code"/>
+		<result property="address" column="address"/>
+		<result property="postcode" column="postcode"/>
+		<result property="tel" column="tel"/>
+		<result property="hashtag" column="hashtag"/>
+		<result property="introduction" column="introduction"/>
+		<result property="thumbnail" column="thumbnail"/>
+		<result property="image" column="image"/>
+		<result property="latitude" column="latitude"/>
+		<result property="longitude" column="longitude"/>
+		<result property="info" column="info"/>
+		<result property="like_count" column="like_count"/>
+	</resultMap>
+
     <insert id="insertPlace" parameterType="com.kosta.dorang.dto.Trip">
         <![CDATA[
          insert into trip(place_id, category, theme, title, region_code, city_code, address, postcode, tel, hashtag, introduction, thumbnail, image, latitude, longitude, info)
          values (#{place_id}, #{category}, #{theme}, #{title}, #{region_code}, #{city_code}, #{address}, #{postcode}, #{tel}, #{hashtag}, #{introduction}, #{thumbnail}, #{image}, #{latitude}, #{longitude}, #{info})
         ]]>
     </insert>
-
+    
+    <select id="selectPlaceList" resultType="hashmap" parameterType="hashmap">
+        <![CDATA[
+         select * from trip order by place_id limit #{pageStart}, #{perPage}
+        ]]>
+    </select>
+    
+    <select id="selectPlaceListByTheme" resultType="hashmap" parameterType="hashmap">
+        <![CDATA[
+         select * from trip where category=#{search} order by like_count desc, place_id limit #{pageStart}, #{perPage}
+        ]]>
+    </select>
+    
+    <select id="selectPlaceListBySearch" resultType="hashmap" parameterType="hashmap">
+        <![CDATA[
+         select * from trip where title like concat('%',#{search},'%') order by title, like_count desc limit #{pageStart}, #{perPage}
+        ]]>
+    </select>
+    
+    <select id="selectPlace" parameterType="Integer" resultType="com.kosta.dorang.dto.Trip">
+       <![CDATA[
+        select * from trip where trip_id=#{trip_id}
+       ]]>
+    </select>
+    
+   <select id="selectSearchPlace" parameterType="Integer" resultType="com.kosta.dorang.dto.Trip">
+       <![CDATA[
+        select * from trip where trip_id=#{trip_id}
+       ]]>
+    </select>
+    
+    <!-- 페이징 처리 -->
+    <select id="countPlaceList" resultType="Integer">
+        <![CDATA[
+         select count(*) from trip
+        ]]>
+    </select>
+    
+    <select id="countPlaceListByTheme" parameterType="String" resultType="Integer">
+        <![CDATA[
+         select count(*) from trip where category=#{category}
+        ]]>
+    </select>
+    
+   <select id="countPlaceSearchList" parameterType="String" resultType="Integer">
+        <![CDATA[
+         select count(*) from trip where title like concat('%',#{keyword},'%')
+        ]]>
+    </select>
+    
+    
+    <!-- 북마크 처리 -->
+    <select id="selectIsBookmark" parameterType="com.kosta.dorang.dto.Bookmark" resultType="Integer">
+       <![CDATA[
+        select count(*) from bookmark where user_code=#{user_code} and trip_id=#{trip_id}
+       ]]>
+    </select>
+    
+    <insert id="insertBookmark" parameterType="com.kosta.dorang.dto.Bookmark">
+        <![CDATA[
+         insert into bookmark (user_code, trip_id)
+         values (#{user_code}, #{trip_id})
+        ]]>
+    </insert>
+    
+    <delete id="deleteBookmark" parameterType="com.kosta.dorang.dto.Bookmark">
+     	<![CDATA[
+         delete from bookmark where user_code=#{user_code} and trip_id=#{trip_id}
+        ]]>
+    </delete>
+    
+    <update id="updateBookmark" parameterType="Integer">
+     	<![CDATA[
+         update trip set like_count=(select count(*) from bookmark where trip_id=#{trip_id}) where trip_id=#{trip_id}
+        ]]>
+    </update>
+    
+    
+    
 </mapper>
