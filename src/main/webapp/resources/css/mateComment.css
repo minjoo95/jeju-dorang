@@ -2,7 +2,6 @@
 
 .mate_reply_whole_box{
 	width: 100%;
-	
 }
 
 
@@ -10,6 +9,7 @@
 .mate_reply_list_table_box{
 	width: 80%;
 	height: 100%;
+	margin:0 auto;
 }
 
 #rtb{
@@ -40,6 +40,7 @@
 #mate_reply_body{
 	width: 44%;
 	height:100%;
+	margin: 0 auto;
 }
 .mate_reply_top{
 	font-size: 0.8em;
@@ -148,6 +149,7 @@
 .mate_reply_container{
 	width: 90%;
 	height: 120px;
+	margin:0 auto;
 	display: flex;
 	justify-content: center;
 }
