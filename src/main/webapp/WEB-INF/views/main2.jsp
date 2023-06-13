@@ -71,8 +71,7 @@
 				<a href="${contextPath }/mate/select?mate_code=${mate.mate_code}">
 					<div class="mate_card_container">
 						<!-- 카드 헤더 -->
-						<div class="card-header" style="background:url('<c:url value="/resources/img/jejudoimage.png" />')">
-						<%-- <div class="card-header" style="background:url('<c:url value="${mate.image }" />')"> --%>
+						<div class="card-header" style="background:url('<c:url value="/resources/upload/mate/${mate.image}" />')">
 							<div class="card-header-is-closed">
 								<div>
 									<i class="fa-regular fa-eye" style="color: #fb7a51;"></i>${mate.count }
@@ -113,8 +112,8 @@
 				<a href="${contextPath }/mate/select?mate_code=${mate.mate_code}">
 					<div class="mate_card_container">
 						<!-- 카드 헤더 -->
-						<div class="card-header" style="background:url('<c:url value="/resources/img/jejudoimage.png" />')">
-						<%-- <div class="card-header" style="background:url('<c:url value="${mate.image }" />')"> --%>
+						<%-- <div class="card-header" style="background:url('<c:url value="/resources/img/jejudoimage.png" />')"> --%>
+						<div class="card-header" style="background:url('<c:url value="/resources/upload/mate/${mate.image}" />')">
 							<div class="card-header-is-closed">
 								<div>
 									<i class="fa-regular fa-eye" style="color: #fb7a51;"></i>${mate.count }

@@ -215,7 +215,7 @@
 
 
 <!-- footer -->
-<jsp:include page="footer.jsp"></jsp:include>
+<jsp:include page="footerBoot.jsp"></jsp:include>
 
 </body>
 </html>
